@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var path = require("path");
-
 module.exports = function(grunt) {
 	//noinspection JSUnresolvedFunction
 	grunt.initConfig({
@@ -91,6 +89,10 @@ module.exports = function(grunt) {
 			}
 		},
 		concat: {
+			"concat-styles": {
+				src: ["styles/**/*.css"],
+				dest: "out/styles.css"
+			},
 			"concat-traceur-src": {
 				options: {
 					separator: ";"
@@ -173,19 +175,26 @@ module.exports = function(grunt) {
 	grunt.registerTask("inject-js-into-html", function(htmlSrc, jsSrc, dst) {
 		var html = grunt.file.read(htmlSrc);
 		var js = grunt.file.read(jsSrc);
+
+		// Read in all the html partials
 		var errPart = grunt.file.read("html/error.partial.html");
 		var forgePart = grunt.file.read("html/forge.partial.html");
 		var exportPart = grunt.file.read("html/export.partial.html");
 		var menuPart = grunt.file.read("html/menu.partial.html");
 		var output = html;
+
+		// Append js part and html partials into final index.html file
 		output = output.split("<!-- INCLUDE SOURCE PART -->").join(js);
 		output = output.split("<!-- INCLUDE MENU PART -->").join(menuPart);
 		output = output.split("<!-- INCLUDE ERROR PART -->").join(errPart);
 		output = output.split("<!-- INCLUDE FORGE PART -->").join(forgePart);
 		output = output.split("<!-- INCLUDE EXPORT PART -->").join(exportPart);
+
+		// Write the final index.html file
 		grunt.file.write(dst, output);
 	});
 
+	// Import all grunt npm modules
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-copy");
@@ -193,8 +202,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-karma");
 	grunt.loadNpmTasks("grunt-traceur");
 
+	// Register some of the different build scenarios
 	grunt.registerTask("build-src", [
 		"clean:clean-tmp",
+		"concat:concat-styles",
 		"traceur:translate-src",
 		"bootstrap-get-packages:src/main.js:out/tmp/traceur/bootstrap_post_src/run_main.js",
 		"concat:concat-traceur-src",
