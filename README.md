@@ -1,85 +1,54 @@
 # Software-Engineering-Studio-2A
 
-##  <a href="http://algassert.com/quirk">Quirk <img src="doc/favicon.ico" alt="Icon" title="Icon" /></a>
+[Original Quirk readme](./doc/README.original.md)
 
-[![Build Status](https://travis-ci.org/Strilanc/Quirk.svg?branch=master)](https://travis-ci.org/Strilanc/Quirk)
+## Prerequisite for dev environment
 
-Quirk is a toy quantum circuit simulator, intended to help people in learning about quantum computing.
+- [Download and install NodeJs](https://nodejs.org/en/download/package-manager/)
+- [Download and install docker community edition](https://docs.docker.com/install/)
 
-If you want to quickly explore the behavior of a small quantum circuit, Quirk is the tool for you.
-There's no installing or configuring or scripting: just go to **[algassert.com/quirk](http://algassert.com/quirk)**, drag gates onto the circuit, and the output displays will update in real time.
+## Build and run the docker container
 
-(If you're still trying to understand what a quantum circuit *even is*, then I recommend the video series [Quantum Computing for the Determined](https://www.youtube.com/playlist?list=PL1826E60FD05B44E4).
-Quirk assumes you already know background facts like "each wire represents a qubit".)
+There is a [`dockerfile`](./Dockerfile) and [`docker-compose.yml`](./docker-compose.yml) to make setting up and running the dev environment easier.
 
-**Defining features**:
+1. Build the container
 
-- Runs in web browsers.
-- Drag-and-drop circuit editing.
-- Reacts, simulates, and animates in real time.
-- Inline state displays.
-- Bookmarkable / linkable circuits.
-- Up to 16 qubits.
+   ```bash
+   docker-compose build
+   ```
 
-**Notable limitations**:
+2. Run the container
 
-- Can't recohere measured qubits (because measurement is implemented as a hack based on the [deferred measurement principle](https://en.wikipedia.org/wiki/Deferred_Measurement_Principle)).
-- Dragging works poorly in Firefox on Android (because Firefox doesn't support [`touch-action: none`](https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action) yet).
+   ```bash
+   docker-compose up
+   ```
 
-**Try it out**:
+3. Your container should now be available at <http://127.0.0.1:8080>.
 
-**[algassert.com/quirk](http://algassert.com/quirk)**
+Since the local repo is mounted in the container any changes to the repos `src` folder will rebuild the application and should be available after a refresh on the webpage without the container needing to be rebuilt.
 
-### Examples
+If changes are made to any of the docker files please follow the below commands to rebuild the container so that the changes are refelcted.
 
-**Basic usage demo**:
+```bash
+docker-compose down
+docker-compose build
+docker-compose up
+```
 
-![Demo](/doc/README_Demo.gif)
+## Run the repo manually
 
-**Grover search circuit** with chance and sample displays (showing that the chance of success increases):
+If you want to run the application manually you can follow these steps.
 
-![Grover search](/doc/README_Grover.gif)
+1. Install node modules
 
-**Quantum teleportation circuit** with Bloch sphere displays (showing that the qubit at the top has ended up at the bottom):
+   ```bash
+   npm run install
+   ```
 
-![Quantum teleportation](/doc/README_Teleportation.gif)
+2. Watch and build output files and serve `out` directory
 
-### Building
+   ```bash
+   npm run watch & npm run start
+   ```
 
-If you want to modify Quirk, this is how you get the code and turn your changes into working html/javascript.
-
-1. Have [git](https://git-scm.com/) and [Node.js](https://nodejs.org/en/download/) installed.
-
-    `sudo add-apt-repository universe`
-
-    `sudo apt-get update`
-
-    `sudo apt-get install --yes git npm nodejs-legacy`
-
-2. Clone the repository.
-
-    `git clone https://github.com/Strilanc/Quirk.git`
-
-3. Install the dev dependencies.
-
-    `cd Quirk`
-
-    `npm install`
-
-4. (*Optional*) Make your changes. Run the tests.
-
-    `npm run test-firefox`
-
-5. Build the output.
-
-    `npm run build`
-
-6. Confirm the output works by opening `out/quirk.html` with a web browser.
-
-    `firefox out/quirk.html`
-
-7. Copy `out/quirk.html` to wherever you want.
-
-### Disclaimer
-
-Quirk is not an official Google product.
+3. Application should now be server on <http://127.0.0.1:8080>

@@ -30,9 +30,7 @@
     "test-chrome": "grunt test-chrome",
     "test-firefox": "grunt test-firefox",
     "test-travis": "grunt test-travis",
-    "docker-build": "docker build --no-cache --tag quirk .",
-    "docker-run": "docker run -p 8080:8080 quirk",
-    "watch": "nodemon --watch src -e js --exec \"npm run build\""
+    "watch": "nodemon --watch src --exec \"npm run build\""
   },
   "repository": {
     "type": "git",
