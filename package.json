@@ -12,17 +12,17 @@
 		"grunt": "~1.0.1",
 		"grunt-cli": "~1.2.0",
 		"grunt-contrib-clean": "~1.0.0",
-		"grunt-contrib-concat": "~1.0.1",
+		"grunt-contrib-concat": "^1.0.1",
 		"grunt-contrib-copy": "~1.0.0",
 		"grunt-contrib-uglify": "~3.1.0",
 		"grunt-karma": "~2.0.0",
 		"grunt-traceur": "~0.5.5",
+		"http-server": "^0.12.1",
 		"karma": "~1.7.0",
 		"karma-chrome-launcher": "~2.2.0",
 		"karma-firefox-launcher": "~1.0.1",
 		"nodemon": "^2.0.2",
-		"traceur": "0.0.111",
-		"http-server": "^0.12.1"
+		"traceur": "0.0.111"
 	},
 	"scripts": {
 		"build": "grunt build-src",
@@ -31,13 +31,20 @@
 		"test-chrome": "grunt test-chrome",
 		"test-firefox": "grunt test-firefox",
 		"test-travis": "grunt test-travis",
-		"watch": "nodemon --watch src --watch html -e js,html --exec \"npm run build\""
+		"watch": "nodemon --exec \"npm run build\"",
+		"docker-build-clean": "docker-compose down && docker-compose build"
 	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Strilanc/Quirk.git"
 	},
 	"nodemonConfig": {
-		"delay": "2500"
+		"delay": "1000",
+		"watch": [
+			"src",
+			"html",
+			"styles"
+		],
+		"ext": "js,html,css"
 	}
 }
