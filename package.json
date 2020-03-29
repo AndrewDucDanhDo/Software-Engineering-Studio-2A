@@ -20,17 +20,25 @@
     "karma": "~1.7.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-firefox-launcher": "~1.0.1",
+    "nodemon": "^2.0.2",
     "traceur": "0.0.111"
   },
   "scripts": {
     "build": "grunt build-src",
     "test": "grunt test",
+    "start": "http-server ./out",
     "test-chrome": "grunt test-chrome",
     "test-firefox": "grunt test-firefox",
-    "test-travis": "grunt test-travis"
+    "test-travis": "grunt test-travis",
+    "docker-build": "docker build --no-cache --tag quirk .",
+    "docker-run": "docker run -p 8080:8080 quirk",
+    "watch": "nodemon --watch src -e js --exec \"npm run build\""
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Strilanc/Quirk.git"
+  },
+  "dependencies": {
+    "http-server": "^0.12.1"
   }
 }
