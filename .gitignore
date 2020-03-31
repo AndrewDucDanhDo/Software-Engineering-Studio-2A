@@ -109,6 +109,12 @@ temp/
 
 # End of https://www.gitignore.io/api/node
 
+# Quirk ignore
+node_modules
+out
+.eslintrc
+*.git_ignore.js
+
 # IDEs
 .idea
 .vscode
