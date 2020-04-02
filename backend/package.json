@@ -10,5 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/AndrewDucDanhDo/Software-Engineering-Studio-2A"
   }
 }
