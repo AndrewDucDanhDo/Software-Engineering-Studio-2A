@@ -16,12 +16,14 @@
 		"morgan": "^1.10.0"
 	},
 	"devDependencies": {
-		"nodemon": "^2.0.2"
+		"nodemon": "^2.0.2",
+		"prettier": "^2.0.2"
 	},
 	"scripts": {
 		"prod": "node -r esm -r dotenv/config src/index.js",
 		"dev": "nodemon --exec \"npm run prod\"",
 		"test": "echo \"Not implemented!\"",
+		"lint": "prettier \"src/*/*.js\" --write",
 		"docker-build": "docker build -t ses-2a-backend .",
 		"docker-run-prod": "docker run -p 3000:3000 ses-2a-backend",
 		"docker-run-dev": "docker run -p 3000:3000 -v $(pwd):/app -e STAGE=\"dev\" ses-2a-backend"
