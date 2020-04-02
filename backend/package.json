@@ -13,8 +13,18 @@
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1"
 	},
+	"devDependencies": {
+		"nodemon": "^2.0.2"
+	},
 	"scripts": {
 		"start": "node -r dotenv/config src/index.js",
-		"dev": "echo \"Not implemented yet!\""
+		"dev": "nodemon --exec \"npm run start\""
+	},
+	"nodemonConfig": {
+		"delay": "1000",
+		"watch": [
+			"src"
+		],
+		"ext": "js"
 	}
 }
