@@ -1,4 +1,6 @@
 import express from "express";
+const morgan = require("morgan");
+import greeterRouter from "./routes/greeter-router";
 
 const app = express();
 const config = {
@@ -7,8 +9,10 @@ const config = {
 };
 
 // Middleware
+app.use(morgan("tiny"));
 
 // Routes
+app.use("/greeter", greeterRouter);
 
 app.get("/", (req, res) => {
 	res.json({
@@ -17,6 +21,6 @@ app.get("/", (req, res) => {
 	});
 });
 
-app.listen(port, () => {
-	console.log(`http://localhost:${config.port}`);
+app.listen(config.port, () => {
+	console.log(`Server is now running at:  http://localhost:${config.port}`);
 });
