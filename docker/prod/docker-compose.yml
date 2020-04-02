@@ -1,0 +1,7 @@
+version: "3.7"
+services:
+  backend-prod:
+    build: ../../backend
+    container_name: ses-2a-backend-prod
+    ports:
+      - 3000:3000

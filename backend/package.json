@@ -1,18 +1,38 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/AndrewDucDanhDo/Software-Engineering-Studio-2A"
-  }
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"author": "",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/AndrewDucDanhDo/Software-Engineering-Studio-2A"
+	},
+	"dependencies": {
+		"dotenv": "^8.2.0",
+		"esm": "^3.2.25",
+		"express": "^4.17.1",
+		"morgan": "^1.10.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.2",
+		"prettier": "^2.0.2"
+	},
+	"scripts": {
+		"prod": "node -r esm -r dotenv/config src/index.js",
+		"dev": "nodemon --exec \"npm run prod\"",
+		"test": "echo \"Not implemented!\"",
+		"lint": "prettier \"src/*/*.js\" --write",
+		"docker-build": "docker build -t ses-2a-backend .",
+		"docker-run-prod": "docker run -p 3000:3000 ses-2a-backend",
+		"docker-run-dev": "docker run -p 3000:3000 -v $(pwd):/app -e STAGE=\"dev\" ses-2a-backend"
+	},
+	"nodemonConfig": {
+		"delay": "1000",
+		"watch": [
+			"src"
+		],
+		"ext": "js"
+	}
 }
