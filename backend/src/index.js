@@ -1,12 +1,22 @@
-const express = require("express");
+import express from "express";
+
 const app = express();
-const port = process.env.API_PORT;
-const stage = process.env.STAGE
+const config = {
+	port: process.env.API_PORT,
+	stage: process.env.STAGE
+};
+
+// Middleware
+
+// Routes
 
 app.get("/", (req, res) => {
-	res.send(`Hello world from ${stage}!`);
+	res.json({
+		stage: config.stage,
+		msg: "Hello from the API"
+	});
 });
 
 app.listen(port, () => {
-	console.log(`http://localhost:${port}`);
+	console.log(`http://localhost:${config.port}`);
 });

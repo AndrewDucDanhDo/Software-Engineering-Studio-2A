@@ -11,13 +11,14 @@
 	},
 	"dependencies": {
 		"dotenv": "^8.2.0",
+		"esm": "^3.2.25",
 		"express": "^4.17.1"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.2"
 	},
 	"scripts": {
-		"prod": "node -r dotenv/config src/index.js",
+		"prod": "node -r esm -r dotenv/config src/index.js",
 		"dev": "nodemon --exec \"npm run prod\"",
 		"test": "echo \"Not implemented!\"",
 		"docker-build": "docker build -t ses-2a-backend .",
