@@ -1,18 +1,19 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/AndrewDucDanhDo/Software-Engineering-Studio-2A"
-  }
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"author": "",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/AndrewDucDanhDo/Software-Engineering-Studio-2A"
+	},
+	"dependencies": {
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1"
+	},
+	"scripts": {
+		"start": "node -r dotenv/config src/index.js"
+	}
 }
