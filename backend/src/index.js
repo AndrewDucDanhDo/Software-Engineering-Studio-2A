@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
 const port = process.env.API_PORT;
+const stage = process.env.STAGE
 
 app.get("/", (req, res) => {
-	res.send("Hello World!");
+	res.send(`Hello world from ${stage}!`);
 });
 
 app.listen(port, () => {
