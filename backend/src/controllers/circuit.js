@@ -22,7 +22,6 @@ export function solve(req, res) {
       amplitudes_y
     );
     res.json({
-      circuit,
       results
     });
   });
