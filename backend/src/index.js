@@ -1,6 +1,5 @@
 import express from "express";
 import bodyParser from "body-parser";
-import greeterRouter from "./routes/greeter-router";
 import circuitRouter from "./routes/circuit-router";
 import swaggerUi from "swagger-ui-express";
 import { getSwaggerJsDoc } from "./helpers/swagger";
@@ -18,7 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Routes
-app.use("/greeter", greeterRouter);
 app.use("/circuit", circuitRouter);
 
 // Any top level endpoints
