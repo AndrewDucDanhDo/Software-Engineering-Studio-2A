@@ -1,11 +1,11 @@
 const quantumSimulator = require("../helpers/quantom-simulator/application");
-const numeric = require("numeric");
 const quantumParser = require("../helpers/quantom-solver/parser");
+const numeric = require("numeric");
 
 export function solve(req, res) {
-  const circuit = req.body.circuit;
+  const circuit = req.body;
   const nqubits = circuit.qubits;
-  const state = req.body.state;
+  const state = circuit.input.join("");
   const app = new quantumSimulator(nqubits);
 
   app.circuit.gates.sort((a, b) => a.time - b.time);
