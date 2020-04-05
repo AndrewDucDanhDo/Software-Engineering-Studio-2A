@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "0d2c680b-803a-4edd-b97c-cf34b351e095",
+		"name": "Quantum-Solver",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Solve circuit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"gates\": [],\n    \"circuit\": [\n        {\n            \"type\": \"x\",\n            \"time\": 3,\n            \"targets\": [\n                0\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 4,\n            \"targets\": [\n                1\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 5,\n            \"targets\": [\n                0\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 6,\n            \"targets\": [\n                1\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 8,\n            \"targets\": [\n                1\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 9,\n            \"targets\": [\n                0\n            ],\n            \"controls\": []\n        }\n    ],\n    \"qubits\": 2,\n    \"input\": [\n        0,\n        0\n    ],\n    \"version\": 1\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/circuit/solve",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"circuit",
+						"solve"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
