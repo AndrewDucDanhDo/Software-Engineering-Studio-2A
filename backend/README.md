@@ -50,9 +50,9 @@ Make sure to follow the prerequisite steps above for setting the firebase servic
 
    ```bash
    # PROD
-   docker run -p 3000:3000 ses-2a-backend
+   docker run -p 4000:4000 ses-2a-backend
    # DEV
-   docker run -p 3000:3000 -v $(pwd):/app -e STAGE="dev" ses-2a-backend
+   docker run -p 4000:4000 -v $(pwd):/app -e STAGE="dev" ses-2a-backend
    ```
 
    For the dev command this will mount your current directory to the /app directory in the container and run the dev command.
