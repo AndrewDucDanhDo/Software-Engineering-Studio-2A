@@ -15,6 +15,7 @@ export const createUser = async (req, res) => {
     switch (error.code) {
       case "auth/email-already-exists":
         return res.status(400).json({
+          code: error.code,
           msg:
             "The email address provided has currently got an account associated with it"
         });
@@ -22,6 +23,7 @@ export const createUser = async (req, res) => {
         console.error({ msg: "An unknown error was hit in createUser", error });
 
         return res.status(500).json({
+          code: "unknown",
           msg: "An unknown error occurred while trying to create a new user.",
           error: error.toString()
         });
