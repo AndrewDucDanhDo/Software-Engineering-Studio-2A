@@ -1,8 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
 import circuitRouter from "./routes/circuit-router";
-import swaggerUi from "swagger-ui-express";
-import { getSwaggerJsDoc } from "./helpers/swagger";
 const morgan = require("morgan");
 
 const app = express();
@@ -20,7 +18,6 @@ app.use(bodyParser.json());
 app.use("/circuit", circuitRouter);
 
 // Any top level endpoints
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(getSwaggerJsDoc()));
 app.get("/", (req, res) => {
   res.json({
     stage: config.stage,
