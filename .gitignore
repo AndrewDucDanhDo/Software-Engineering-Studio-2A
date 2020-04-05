@@ -116,7 +116,7 @@ out
 *.git_ignore.js
 
 # Firebase
-ses2a-quantum-solver-firebase-*.json
+service-account-key.json
 
 # IDEs
 .idea

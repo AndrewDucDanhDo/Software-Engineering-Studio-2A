@@ -1,8 +1,12 @@
 # Software-Engineering-Studio-2A
 
+## Prerequisites
+
+Follow the individual setup instructions in both the backend and frontend folders
+
 ## Quick Start Stack
 
-Have docker installed on your machine
+Have docker installed on your machine and follow the prerequisites instructions above
 
 1. Run the following command to run the app stack
 
