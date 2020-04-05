@@ -1,4 +1,4 @@
-const numeric = require("numeric")
+const numeric = require("numeric");
 
 export function parseAmplitudes(nqubits, amplitudes) {
   const results = [];

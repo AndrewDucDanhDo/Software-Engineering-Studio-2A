@@ -5,7 +5,7 @@ FROM node:12.16-alpine
 ENV STAGE prod
 
 # APPLICATION env vars
-ENV API_PORT 3000
+ENV API_PORT 4000
 
 # Copy the local repo into the container and switch CWD
 COPY ./ /app

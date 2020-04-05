@@ -2,7 +2,15 @@
 
 ## Prerequisite
 
-[Install NodeJS](https://nodejs.org/en/download/package-manager/)
+* [Install NodeJS](https://nodejs.org/en/download/package-manager/)
+
+* Copy the `.env.example` file and fill in the the `.env` file with your variables
+
+   ```bash
+   cp .env-example .env
+   ```
+
+* Create a file in the `backend` directory and name it `service-account-key.json`. Populate this created file with the firebase service account credentials (You can find these from the backend slack channel or in the secrets folder on teams)
 
 ## Quick Start
 
@@ -16,13 +24,7 @@ All of these commands should be run in the `backend` directory
    npm install
    ```
 
-2. Copy the example `.env` file and fill in the the `.env` file with your variables
-
-   ```bash
-   cp .env-example .env
-   ```
-
-3. Once the environment variables have been populated run the application
+2. Run the application for prod or dev
 
    ```bash
    # PROD
@@ -36,6 +38,8 @@ All of these commands should be run in the `backend` directory
 
 ### The Docker Way
 
+Make sure to follow the prerequisite steps above for setting the firebase service account key.
+
 1. Build the docker container
 
    ```bash
@@ -46,9 +50,9 @@ All of these commands should be run in the `backend` directory
 
    ```bash
    # PROD
-   docker run -p 3000:3000 ses-2a-backend
+   docker run -p 4000:4000 ses-2a-backend
    # DEV
-   docker run -p 3000:3000 -v $(pwd):/app -e STAGE="dev" ses-2a-backend
+   docker run -p 4000:4000 -v $(pwd):/app -e STAGE="dev" ses-2a-backend
    ```
 
    For the dev command this will mount your current directory to the /app directory in the container and run the dev command.
