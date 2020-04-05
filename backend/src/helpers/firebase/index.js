@@ -9,4 +9,4 @@ admin.initializeApp({
   databaseURL: "https://ses2a-quantum-solver.firebaseio.com"
 });
 
-export default admin
+export default admin;

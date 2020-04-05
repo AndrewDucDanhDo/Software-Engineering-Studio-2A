@@ -18,8 +18,8 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/circuit", circuitRouter);
-app.use("/user", userRouter)
-app.use("/auth-demo", authDemoRouter)
+app.use("/user", userRouter);
+app.use("/auth-demo", authDemoRouter);
 
 // Any top level endpoints
 app.get("/", (req, res) => {
