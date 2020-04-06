@@ -1,9 +1,15 @@
-import express from "express";
-import bodyParser from "body-parser";
-import circuitRouter from "./routes/circuit-router";
-import userRouter from "./routes/user-router";
-import authDemoRouter from "./routes/auth-demo-router";
-import cors from "cors"
+// import express from "express";
+// import bodyParser from "body-parser";
+// import circuitRouter from "./routes/circuit-router";
+// import userRouter from "./routes/user-router";
+// import authDemoRouter from "./routes/auth-demo-router";
+// import cors from "cors"
+const express = require("express");
+const bodyParser = require("body-parser");
+const circuitRouter = require("./routes/circuit-router");
+const userRouter = require("./routes/user-router");
+const authDemoRouter = require("./routes/auth-demo-router");
+const cors = require("cors");
 const morgan = require("morgan");
 
 const app = express();
@@ -23,6 +29,8 @@ app.use("/circuit", circuitRouter);
 app.use("/user", userRouter);
 app.use("/auth-demo", authDemoRouter);
 
+// TODO unsure if this is correct practice
+module.exports = app; // Need for unit test
 // Any top level endpoints
 app.get("/", (req, res) => {
   res.json({
@@ -30,6 +38,7 @@ app.get("/", (req, res) => {
     msg: "Hello from quantum simulator API 🛰!"
   });
 });
+
 
 app.listen(config.port, () => {
   console.log(`Server is now running at:  http://localhost:${config.port}`);
