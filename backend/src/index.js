@@ -8,7 +8,7 @@ const morgan = require("morgan");
 
 const app = express();
 const config = {
-  port: process.env.API_PORT,
+  port: 4000,
   stage: process.env.STAGE
 };
 

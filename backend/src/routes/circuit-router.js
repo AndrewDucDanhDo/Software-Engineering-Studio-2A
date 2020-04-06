@@ -5,4 +5,4 @@ const circuitRouter = Router();
 
 circuitRouter.post("/solve", circuitController.solve);
 
-module.exports = circuitRouter;
+export default circuitRouter;
