@@ -1,16 +1,19 @@
-const app = require("../index.js");
-var request = require('supertest');
-var assert = require('assert');
+import request from "supertest";
 
+describe("GET /", () => {
+  var server;
 
-describe('GET /hello-world', function () {
-  it('should run', function () {
-    assert.equal(1, 1)
+  beforeEach(() => {
+    // We will create a new instance of the server for each test
+    server = require("../index");
   });
-  it('it responds with ', function (done) {
-    request(app).get('/').expect(200).end(function (err, res) {
-      if (err) return done(err);
-      done();
-    });
+
+  afterEach(() => {
+    // Make sure to stop the process when not needed
+    server.close();
+  });
+
+  it("Check the server is online ", function (done) {
+    request(app).get("/").expect(200, done);
   });
 });

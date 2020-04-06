@@ -1,15 +1,9 @@
-// import express from "express";
-// import bodyParser from "body-parser";
-// import circuitRouter from "./routes/circuit-router";
-// import userRouter from "./routes/user-router";
-// import authDemoRouter from "./routes/auth-demo-router";
-// import cors from "cors"
-const express = require("express");
-const bodyParser = require("body-parser");
-const circuitRouter = require("./routes/circuit-router");
-const userRouter = require("./routes/user-router");
-const authDemoRouter = require("./routes/auth-demo-router");
-const cors = require("cors");
+import express from "express";
+import bodyParser from "body-parser";
+import circuitRouter from "./routes/circuit-router";
+import userRouter from "./routes/user-router";
+import authDemoRouter from "./routes/auth-demo-router";
+import cors from "cors";
 const morgan = require("morgan");
 
 const app = express();
@@ -20,7 +14,7 @@ const config = {
 
 // Middleware
 app.use(morgan("tiny"));
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -29,9 +23,6 @@ app.use("/circuit", circuitRouter);
 app.use("/user", userRouter);
 app.use("/auth-demo", authDemoRouter);
 
-// TODO unsure if this is correct practice
-module.exports = app; // Need for unit test
-// Any top level endpoints
 app.get("/", (req, res) => {
   res.json({
     stage: config.stage,
@@ -39,7 +30,8 @@ app.get("/", (req, res) => {
   });
 });
 
-
-app.listen(config.port, () => {
+const server = app.listen(config.port, () => {
   console.log(`Server is now running at:  http://localhost:${config.port}`);
 });
+
+export default server
