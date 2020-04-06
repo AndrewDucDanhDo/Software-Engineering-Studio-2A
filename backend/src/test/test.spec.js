@@ -14,6 +14,6 @@ describe("GET /", () => {
   });
 
   it("Check the server is online ", function (done) {
-    request(app).get("/").expect(200, done);
+    request(server).get("/").expect(200, done);
   });
 });
