@@ -1,3 +1,0 @@
-adder = {"gates":[],"circuit":[{"type":"x","time":0,"targets":[3],"controls":[0,1]},{"type":"x","time":1,"targets":[1],"controls":[0]},{"type":"x","time":2,"targets":[3],"controls":[1,2]},{"type":"x","time":3,"targets":[2],"controls":[1]},{"type":"x","time":4,"targets":[1],"controls":[0]}],"qubits":4,"input":[0,0,0,0],"version":1}
-
-module.exports = adder;

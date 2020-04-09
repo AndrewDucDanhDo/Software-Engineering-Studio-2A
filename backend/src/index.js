@@ -8,7 +8,7 @@ const morgan = require("morgan");
 
 const app = express();
 const config = {
-  port: 4000,
+  port: process.env.API_PORT,
   stage: process.env.STAGE
 };
 
@@ -34,4 +34,4 @@ const server = app.listen(config.port, () => {
   console.log(`Server is now running at:  http://localhost:${config.port}`);
 });
 
-module.exports = server
+module.exports = server;
