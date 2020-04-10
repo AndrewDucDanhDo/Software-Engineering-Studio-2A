@@ -107,7 +107,22 @@ function QuantumSimulator() {
 					<h1>Quantum Circuit Simulator</h1>
 					<p>
 						Written by <a href="http://www.davyw.com">Davy Wybiral</a>.<br></br>
-						Contributions by <a href="http://molehair.noip.me">Jiman Hwang</a>
+						Contributions by <a href="http://molehair.noip.me">Jiman Hwang</a>.<br></br>
+						<br></br>
+						Adapted by UTS SES 2A Team 2:<br></br>
+						Aaron Berry<br></br>
+						Andy Lee<br></br>
+						Razin Agida Kaharuba (Agid)<br></br>
+						Andrew Do<br></br>
+						Brendan Huynh<br></br>
+						Brendan Tong<br></br>
+						Bryan Dinh<br></br>
+						Calvin Dong<br></br>
+						Cameron Wang<br></br>
+						Jin Feng<br></br>
+						Vanisha Singh<br></br>
+						Mitchell Murphy<br></br>
+						
 					</p>
 					<p>
 						<h3>Purpose:</h3>
@@ -123,9 +138,6 @@ function QuantumSimulator() {
 						rotation gates. To avoid confusion, this is the matrix used to
 						construct all of the Rx gates used by this application:
 						{/* <p style="text-align: center"> */}
-						<p>
-							<img src="images/r.png"></img>
-						</p>
 					</p>
 					<p>
 						<h3>The basics:</h3>
