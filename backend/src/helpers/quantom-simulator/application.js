@@ -25,18 +25,44 @@ module.exports = class Application {
   }
 
   /*
+  Load a new workspace in from a json object, overwriting the current one.
+  JSON struct looks like:
+  {
+      "circuit": [
+          {"type": "h", "time": 0, "targets": [0], "controls": []},
+          {"type": "x", "time": 1, "targets": [1], "controls": [0]}
+      ],
+      "qubits": 2,
+      "input": [0, 0]
+  }
+  And can also contain a "gates" property which is a list of the user defined
+  gates in the circuit.
+  */
+  loadWorkspace(json) {
+      this.workspace = new Workspace(this);
+      if (json.gates) {
+          for (let i = 0 ; i < json.gates.length; i++) {
+              const gate = json.gates[i];
+              this.workspace.addGate({
+                  name: gate.name,
+                  qubits: gate.qubits,
+                  matrix: gate.matrix,
+                  fn: gate.fn,
+                  title: gate.title,
+                  circuit: Circuit.load(this, gate.qubits, gate.circuit)
+              });
+          }
+      }
+      this.circuit = Circuit.load(this, json.qubits, json.circuit);
+      this.compileAll();
+  }
+
+  /*
     Asynchronously compile every user defined gate in the workspace.
     */
   compileAll() {
     const app = this;
     const todo = [];
-    const workspace = this.workspace;
-    document.querySelectorAll("#toolbar .user div.gate").forEach((el) => {
-      const type = workspace.gates[el.dataset.type];
-      if (!type.matrix) {
-        todo.push(type);
-      }
-    });
     const loop = (i) => {
       if (i < todo.length) {
         const n = Math.pow(2, todo[i].circuit.nqubits);
