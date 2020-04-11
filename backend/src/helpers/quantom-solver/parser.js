@@ -22,12 +22,16 @@ export function parseAmplitudes(nqubits, amplitudes) {
     if (prob < numeric.epsilon) {
       results.push({
         value: probability,
-        impossible: true
+        impossible: true,
+        amplitude: amplitude,
+        state: state
       });
     } else {
       results.push({
         value: probability,
-        impossible: false
+        impossible: false,
+        amplitude: amplitude,
+        state: state
       });
     }
   }
