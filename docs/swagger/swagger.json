@@ -4,96 +4,23 @@
 		"title": "Quantum solver API",
 		"version": "v1"
 	},
+	"tags": {
+		"$ref": "common/tags.json"
+	},
 	"paths": {
 		"/circuit/solve": {
 			"post": {
+				"tags": ["circuit"],
 				"summary": "Solve a quantum circuit",
 				"produces": ["application/json"],
 				"parameters": [
 					{
-						"name": "gates",
 						"in": "body",
-						"description": "Gates in the circuit",
+						"name": "body",
+						"description": "Quantum circuit that needs to be solved.",
 						"required": true,
 						"schema": {
-							"type": "array",
-							"items": {
-								"type": "string"
-							},
-							"example": ["gate1", "gate2", "gate3"]
-						}
-					},
-					{
-						"name": "circuit",
-						"in": "body",
-						"description": "A json representation of the quantum circuit",
-						"required": true,
-						"schema": {
-							"type": "array",
-							"items": {
-								"type": "object",
-								"properties": {
-									"type": {
-										"type": "string"
-									},
-									"time": {
-										"type": "integer"
-									},
-									"targets": {
-										"type": "array",
-										"items": {
-											"type": "integer"
-										}
-									},
-									"controls": {
-										"type": "array",
-										"items": {
-											"type": "string"
-										}
-									}
-								}
-							},
-							"example": [
-								{
-									"type": "x",
-									"time": 3,
-									"targets": [0],
-									"controls": []
-								}
-							]
-						}
-					},
-					{
-						"name": "qubits",
-						"in": "body",
-						"description": "Number of qubits in the circuit",
-						"required": true,
-						"schema": {
-							"type": "integer",
-							"example": 1
-						}
-					},
-					{
-						"name": "input",
-						"in": "body",
-						"description": "The binary state of each qubit input",
-						"required": true,
-						"schema": {
-							"type": "array",
-							"items": {
-								"type": "integer"
-							},
-							"example": [1, 0, 1]
-						}
-					},
-					{
-						"name": "version",
-						"in": "body",
-						"description": "Version of the circuit schema",
-						"required": true,
-						"schema": {
-							"type": "integer",
-							"example": 1
+							"$ref": "definitions/circuit.json#circuit"
 						}
 					}
 				],
@@ -189,6 +116,7 @@
 		},
 		"/user/create": {
 			"post": {
+				"tags": ["user"],
 				"summary": "Create a new user in the quantum solver application.",
 				"produces": ["application/json"],
 				"parameters": [
@@ -375,7 +303,224 @@
 					}
 				}
 			}
+		},
+		"/user/{userId}": {
+			"get": {
+				"tags": ["user"],
+				"summary": "TODO: Fetch user information.",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User information successfully fetched.",
+						"schema": {
+							"$ref": "definitions/user.json#"
+						}
+					},
+					"400": {
+						"description": "Bad request from client.",
+						"schema": {
+							"$ref": "definitions/apiResponse.json#"
+						}
+					},
+					"500": {
+						"description": "Unknown server side error.",
+						"schema": {
+							"$ref": "definitions/apiResponse.json#"
+						}
+					}
+				}
+			}
+		},
+		"/user/{userId}/circuit": {
+			"get": {
+				"tags": ["user", "circuit"],
+				"summary": "TODO: Fetch all quantum circuits owned by user.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					}
+				]
+			}
+		},
+		"/user/{userId}/circuit/create": {
+			"post": {
+				"tags": ["user", "circuit"],
+				"summary": "TODO: Create a new quantum circuit for user owned by a user.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					}
+				]
+			}
+		},
+		"/user/{userId}/circuit/{circuitId}": {
+			"get": {
+				"tags": ["user", "circuit"],
+				"summary": "TODO: Fetch a single quantum circuits information owned by a user..",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					},
+					{
+						"$ref": "common/parameters/circuit.json"
+					}
+				]
+			}
+		},
+		"/user/{userId}/circuit/{circuitId}/update": {
+			"post": {
+				"tags": ["user", "circuit"],
+				"summary": "TODO: Update a single quantum circuits information owned by a user.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					},
+					{
+						"$ref": "common/parameters/circuit.json"
+					}
+				]
+			},
+			"delete": {
+				"tags": ["user", "circuit"],
+				"summary": "TODO: Delete a single quantum circuit owned by a user.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					},
+					{
+						"$ref": "common/parameters/circuit.json"
+					}
+				]
+			}
+		},
+		"/user/{userId}/task": {
+			"get": {
+				"tags": ["user", "task"],
+				"summary": "TODO: See the assigned quantum circuit tasks for a user.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					}
+				]
+			}
+		},
+		"/user/{userId}/task/{taskId}/submit": {
+			"post": {
+				"tags": ["user", "task", "submission"],
+				"summary": "TODO: Submit a quantum circuit for a task for a user.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					},
+					{
+						"$ref": "common/parameters/taskId.json"
+					}
+				]
+			}
+		},
+		"/user/{userId}/submission": {
+			"get": {
+				"tags": ["user", "submission"],
+				"summary": "TODO: Fetch all users quantum circuit submissions.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					}
+				]
+			}
+		},
+		"/user/{userId}/submission/{submissionId}": {
+			"get": {
+				"tags": ["user", "submission"],
+				"summary": "TODO: Fetch a single quantum circuit submissions information.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					},
+					{
+						"$ref": "common/parameters/submissionId.json"
+					}
+				]
+			}
+		},
+		"/user/{userId}/submission/{submissionId}/update": {
+			"post": {
+				"tags": ["user", "submission"],
+				"summary": "TODO: Update a single quantum circuit submissions information.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					},
+					{
+						"$ref": "common/parameters/submissionId.json"
+					}
+				]
+			},
+			"delete": {
+				"tags": ["user", "submission"],
+				"summary": "TODO: Delete single quantum circuit submission.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/user.json"
+					},
+					{
+						"$ref": "common/parameters/submissionId.json"
+					}
+				]
+			}
+		},
+		"/task/create": {
+			"post": {
+				"tags": ["task"],
+				"summary": "TODO: Add a new quantum circuit task."
+			}
+		},
+		"/task/{taskId}": {
+			"get": {
+				"tags": ["task"],
+				"summary": "TODO: Return the details of a quantum circuit task.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/taskId.json"
+					}
+				]
+			}
+		},
+		"/task/{taskId}/update": {
+			"post": {
+				"tags": ["task"],
+				"summary": "TODO: Update quantum circuit task details.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/taskId.json"
+					}
+				]
+			},
+			"delete": {
+				"tags": ["task"],
+				"summary": "TODO: Remove quantum circuit tasks.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/taskId.json"
+					}
+				]
+			}
+		},
+		"/task/{taskId}/submission": {
+			"get": {
+				"tags": ["task", "submission"],
+				"summary": "TODO: Fetch the submissions for a quantum circuit for a task.",
+				"parameters": [
+					{
+						"$ref": "common/parameters/taskId.json"
+					}
+				]
+			}
 		}
-	},
-	"consumes": ["application/json"]
+	}
 }

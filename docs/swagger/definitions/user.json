@@ -1,0 +1,20 @@
+{
+	"user": {
+		"type": "object",
+		"properties": {
+			"id": {
+				"type": "string",
+				"description": "Id of the user."
+			},
+			"email": {
+				"type": "string"
+			},
+			"firstName": {
+				"type": "string"
+			},
+			"lastName": {
+				"type": "string"
+			}
+		}
+	}
+}
