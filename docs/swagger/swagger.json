@@ -159,6 +159,35 @@
 								]
 							}
 						}
+					},
+					"500": {
+						"description": "Unknown server side error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"results": {
+											"type": "object",
+											"properties": {
+												"msg": {
+													"type": "string"
+												},
+												"error": {
+													"type": "string"
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"examples": {
+							"application/json": {
+								"msg": "An unknown error occurred while trying to solve the circuit.",
+								"error": "RangeError: Invalid array length"
+							}
+						}
 					}
 				}
 			}
