@@ -109,11 +109,14 @@ temp/
 
 # End of https://www.gitignore.io/api/node
 
-# Quirk ignore
+# Node app sepcific ignores
 node_modules
 out
 .eslintrc
 *.git_ignore.js
+
+# Firebase
+service-account-key.json
 
 # IDEs
 .idea

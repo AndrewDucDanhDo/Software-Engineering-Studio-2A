@@ -1,0 +1,5 @@
+# To make sure we dont import os specific packages
+node_modules
+
+# Make the container use a default set of envs
+.env
