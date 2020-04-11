@@ -9,6 +9,7 @@ import Navigation from "./components/navigation";
 import SignupPage from "./pages/signup";
 import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
+import ProfilePage from "./pages/profile";
 
 function App() {
 	return (
@@ -23,7 +24,10 @@ function App() {
 						<Route path="/login">
 							<LoginPage />
 						</Route>
-            <Route path="/">
+						<Route path="/profile">
+							<ProfilePage />
+						</Route>
+            			<Route path="/">
 							<HomePage />
 						</Route>
 					</Switch>
