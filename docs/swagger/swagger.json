@@ -311,14 +311,14 @@
 				"produces": ["application/json"],
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					}
 				],
 				"responses": {
 					"200": {
 						"description": "User information successfully fetched.",
 						"schema": {
-							"$ref": "definitions/user.json#"
+							"$ref": "definitions/userId.json#"
 						}
 					},
 					"400": {
@@ -342,7 +342,7 @@
 				"summary": "TODO: Fetch all quantum circuits owned by user.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					}
 				]
 			}
@@ -353,7 +353,7 @@
 				"summary": "TODO: Create a new quantum circuit for user owned by a user.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					}
 				]
 			}
@@ -364,7 +364,7 @@
 				"summary": "TODO: Fetch a single quantum circuits information owned by a user..",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					},
 					{
 						"$ref": "common/parameters/circuit.json"
@@ -378,7 +378,7 @@
 				"summary": "TODO: Update a single quantum circuits information owned by a user.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					},
 					{
 						"$ref": "common/parameters/circuit.json"
@@ -390,7 +390,7 @@
 				"summary": "TODO: Delete a single quantum circuit owned by a user.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					},
 					{
 						"$ref": "common/parameters/circuit.json"
@@ -404,7 +404,7 @@
 				"summary": "TODO: See the assigned quantum circuit tasks for a user.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					}
 				]
 			}
@@ -415,7 +415,7 @@
 				"summary": "TODO: Submit a quantum circuit for a task for a user.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					},
 					{
 						"$ref": "common/parameters/taskId.json"
@@ -429,7 +429,7 @@
 				"summary": "TODO: Fetch all users quantum circuit submissions.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					}
 				]
 			}
@@ -440,7 +440,7 @@
 				"summary": "TODO: Fetch a single quantum circuit submissions information.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					},
 					{
 						"$ref": "common/parameters/submissionId.json"
@@ -454,7 +454,7 @@
 				"summary": "TODO: Update a single quantum circuit submissions information.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					},
 					{
 						"$ref": "common/parameters/submissionId.json"
@@ -466,7 +466,7 @@
 				"summary": "TODO: Delete single quantum circuit submission.",
 				"parameters": [
 					{
-						"$ref": "common/parameters/user.json"
+						"$ref": "common/parameters/userId.json"
 					},
 					{
 						"$ref": "common/parameters/submissionId.json"
