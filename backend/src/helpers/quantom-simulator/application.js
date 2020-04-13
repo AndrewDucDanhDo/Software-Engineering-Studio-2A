@@ -15,13 +15,9 @@ module.exports = class Application {
     */
   editCircuit(gate) {
     this.circuit = gate.circuit;
-    this.editor.resize(gate.circuit.nqubits, this.editor.length);
-    document.querySelector("#nqubits > span").innerHTML =
-      "Qubits: " + this.circuit.nqubits;
     if (gate.input) {
       this.editor.input = gate.input;
     }
-    this.editor.render();
   }
 
   /*
