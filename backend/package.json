@@ -30,7 +30,9 @@
   "scripts": {
     "prod": "node -r esm -r dotenv/config src/index.js",
     "dev": "nodemon --exec \"npm run prod\"",
-    "test": "mocha -r esm -r dotenv/config 'src/test/**/*.spec.js'",
+    "test": "mocha -r esm -r dotenv/config 'src/test/**/*.{integration,unit}.js'",
+    "test-unit": "mocha -r esm -r dotenv/config 'src/test/**/*.unit.js'",
+    "test-integration": "mocha -r esm -r dotenv/config 'src/test/**/*.integration.js'",
     "lint": "prettier \"src/**/*.js\" --write",
     "coverage": "nyc npm run test",
     "docker-build": "docker build -t ses-2a-backend .",
