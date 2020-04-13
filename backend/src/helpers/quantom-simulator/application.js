@@ -10,17 +10,6 @@ module.exports = class Application {
   }
 
   /*
-    Set current "circuit" to that of some "gate" and update the interface
-    for the new circuit.
-    */
-  editCircuit(gate) {
-    this.circuit = gate.circuit;
-    if (gate.input) {
-      this.editor.input = gate.input;
-    }
-  }
-
-  /*
   Load a new workspace in from a json object, overwriting the current one.
   JSON struct looks like:
   {
