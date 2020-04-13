@@ -18,7 +18,8 @@
     "firebase-admin": "^8.10.0",
     "morgan": "^1.10.0",
     "numeric": "^1.2.6",
-    "nyc": "^15.0.1"
+    "nyc": "^15.0.1",
+    "sinon": "^9.0.2"
   },
   "devDependencies": {
     "mocha": "^7.1.1",
@@ -30,9 +31,9 @@
   "scripts": {
     "prod": "node -r esm -r dotenv/config src/index.js",
     "dev": "nodemon --exec \"npm run prod\"",
-    "test": "mocha -r esm -r dotenv/config 'src/tests/**/*.{integration,unit}.js'",
-    "test-unit": "mocha -r esm -r dotenv/config 'src/tests/**/*.unit.js'",
-    "test-integration": "mocha -r esm -r dotenv/config 'src/tests/**/*.integration.js'",
+    "test": "mocha -r esm -r dotenv/config 'src/**/tests/*.{integration,unit}.js'",
+    "test-unit": "mocha -r esm -r dotenv/config 'src/**/tests/*.unit.js'",
+    "test-integration": "mocha -r esm -r dotenv/config 'src/**/tests/*.integration.js'",
     "lint": "prettier \"src/**/*.js\" --write",
     "coverage": "nyc npm run test",
     "docker-build": "docker build -t ses-2a-backend .",
