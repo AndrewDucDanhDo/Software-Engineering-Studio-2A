@@ -24,7 +24,7 @@ describe("circuit controller", () => {
     expect(mockRes._getStatusCode()).to.equal(200);
   });
 
-  it("Should return a 500 with bad data", () => {
+  it("Should return an error with bad data", () => {
     // Setup our mocks
     const mockReq = httpMocks.createRequest({
       method: "POST",
@@ -38,5 +38,9 @@ describe("circuit controller", () => {
 
     // Evaluate the results using our mocks
     expect(mockRes._getStatusCode()).to.equal(500);
+    expect(mockRes._getJSONData()).to.deep.equal({
+      msg: "An unknown error occurred while trying to solve the circuit.",
+      error: "TypeError: Cannot read property 'join' of undefined"
+    });
   });
 });
