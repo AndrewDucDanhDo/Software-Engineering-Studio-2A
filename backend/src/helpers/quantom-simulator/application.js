@@ -39,22 +39,22 @@ module.exports = class Application {
   gates in the circuit.
   */
   loadWorkspace(json) {
-      this.workspace = new Workspace(this);
-      if (json.gates) {
-          for (let i = 0 ; i < json.gates.length; i++) {
-              const gate = json.gates[i];
-              this.workspace.addGate({
-                  name: gate.name,
-                  qubits: gate.qubits,
-                  matrix: gate.matrix,
-                  fn: gate.fn,
-                  title: gate.title,
-                  circuit: Circuit.load(this, gate.qubits, gate.circuit)
-              });
-          }
+    this.workspace = new Workspace(this);
+    if (json.gates) {
+      for (let i = 0; i < json.gates.length; i++) {
+        const gate = json.gates[i];
+        this.workspace.addGate({
+          name: gate.name,
+          qubits: gate.qubits,
+          matrix: gate.matrix,
+          fn: gate.fn,
+          title: gate.title,
+          circuit: Circuit.load(this, gate.qubits, gate.circuit)
+        });
       }
-      this.circuit = Circuit.load(this, json.qubits, json.circuit);
-      this.compileAll();
+    }
+    this.circuit = Circuit.load(this, json.qubits, json.circuit);
+    this.compileAll();
   }
 
   /*

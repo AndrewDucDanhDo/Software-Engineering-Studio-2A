@@ -19,7 +19,7 @@ export function solve(req, res) {
       numeric.rep([size], 0)
     );
     amplitudes.x[parseInt(state, 2)] = 1;
-    
+
     app.applyCircuit(app.circuit, amplitudes, (amplitudes_y) => {
       const results = quantumParser.parseAmplitudes(
         app.circuit.nqubits,
