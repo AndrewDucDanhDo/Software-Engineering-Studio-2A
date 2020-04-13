@@ -1,0 +1,8 @@
+{
+  "name": "taskId",
+  "in": "path",
+  "description": "Id of task to submit to",
+  "required": true,
+  "type": "integer",
+  "format": "int64"
+}
