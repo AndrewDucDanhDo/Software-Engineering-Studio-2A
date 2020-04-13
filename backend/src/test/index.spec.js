@@ -31,7 +31,7 @@ describe("GET /", () => {
 
 describe("POST /circuit/solve", () => {
   var server;
-  var adder = require("./circuits/adder.json");
+  var adder = require("./data/adder.json");
 
   beforeEach(() => {
     // We will create a new instance of the server for each test
@@ -49,6 +49,35 @@ describe("POST /circuit/solve", () => {
 
   it("should solve 1 + 0", function (done) {
     adder.input = [1, 0, 0, 0];
-    request(server).post("/circuit/solve").send(adder).expect(200, done);
+    request(server)
+      .post("/circuit/solve")
+      .send(adder)
+      .expect(200)
+      .end(function (err, res) {
+        // Loop through each final output, find possible
+        res.body.results.forEach(function (output) {
+          if (output.impossible == false) {
+            assert.equal(output.state, "1010");
+          }
+        });
+      });
+    done();
+  });
+
+  it("should solve 1 + 1", function (done) {
+    adder.input = [1, 1, 0, 0];
+    request(server)
+      .post("/circuit/solve")
+      .send(adder)
+      .expect(200)
+      .end(function (err, res) {
+        // Loop through each final output, find possible
+        res.body.results.forEach(function (output) {
+          if (output.impossible == false) {
+            assert.equal(output.state, "1101");
+          }
+        });
+      });
+    done();
   });
 });
