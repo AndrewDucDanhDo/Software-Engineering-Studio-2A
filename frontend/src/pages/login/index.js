@@ -52,8 +52,7 @@ export class LoginPage extends React.Component {
 
 	loginForm = () => {
 		return (
-			<div style={{ backgroundColor: "aqua", padding: "10px" }}>
-				<h2>Im the login page</h2>
+			<div>
 				<form onSubmit={this.handleLogin}>
 					{/* email */}
 					<div>
