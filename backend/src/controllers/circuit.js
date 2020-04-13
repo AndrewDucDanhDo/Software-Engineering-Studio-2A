@@ -2,7 +2,7 @@ const quantumSimulator = require("../helpers/quantom-simulator/application");
 const quantumParser = require("../helpers/quantom-solver/parser");
 const numeric = require("numeric");
 
-export function solve(req, res) {
+export function solve(req, response) {
   // TODO: We should write a validator to check the circuit json format is correct before attempting to solve
   try {
     // TODO: Look into how the circuit object is transformed im concerned its currently not doing anything
@@ -25,14 +25,12 @@ export function solve(req, res) {
         app.circuit.nqubits,
         amplitudes_y
       );
-      res.status(200).json({
+      response.status(200).json({
         results
       });
     });
   } catch (error) {
-    console.log(error);
-
-    res.status(500).json({
+    response.status(500).json({
       msg: "An unknown error occurred while trying to solve the circuit.",
       error: error.toString()
     });

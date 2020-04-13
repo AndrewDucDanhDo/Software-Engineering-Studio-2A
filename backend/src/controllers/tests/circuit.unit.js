@@ -1,27 +1,42 @@
-import request from "supertest";
-import assert from "assert";
-import sinon from "sinon";
+import { solve } from "../circuit";
+import { expect } from "chai";
+import httpMocks from "node-mocks-http";
 
-var solve = require("../../controllers/circuit").solve;
-var req = require("./data/req.json");
+const reqData = {
+  correct: require("./data/req.json"),
+  incorrect: {}
+};
 
-describe("!!!!!!!!!!", () => {
-  beforeEach(() => {});
+describe("circuit controller", () => {
+  it("Should return a 200 with correct request", () => {
+    // Setup our mocks
+    const mockReq = httpMocks.createRequest({
+      method: "POST",
+      url: "/circuit/solve",
+      body: reqData.correct
+    });
+    const mockRes = httpMocks.createResponse();
 
-  afterEach(() => {});
+    // Call our route
+    solve(mockReq, mockRes);
 
-  it("!!!!!!!!!!", function (done) {
-    var res;
-    res = {
-      status: sinon.fake.returns(this),
-      json: sinon.fake()
-    };
+    // Evaluate the results using our mocks
+    expect(mockRes._getStatusCode()).to.equal(200);
+  });
 
-    res.status();
+  it("Should return a 500 with bad data", () => {
+    // Setup our mocks
+    const mockReq = httpMocks.createRequest({
+      method: "POST",
+      url: "/circuit/solve",
+      body: reqData.incorrect
+    });
+    const mockRes = httpMocks.createResponse();
 
-    // solve(req, res);
-    // assert(res.status.);
-    // console.log(res.status.firstArg);
-    done();
+    // Call our route with our mock objects
+    solve(mockReq, mockRes);
+
+    // Evaluate the results using our mocks
+    expect(mockRes._getStatusCode()).to.equal(500);
   });
 });
