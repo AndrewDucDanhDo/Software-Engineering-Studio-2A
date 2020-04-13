@@ -23,8 +23,8 @@ function App() {
 						<Route path="/login">
 							<LoginPage />
 						</Route>
-            <Route path="/">
-							<HomePage />
+            			<Route path="/">
+							<HomePage/>
 						</Route>
 					</Switch>
 				</div>
