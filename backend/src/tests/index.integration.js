@@ -1,5 +1,5 @@
 import request from "supertest";
-import assert from "assert";
+import { expect } from "chai";
 
 describe("GET /", () => {
   var server;
@@ -23,7 +23,7 @@ describe("GET /", () => {
       .get("/")
       .expect(200)
       .end(function (err, res) {
-        assert(res.body.msg.includes("Hello from quantum simulator API"));
+        expect(res.body.msg).to.include("Hello from quantum simulator API");
         done();
       });
   });
@@ -57,7 +57,7 @@ describe("POST /circuit/solve", () => {
         // Loop through each final output, find possible
         res.body.results.forEach(function (output) {
           if (output.impossible == false) {
-            assert.equal(output.state, "1010");
+            expect(output.state).to.equal("1010");
           }
         });
       });
@@ -74,7 +74,7 @@ describe("POST /circuit/solve", () => {
         // Loop through each final output, find possible
         res.body.results.forEach(function (output) {
           if (output.impossible == false) {
-            assert.equal(output.state, "1101");
+            expect(output.state).to.equal("1101");
           }
         });
       });
