@@ -1,0 +1,25 @@
+{
+  "type": "object",
+	"properties": {
+		"results": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"value": {
+						"type": "string"
+					},
+					"impossible": {
+						"type": "boolean"
+					},
+					"amplitude": {
+						"type": "string"
+					},
+					"state": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}

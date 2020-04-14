@@ -1,0 +1,53 @@
+{
+	"type": "object",
+	"properties": {
+		"gates": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"description": "Gates in the circuit"
+			}
+		},
+		"circuit": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"type": {
+						"type": "string"
+					},
+					"time": {
+						"type": "integer"
+					},
+					"targets": {
+						"type": "array",
+						"items": {
+							"type": "integer"
+						}
+					},
+					"controls": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"qubits": {
+			"type": "integer",
+			"description": "Number of qubits in the circuit"
+		},
+		"input": {
+			"type": "array",
+			"description": "The binary state of each qubit input",
+			"items": {
+				"type": "integer"
+			}
+		},
+		"version": {
+			"type": "integer",
+			"description": "Version of the circuit schema"
+		}
+	}
+}

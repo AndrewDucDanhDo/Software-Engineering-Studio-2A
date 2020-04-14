@@ -11,7 +11,7 @@
 		"/circuit/solve": {
 			"post": {
 				"tags": ["circuit"],
-				"summary": "Solve a quantum circuit",
+				"summary": "Solve a quantum circuit ✔",
 				"produces": ["application/json"],
 				"parameters": [
 					{
@@ -27,34 +27,8 @@
 				"responses": {
 					"200": {
 						"description": "Result was successfully computed and returned.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"results": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"value": {
-														"type": "string"
-													},
-													"impossible": {
-														"type": "boolean"
-													},
-													"amplitude": {
-														"type": "string"
-													},
-													"state": {
-														"type": "string"
-													}
-												}
-											}
-										}
-									}
-								}
-							}
+						"schema": {
+							"$ref": "schemas/circuitResult.json#"
 						},
 						"examples": {
 							"application/json": {
@@ -89,20 +63,8 @@
 					},
 					"500": {
 						"description": "Unknown server side error.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"msg": {
-											"type": "string"
-										},
-										"error": {
-											"type": "string"
-										}
-									}
-								}
-							}
+						"schema": {
+							"$ref": "schemas/apiResponse.json#"
 						},
 						"examples": {
 							"application/json": {
@@ -117,7 +79,7 @@
 		"/user/create": {
 			"post": {
 				"tags": ["user"],
-				"summary": "Create a new user in the quantum solver application.",
+				"summary": "Create a new user in the quantum solver application. ⭕ (Needs response, needs body)",
 				"produces": ["application/json"],
 				"parameters": [
 					{
@@ -307,7 +269,7 @@
 		"/user/{userId}": {
 			"get": {
 				"tags": ["user"],
-				"summary": "TODO: Fetch user information.",
+				"summary": "TODO: Fetch user information. ⭕ (Needs response, needs body)",
 				"produces": ["application/json"],
 				"parameters": [
 					{
@@ -339,18 +301,47 @@
 		"/user/{userId}/circuit": {
 			"get": {
 				"tags": ["user", "circuit"],
-				"summary": "TODO: Fetch all quantum circuits owned by user.",
+				"summary": "TODO: Fetch all quantum circuits owned by user. ❔ (Needs response)",
+				"produces": ["application/json"],
 				"parameters": [
 					{
 						"$ref": "common/parameters/userId.json"
 					}
-				]
+				],
+				"responses": {
+					"200": {
+						"description": "Circuits where successfully returned.",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"circuits": {
+									"type": "array",
+									"items": {
+										"$ref": "schemas/circuitArray.json"
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Unknown server side error.",
+						"schema": {
+							"$ref": "schemas/apiResponse.json#"
+						},
+						"examples": {
+							"application/json": {
+								"msg": "An unknown error occurred while trying to fetch users circuit.",
+								"error": "RangeError: Invalid array length"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/user/{userId}/circuit/create": {
 			"post": {
 				"tags": ["user", "circuit"],
-				"summary": "TODO: Create a new quantum circuit for user owned by a user.",
+				"summary": "TODO: Create a new quantum circuit for user owned by a user. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/userId.json"
@@ -361,7 +352,7 @@
 		"/user/{userId}/circuit/{circuitId}": {
 			"get": {
 				"tags": ["user", "circuit"],
-				"summary": "TODO: Fetch a single quantum circuits information owned by a user..",
+				"summary": "TODO: Fetch a single quantum circuits information owned by a user. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/userId.json"
@@ -375,7 +366,7 @@
 		"/user/{userId}/circuit/{circuitId}/update": {
 			"post": {
 				"tags": ["user", "circuit"],
-				"summary": "TODO: Update a single quantum circuits information owned by a user.",
+				"summary": "TODO: Update a single quantum circuits information owned by a user. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/userId.json"
@@ -401,7 +392,7 @@
 		"/user/{userId}/task": {
 			"get": {
 				"tags": ["user", "task"],
-				"summary": "TODO: See the assigned quantum circuit tasks for a user.",
+				"summary": "TODO: See the assigned quantum circuit tasks for a user. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/userId.json"
@@ -412,7 +403,7 @@
 		"/user/{userId}/task/{taskId}/submit": {
 			"post": {
 				"tags": ["user", "task", "submission"],
-				"summary": "TODO: Submit a quantum circuit for a task for a user.",
+				"summary": "TODO: Submit a quantum circuit for a task for a user. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/userId.json"
@@ -426,7 +417,7 @@
 		"/user/{userId}/submission": {
 			"get": {
 				"tags": ["user", "submission"],
-				"summary": "TODO: Fetch all users quantum circuit submissions.",
+				"summary": "TODO: Fetch all users quantum circuit submissions. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/userId.json"
@@ -437,7 +428,7 @@
 		"/user/{userId}/submission/{submissionId}": {
 			"get": {
 				"tags": ["user", "submission"],
-				"summary": "TODO: Fetch a single quantum circuit submissions information.",
+				"summary": "TODO: Fetch a single quantum circuit submissions information. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/userId.json"
@@ -451,7 +442,7 @@
 		"/user/{userId}/submission/{submissionId}/update": {
 			"post": {
 				"tags": ["user", "submission"],
-				"summary": "TODO: Update a single quantum circuit submissions information.",
+				"summary": "TODO: Update a single quantum circuit submissions information. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/userId.json"
@@ -477,13 +468,13 @@
 		"/task/create": {
 			"post": {
 				"tags": ["task"],
-				"summary": "TODO: Add a new quantum circuit task."
+				"summary": "TODO: Add a new quantum circuit task. ⭕ (Needs response, needs body)"
 			}
 		},
 		"/task/{taskId}": {
 			"get": {
 				"tags": ["task"],
-				"summary": "TODO: Return the details of a quantum circuit task.",
+				"summary": "TODO: Return the details of a quantum circuit task. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/taskId.json"
@@ -494,7 +485,7 @@
 		"/task/{taskId}/update": {
 			"post": {
 				"tags": ["task"],
-				"summary": "TODO: Update quantum circuit task details.",
+				"summary": "TODO: Update quantum circuit task details. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/taskId.json"
@@ -514,7 +505,7 @@
 		"/task/{taskId}/submission": {
 			"get": {
 				"tags": ["task", "submission"],
-				"summary": "TODO: Fetch the submissions for a quantum circuit for a task.",
+				"summary": "TODO: Fetch the submissions for a quantum circuit for a task. ⭕ (Needs response, needs body)",
 				"parameters": [
 					{
 						"$ref": "common/parameters/taskId.json"
