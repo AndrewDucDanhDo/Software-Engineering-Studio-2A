@@ -1,0 +1,17 @@
+{
+	"type": "object",
+	"properties": {
+		"status": {
+			"type": "string",
+			"required": true
+		},
+		"msg": {
+			"type": "string",
+			"required": true
+		},
+		"error": {
+			"type": "string",
+			"required": false
+		}
+	}
+}

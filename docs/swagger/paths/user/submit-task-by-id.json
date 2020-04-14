@@ -1,0 +1,14 @@
+{
+  "post": {
+    "tags": ["user", "task", "submission"],
+    "summary": "TODO: Submit a quantum circuit for a task for a user. ⭕ (Needs response, needs body)",
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/userId.json"
+      },
+      {
+        "$ref": "../../common/parameters/taskId.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "get": {
+    "tags": ["task"],
+    "summary": "TODO: Return the details of a quantum circuit task. ⭕ (Needs response, needs body)",
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/taskId.json"
+      }
+    ]
+  }
+}

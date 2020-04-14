@@ -1,0 +1,32 @@
+{
+  "get": {
+    "tags": ["user"],
+    "summary": "TODO: Fetch user information. ⭕",
+    "produces": ["application/json"],
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/userId.json"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "User information successfully fetched.",
+        "schema": {
+          "$ref": "../../common/parameters/userId.json#"
+        }
+      },
+      "400": {
+        "description": "Bad request from client.",
+        "schema": {
+          "$ref": "../../definitions/apiResponse.json#"
+        }
+      },
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../definitions/apiResponse.json#"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "post": {
+    "tags": ["user", "circuit"],
+    "summary": "TODO: Update a single quantum circuits information owned by a user. ⭕ (Needs response, needs body)",
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/userId.json"
+      },
+      {
+        "$ref": "../../common/parameters/circuitId.json"
+      }
+    ]
+  },
+  "delete": {
+    "tags": ["user", "circuit"],
+    "summary": "TODO: Delete a single quantum circuit owned by a user.",
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/userId.json"
+      },
+      {
+        "$ref": "../../common/parameters/circuitId.json"
+      }
+    ]
+  }
+}

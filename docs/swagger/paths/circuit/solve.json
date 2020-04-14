@@ -1,0 +1,68 @@
+{
+  "post": {
+    "tags": ["circuit"],
+    "summary": "Solve a quantum circuit ✔ (Needs examples)",
+    "produces": ["application/json"],
+    "parameters": [
+      {
+        "in": "body",
+        "name": "body",
+        "description": "Quantum circuit that needs to be solved.",
+        "required": true,
+        "schema": {
+          "$ref": "../../definitions/circuit.json#circuit"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Result was successfully computed and returned.",
+        "schema": {
+          "$ref": "../../common/schemas/circuitResult.json#"
+        },
+        "examples": {
+          "application/json": {
+            "results": [
+              {
+                "value": "0.0000%",
+                "impossible": true,
+                "amplitude": "0.00000000+0.00000000i",
+                "state": "00"
+              },
+              {
+                "value": "0.0000%",
+                "impossible": true,
+                "amplitude": "0.00000000+0.00000000i",
+                "state": "01"
+              },
+              {
+                "value": "0.0000%",
+                "impossible": true,
+                "amplitude": "0.00000000+0.00000000i",
+                "state": "10"
+              },
+              {
+                "value": "100.0000%",
+                "impossible": false,
+                "amplitude": "1.00000000+0.00000000i",
+                "state": "11"
+              }
+            ]
+          }
+        }
+      },
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+          "application/json": {
+            "msg": "An unknown error occurred while trying to solve the circuit.",
+            "error": "RangeError: Invalid array length"
+          }
+        }
+      }
+    }
+  }
+}

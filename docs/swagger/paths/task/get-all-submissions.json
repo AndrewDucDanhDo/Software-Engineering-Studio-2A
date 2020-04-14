@@ -1,0 +1,11 @@
+{
+  "get": {
+    "tags": ["task", "submission"],
+    "summary": "TODO: Fetch the submissions for a quantum circuit for a task. ⭕ (Needs response, needs body)",
+    "parameters": [
+      {
+        "$ref": "common/parameters/taskId.json"
+      }
+    ]
+  }
+}

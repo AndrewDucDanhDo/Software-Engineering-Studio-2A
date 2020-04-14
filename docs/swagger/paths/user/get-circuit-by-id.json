@@ -1,0 +1,14 @@
+{
+  "get": {
+    "tags": ["user", "circuit"],
+    "summary": "TODO: Fetch a single quantum circuits information owned by a user. ⭕ (Needs response, needs body)",
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/userId.json#"
+      },
+      {
+        "$ref": "../../common/parameters/circuitId.json#"
+      }
+    ]
+  }
+}

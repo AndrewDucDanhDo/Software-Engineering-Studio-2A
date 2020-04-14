@@ -1,0 +1,11 @@
+{
+  "get": {
+    "tags": ["user", "task"],
+    "summary": "TODO: See the assigned quantum circuit tasks for a user. ⭕ (Needs response, needs body)",
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/userId.json"
+      }
+    ]
+  }
+}

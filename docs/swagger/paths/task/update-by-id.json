@@ -1,0 +1,20 @@
+{
+  "post": {
+    "tags": ["task"],
+    "summary": "TODO: Update quantum circuit task details. ⭕ (Needs response, needs body)",
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/taskId.json"
+      }
+    ]
+  },
+  "delete": {
+    "tags": ["task"],
+    "summary": "TODO: Remove quantum circuit tasks.",
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/taskId.json"
+      }
+    ]
+  }
+}
