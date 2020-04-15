@@ -1,7 +1,7 @@
 {
   "post": {
     "tags": ["user", "circuit"],
-    "summary": "TODO: Create a new quantum circuit for user owned by a user. ⭕ (Needs body example)",
+    "summary": "Create a new quantum circuit for user owned by a user. TODO",
     "parameters": [
       {
         "$ref": "../../common/parameters/userId.json"

@@ -1,7 +1,7 @@
 {
   "get": {
     "tags": ["user", "circuit"],
-    "summary": "TODO: Fetch a single quantum circuits information owned by a user. ⭕ (Needs response, needs body)",
+    "summary": "Fetch a single quantum circuits information owned by a user. TODO",
     "parameters": [
       {
         "$ref": "../../common/parameters/userId.json#"
@@ -9,6 +9,27 @@
       {
         "$ref": "../../common/parameters/circuitId.json#"
       }
-    ]
+    ],
+    "responses": {
+      "200": {
+        "description": "Users circuit successfully fetched.",
+        "schema": {
+          "$ref": "../../common/schemas/circuit.json#"
+        }
+      },
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred while trying get users circuit.",
+						"error": "Error: The password must be a string with at least 6 characters."
+					}
+				}
+      }
+    }
   }
 }

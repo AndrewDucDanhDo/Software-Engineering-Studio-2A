@@ -1,0 +1,54 @@
+{
+	"type": "object",
+	"properties": {
+		"uid": {
+			"type": "string"
+		},
+		"email": {
+			"type": "string"
+		},
+		"emailVerified": {
+			"type": "boolean"
+		},
+		"displayName": {
+			"type": "string"
+		},
+		"disabled": {
+			"type": "boolean"
+		},
+		"metadata": {
+			"type": "object",
+			"properties": {
+				"lastSignInTime": {
+					"type": "string"
+				},
+				"creationTime": {
+					"type": "string"
+				}
+			}
+		},
+		"tokensValidAfterTime": {
+			"type": "string"
+		},
+		"providerData": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"uid": {
+						"type": "string"
+					},
+					"displayName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"providerId": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}

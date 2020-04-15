@@ -9,31 +9,27 @@
 	},
 	"paths": {
 		"/circuit/solve": {
-			"_TODO_": "ALL",
+			"_TODO_": "Needs body examples",
 			"$ref": "paths/circuit/solve.json#"
 		},
 		"/user/create": {
-			"_TODO_": "ALL",
 			"$ref": "paths/user/create.json#"
 		},
 		"/user/{userId}": {
-			"_TODO_": "ALL",
 			"$ref": "paths/user/get-by-id.json#"
 		},
 		"/user/{userId}/circuit": {
-			"_TODO_": "ALL",
 			"$ref": "paths/user/get-circuit.json#"
 		},
 		"/user/{userId}/circuit/create": {
-			"_TODO_": "ALL",
+			"_TODO_": "Needs body example",
 			"$ref": "paths/user/create-circuit.json#"
 		},
 		"/user/{userId}/circuit/{circuitId}": {
-			"_TODO_": "ALL",
+			"_TODO_": "Needs body example",
 			"$ref": "paths/user/get-circuit-by-id.json#"
 		},
 		"/user/{userId}/circuit/{circuitId}/update": {
-			"_TODO_": "ALL",
 			"$ref": "paths/user/update-circuit-by-id.json#"
 		},
 		"/user/{userId}/task": {

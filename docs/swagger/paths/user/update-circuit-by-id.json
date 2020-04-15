@@ -1,26 +1,63 @@
 {
-  "post": {
-    "tags": ["user", "circuit"],
-    "summary": "TODO: Update a single quantum circuits information owned by a user. ⭕ (Needs response, needs body)",
-    "parameters": [
-      {
-        "$ref": "../../common/parameters/userId.json"
-      },
-      {
-        "$ref": "../../common/parameters/circuitId.json"
-      }
-    ]
-  },
-  "delete": {
-    "tags": ["user", "circuit"],
-    "summary": "TODO: Delete a single quantum circuit owned by a user.",
-    "parameters": [
-      {
-        "$ref": "../../common/parameters/userId.json"
-      },
-      {
-        "$ref": "../../common/parameters/circuitId.json"
-      }
-    ]
-  }
+	"post": {
+		"tags": ["user", "circuit"],
+		"summary": "Update a single quantum circuits information owned by a user. TODO",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			},
+			{
+				"$ref": "../../common/parameters/circuitId.json"
+			},
+			{
+				"in": "body",
+				"name": "body",
+				"description": "Quantum circuit to be created.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/circuit.json#"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Users circuit successfully created.",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				}
+			},
+			"500": {
+				"description": "Unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				}
+			}
+		}
+	},
+	"delete": {
+		"tags": ["user", "circuit"],
+		"summary": "TODO: Delete a single quantum circuit owned by a user.",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			},
+			{
+				"$ref": "../../common/parameters/circuitId.json"
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Users circuit successfully deleted.",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				}
+			},
+			"500": {
+				"description": "Unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				}
+			}
+		}
+	}
 }
