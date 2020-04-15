@@ -4,7 +4,7 @@
     "summary": "TODO: Update quantum circuit task details. ⭕ (Needs response, needs body)",
     "parameters": [
       {
-        "$ref": "../../common/parameters/taskId.json"
+        "$ref": "../../common/parameters/taskId.json#"
       }
     ]
   },
@@ -13,7 +13,7 @@
     "summary": "TODO: Remove quantum circuit tasks.",
     "parameters": [
       {
-        "$ref": "../../common/parameters/taskId.json"
+        "$ref": "../../common/parameters/taskId.json#"
       }
     ]
   }
