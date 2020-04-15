@@ -10,7 +10,7 @@
 				"description": "Quantum circuit that needs to be solved.",
 				"required": true,
 				"schema": {
-					"$ref": "../../definitions/circuit.json#circuit"
+					"$ref": "../../common/schemas/circuit.json#"
 				}
 
 			}

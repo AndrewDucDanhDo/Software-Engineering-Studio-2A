@@ -18,7 +18,7 @@
       "400": {
         "description": "Bad request from client.",
         "schema": {
-          "$ref": "../../definitions/apiResponse.json#"
+          "$ref": "../../common/schemas/apiResponse.json#"
         },
         "examples": {
 					"application/json": {

@@ -3,14 +3,17 @@
 	"properties": {
 		"status": {
 			"type": "string",
+			"description": "The status code of the request.",
 			"required": true
 		},
 		"msg": {
 			"type": "string",
+			"description": "A message describing the api response",
 			"required": true
 		},
 		"error": {
 			"type": "string",
+			"description": "Output of the error that triggered the response.",
 			"required": false
 		}
 	}

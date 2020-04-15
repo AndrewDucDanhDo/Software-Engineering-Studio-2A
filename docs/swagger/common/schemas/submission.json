@@ -1,0 +1,34 @@
+{
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string",
+			"description": "Id of the submission."
+		},
+		"owner": {
+			"type": "string",
+			"description": "User Id of the owner of the submission"
+		},
+		"task": {
+			"type": "string",
+			"description": "Task Id of the task the submission was for."
+		},
+		"results": {
+			"type": "object",
+			"properties": {
+				"submissionMark": {
+					"type": "integer",
+					"description": "The mark that has been given for the submission."
+				},
+				"totalMarks": {
+					"type": "integer",
+					"description": "Total possible marks for the submission."
+				},
+				"assessor": {
+					"type": "string",
+					"description": "User Id of the user that last altered the submission marks."
+				}
+			}
+		}
+	}
+}
