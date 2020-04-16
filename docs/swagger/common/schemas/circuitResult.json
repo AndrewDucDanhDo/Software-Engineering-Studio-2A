@@ -7,16 +7,19 @@
 				"type": "object",
 				"properties": {
 					"value": {
-						"type": "string"
+						"type": "string",
+						"example": "0.0000%"
 					},
 					"impossible": {
 						"type": "boolean"
 					},
 					"amplitude": {
-						"type": "string"
+						"type": "string",
+						"example": "0.00000000+0.00000000i"
 					},
 					"state": {
-						"type": "string"
+						"type": "string",
+						"example": "10"
 					}
 				}
 			}

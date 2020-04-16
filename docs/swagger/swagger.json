@@ -9,7 +9,6 @@
 	},
 	"paths": {
 		"/circuit/solve": {
-			"_TODO_": "Needs body examples",
 			"$ref": "paths/circuit/solve.json#"
 		},
 		"/user/create": {
@@ -22,11 +21,9 @@
 			"$ref": "paths/user/get-circuit.json#"
 		},
 		"/user/{userId}/circuit/create": {
-			"_TODO_": "Needs body example",
 			"$ref": "paths/user/create-circuit.json#"
 		},
 		"/user/{userId}/circuit/{circuitId}": {
-			"_TODO_": "Needs body example",
 			"$ref": "paths/user/get-circuit-by-id.json#"
 		},
 		"/user/{userId}/circuit/{circuitId}/update": {

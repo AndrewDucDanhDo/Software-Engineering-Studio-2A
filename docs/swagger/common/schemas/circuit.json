@@ -14,15 +14,19 @@
 				"type": "object",
 				"properties": {
 					"type": {
-						"type": "string"
+						"type": "string",
+						"description": "Type of the gate in the circuit",
+						"example": "x"
 					},
 					"time": {
-						"type": "integer"
+						"type": "integer",
+						"example": 3
 					},
 					"targets": {
 						"type": "array",
 						"items": {
-							"type": "integer"
+							"type": "integer",
+							"example": 1
 						}
 					},
 					"controls": {
@@ -36,7 +40,8 @@
 		},
 		"qubits": {
 			"type": "integer",
-			"description": "Number of qubits in the circuit"
+			"description": "Number of qubits in the circuit",
+			"example": 2
 		},
 		"input": {
 			"type": "array",
@@ -47,7 +52,8 @@
 		},
 		"version": {
 			"type": "integer",
-			"description": "Version of the circuit schema"
+			"description": "Version of the circuit schema",
+			"example": 1
 		}
 	}
 }

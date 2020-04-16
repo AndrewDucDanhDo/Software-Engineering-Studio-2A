@@ -12,7 +12,6 @@
 				"schema": {
 					"$ref": "../../common/schemas/circuit.json#"
 				}
-
 			}
     ],
 		"responses": {
