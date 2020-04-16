@@ -1,26 +1,89 @@
 {
-  "post": {
-    "tags": ["user", "submission"],
-    "summary": "TODO: Update a single quantum circuit submissions information. ⭕ (Needs response, needs body)",
-    "parameters": [
-      {
-        "$ref": "../../common/parameters/userId.json"
+	"post": {
+		"tags": ["user", "submission"],
+		"summary": "Update a single quantum circuit submissions information. TODO",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			},
+			{
+				"$ref": "../../common/parameters/submissionId.json"
+			},
+			{
+				"in": "body",
+				"name": "body",
+				"description": "Circuit details to be updated submission to.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/circuit.json#"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "User information successfully fetched.",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "OK",
+						"msg": "User submission successfully updated."
+					}
+				}
+			},
+			"500": {
+				"description": "Unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred while trying to update submission for user.",
+						"error": "Error: The password must be a string with at least 6 characters."
+					}
+				}
+			}
+		}
+	},
+	"delete": {
+		"tags": ["user", "submission"],
+		"summary": "Delete single quantum circuit submission. TODO",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			},
+			{
+				"$ref": "../../common/parameters/submissionId.json"
+			}
+    ],
+    "responses": {
+      "200": {
+        "description": "User information successfully fetched.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+					"application/json": {
+						"status": "OK",
+						"msg": "User submission successfully deleted."
+					}
+				}
       },
-      {
-        "$ref": "../../common/parameters/submissionId.json"
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred while trying to delete submission for user.",
+						"error": "Error: The password must be a string with at least 6 characters."
+					}
+				}
       }
-    ]
-  },
-  "delete": {
-    "tags": ["user", "submission"],
-    "summary": "TODO: Delete single quantum circuit submission.",
-    "parameters": [
-      {
-        "$ref": "../../common/parameters/userId.json"
-      },
-      {
-        "$ref": "../../common/parameters/submissionId.json"
-      }
-    ]
-  }
+    }
+	}
 }

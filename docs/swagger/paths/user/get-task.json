@@ -1,11 +1,32 @@
 {
   "get": {
     "tags": ["user", "task"],
-    "summary": "TODO: See the assigned quantum circuit tasks for a user. ⭕ (Needs response, needs body)",
+    "summary": "See the assigned quantum circuit tasks for a user. TODO",
     "parameters": [
       {
         "$ref": "../../common/parameters/userId.json"
       }
-    ]
+    ],
+    "responses": {
+      "200": {
+        "description": "Circuits where successfully returned.",
+        "schema": {
+          "$ref": "../../common/schemas/task.json"
+        }
+      },
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+          "application/json": {
+            "status": "OK",
+            "msg": "An unknown error occurred while trying to fetch users circuit.",
+            "error": "RangeError: Invalid array length"
+          }
+        }
+      }
+    }
   }
 }

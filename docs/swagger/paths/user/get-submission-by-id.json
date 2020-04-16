@@ -1,14 +1,35 @@
 {
-  "get": {
-    "tags": ["user", "submission"],
-    "summary": "TODO: Fetch a single quantum circuit submissions information. ⭕ (Needs response, needs body)",
-    "parameters": [
-      {
-        "$ref": "../../common/parameters/userId.json"
+	"get": {
+		"tags": ["user", "submission"],
+		"summary": "Fetch a single quantum circuit submissions information. TODO",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			},
+			{
+				"$ref": "../../common/parameters/submissionId.json"
+			}
+    ],
+    "responses": {
+      "200": {
+        "description": "User information successfully fetched.",
+        "schema": {
+          "$ref": "../../common/schemas/submission.json#"
+        }
       },
-      {
-        "$ref": "../../common/parameters/submissionId.json"
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred while trying to fetch a single submission for user.",
+						"error": "Error: The password must be a string with at least 6 characters."
+					}
+				}
       }
-    ]
-  }
+    }
+	}
 }

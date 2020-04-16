@@ -1,14 +1,50 @@
 {
   "post": {
     "tags": ["user", "task", "submission"],
-    "summary": "TODO: Submit a quantum circuit for a task for a user. ⭕ (Needs response, needs body)",
+    "summary": "Submit a quantum circuit for a task for a user. TODO",
     "parameters": [
       {
         "$ref": "../../common/parameters/userId.json"
       },
       {
         "$ref": "../../common/parameters/taskId.json"
+      },
+      {
+				"in": "body",
+				"name": "body",
+				"description": "Circuit details to be submitted to task.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/circuit.json#"
+				}
+			}
+    ],
+    "responses": {
+      "200": {
+        "description": "Circuits was successfully submitted.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json"
+        },
+        "examples": {
+          "application/json": {
+            "status": "OK",
+            "msg": "Circuit was successfully submitted."
+          }
+        }
+      },
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+          "application/json": {
+            "status": "ERROR",
+            "msg": "An unknown error occurred while trying to submit a circuit.",
+            "error": "RangeError: Invalid array length"
+          }
+        }
       }
-    ]
+    }
   }
 }
