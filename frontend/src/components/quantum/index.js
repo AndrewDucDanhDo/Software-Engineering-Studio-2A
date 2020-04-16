@@ -28,10 +28,25 @@ export default class QuantumSimulator extends React.Component {
 					<Box id="modal" style={{textAlign: "left"}}>
 						<Box>
 							<h1 style={{textAlign: "center"}}>Quantum Circuit Simulator</h1>
-							<p>
-								Written by <a href="http://www.davyw.com">Davy Wybiral</a>.<br></br>
-								Contributions by <a href="http://molehair.noip.me">Jiman Hwang</a>
-							</p>
+					<p>
+						Written by <a href="http://www.davyw.com">Davy Wybiral</a>.<br></br>
+						Contributions by <a href="http://molehair.noip.me">Jiman Hwang</a>.<br></br>
+						<br></br>
+						Adapted by UTS SES 2A Team 2:<br></br>
+						Aaron Berry<br></br>
+						Andy Lee<br></br>
+						Razin Agida Kaharuba (Agid)<br></br>
+						Andrew Do<br></br>
+						Brendan Huynh<br></br>
+						Brendan Tong<br></br>
+						Bryan Dinh<br></br>
+						Calvin Dong<br></br>
+						Cameron Wang<br></br>
+						Jin Feng<br></br>
+						Vanisha Singh<br></br>
+						Mitchell Murphy<br></br>
+						
+					</p>
 							<p>
 								<h3>Purpose:</h3>
 								This is a quantum circuit simulator designed to function as a
@@ -184,3 +199,4 @@ export default class QuantumSimulator extends React.Component {
 		);
 	}
 }
+
