@@ -9,6 +9,9 @@ import Navigation from "./components/navigation";
 import SignupPage from "./pages/signup";
 import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
+import TeacherEditorPage from "./pages/teacherEditor";
+import TeacherTasksPage from "./pages/teacherTasks";
+import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
 
 function App() {
 	return (
