@@ -4,6 +4,7 @@ import "./styles/App.css";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 // Components
 import Navigation from "./components/navigation";
+import Footer from "./components/footer";
 
 // import { BrowserRouter, Switch, Route } from "react-router-dom";
 // import { Link } from 'react-router-dom';
@@ -13,7 +14,7 @@ import Navigation from "./components/navigation";
 
 
 // // Components
-// import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 // import AppBar from '@material-ui/core/AppBar';
 // import Toolbar from '@material-ui/core/Toolbar';
 // import Typography from '@material-ui/core/Typography';
@@ -66,6 +67,7 @@ function App() {
 							<HomePage/>
 						</Route>
 					</Switch>
+					<Footer />
 				</div>
 			</BrowserRouter>
 		</div>
