@@ -1,6 +1,8 @@
 import React from "react";
 import QuantumMenuBar from "./quantumMenuBar";
 import { Box } from "@material-ui/core"
+import QuantumOutput from "./quantumOutput";
+import QuantumContent from "./quantumContent";
 
 // TODO: Updated image asset paths to point to new quantum folder
 
@@ -12,24 +14,8 @@ export default class QuantumSimulator extends React.Component {
 				<QuantumMenuBar/>
 
 				<Box style={{clear: "both"}}>
-					<Box id="content" style={{float: "left"}}>
-						<Box id="toolbar">
-							<Box class="std"></Box>
-							<Box class="user"></Box>
-						</Box>
-						<Box>
-							<canvas id="canvas"></canvas>
-						</Box>
-						<Box id="progress">
-							<Box></Box>
-						</Box>
-					</Box>
-					<Box id="amplitudes-container">
-						<Box id="hide-impossible">(show all)</Box>
-						<Box id="amplitudes-scrollbox">
-							<table id="amplitudes"></table>
-						</Box>
-					</Box>
+					<QuantumContent innerStyle={{float: "left"}}/>
+					<QuantumOutput/>
 				</Box>
 
 				{/* About modal dialog*/}
