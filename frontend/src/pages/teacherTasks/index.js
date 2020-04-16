@@ -3,8 +3,8 @@ import TeacherTasks from "../../components/teacherTasks";
 
 export default function TeacherTasksPage() {
     return (
-        <React.Fragment>
+        <>
             <TeacherTasks/>
-        </React.Fragment>
+        </>
     );
 }

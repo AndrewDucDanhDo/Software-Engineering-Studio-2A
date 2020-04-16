@@ -4,7 +4,7 @@ import {Box, Button, Grid, Paper, Typography} from "@material-ui/core";
 import QuantumSimulator from "../quantum";
 import ExpectedOutputBox from "../teacherTaskViewer/expectedOutputBox";
 
-export default class TeacherEditor extends React.Component {
+export default class TeacherTaskEditor extends React.Component {
 
     render() {
         return (

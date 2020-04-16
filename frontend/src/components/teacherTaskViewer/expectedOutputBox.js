@@ -2,13 +2,14 @@ import React from "react";
 import {Box, Button, Container, Typography} from "@material-ui/core";
 import {Link} from "react-router-dom";
 
+// TODO: Make the expected output actually take data from the task.
 export default class ExpectedOutputBox extends React.Component {
 
     editButton() {
         return (
             <Box my={4} display="flex" flexDirection="center">
-                {/* TODO: Send extra information to the teacherEditor about the current circuit. */}
-                <Button component={Link} to="/teacherEditor" mr={4} variant="contained" color="primary">
+                {/* TODO: Send extra information to the teacherTaskEditor about the current circuit. */}
+                <Button component={Link} to="/teacherTaskEditor" mr={4} variant="contained" color="primary">
                     Edit Expected Output
                 </Button>
             </Box>

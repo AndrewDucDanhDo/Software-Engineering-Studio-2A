@@ -48,8 +48,8 @@ class TeacherTasks extends React.Component {
                 </Paper>
 
                 <Box display="flex" flexDirection="row-reverse" my={2} mr={5}>
-                    {/* TODO: Create a new task then redirect to teacherEditor when button is clicked. */}
-                    <Button component={Link} to="/teacherEditor" variant="contained" color="primary">
+                    {/* TODO: Create a new task then redirect to teacherTaskEditor when button is clicked. */}
+                    <Button component={Link} to="/teacherTaskEditor" variant="contained" color="primary">
                         New Task
                     </Button>
                 </Box>

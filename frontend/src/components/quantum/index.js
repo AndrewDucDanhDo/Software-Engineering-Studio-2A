@@ -1,12 +1,17 @@
 import React from "react";
 import QuantumMenuBar from "./quantumMenuBar";
-import { Box } from "@material-ui/core"
+import {Box} from "@material-ui/core"
 import QuantumOutput from "./quantumOutput";
 import QuantumContent from "./quantumContent";
 
 // TODO: Updated image asset paths to point to new quantum folder
 
 export default class QuantumSimulator extends React.Component {
+
+	componentDidMount() {
+		// A hack to fake a screen reload so that qcsimulator can render it's things.
+		window.onload();
+	}
 
 	render() {
 		return (
