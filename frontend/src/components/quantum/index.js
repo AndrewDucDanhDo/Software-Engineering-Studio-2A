@@ -1,10 +1,19 @@
 import React from "react";
 import QuantumMenuBar from "./quantumMenuBar";
-import { Box } from "@material-ui/core"
+import {Box} from "@material-ui/core"
 
 // TODO: Updated image asset paths to point to new quantum folder
 
 export default class QuantumSimulator extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+	}
+
+	componentDidMount() {
+		window.onload();
+	}
 
 	render() {
 		return (

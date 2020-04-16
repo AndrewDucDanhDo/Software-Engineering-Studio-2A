@@ -1,5 +1,5 @@
 import React from "react";
-import { loginUser } from "../../helpers/auth";
+import {loginUser} from "../../helpers/auth";
 
 export class LoginPage extends React.Component {
 	constructor(props) {
@@ -52,6 +52,7 @@ export class LoginPage extends React.Component {
 
 	loginForm = () => {
 		return (
+			
 			<div style={{ backgroundColor: "aqua", padding: "10px" }}>
 				<h2>Im the login page</h2>
 				<form onSubmit={this.handleLogin}>
