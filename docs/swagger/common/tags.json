@@ -1,0 +1,18 @@
+[
+	{
+		"name": "user",
+		"description": "Management for users in the quantum solver application."
+	},
+	{
+		"name": "task",
+		"description": "Manage quantum circuit tasks in the application."
+	},
+	{
+		"name": "circuit",
+		"description": "Utilities for quantum circuits."
+	},
+	{
+		"name": "submission",
+		"description": "Submission of quantum circuits."
+	}
+]
