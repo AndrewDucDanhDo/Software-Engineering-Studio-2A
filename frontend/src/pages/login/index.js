@@ -1,5 +1,12 @@
 import React from "react";
 import {loginUser} from "../../helpers/auth";
+import {withStyles} from "@material-ui/styles";
+
+const styles = {
+	test : {
+		color: 'black',
+	}
+}
 
 export class LoginPage extends React.Component {
 	constructor(props) {
@@ -53,7 +60,7 @@ export class LoginPage extends React.Component {
 	loginForm = () => {
 		return (
 			
-			<div style={{ backgroundColor: "aqua", padding: "10px" }}>
+			<div className={this.props.classes.test}>
 				<h2>Im the login page</h2>
 				<form onSubmit={this.handleLogin}>
 					{/* email */}
@@ -99,4 +106,4 @@ export class LoginPage extends React.Component {
 	}
 }
 
-export default LoginPage;
+export default withStyles(styles)(LoginPage);
