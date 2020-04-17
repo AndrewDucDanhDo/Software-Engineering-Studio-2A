@@ -9,10 +9,10 @@ describe("quantom-simulator", () => {
         var circuit;
         var i = 0;
 
-        it("Should construct circuit", () => {
+        it("Should load a circuit", () => {
             const app = sinon.fake();
 
-            circuit = new Circuit(app, 2);
+            circuit = Circuit.load(app, 2, []);
 
             expect(circuit.app).to.deep.equal(app);
             expect(circuit.nqubits).to.equal(2);
