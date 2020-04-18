@@ -1,0 +1,42 @@
+{
+    "gates": [
+        {
+            "name": "F",
+            "qubits": 1,
+            "circuit": [
+                {
+                    "type": "x",
+                    "time": 0,
+                    "targets": [
+                        0
+                    ],
+                    "controls": []
+                },
+                {
+                    "type": "x",
+                    "time": 1,
+                    "targets": [
+                        0
+                    ],
+                    "controls": []
+                }
+            ],
+            "title": ""
+        }
+    ],
+    "circuit": [
+        {
+            "type": "F",
+            "time": 0,
+            "targets": [
+                0
+            ],
+            "controls": []
+        }
+    ],
+    "qubits": 1,
+    "input": [
+        0
+    ],
+    "version": 1
+}
