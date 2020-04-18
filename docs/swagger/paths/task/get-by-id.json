@@ -1,11 +1,25 @@
 {
-  "get": {
-    "tags": ["task"],
-    "summary": "TODO: Return the details of a quantum circuit task. ⭕ (Needs response, needs body)",
-    "parameters": [
-      {
-        "$ref": "../../common/parameters/taskId.json"
-      }
-    ]
-  }
+	"get": {
+		"tags": ["task"],
+		"summary": "Return the details of a quantum circuit task. TODO",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/taskId.json"
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Task details",
+				"schema": {
+					"$ref": "../../common/schemas/task.json#"
+				}
+			},
+			"500": {
+				"description": "An unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				}
+			}
+		}
+	}
 }

@@ -29,7 +29,7 @@
 			"500": {
 				"description": "Unknown server side error.",
 				"schema": {
-					"$ref": "../../common/schemas/apiResponse.json#"
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
 				}
 			}
 		}
@@ -55,7 +55,7 @@
 			"500": {
 				"description": "Unknown server side error.",
 				"schema": {
-					"$ref": "../../common/schemas/apiResponse.json#"
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
 				}
 			}
 		}

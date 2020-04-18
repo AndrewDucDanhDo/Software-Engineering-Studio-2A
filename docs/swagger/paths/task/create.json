@@ -1,6 +1,32 @@
 {
-  "post": {
-    "tags": ["task"],
-    "summary": "TODO: Add a new quantum circuit task. ⭕ (Needs response, needs body)"
-  }
+	"post": {
+		"tags": ["task"],
+		"summary": "Add a new quantum circuit task. TODO",
+		"produces": ["application/json"],
+		"parameters": [
+			{
+				"in": "body",
+				"name": "body",
+				"description": "User details to be created.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/task.json#"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Task created successfully",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				}
+			},
+			"500": {
+				"description": "An unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				}
+			}
+		}
+	}
 }

@@ -20,15 +20,8 @@
       "500": {
         "description": "Unknown server side error.",
         "schema": {
-          "$ref": "../../common/schemas/apiResponse.json#"
-        },
-        "examples": {
-					"application/json": {
-						"status": "ERROR",
-						"msg": "An unknown error occurred while trying get users circuit.",
-						"error": "Error: The password must be a string with at least 6 characters."
-					}
-				}
+          "$ref": "../../common/schemas/apiErrorResponse.json#"
+        }
       }
     }
   }

@@ -1,11 +1,25 @@
 {
   "get": {
     "tags": ["task", "submission"],
-    "summary": "TODO: Fetch the submissions for a quantum circuit for a task. ⭕ (Needs response, needs body)",
+    "summary": "Fetch the submissions for a quantum circuit for a task. TODO",
     "parameters": [
       {
         "$ref": "../../common/parameters/taskId.json"
       }
-    ]
+    ],
+    "responses": {
+			"200": {
+				"description": "All submissions for the selected task.",
+				"schema": {
+					"$ref": "../../common/schemas/submission.json#"
+				}
+			},
+			"500": {
+				"description": "An unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				}
+			}
+		}
   }
 }

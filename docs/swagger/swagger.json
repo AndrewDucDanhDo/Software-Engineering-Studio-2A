@@ -49,19 +49,19 @@
 			"$ref": "paths/user/update-submission-by-id.json#"
 		},
 		"/task/create": {
-			"_TODO_": "ALL",
+			"_TODO_": "Better body request example",
 			"$ref": "paths/task/create.json#"
 		},
 		"/task/{taskId}": {
-			"_TODO_": "ALL",
+			"_TODO_": "Better response example",
 			"$ref": "paths/task/get-by-id.json#"
 		},
 		"/task/{taskId}/update": {
-			"_TODO_": "ALL",
+			"_TODO_": "Better post response body",
 			"$ref": "paths/task/update-by-id.json#"
 		},
 		"/task/{taskId}/submission": {
-			"_TODO_": "ALL",
+			"_TODO_": "Better response body",
 			"$ref": "paths/task/get-all-submissions.json#"
 		}
 	}

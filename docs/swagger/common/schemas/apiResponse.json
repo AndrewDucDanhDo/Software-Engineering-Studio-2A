@@ -12,12 +12,6 @@
 			"description": "A message describing the api response",
 			"example": "An unknown error occurred while trying to solve the circuit.",
 			"required": true
-		},
-		"error": {
-			"type": "string",
-			"description": "Output of the error that triggered the response.",
-			"example": "RangeError: Invalid array length",
-			"required": false
 		}
 	}
 }

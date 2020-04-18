@@ -1,0 +1,18 @@
+{
+	"type": "object",
+	"properties": {
+		"status": {
+			"$ref": "./apiResponse.json#/properties/status"
+		},
+		"msg": {
+			"$ref": "./apiResponse.json#/properties/msg"
+		},
+		"error": {
+			"type": "string",
+			"description": "Output of the error that triggered the response.",
+			"example": "RangeError: Invalid array length",
+			"required": false
+		}
+	}
+
+}

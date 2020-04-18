@@ -54,13 +54,7 @@
 			"500": {
 				"description": "Unknown server side error.",
 				"schema": {
-					"$ref": "../../common/schemas/apiResponse.json#"
-				},
-				"examples": {
-					"application/json": {
-						"msg": "An unknown error occurred while trying to solve the circuit.",
-						"error": "RangeError: Invalid array length"
-					}
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
 				}
 			}
 		}
