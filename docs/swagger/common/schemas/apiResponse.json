@@ -10,7 +10,7 @@
 		"msg": {
 			"type": "string",
 			"description": "A message describing the api response",
-			"example": "An unknown error occurred while trying to solve the circuit.",
+			"example": "The action was completed successfully.",
 			"required": true
 		}
 	}

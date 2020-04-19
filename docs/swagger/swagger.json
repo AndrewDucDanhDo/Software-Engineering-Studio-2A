@@ -30,38 +30,30 @@
 			"$ref": "paths/user/update-circuit-by-id.json#"
 		},
 		"/user/{userId}/task": {
-			"_TODO_": "Needs 200 response example",
 			"$ref": "paths/user/get-task.json#"
 		},
 		"/user/{userId}/task/{taskId}/submit": {
 			"$ref": "paths/user/submit-task-by-id.json#"
 		},
 		"/user/{userId}/submission": {
-			"_TODO_": "Response example",
 			"$ref": "paths/user/get-submission.json#"
 		},
 		"/user/{userId}/submission/{submissionId}": {
-			"_TODO_": "Response example",
 			"$ref": "paths/user/get-submission-by-id.json#"
 		},
 		"/user/{userId}/submission/{submissionId}/update": {
-			"_TODO_": "Better endpoint summary",
 			"$ref": "paths/user/update-submission-by-id.json#"
 		},
 		"/task/create": {
-			"_TODO_": "Better body request example",
 			"$ref": "paths/task/create.json#"
 		},
 		"/task/{taskId}": {
-			"_TODO_": "Better response example",
 			"$ref": "paths/task/get-by-id.json#"
 		},
 		"/task/{taskId}/update": {
-			"_TODO_": "Better post response body",
 			"$ref": "paths/task/update-by-id.json#"
 		},
 		"/task/{taskId}/submission": {
-			"_TODO_": "Better response body",
 			"$ref": "paths/task/get-all-submissions.json#"
 		}
 	}
