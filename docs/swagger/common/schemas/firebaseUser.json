@@ -2,33 +2,41 @@
 	"type": "object",
 	"properties": {
 		"uid": {
-			"type": "string"
+			"type": "string",
+			"example": "NrkgUXXPrWUkeNvxXXhL7bRjXXl2"
 		},
 		"email": {
-			"type": "string"
+			"type": "string",
+			"example": "john.smith@exmaple.com"
 		},
 		"emailVerified": {
-			"type": "boolean"
+			"type": "boolean",
+			"example": false
 		},
 		"displayName": {
-			"type": "string"
+			"type": "string",
+			"example": "John Smith"
 		},
 		"disabled": {
-			"type": "boolean"
+			"type": "boolean",
+			"example": false
 		},
 		"metadata": {
 			"type": "object",
 			"properties": {
 				"lastSignInTime": {
-					"type": "string"
+					"type": "string",
+					"example": null
 				},
 				"creationTime": {
-					"type": "string"
+					"type": "string",
+					"example": "Sat, 11 Apr 2020 10:57:33 GMT"
 				}
 			}
 		},
 		"tokensValidAfterTime": {
-			"type": "string"
+			"type": "string",
+			"example": "Sat, 11 Apr 2020 10:57:33 GMT"
 		},
 		"providerData": {
 			"type": "array",
@@ -36,16 +44,20 @@
 				"type": "object",
 				"properties": {
 					"uid": {
-						"type": "string"
+						"type": "string",
+						"example": "john.smith@exmaple.com"
 					},
 					"displayName": {
-						"type": "string"
+						"type": "string",
+						"example": "John Smith"
 					},
 					"email": {
-						"type": "string"
+						"type": "string",
+						"example": "john.smith@exmaple.com"
 					},
 					"providerId": {
-						"type": "string"
+						"type": "string",
+						"example": "password1234"
 					}
 				}
 			}

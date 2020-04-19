@@ -30,7 +30,14 @@
 				"description": "Unknown server side error.",
 				"schema": {
 					"$ref": "../../common/schemas/apiErrorResponse.json#"
-				}
+				},
+				"examples": {
+          "application/json": {
+            "status": "ERROR",
+            "msg": "An unknown error occurred.",
+            "error": "RangeError: Invalid array length"
+          }
+        }
 			}
 		}
 	},
@@ -56,7 +63,14 @@
 				"description": "Unknown server side error.",
 				"schema": {
 					"$ref": "../../common/schemas/apiErrorResponse.json#"
-				}
+				},
+				"examples": {
+          "application/json": {
+            "status": "ERROR",
+            "msg": "An unknown error occurred.",
+            "error": "RangeError: Invalid array length"
+          }
+        }
 			}
 		}
 	}

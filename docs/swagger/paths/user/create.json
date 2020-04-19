@@ -10,7 +10,7 @@
 				"description": "User details to be created.",
 				"required": true,
 				"schema": {
-					"$ref": "../../common/schemas/user.json#"
+					"$ref": "../../common/schemas/userCreate.json#"
 				}
 			}
 		],
@@ -19,41 +19,12 @@
 				"description": "User created successfully",
 				"schema": {
 					"$ref": "../../common/schemas/firebaseUser.json#"
-				},
-				"examples": {
-					"application/json": {
-						"uid": "NrkgUXXPrWUkeNvxXXhL7bRjXXl2",
-						"email": "john.smith@exmaple.com",
-						"emailVerified": false,
-						"displayName": "John Smith",
-						"disabled": false,
-						"metadata": {
-							"lastSignInTime": null,
-							"creationTime": "Sat, 11 Apr 2020 10:57:33 GMT"
-						},
-						"tokensValidAfterTime": "Sat, 11 Apr 2020 10:57:33 GMT",
-						"providerData": [
-							{
-								"uid": "john.smith@exmaple.com",
-								"displayName": "John Smith",
-								"email": "john.smith@exmaple.com",
-								"providerId": "password1234"
-							}
-						]
-					}
 				}
 			},
 			"400": {
 				"description": "User email already registered.",
 				"schema": {
 					"$ref": "../../common/schemas/apiResponse.json#"
-				},
-				"examples": {
-					"application/json": {
-						"status": "ERROR",
-						"code": "auth/email-already-exists",
-						"msg": "The email address provided has currently got an account associated with it"
-					}
 				}
 			},
 			"500": {
@@ -62,12 +33,12 @@
 					"$ref": "../../common/schemas/apiErrorResponse.json#"
 				},
 				"examples": {
-					"application/json": {
-						"status": "ERROR",
-						"msg": "An unknown error occurred while trying to create a new user.",
-						"error": "Error: The password must be a string with at least 6 characters."
-					}
-				}
+          "application/json": {
+            "status": "ERROR",
+            "msg": "An unknown error occurred.",
+            "error": "RangeError: Invalid array length"
+          }
+        }
 			}
 		}
 	}

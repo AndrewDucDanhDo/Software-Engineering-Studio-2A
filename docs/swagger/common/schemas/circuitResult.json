@@ -1,5 +1,5 @@
 {
-  "type": "object",
+	"type": "object",
 	"properties": {
 		"results": {
 			"type": "array",
@@ -11,14 +11,17 @@
 						"example": "0.0000%"
 					},
 					"impossible": {
-						"type": "boolean"
+						"type": "boolean",
+						"example": true
 					},
 					"amplitude": {
 						"type": "string",
+						"description": "The amplitude of this result as a complex number.",
 						"example": "0.00000000+0.00000000i"
 					},
 					"state": {
 						"type": "string",
+						"description": "The binary state of each qubit for this result.",
 						"example": "10"
 					}
 				}

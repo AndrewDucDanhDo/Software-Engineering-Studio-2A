@@ -34,18 +34,6 @@
 								"impossible": true,
 								"amplitude": "0.00000000+0.00000000i",
 								"state": "01"
-							},
-							{
-								"value": "0.0000%",
-								"impossible": true,
-								"amplitude": "0.00000000+0.00000000i",
-								"state": "10"
-							},
-							{
-								"value": "100.0000%",
-								"impossible": false,
-								"amplitude": "1.00000000+0.00000000i",
-								"state": "11"
 							}
 						]
 					}
@@ -55,7 +43,14 @@
 				"description": "Unknown server side error.",
 				"schema": {
 					"$ref": "../../common/schemas/apiErrorResponse.json#"
-				}
+				},
+				"examples": {
+          "application/json": {
+            "status": "ERROR",
+            "msg": "An unknown error occurred.",
+            "error": "RangeError: Invalid array length"
+          }
+        }
 			}
 		}
 	}
