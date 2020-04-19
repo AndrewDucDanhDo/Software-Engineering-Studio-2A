@@ -1,6 +1,6 @@
 import React from "react";
 import { createUser } from "../../helpers/auth";
-import './index.css';
+import './signup.css';
 
 export class SignUpPage extends React.Component {
 	constructor(props) {
@@ -54,28 +54,34 @@ export class SignUpPage extends React.Component {
 		return (
 		<div>
 			<form>
-				<div align = "left" class='container'>
-				<h1>Sign Up</h1> 
-				<p class="form">Please fill in this form to create account.</p>
+				<div class='container'>
+					<h1>Sign Up</h1> 
+					<p class="form">Please fill in this form to create account.</p>
 
-				<hr></hr>
+					<hr></hr>
 
-				<label for="email"><b>Email</b></label>
-				<input type="text" placeholder="Enter Email" name="email" required></input>
-				<label for="firstname"><b>First Name</b></label>
-				<input type="text" placeholder="Enter First Name" name="firstname" required></input>
-				<label for="lastname"><b>Last Name</b></label>
-				<input type="text" placeholder="Enter Last Name" name="lastname" required></input>
-				<label class="form"for="studentid"><b>Student ID</b></label>
-				<input type="text" placeholder="Enter Student ID" name="studentid" required></input>
-				<label for="psw"><b>Password</b></label>
-				<input type="password" placeholder="Enter Password" name="psw" required></input>
-				<label for="psw-repeat"><b>Repeat Password</b></label>
-				<input type="password" placeholder="Repeat Password" name="psw-repeat" required></input>
-				<div class="clearfix">
-					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-					<button type="submit" class="signupbtn">Sign Up</button>
-				</div>
+					<label for="email"><b>Email</b></label>
+					<input type="text" placeholder="Enter Email" name="email" required></input>
+					
+					<label for="firstname"><b>First Name</b></label>
+					<input type="text" placeholder="Enter First Name" name="firstname" required></input>
+					
+					<label for="lastname"><b>Last Name</b></label>
+					<input type="text" placeholder="Enter Last Name" name="lastname" required></input>
+					
+					<label class="form"for="studentid"><b>Student ID</b></label>
+					<input type="text" placeholder="Enter Student ID" name="studentid" required></input>
+					
+					<label for="psw"><b>Password</b></label>
+					<input type="password" placeholder="Enter Password" name="psw" required></input>
+					
+					<label for="psw-repeat"><b>Repeat Password</b></label>
+					<input type="password" placeholder="Repeat Password" name="psw-repeat" required></input>
+					
+					<div class="clearfix">
+						<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+						<button type="submit" class="signupbtn">Sign Up</button>
+					</div>
 				</div>
 			</form>
 		</div>
