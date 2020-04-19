@@ -1,5 +1,6 @@
 import React from "react";
 import { createUser } from "../../helpers/auth";
+import './index.css';
 
 export class SignUpPage extends React.Component {
 	constructor(props) {
@@ -51,56 +52,33 @@ export class SignUpPage extends React.Component {
 
 	signupForm = () => {
 		return (
-			<div style={{ backgroundColor: "yellow", padding: "10px" }}>
-				<h2>Im the sign up page</h2>
-				<form onSubmit={this.handleSubmit}>
-					{/* email */}
-					<div>
-						<label>Email</label>
-						<input
-							type="text"
-							placeholder="Email"
-							name="email"
-							required
-							onChange={this.handleFormChange}
-						/>
-					</div>
-					{/* password */}
-					<div>
-						<label>Password</label>
-						<input
-							type="text"
-							placeholder="Password"
-							name="password"
-							required
-							onChange={this.handleFormChange}
-						/>
-					</div>
-					{/* firstName */}
-					<div>
-						<label>First Name</label>
-						<input
-							type="text"
-							placeholder="First Name"
-							name="firstName"
-							required
-							onChange={this.handleFormChange}
-						/>
-					</div>
-					{/* lastName */}
-					<div>
-						<label>Last Name</label>
-						<input
-							type="text"
-							placeholder="Last Name"
-							name="lastName"
-							required
-							onChange={this.handleFormChange}
-						/>
-					</div>
-					<button type="submit">Submit</button>
-				</form>
-			</div>
+		<div>
+			<form>
+				<div align = "left" class='container'>
+				<h1>Sign Up</h1> 
+				<p class="form">Please fill in this form to create account.</p>
+
+				<hr></hr>
+
+				<label for="email"><b>Email</b></label>
+				<input type="text" placeholder="Enter Email" name="email" required></input>
+				<label for="firstname"><b>First Name</b></label>
+				<input type="text" placeholder="Enter First Name" name="firstname" required></input>
+				<label for="lastname"><b>Last Name</b></label>
+				<input type="text" placeholder="Enter Last Name" name="lastname" required></input>
+				<label class="form"for="studentid"><b>Student ID</b></label>
+				<input type="text" placeholder="Enter Student ID" name="studentid" required></input>
+				<label for="psw"><b>Password</b></label>
+				<input type="password" placeholder="Enter Password" name="psw" required></input>
+				<label for="psw-repeat"><b>Repeat Password</b></label>
+				<input type="password" placeholder="Repeat Password" name="psw-repeat" required></input>
+				<div class="clearfix">
+					<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+					<button type="submit" class="signupbtn">Sign Up</button>
+				</div>
+				</div>
+			</form>
+		</div>
 		);
 	};
 
