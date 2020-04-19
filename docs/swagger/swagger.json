@@ -2,6 +2,7 @@
 	"swagger": "2.0",
 	"info": {
 		"title": "Quantum solver API",
+		"description": "The quantum solver API allows for the management of users, their quantum circuit, assignment and submission of quantum circuit tasks.",
 		"version": "v1"
 	},
 	"tags": {
