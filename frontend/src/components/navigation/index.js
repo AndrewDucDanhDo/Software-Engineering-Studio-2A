@@ -13,6 +13,9 @@ function Navigation() {
 			<Link to="/login">
 				<p>Login</p>
 			</Link>
+			<Link to="/profile">
+				<p>Profile</p>
+			</Link>
 		</div>
 	);
 }
