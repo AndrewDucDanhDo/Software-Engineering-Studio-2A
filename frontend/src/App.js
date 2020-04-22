@@ -1,10 +1,8 @@
 import React from "react";
 import "./styles/App.css";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-
 // Components
 import Navigation from "./components/navigation";
-
 // Pages
 import SignupPage from "./pages/signup";
 import LoginPage from "./pages/login";
@@ -14,20 +12,7 @@ import TeacherTaskEditorPage from "./pages/teacherTaskEditor";
 import TeacherTasksPage from "./pages/teacherTasks";
 import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
 
-const useStyles = makeStyles((theme) => ({
-	root: {
-	  flexGrow: 1,
-	},
-	signup: {
-	  marginRight: theme.spacing(3),
-	},
-	title: {
-	  flexGrow: 1,
-	},
-  }));
-
 function App() {
-	const classes = useStyles();
 	return (
 		<div className="App">
 			<BrowserRouter>
@@ -52,7 +37,7 @@ function App() {
 						<Route path="/profile">
 							<ProfilePage />
 						</Route>
-                <Route path="/">
+                		<Route path="/">
 							<HomePage />
 						</Route>
 					</Switch>
