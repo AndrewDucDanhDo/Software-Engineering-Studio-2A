@@ -3,6 +3,7 @@ import "./styles/App.css";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 // Components
 import Navigation from "./components/navigation";
+
 // Pages
 import SignupPage from "./pages/signup";
 import LoginPage from "./pages/login";
@@ -41,6 +42,7 @@ function App() {
 							<HomePage />
 						</Route>
 					</Switch>
+					<Footer />
 				</div>
 			</BrowserRouter>
 		</div>
