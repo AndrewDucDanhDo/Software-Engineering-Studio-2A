@@ -1,22 +1,17 @@
 import React from "react";
 import "./styles/App.css";
-
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 // Components
 import Navigation from "./components/navigation";
-import Footer from "./components/footer";
-
-// // Components
-
 
 // Pages
 import SignupPage from "./pages/signup";
 import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
+import ProfilePage from "./pages/profile";
 import TeacherTaskEditorPage from "./pages/teacherTaskEditor";
 import TeacherTasksPage from "./pages/teacherTasks";
 import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
-
 
 function App() {
 	return (
@@ -40,15 +35,17 @@ function App() {
 						<Route path="/teacherTaskEditor">
 							<TeacherTaskEditorPage/>
 						</Route>
-            			<Route path="/">
-							<HomePage/>
+						<Route path="/profile">
+							<ProfilePage />
+						</Route>
+                		<Route path="/">
+							<HomePage />
 						</Route>
 					</Switch>
 					<Footer />
 				</div>
 			</BrowserRouter>
 		</div>
-
 	);
 }
 
