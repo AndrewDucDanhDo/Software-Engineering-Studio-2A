@@ -41,7 +41,8 @@
 				"examples": {
           "application/json": {
             "status": "ERROR",
-            "msg": "An unknown error occurred.",
+						"msg": "An unknown error occurred.",
+						"errorCode": "some-error-id",
             "error": "RangeError: Invalid array length"
           }
         }
@@ -80,7 +81,8 @@
 				"examples": {
           "application/json": {
             "status": "ERROR",
-            "msg": "An unknown error occurred.",
+						"msg": "An unknown error occurred.",
+						"errorCode": "some-error-id",
             "error": "RangeError: Invalid array length"
           }
         }

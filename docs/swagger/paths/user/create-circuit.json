@@ -38,6 +38,7 @@
           "application/json": {
             "status": "ERROR",
             "msg": "An unknown error occurred while trying to fetch users circuit.",
+            "errorCode": "password-length",
             "error": "RangeError: Invalid array length"
           }
         }

@@ -12,8 +12,17 @@
       "200": {
         "description": "User information successfully fetched.",
         "schema": {
-          "$ref": "../../common/schemas/firebaseUser.json#"
-        }
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/firebaseUser.json#"
+						}
+					}
+				}
       },
       "400": {
         "description": "Bad request from client.",
@@ -23,7 +32,8 @@
         "examples": {
 					"application/json": {
 						"status": "ERROR",
-						"msg": "Provided values where incorrect to fetch user details",
+            "msg": "Provided values where incorrect to fetch user details",
+            "errorCode": "password-length",
 						"error": "Error: The password must be a string with at least 6 characters."
 					}
 				}
@@ -36,7 +46,8 @@
         "examples": {
 					"application/json": {
 						"status": "ERROR",
-						"msg": "An unknown error occurred while trying to get a user.",
+            "msg": "An unknown error occurred while trying to get a user.",
+            "errorCode": "password-length",
 						"error": "Error: The password must be a string with at least 6 characters."
 					}
 				}

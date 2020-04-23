@@ -18,13 +18,30 @@
 			"200": {
 				"description": "User created successfully",
 				"schema": {
-					"$ref": "../../common/schemas/firebaseUser.json#"
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/firebaseUser.json#"
+						}
+					}
 				}
 			},
 			"400": {
 				"description": "User email already registered.",
 				"schema": {
-					"$ref": "../../common/schemas/apiResponse.json#"
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
 				}
 			},
 			"500": {
@@ -33,12 +50,13 @@
 					"$ref": "../../common/schemas/apiErrorResponse.json#"
 				},
 				"examples": {
-          "application/json": {
-            "status": "ERROR",
-            "msg": "An unknown error occurred.",
-            "error": "RangeError: Invalid array length"
-          }
-        }
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
 			}
 		}
 	}

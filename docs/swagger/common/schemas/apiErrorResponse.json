@@ -7,11 +7,17 @@
 		"msg": {
 			"$ref": "./apiResponse.json#/properties/msg"
 		},
+		"errorCode": {
+			"type": "string",
+			"description": "A standard error code to easily identify the error without accessing the error key",
+			"example": "password-length",
+			"required": true
+		},
 		"error": {
 			"type": "string",
 			"description": "Output of the error that triggered the response.",
 			"example": "RangeError: Invalid array length",
-			"required": false
+			"required": true
 		}
 	}
 

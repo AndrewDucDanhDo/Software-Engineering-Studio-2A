@@ -29,7 +29,8 @@
 				"examples": {
           "application/json": {
             "status": "ERROR",
-            "msg": "An unknown error occurred.",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
             "error": "RangeError: Invalid array length"
           }
         }

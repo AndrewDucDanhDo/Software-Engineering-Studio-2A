@@ -14,8 +14,17 @@
       "200": {
         "description": "Users circuit successfully fetched.",
         "schema": {
-          "$ref": "../../common/schemas/circuit.json#"
-        }
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/circuit.json#"
+						}
+					}
+				}
       },
       "500": {
         "description": "Unknown server side error.",
@@ -26,6 +35,7 @@
           "application/json": {
             "status": "ERROR",
             "msg": "An unknown error occurred.",
+            "errorCode": "password-length",
             "error": "RangeError: Invalid array length"
           }
         }

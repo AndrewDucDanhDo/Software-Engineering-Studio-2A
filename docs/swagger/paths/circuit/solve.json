@@ -13,29 +13,41 @@
 					"$ref": "../../common/schemas/circuit.json#"
 				}
 			}
-    ],
+		],
 		"responses": {
 			"200": {
 				"description": "Result was successfully computed and returned.",
 				"schema": {
-					"$ref": "../../common/schemas/circuitResult.json#"
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/circuitResult.json#"
+						}
+					}
 				},
 				"examples": {
 					"application/json": {
-						"results": [
-							{
-								"value": "0.0000%",
-								"impossible": true,
-								"amplitude": "0.00000000+0.00000000i",
-								"state": "00"
-							},
-							{
-								"value": "0.0000%",
-								"impossible": true,
-								"amplitude": "0.00000000+0.00000000i",
-								"state": "01"
-							}
-						]
+						"status": "OK",
+						"data": {
+							"results": [
+								{
+									"value": "0.0000%",
+									"impossible": true,
+									"amplitude": "0.00000000+0.00000000i",
+									"state": "00"
+								},
+								{
+									"value": "0.0000%",
+									"impossible": true,
+									"amplitude": "0.00000000+0.00000000i",
+									"state": "01"
+								}
+							]
+						}
 					}
 				}
 			},
@@ -45,12 +57,13 @@
 					"$ref": "../../common/schemas/apiErrorResponse.json#"
 				},
 				"examples": {
-          "application/json": {
-            "status": "ERROR",
-            "msg": "An unknown error occurred.",
-            "error": "RangeError: Invalid array length"
-          }
-        }
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
 			}
 		}
 	}

@@ -11,7 +11,16 @@
 			"200": {
 				"description": "Task details",
 				"schema": {
-					"$ref": "../../common/schemas/task.json#"
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/task.json#"
+						}
+					}
 				}
 			},
 			"500": {
@@ -22,7 +31,8 @@
 				"examples": {
           "application/json": {
             "status": "ERROR",
-            "msg": "An unknown error occurred.",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
             "error": "RangeError: Invalid array length"
           }
         }
