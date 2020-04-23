@@ -1,0 +1,50 @@
+{
+	"get": {
+		"tags": ["user", "submission"],
+		"summary": "Fetch all users quantum circuit submissions. TODO",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "All users submissions successfully returned.",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"type": "object",
+							"properties": {
+								"submissions": {
+									"type": "array",
+									"items": {
+										"$ref": "../../common/schemas/submission.json"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"500": {
+				"description": "Unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+          "application/json": {
+            "status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "some-error-id",
+            "error": "RangeError: Invalid array length"
+          }
+        }
+			}
+		}
+	}
+}

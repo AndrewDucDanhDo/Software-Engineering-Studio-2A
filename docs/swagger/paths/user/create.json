@@ -1,0 +1,63 @@
+{
+	"post": {
+		"tags": ["user"],
+		"summary": "Create a new user in the quantum solver application.",
+		"produces": ["application/json"],
+		"parameters": [
+			{
+				"in": "body",
+				"name": "body",
+				"description": "User details to be created.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/userCreate.json#"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "User created successfully",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/firebaseUser.json#"
+						}
+					}
+				}
+			},
+			"400": {
+				"description": "User email already registered.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
+			},
+			"500": {
+				"description": "User email already registered.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
+			}
+		}
+	}
+}

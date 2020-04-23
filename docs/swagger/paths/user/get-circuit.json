@@ -1,0 +1,51 @@
+{
+	"get": {
+		"tags": ["user", "circuit"],
+		"summary": "Fetch all quantum circuits owned by user. TODO",
+		"produces": ["application/json"],
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Circuits where successfully returned.",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"type": "object",
+							"properties": {
+								"circuits": {
+									"type": "array",
+									"items": {
+										"$ref": "../../common/schemas/circuit.json"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"500": {
+				"description": "Unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "some-error-id",
+						"error": "RangeError: Invalid array length"
+					}
+				}
+			}
+		}
+	}
+}

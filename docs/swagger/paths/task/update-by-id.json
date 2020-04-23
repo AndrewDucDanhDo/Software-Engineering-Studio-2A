@@ -1,0 +1,73 @@
+{
+	"post": {
+		"tags": ["task"],
+		"summary": "Update quantum circuit task details. TODO",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/taskId.json#"
+      },
+      {
+				"in": "body",
+				"name": "body",
+				"description": "task details to be updated.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/task.json#"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Task updated successfully",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				}
+			},
+			"500": {
+				"description": "An unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+          "application/json": {
+            "status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+            "error": "RangeError: Invalid array length"
+          }
+        }
+			}
+		}
+	},
+	"delete": {
+		"tags": ["task"],
+		"summary": "Remove quantum circuit tasks. TODO",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/taskId.json#"
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Task deleted successfully",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				}
+			},
+			"500": {
+				"description": "An unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+          "application/json": {
+            "status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+            "error": "RangeError: Invalid array length"
+          }
+        }
+			}
+		}
+	}
+}
