@@ -3,6 +3,7 @@ import "./styles/App.css";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 // Components
 import Navigation from "./components/navigation";
+import Footer from "./components/footer";
 
 // Pages
 import SignupPage from "./pages/signup";

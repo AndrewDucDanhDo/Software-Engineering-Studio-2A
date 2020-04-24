@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -38,7 +37,7 @@ function Navigation() {
 				<AppBar className={classes.navcolor} position="static">
 					<Toolbar>
 						<Box flexGrow={ 1 }>
-						<Typography variant="h5" className={classes.title} component={Link} to="/">
+						<Typography variant="h5" className={classes.title} component={Link} to="/login">
 							Quantum Circuit Simulator Group 2
 						</Typography>
 						</Box>

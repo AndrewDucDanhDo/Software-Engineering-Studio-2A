@@ -1,10 +1,18 @@
 import React from "react";
-
+import {Link} from "react-router-dom";
+import {Box, Button, Grid, Paper, Typography} from "@material-ui/core";
+import QuantumSimulator from "../../components/quantum";
+import pizza from "../home/pizza.jpg"
 function HomePage() {
 	return (
-		<div style={{ backgroundColor: "green", padding: "10px" }}>
-      <h2>Im the home page</h2>
-		</div>
+		<Grid container style={{position: "absolute", width: "100%", height: "100%"}}>
+                <Grid xs={2} item component={Paper} style={{backgroundColor: "#f7f7f7"}}>
+		        <img src="pizza.jpg"></img>
+                </Grid>
+                <Grid xs={10} item>
+                    <QuantumSimulator/>
+                </Grid>
+        </Grid>
 	);
 }
 

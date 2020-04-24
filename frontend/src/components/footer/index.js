@@ -8,7 +8,7 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 const useStyles = makeStyles({
   root: {
     position: 'absolute',
-    background: '#808080',
+    background: '#B0B0B0',
     right: 0,
     bottom: 0,
     left: 0,

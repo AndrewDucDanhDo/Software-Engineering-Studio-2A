@@ -2,13 +2,33 @@ import React from "react";
 import {loginUser} from "../../helpers/auth";
 import {withStyles} from "@material-ui/styles";
 import {TextField} from "@material-ui/core";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const styles = {
+	root : {
+	    height: '100vh',
+	},
 	test : {
-		color: 'black',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+	},
+	submit: {
+		display: 'flex',
+	},
+	image: {
+		backgroundImage: 'url(https://source.unsplash.com/featured/?technology,hacker)',
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+		height: '90vh',
+	  },
+	card: {
+		justify: 'center',
+		alignItems: 'center',
+		paddingTop: '20vh',
 	}
 }
 
@@ -54,7 +74,11 @@ export class LoginPage extends React.Component {
 	};
 
 	loginSuccess = () => {
-		return <p>Login was a success</p>;
+		return (
+			<Grid container justify="center" alignItems="center">
+			<h1>Login was a success</h1>
+			</Grid>
+		);
 	};
 
 	loginError = () => {
@@ -63,39 +87,52 @@ export class LoginPage extends React.Component {
 
 	loginForm = () => {
 		return (
-			<Grid container justify="center" alignItems="center">
+		<Grid container component="main" classname={this.props.classes.root}>
+			<CssBaseline />
+			<Grid item xs={false} sm={4} md={7} className={this.props.classes.image} />
+			<Grid item xs={12} sm={8} md={5} elevation={6} square className={this.props.classes.card}>
 				<div className={this.props.classes.test}>
-					<h2>Im the login page</h2>
+					<h1>Login</h1>
 					<form onSubmit={this.handleLogin}>
 						{/* email */}
 						<div>
-							<label>Email</label>
-							{/*<input*/}
-							{/*	type="text"*/}
-							{/*	placeholder="Email"*/}
-							{/*	name="email"*/}
-							{/*	required*/}
-							{/*	onChange={this.handleFormChange}*/}
-							{/*/>*/}
-							<TextField label="email" variant="outlined" onChange={this.handleFormChange}/>
+							<TextField
+							label="email" 
+							variant="outlined"
+							margin="normal"
+							name="email"
+							required
+							fullWidth 
+							onChange={this.handleFormChange}
+							/>
 						</div>
 						{/* password */}
 						<div>
-							<label>Password</label>
-							{/*<input*/}
-							{/*	type="text"*/}
-							{/*	placeholder="Password"*/}
-							{/*	name="password"*/}
-							{/*	required*/}
-							{/*	onChange={this.handleFormChange}*/}
-							{/*/>*/}
-							<TextField label="password" variant="outlined" onChange={this.handleFormChange}/>
+							<TextField 
+							label="password" 
+							variant="outlined" 
+							margin="normal"
+							name="password"
+							required
+							fullWidth
+							type="password"
+							onChange={this.handleFormChange}
+							/>
 						</div>
-
-						<button type="Login">Submit</button>
+						<br></br>
+						<Button
+						variant="contained" 
+						type="submit"
+						fullWidth
+						classname={this.props.classes.submit}
+						>
+						Submit
+						</Button>
 					</form>
 				</div>
 			</Grid>
+		</Grid>
+			
 		);
 	};
 
