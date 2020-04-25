@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import {loginUser} from "../../helpers/auth";
 import {withStyles} from "@material-ui/styles";
 import {TextField} from "@material-ui/core";
+import Avatar from '@material-ui/core/Avatar';
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import CssBaseline from '@material-ui/core/CssBaseline';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 const styles = {
 	root : {
@@ -113,6 +115,9 @@ export class LoginPage extends React.Component {
 			<Grid item xs={false} sm={4} md={7} className={this.props.classes.image} />
 			<Grid item xs={12} sm={8} md={5} elevation={6} square className={this.props.classes.card}>
 				<div className={this.props.classes.test}>
+					<Avatar>
+						<LockOutlinedIcon />
+					</Avatar>
 					<h1>Login</h1>
 					<form onSubmit={this.handleLogin}>
 						{/* email */}

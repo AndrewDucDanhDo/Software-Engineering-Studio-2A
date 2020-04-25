@@ -12,7 +12,6 @@ const useStyles = makeStyles({
     right: 0,
     bottom: 0,
     left: 0,
-    padding: '1rem',
     textAlign: "center",
   },
 });
