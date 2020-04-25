@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {loginUser} from "../../helpers/auth";
 import {withStyles} from "@material-ui/styles";
 import {TextField} from "@material-ui/core";
@@ -76,7 +77,27 @@ export class LoginPage extends React.Component {
 	loginSuccess = () => {
 		return (
 			<Grid container justify="center" alignItems="center">
-			<h1>Login was a success</h1>
+			<div>
+				<h1>Login was a success</h1>
+					<div>
+						<Button
+						variant="contained"
+						color="inherit" 
+						component={Link} 
+						to="/teacherTaskEditor"
+						>
+						Teacher Portal
+						</Button>
+						<Button
+						variant="contained"
+						color="inherit" 
+						component={Link} 
+						to="/homepage"
+						>
+						Student Portal
+						</Button>
+					</div>
+			</div>
 			</Grid>
 		);
 	};

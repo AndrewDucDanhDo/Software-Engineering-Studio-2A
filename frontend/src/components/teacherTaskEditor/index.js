@@ -8,7 +8,7 @@ export default class TeacherTaskEditor extends React.Component {
 
     render() {
         return (
-            <Grid container style={{position: "absolute", width: "100%", height: "100%"}}>
+            <Grid container style={{position: "absolute", width: "100%", height: "90%"}}>
                 <Grid xs={2} item component={Paper} style={{backgroundColor: "#f7f7f7"}}>
                     <ExpectedOutputBox/>
                     <Box p={2}>
@@ -23,7 +23,6 @@ export default class TeacherTaskEditor extends React.Component {
                         </Box>
                     </Box>
                 </Grid>
-
                 <Grid xs={10} item>
                     <QuantumSimulator/>
                 </Grid>

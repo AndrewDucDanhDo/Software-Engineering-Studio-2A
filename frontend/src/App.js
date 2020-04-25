@@ -1,9 +1,12 @@
 import React from "react";
 import "./styles/App.css";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+
 // Components
 import Navigation from "./components/navigation";
 import Footer from "./components/footer";
+import StudentNavigation from "./components/studentnav";
+import TeacherNavigation from "./components/teachernav";
 
 // Pages
 import SignupPage from "./pages/signup";
@@ -14,33 +17,44 @@ import TeacherTaskEditorPage from "./pages/teacherTaskEditor";
 import TeacherTasksPage from "./pages/teacherTasks";
 import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
 
+
 function App() {
 	return (
 		<div className="App">
 			<BrowserRouter>
 				<div>
-					<Navigation />
 					<Switch>
 						<Route path="/signup">
+							<Navigation />
 							<SignupPage />
 						</Route>
 						<Route path="/login">
+							<Navigation />
 							<LoginPage />
 						</Route>
 						<Route path="/teacherTasks">
-						   <TeacherTasksPage/>
+							<TeacherNavigation />
+							<TeacherTasksPage />
 						</Route>
 						<Route path="/teacherTaskViewer">
-							<TeacherTaskViewerPage/>
+							<TeacherNavigation />
+							<TeacherTaskViewerPage />
 						</Route>
 						<Route path="/teacherTaskEditor">
+							<TeacherNavigation />
 							<TeacherTaskEditorPage/>
 						</Route>
 						<Route path="/profile">
+							<StudentNavigation />
 							<ProfilePage />
 						</Route>
-                		<Route path="/">
+						<Route path="/homepage">
+							<StudentNavigation />
 							<HomePage />
+						</Route>
+                		<Route path="/">
+							<Navigation />
+							<LoginPage />
 						</Route>
 					</Switch>
 					<Footer />

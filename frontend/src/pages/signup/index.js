@@ -51,7 +51,7 @@ export class SignUpPage extends React.Component {
 
 	signupForm = () => {
 		return (
-			<div style={{ backgroundColor: "yellow", padding: "10px" }}>
+			<div style={{padding: "10px" }}>
 				<h2>Im the sign up page</h2>
 				<form onSubmit={this.handleSubmit}>
 					{/* email */}

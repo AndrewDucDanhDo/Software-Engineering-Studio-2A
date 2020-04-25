@@ -42,7 +42,7 @@ export default class TeacherTaskViewer extends React.Component {
         ];
 
         return (
-            <Grid container style={{position: "absolute", width: "100%", height: "100%"}}>
+            <Grid container style={{position: "absolute", width: "100%", height: "90%"}}>
                 <Grid xs={2} component={Paper} item style={{backgroundColor: "#f7f7f7"}}>
                     <Box m={2}>
                         <Card variant="outlined" style={{padding: 8}}>
