@@ -18,6 +18,9 @@
 		"/user/{userId}": {
 			"$ref": "paths/user/get-by-id.json#"
 		},
+		"/user/{userId}/update": {
+			"$ref": "paths/user/update.json"
+		},
 		"/user/{userId}/circuit": {
 			"$ref": "paths/user/get-circuit.json#"
 		},
