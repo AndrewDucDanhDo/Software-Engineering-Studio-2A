@@ -1,34 +1,44 @@
 import admin from "../helpers/firebase";
+import { successResponse, errorResponse } from "../helpers/apiResponse";
 
 export const createUser = async (req, res) => {
   try {
+    // Parse details from request
     const { email, password, firstName, lastName } = req.body;
+
+    // Create user in firebase
     const user = await admin.auth().createUser({
       email,
       password,
       displayName: `${firstName} ${lastName}`
     });
-    return res.status(200).send(user);
+
+    // Return success with created user details
+    return res.status(200).json(successResponse(user));
   } catch (error) {
     // The cases for this code should be via tha firebase error codes
     // https://firebase.google.com/docs/auth/admin/errors
     switch (error.code) {
       case "auth/email-already-exists":
-        return res.status(400).json({
-          status: "ERROR",
-          errorCode: error.code,
-          msg:
-            "The email address provided has currently got an account associated with it"
-        });
+        return res
+          .status(400)
+          .json(
+            errorResponse(
+              "The email address provided has currently got an account associated with it",
+              error.code,
+              error
+            )
+          );
       default:
-        console.error({ msg: "An unknown error was hit in createUser", error });
-
-        return res.status(500).json({
-          status: "ERROR",
-          msg: "An unknown error occurred while trying to create a new user.",
-          errorCode: error.code,
-          error: error.toString()
-        });
+        return res
+          .status(500)
+          .json(
+            errorResponse(
+              "An unknown error occurred while trying to create a new user.",
+              undefined,
+              error
+            )
+          );
     }
   }
 };
@@ -42,22 +52,31 @@ export const getUser = async (req, res) => {
     const userDetails = await admin.auth().getUser(userId);
 
     // Prepare a response
-    return res.status(200).json({
-      status: "OK",
-      data: userDetails
-    });
+    return res.status(200).json(successResponse(userDetails));
   } catch (error) {
     // The cases for this code should be via tha firebase error codes
     // https://firebase.google.com/docs/auth/admin/errors
     switch (error.code) {
+      case "auth/user-not-found":
+        return res
+          .status(500)
+          .json(
+            errorResponse(
+              "No user found for the provided userId.",
+              error.code,
+              undefined
+            )
+          );
       default:
-        console.error({ msg: "An unknown error was hit in createUser", error });
-        return res.status(500).json({
-          status: "ERROR",
-          msg: "An unknown error occurred while trying to create a new user.",
-          errorCode: "unknown",
-          error: error.toString()
-        });
+        return res
+          .status(500)
+          .json(
+            errorResponse(
+              "An unknown error occurred while trying to fetch user details.",
+              undefined,
+              error
+            )
+          );
     }
   }
 };
