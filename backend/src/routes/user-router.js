@@ -1,8 +1,10 @@
 import { Router } from "express";
-import * as userController from "../controllers/user";
+import { createUser, getUser } from "../controllers/user";
+import { checkIfAuthenticated } from "../middleware/firebase-auth";
 
 const userRouter = Router();
 
-userRouter.post("/create", userController.createUser);
+userRouter.post("/create", createUser);
+userRouter.get("/:userId", checkIfAuthenticated, getUser);
 
 export default userRouter;

@@ -33,7 +33,7 @@ export class LoginPage extends React.Component {
 		event.preventDefault();
 		try {
 			// TODO: Do something more with this response maybe
-			const res = loginUser(this.state.form.email, this.state.form.password);
+			const res = await loginUser(this.state.form.email, this.state.form.password);
 			console.log(res);
 			this.setState({ ...this.state, success: true });
 		} catch (error) {
