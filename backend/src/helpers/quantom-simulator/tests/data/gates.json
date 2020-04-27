@@ -1,0 +1,59 @@
+[
+    {
+        "type": "h",
+        "time": 0,
+        "targets": [
+            0
+        ],
+        "controls": [],
+        "range": [0, 0]
+    },
+    {
+        "type": "x",
+        "time": 0,
+        "targets": [
+            1
+        ],
+        "controls": [],
+        "range": [1, 1]
+    },
+    {
+        "type": "y",
+        "time": 0,
+        "targets": [
+            2
+        ],
+        "controls": [],
+        "range": [2, 2]
+    },
+    {
+        "type": "z",
+        "time": 0,
+        "targets": [
+            3
+        ],
+        "controls": [],
+        "range": [3, 3]
+    },
+    {
+        "type": "x",
+        "time": 1,
+        "targets": [
+            2
+        ],
+        "controls": [
+            4
+        ],
+        "range": [2, 4]
+    },
+    {
+        "type": "swap",
+        "time": 1,
+        "targets": [
+            0,
+            1
+        ],
+        "controls": [],
+        "range": [0, 1]
+    }
+]
