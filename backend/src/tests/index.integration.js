@@ -1,5 +1,5 @@
 import request from "supertest";
-import assert from "assert";
+import { expect } from "chai";
 
 describe("GET /", () => {
   var server;
@@ -17,21 +17,11 @@ describe("GET /", () => {
   it(" should be online", function (done) {
     request(server).get("/").expect(200, done);
   });
-
-  it("should return Hello message (POC)", function (done) {
-    request(server)
-      .get("/")
-      .expect(200)
-      .end(function (err, res) {
-        assert(res.body.msg.includes("Hello from quantum simulator API"));
-        done();
-      });
-  });
 });
 
 describe("POST /circuit/solve", () => {
   var server;
-  var adder = require("./circuits/adder.json");
+  var adder = require("./data/adder.json");
 
   beforeEach(() => {
     // We will create a new instance of the server for each test
@@ -49,6 +39,35 @@ describe("POST /circuit/solve", () => {
 
   it("should solve 1 + 0", function (done) {
     adder.input = [1, 0, 0, 0];
-    request(server).post("/circuit/solve").send(adder).expect(200, done);
+    request(server)
+      .post("/circuit/solve")
+      .send(adder)
+      .expect(200)
+      .end(function (err, res) {
+        // Loop through each final output, find possible
+        res.body.results.forEach(function (output) {
+          if (output.impossible == false) {
+            expect(output.state).to.equal("1010");
+          }
+        });
+      });
+    done();
+  });
+
+  it("should solve 1 + 1", function (done) {
+    adder.input = [1, 1, 0, 0];
+    request(server)
+      .post("/circuit/solve")
+      .send(adder)
+      .expect(200)
+      .end(function (err, res) {
+        // Loop through each final output, find possible
+        res.body.results.forEach(function (output) {
+          if (output.impossible == false) {
+            expect(output.state).to.equal("1101");
+          }
+        });
+      });
+    done();
   });
 });
