@@ -44,8 +44,6 @@ export const createUser = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  // TODO: Check if the token user is the same as the request user
-  // TODO: The auth to check the user id is also for the token given could be done via the middleware
   try {
     // Get details from the request
     const userId = req.params.userId;
@@ -84,7 +82,6 @@ export const getUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  // TODO: Check if the token user is the same as the request user
   try {
     // Parse request details
     const userId = req.params.userId;
@@ -119,7 +116,6 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  // TODO: Check if the token user is the same as the request user
   try {
     // Parse request details
     const userId = req.params.userId;
