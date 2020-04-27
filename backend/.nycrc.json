@@ -5,6 +5,7 @@
   ],
   "exclude": [
     "**/*.integration.js",
-    "**/*.unit.js"
+    "**/*.unit.js",
+    "node_modules/"
   ]
 }

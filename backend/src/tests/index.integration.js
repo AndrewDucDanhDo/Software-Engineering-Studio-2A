@@ -17,16 +17,6 @@ describe("GET /", () => {
   it(" should be online", function (done) {
     request(server).get("/").expect(200, done);
   });
-
-  it("should return Hello message (POC)", function (done) {
-    request(server)
-      .get("/")
-      .expect(200)
-      .end(function (err, res) {
-        expect(res.body.msg).to.include("Hello from quantum simulator API");
-        done();
-      });
-  });
 });
 
 describe("POST /circuit/solve", () => {
