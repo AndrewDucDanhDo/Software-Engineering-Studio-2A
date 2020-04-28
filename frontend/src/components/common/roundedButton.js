@@ -1,19 +1,17 @@
-import React from "react";
 import Button from "@material-ui/core/Button";
-import {makeStyles} from "@material-ui/core/styles";
 import {hardFashion} from "../../helpers/fashion";
 
-const RoundedButton = hardFashion(Button, {
+const RoundedButton = hardFashion(Button, (theme, props) => ({
     root: {
-        backgroundColor: "#4F7CE0",
+        backgroundColor: theme.mainColor,
         borderRadius: 15,
         "&:hover": {
             backgroundColor: "#7290D3"
         }
     },
     label: {
-        color: "white"
+        color: props.color || "white"
     }
-});
+}));
 
 export default RoundedButton;
