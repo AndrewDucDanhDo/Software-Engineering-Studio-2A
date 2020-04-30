@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 	}
   }));
 
-function Navigation() {
+function StudentNavigation() {
 
 	const classes = useStyles();
 	
@@ -37,16 +37,16 @@ function Navigation() {
 				<AppBar className={classes.navcolor} position="static">
 					<Toolbar>
 						<Box flexGrow={ 1 }>
-						<Typography variant="h5" className={classes.title} component={Link} to="/login">
+						<Typography variant="h5" className={classes.title} component={Link} to="/homepage">
 							Quantum Circuit Simulator Group 2
 						</Typography>
 						</Box>
-							<Button className={classes.signup} color="inherit" component={Link} to="/signup"> Sign Up</Button>
-							<Button color="inherit" component={Link} to="/login">Login</Button>
+							<Button className={classes.signup} color="inherit" component={Link} to="/profile"> Profile</Button>
+							<Button color="inherit" component={Link} to="/login">Sign out</Button>
 					</Toolbar>
 				</AppBar>
 			</div>
 	);
 }
 
-export default Navigation;
+export default StudentNavigation;
