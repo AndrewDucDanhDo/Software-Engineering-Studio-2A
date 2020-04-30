@@ -1,0 +1,92 @@
+{
+	"post": {
+		"tags": ["user", "submission"],
+		"summary": "Update a single quantum circuit submissions information. TODO",
+		"description": "This endpoint can be used to updated the details of a submission. Updates to submissions are done via an object merge of the current submission object and the provided new submission details. In simple terms, consider all of object keys in the body optional.",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			},
+			{
+				"$ref": "../../common/parameters/submissionId.json"
+			},
+			{
+				"in": "body",
+				"name": "body",
+				"description": "Circuit details to be updated submission to.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/circuit.json#"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "User information successfully fetched.",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "OK",
+						"msg": "User submission successfully updated."
+					}
+				}
+			},
+			"500": {
+				"description": "Unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+          "application/json": {
+            "status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "some-error-id",
+            "error": "RangeError: Invalid array length"
+          }
+        }
+			}
+		}
+	},
+	"delete": {
+		"tags": ["user", "submission"],
+		"summary": "Delete single quantum circuit submission. TODO",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			},
+			{
+				"$ref": "../../common/parameters/submissionId.json"
+			}
+    ],
+    "responses": {
+      "200": {
+        "description": "User information successfully fetched.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+					"application/json": {
+						"status": "OK",
+						"msg": "User submission successfully deleted."
+					}
+				}
+      },
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+          "application/json": {
+            "status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "some-error-id",
+            "error": "RangeError: Invalid array length"
+          }
+        }
+      }
+    }
+	}
+}

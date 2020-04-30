@@ -1,0 +1,57 @@
+{
+  "get": {
+    "tags": ["user"],
+    "summary": "Fetch user information. TODO",
+    "produces": ["application/json"],
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/userId.json"
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "User information successfully fetched.",
+        "schema": {
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/firebaseUser.json#"
+						}
+					}
+				}
+      },
+      "400": {
+        "description": "Bad request from client.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+					"application/json": {
+						"status": "ERROR",
+            "msg": "Provided values where incorrect to fetch user details",
+            "errorCode": "password-length",
+						"error": "Error: The password must be a string with at least 6 characters."
+					}
+				}
+      },
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../common/schemas/apiErrorResponse.json#"
+        },
+        "examples": {
+					"application/json": {
+						"status": "ERROR",
+            "msg": "An unknown error occurred while trying to get a user.",
+            "errorCode": "password-length",
+						"error": "Error: The password must be a string with at least 6 characters."
+					}
+				}
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@
 	"swagger": "2.0",
 	"info": {
 		"title": "Quantum solver API",
+		"description": "The quantum solver API allows for the management of users, their quantum circuit, assignment and submission of quantum circuit tasks.",
 		"version": "v1"
 	},
 	"tags": {
@@ -9,518 +10,52 @@
 	},
 	"paths": {
 		"/circuit/solve": {
-			"post": {
-				"tags": ["circuit"],
-				"summary": "Solve a quantum circuit",
-				"produces": ["application/json"],
-				"parameters": [
-					{
-						"in": "body",
-						"name": "body",
-						"description": "Quantum circuit that needs to be solved.",
-						"required": true,
-						"schema": {
-							"$ref": "definitions/circuit.json#circuit"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Result was successfully computed and returned.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"results": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"value": {
-														"type": "string"
-													},
-													"impossible": {
-														"type": "boolean"
-													},
-													"amplitude": {
-														"type": "string"
-													},
-													"state": {
-														"type": "string"
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						},
-						"examples": {
-							"application/json": {
-								"results": [
-									{
-										"value": "0.0000%",
-										"impossible": true,
-										"amplitude": "0.00000000+0.00000000i",
-										"state": "00"
-									},
-									{
-										"value": "0.0000%",
-										"impossible": true,
-										"amplitude": "0.00000000+0.00000000i",
-										"state": "01"
-									},
-									{
-										"value": "0.0000%",
-										"impossible": true,
-										"amplitude": "0.00000000+0.00000000i",
-										"state": "10"
-									},
-									{
-										"value": "100.0000%",
-										"impossible": false,
-										"amplitude": "1.00000000+0.00000000i",
-										"state": "11"
-									}
-								]
-							}
-						}
-					},
-					"500": {
-						"description": "Unknown server side error.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"msg": {
-											"type": "string"
-										},
-										"error": {
-											"type": "string"
-										}
-									}
-								}
-							}
-						},
-						"examples": {
-							"application/json": {
-								"msg": "An unknown error occurred while trying to solve the circuit.",
-								"error": "RangeError: Invalid array length"
-							}
-						}
-					}
-				}
-			}
+			"$ref": "paths/circuit/solve.json#"
 		},
 		"/user/create": {
-			"post": {
-				"tags": ["user"],
-				"summary": "Create a new user in the quantum solver application.",
-				"produces": ["application/json"],
-				"parameters": [
-					{
-						"name": "email",
-						"in": "body",
-						"required": true,
-						"description": "The email address of the new user",
-						"schema": {
-							"type": "string",
-							"example": "john.smith@exmaple.com"
-						}
-					},
-					{
-						"name": "password",
-						"in": "body",
-						"required": true,
-						"description": "Password of the new user, Must be at least 6 digits.",
-						"schema": {
-							"type": "string",
-							"example": "password1234"
-						}
-					},
-					{
-						"name": "firstName",
-						"in": "body",
-						"required": true,
-						"description": "First name of new user",
-						"schema": {
-							"type": "string",
-							"example": "John"
-						}
-					},
-					{
-						"name": "lastName",
-						"in": "body",
-						"required": true,
-						"description": "Last name of new user",
-						"schema": {
-							"type": "string",
-							"example": "Smith"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "User created successfully",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"uid": {
-											"type": "string"
-										},
-										"email": {
-											"type": "string"
-										},
-										"emailVerified": {
-											"type": "boolean"
-										},
-										"displayName": {
-											"type": "string"
-										},
-										"disabled": {
-											"type": "boolean"
-										},
-										"metadata": {
-											"type": "object",
-											"properties": {
-												"lastSignInTime": {
-													"type": "string"
-												},
-												"creationTime": {
-													"type": "string"
-												}
-											}
-										},
-										"tokensValidAfterTime": {
-											"type": "string"
-										},
-										"providerData": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"uid": {
-														"type": "string"
-													},
-													"displayName": {
-														"type": "string"
-													},
-													"email": {
-														"type": "string"
-													},
-													"providerId": {
-														"type": "string"
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						},
-						"examples": {
-							"application/json": {
-								"uid": "NrkgUXXPrWUkeNvxXXhL7bRjXXl2",
-								"email": "john.smith@exmaple.com",
-								"emailVerified": false,
-								"displayName": "John Smith",
-								"disabled": false,
-								"metadata": {
-									"lastSignInTime": null,
-									"creationTime": "Sat, 11 Apr 2020 10:57:33 GMT"
-								},
-								"tokensValidAfterTime": "Sat, 11 Apr 2020 10:57:33 GMT",
-								"providerData": [
-									{
-										"uid": "john.smith@exmaple.com",
-										"displayName": "John Smith",
-										"email": "john.smith@exmaple.com",
-										"providerId": "password1234"
-									}
-								]
-							}
-						}
-					},
-					"400": {
-						"description": "User email already registered.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"properties": {
-											"code": {
-												"type": "string"
-											},
-											"msg": {
-												"type": "string"
-											}
-										}
-									}
-								}
-							}
-						},
-						"examples": {
-							"application/json": {
-								"code": "auth/email-already-exists",
-								"msg": "The email address provided has currently got an account associated with it"
-							}
-						}
-					},
-					"500": {
-						"description": "User email already registered.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"properties": {
-											"code": {
-												"type": "string"
-											},
-											"msg": {
-												"type": "string"
-											},
-											"error": {
-												"type": "string"
-											}
-										}
-									}
-								}
-							}
-						},
-						"examples": {
-							"application/json": {
-								"code": "unknown",
-								"msg": "An unknown error occurred while trying to create a new user.",
-								"error": "Error: The password must be a string with at least 6 characters."
-							}
-						}
-					}
-				}
-			}
+			"$ref": "paths/user/create.json#"
 		},
 		"/user/{userId}": {
-			"get": {
-				"tags": ["user"],
-				"summary": "TODO: Fetch user information.",
-				"produces": ["application/json"],
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "User information successfully fetched.",
-						"schema": {
-							"$ref": "definitions/userId.json#"
-						}
-					},
-					"400": {
-						"description": "Bad request from client.",
-						"schema": {
-							"$ref": "definitions/apiResponse.json#"
-						}
-					},
-					"500": {
-						"description": "Unknown server side error.",
-						"schema": {
-							"$ref": "definitions/apiResponse.json#"
-						}
-					}
-				}
-			}
+			"$ref": "paths/user/get-by-id.json#"
 		},
 		"/user/{userId}/circuit": {
-			"get": {
-				"tags": ["user", "circuit"],
-				"summary": "TODO: Fetch all quantum circuits owned by user.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					}
-				]
-			}
+			"$ref": "paths/user/get-circuit.json#"
 		},
 		"/user/{userId}/circuit/create": {
-			"post": {
-				"tags": ["user", "circuit"],
-				"summary": "TODO: Create a new quantum circuit for user owned by a user.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					}
-				]
-			}
+			"$ref": "paths/user/create-circuit.json#"
 		},
 		"/user/{userId}/circuit/{circuitId}": {
-			"get": {
-				"tags": ["user", "circuit"],
-				"summary": "TODO: Fetch a single quantum circuits information owned by a user..",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					},
-					{
-						"$ref": "common/parameters/circuit.json"
-					}
-				]
-			}
+			"$ref": "paths/user/get-circuit-by-id.json#"
 		},
 		"/user/{userId}/circuit/{circuitId}/update": {
-			"post": {
-				"tags": ["user", "circuit"],
-				"summary": "TODO: Update a single quantum circuits information owned by a user.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					},
-					{
-						"$ref": "common/parameters/circuit.json"
-					}
-				]
-			},
-			"delete": {
-				"tags": ["user", "circuit"],
-				"summary": "TODO: Delete a single quantum circuit owned by a user.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					},
-					{
-						"$ref": "common/parameters/circuit.json"
-					}
-				]
-			}
+			"$ref": "paths/user/update-circuit-by-id.json#"
 		},
 		"/user/{userId}/task": {
-			"get": {
-				"tags": ["user", "task"],
-				"summary": "TODO: See the assigned quantum circuit tasks for a user.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					}
-				]
-			}
+			"$ref": "paths/user/get-task.json#"
 		},
 		"/user/{userId}/task/{taskId}/submit": {
-			"post": {
-				"tags": ["user", "task", "submission"],
-				"summary": "TODO: Submit a quantum circuit for a task for a user.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					},
-					{
-						"$ref": "common/parameters/taskId.json"
-					}
-				]
-			}
+			"$ref": "paths/user/submit-task-by-id.json#"
 		},
 		"/user/{userId}/submission": {
-			"get": {
-				"tags": ["user", "submission"],
-				"summary": "TODO: Fetch all users quantum circuit submissions.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					}
-				]
-			}
+			"$ref": "paths/user/get-submission.json#"
 		},
 		"/user/{userId}/submission/{submissionId}": {
-			"get": {
-				"tags": ["user", "submission"],
-				"summary": "TODO: Fetch a single quantum circuit submissions information.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					},
-					{
-						"$ref": "common/parameters/submissionId.json"
-					}
-				]
-			}
+			"$ref": "paths/user/get-submission-by-id.json#"
 		},
 		"/user/{userId}/submission/{submissionId}/update": {
-			"post": {
-				"tags": ["user", "submission"],
-				"summary": "TODO: Update a single quantum circuit submissions information.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					},
-					{
-						"$ref": "common/parameters/submissionId.json"
-					}
-				]
-			},
-			"delete": {
-				"tags": ["user", "submission"],
-				"summary": "TODO: Delete single quantum circuit submission.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/userId.json"
-					},
-					{
-						"$ref": "common/parameters/submissionId.json"
-					}
-				]
-			}
+			"$ref": "paths/user/update-submission-by-id.json#"
 		},
 		"/task/create": {
-			"post": {
-				"tags": ["task"],
-				"summary": "TODO: Add a new quantum circuit task."
-			}
+			"$ref": "paths/task/create.json#"
 		},
 		"/task/{taskId}": {
-			"get": {
-				"tags": ["task"],
-				"summary": "TODO: Return the details of a quantum circuit task.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/taskId.json"
-					}
-				]
-			}
+			"$ref": "paths/task/get-by-id.json#"
 		},
 		"/task/{taskId}/update": {
-			"post": {
-				"tags": ["task"],
-				"summary": "TODO: Update quantum circuit task details.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/taskId.json"
-					}
-				]
-			},
-			"delete": {
-				"tags": ["task"],
-				"summary": "TODO: Remove quantum circuit tasks.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/taskId.json"
-					}
-				]
-			}
+			"$ref": "paths/task/update-by-id.json#"
 		},
 		"/task/{taskId}/submission": {
-			"get": {
-				"tags": ["task", "submission"],
-				"summary": "TODO: Fetch the submissions for a quantum circuit for a task.",
-				"parameters": [
-					{
-						"$ref": "common/parameters/taskId.json"
-					}
-				]
-			}
+			"$ref": "paths/task/get-all-submissions.json#"
 		}
 	}
 }

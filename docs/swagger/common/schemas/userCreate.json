@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "example": "john.smith@example.com"
+    },
+    "password": {
+      "type": "string",
+      "description": "Password for the new user to be created, must be at least 6 characters long.",
+      "example": "password12345"
+    },
+    "firstName": {
+      "type": "string",
+      "example": "John"
+    },
+    "lastName": {
+      "type": "string",
+      "example": "Smith"
+    }
+  }
+}
