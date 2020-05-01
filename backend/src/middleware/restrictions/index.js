@@ -1,3 +1,5 @@
+// Make sure that the authId matches the userId that is
+// being fetched via the userId path param
 export const checkUser = (req, res, next) => {
   // This is made available via the firebase checkToken middleware
   const { authId } = req;

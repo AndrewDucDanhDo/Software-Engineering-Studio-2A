@@ -1,5 +1,7 @@
 import admin from "../../helpers/firebase-admin";
 
+// Get the bearer token form the authorization header
+// and make it available under req.auth token
 const getAuthToken = (req, res, next) => {
   if (
     req.headers.authorization &&
@@ -12,6 +14,8 @@ const getAuthToken = (req, res, next) => {
   next();
 };
 
+// Check the id token is valid using the auth token fetched from the
+// authoritative header and check it is valid using the firebase admin SDK
 export const checkToken = (req, res, next) => {
   getAuthToken(req, res, async () => {
     try {
