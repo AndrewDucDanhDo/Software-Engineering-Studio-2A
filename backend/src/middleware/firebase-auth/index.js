@@ -1,4 +1,4 @@
-import admin from "../../helpers/firebase";
+import admin from "../../helpers/firebase-admin";
 
 const getAuthToken = (req, res, next) => {
   if (

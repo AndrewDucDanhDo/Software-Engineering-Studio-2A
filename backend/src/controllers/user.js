@@ -1,4 +1,4 @@
-import admin from "../helpers/firebase";
+import admin from "../helpers/firebase-admin";
 import { successResponse, errorResponse } from "../helpers/apiResponse";
 
 export const createUser = async (req, res) => {
