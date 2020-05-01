@@ -67,14 +67,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"aaron.test@example.com\",\n    \"password\": \"test123\",\n    \"firstName\": \"testfirstname\",\n    \"lastName\": \"testlastname\"\n}"
+							"raw": "{\n    \"email\": \"aaron.test@example.com\",\n    \"password\": \"test123\",\n    \"displayName\": \"test firstname\"\n}"
 						},
 						"url": {
-							"raw": "localhost:3000/user/create",
+							"raw": "localhost:4000/user/create",
 							"host": [
 								"localhost"
 							],
-							"port": "3000",
+							"port": "4000",
 							"path": [
 								"user",
 								"create"
@@ -91,7 +91,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjVlOWVlOTdjODQwZjk3ZTAyNTM2ODhhM2I3ZTk0NDczZTUyOGE3YjUiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSB0ZXN0bGFzdG5hbWUiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2VzMmEtcXVhbnR1bS1zb2x2ZXIiLCJhdWQiOiJzZXMyYS1xdWFudHVtLXNvbHZlciIsImF1dGhfdGltZSI6MTU4NzkwMDY1NCwidXNlcl9pZCI6IkR6QUVPdVBBN2FjajZOSzFPZnc0QU94Y2ZmSDMiLCJzdWIiOiJEekFFT3VQQTdhY2o2TksxT2Z3NEFPeGNmZkgzIiwiaWF0IjoxNTg3OTAwNjU0LCJleHAiOjE1ODc5MDQyNTQsImVtYWlsIjoiYWFyb24udGVzdEBleGFtcGxlLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.hef6xnbDC1PdMXAr7Eq7tw2lTAVBUdciDXqkt5ReUwffGw-WoZHW-fTlusFmzGi2C709lMZRRWuhhvMd1zFpuBvYgFjJfZQ3nIFNXnA4fBiQ_ReqrFO7tDc-dyBwGPBOjPJ9iJAtK3-xppXw1NhaLNSG5YER5w3XcS9YZ0NeKO4f13zfNUZSI1fUu1Tgnv38yi_guiDTMS-T0FeE2WHELP6TRTPps21VuvKc3tH0-QNQgi5iep8c3tyO5Hot27t96qkQcR7bU_uT9unDiB6SNyZg-lTstUJ3xbMyCA1jAKbDGvT9ar2Lddib6maocVDmF5Dc_tnB-oKwbu3M_5M2iQ",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg4ODQ4YjVhZmYyZDUyMDEzMzFhNTQ3ZDE5MDZlNWFhZGY2NTEzYzgiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg4MzMyODYyLCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODgzMzI4NjIsImV4cCI6MTU4ODMzNjQ2MiwiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.MQLclDCo-zepmUcEVWIOqoKUcjK__05h7sVGAsFKzC6DBVFXDjWEW2LSs31KXRe6bXEXOtdR6m_Wv_r7bdWfNU1ylfvFw8JOjJjNJwqBHGo-nZm1374NFNSbEQvLrJ7h2tmcPGb4bQEvYz2HXbw9F_rdnowvTUV03_G1nhC6BUS_9wHvZB-hRoTZaQsP7SChyBJN4S56MPY59LG4WDPGXsA4JDp_vSSD6in9assKDE78shfpVmTM32_uJ7niGZeA7TAtJRAvSMhk3PwA7O-UOe5V75KDLZGFTuYbmbkuJ33X3TrJsYoI_EkcEmlWor1rNFxHIH_aOmT076dyO2hZYA",
 									"type": "string"
 								}
 							]
@@ -111,7 +111,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "NrkgU7TPrWUkeNvxZIhL7bRjXnl2"
+									"value": "uKVj1IXKZLS9BwhkxS1RrBANhet1"
 								}
 							]
 						}
@@ -121,8 +121,27 @@
 				{
 					"name": "update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg4ODQ4YjVhZmYyZDUyMDEzMzFhNTQ3ZDE5MDZlNWFhZGY2NTEzYzgiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSB0ZXN0bGFzdG5hbWUiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2VzMmEtcXVhbnR1bS1zb2x2ZXIiLCJhdWQiOiJzZXMyYS1xdWFudHVtLXNvbHZlciIsImF1dGhfdGltZSI6MTU4ODMyNzAxNSwidXNlcl9pZCI6IkR6QUVPdVBBN2FjajZOSzFPZnc0QU94Y2ZmSDMiLCJzdWIiOiJEekFFT3VQQTdhY2o2TksxT2Z3NEFPeGNmZkgzIiwiaWF0IjoxNTg4MzI3MDE1LCJleHAiOjE1ODgzMzA2MTUsImVtYWlsIjoiYWFyb24udGVzdEBleGFtcGxlLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.ib7bwvQwRr0Rz3u5_DHQeZJTT3IDA6VHxo1rPVc3V32AXyDeuQ3Y0xXIp02vuFITOCS3n0IpUagd0h7HGC74xyAKyDwlo3CVtVG56d2gHz7sD4RpB6Klfql3cDtsaeso9Vh5T_EBB7YiEAMbKSH8BARHw6urmepKfIzMaauRM3jnA2IcgRk0yWYMRfxAO0xDOD9AjoNgfe-gQkwT9V06RAUYKX0mNb9neNDaU74qTmNACok0vgYzxVZRIQ_V33dxQVd8kI7AtximzAmRBW7AOTVONY0ct_4UdCxM9qet4oO772DSnp037HPnbN3Q4ivZQtxpz5BLA04-DmWp69IfNg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"aaron.test@example.com\",\n\t\"password\": \"test123\",\n    \"displayName\": \"Aaron 111 test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "localhost:4000/user/:userId/update",
 							"host": [
@@ -137,7 +156,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": ""
+									"value": "DzAEOuPA7acj6NK1Ofw4AOxcffH3"
 								}
 							]
 						}
@@ -147,6 +166,16 @@
 				{
 					"name": "delete",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg4ODQ4YjVhZmYyZDUyMDEzMzFhNTQ3ZDE5MDZlNWFhZGY2NTEzYzgiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSB0ZXN0bGFzdG5hbWUiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2VzMmEtcXVhbnR1bS1zb2x2ZXIiLCJhdWQiOiJzZXMyYS1xdWFudHVtLXNvbHZlciIsImF1dGhfdGltZSI6MTU4ODMyNzAxNSwidXNlcl9pZCI6IkR6QUVPdVBBN2FjajZOSzFPZnc0QU94Y2ZmSDMiLCJzdWIiOiJEekFFT3VQQTdhY2o2TksxT2Z3NEFPeGNmZkgzIiwiaWF0IjoxNTg4MzI3MDE1LCJleHAiOjE1ODgzMzA2MTUsImVtYWlsIjoiYWFyb24udGVzdEBleGFtcGxlLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.ib7bwvQwRr0Rz3u5_DHQeZJTT3IDA6VHxo1rPVc3V32AXyDeuQ3Y0xXIp02vuFITOCS3n0IpUagd0h7HGC74xyAKyDwlo3CVtVG56d2gHz7sD4RpB6Klfql3cDtsaeso9Vh5T_EBB7YiEAMbKSH8BARHw6urmepKfIzMaauRM3jnA2IcgRk0yWYMRfxAO0xDOD9AjoNgfe-gQkwT9V06RAUYKX0mNb9neNDaU74qTmNACok0vgYzxVZRIQ_V33dxQVd8kI7AtximzAmRBW7AOTVONY0ct_4UdCxM9qet4oO772DSnp037HPnbN3Q4ivZQtxpz5BLA04-DmWp69IfNg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -163,7 +192,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": ""
+									"value": "DzAEOuPA7acj6NK1Ofw4AOxcffH3"
 								}
 							]
 						}
@@ -173,50 +202,38 @@
 			]
 		},
 		{
-			"name": "auth-demo",
+			"name": "auth",
 			"item": [
 				{
-					"name": "secure",
+					"name": "login",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
-						"url": {
-							"raw": "localhost:3000/auth-demo/secure",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"auth-demo",
-								"secure"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "public",
-					"request": {
-						"auth": {
-							"type": "bearer"
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"aaron.test@example.com\",\n\t\"password\": \"test123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
-						"method": "GET",
-						"header": [],
 						"url": {
-							"raw": "localhost:3000/auth-demo/public",
+							"raw": "localhost:4000/auth/login",
 							"host": [
 								"localhost"
 							],
-							"port": "3000",
+							"port": "4000",
 							"path": [
-								"auth-demo",
-								"public"
+								"auth",
+								"login"
 							]
 						}
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		}
 	]
 }
