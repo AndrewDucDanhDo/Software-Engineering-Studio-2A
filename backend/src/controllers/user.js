@@ -4,13 +4,13 @@ import { successResponse, errorResponse } from "../helpers/apiResponse";
 export const createUser = async (req, res) => {
   try {
     // Parse details from request
-    const { email, password, firstName, lastName } = req.body;
+    const { email, password, displayName } = req.body;
 
     // Create user in firebase
     const user = await admin.auth().createUser({
       email,
       password,
-      displayName: `${firstName} ${lastName}`
+      displayName
     });
 
     // Return success with created user details
@@ -83,22 +83,17 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    // Parse request details
+    // Parse details from the request
     const userId = req.params.userId;
     const updateUserBody = req.body;
 
-    // Cleanup any keys that are undefined
-    const cleanUpdateUserBody = Object.keys(updateUserBody).forEach(
-      (key) => updateUserBody[key] === undefined && delete updateUserBody[key]
-    );
-
     // Update current user details from firebase
-    const userDetails = await admin
+    const updatedUserDetails = await admin
       .auth()
-      .updateUser(userId, cleanUpdateUserBody);
+      .updateUser(userId, updateUserBody);
 
     // Prepare a response
-    return res.status(200).json(successResponse(userDetails));
+    return res.status(200).json(successResponse(updatedUserDetails));
   } catch (error) {
     switch (error.code) {
       default:
@@ -124,7 +119,9 @@ export const deleteUser = async (req, res) => {
     await admin.auth().deleteUser(userId);
 
     // Prepare a response
-    return res.status(200).json(successResponse({}));
+    return res
+      .status(200)
+      .json(successResponse({ msg: "User was successfully deleted." }));
   } catch (error) {
     switch (error.code) {
       default:

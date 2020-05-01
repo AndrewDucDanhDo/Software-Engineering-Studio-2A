@@ -1,7 +1,7 @@
 {
   "get": {
     "tags": ["user"],
-    "summary": "Fetch user information. TODO",
+    "summary": "Fetch user information",
     "produces": ["application/json"],
     "parameters": [
       {

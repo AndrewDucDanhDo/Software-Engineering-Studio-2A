@@ -69,7 +69,10 @@
 							"example": "OK"
 						},
 						"data": {
-							"type": "object"
+							"type": "object",
+							"example": {
+								"msg": "User was successfully deleted."
+							}
 						}
 					}
 				}

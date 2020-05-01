@@ -10,13 +10,10 @@
       "description": "Password for the new user to be created, must be at least 6 characters long.",
       "example": "password12345"
     },
-    "firstName": {
+    "displayName": {
       "type": "string",
-      "example": "John"
-    },
-    "lastName": {
-      "type": "string",
-      "example": "Smith"
+      "example": "John Smith",
+      "description": "How the user would like to be displayed in the application, usually a combination of first name and last name"
     }
   }
 }
