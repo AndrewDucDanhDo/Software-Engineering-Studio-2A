@@ -9,6 +9,9 @@
 		"$ref": "common/tags.json"
 	},
 	"paths": {
+		"/auth/login": {
+			"$ref": "paths/auth/login.json#"
+		},
 		"/circuit/solve": {
 			"$ref": "paths/circuit/solve.json#"
 		},
@@ -17,6 +20,9 @@
 		},
 		"/user/{userId}": {
 			"$ref": "paths/user/get-by-id.json#"
+		},
+		"/user/{userId}/update": {
+			"$ref": "paths/user/update.json"
 		},
 		"/user/{userId}/circuit": {
 			"$ref": "paths/user/get-circuit.json#"

@@ -6,6 +6,11 @@ export const createUser = (data) => {
 	return axios.post("http://localhost:4000/user/create", data);
 };
 
-export const loginUser = (email, password) => {
-	return auth().signInWithEmailAndPassword(email, password);
+export const loginUser = async (email, password) => {
+	const user = (await auth().signInWithEmailAndPassword(email, password)).user;
+	const idToken = await user.getIdToken()
+	return {
+		user, // The full firebase user object
+		idToken // idToken for the user, should be saved in session
+	};
 };
