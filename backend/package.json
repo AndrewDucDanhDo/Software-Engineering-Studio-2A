@@ -10,6 +10,7 @@
     "url": "git://github.com/AndrewDucDanhDo/Software-Engineering-Studio-2A"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -24,12 +25,17 @@
     "nodemon": "^2.0.2",
     "prettier": "^2.0.2",
     "should": "^13.2.3",
-    "supertest": "^4.0.2"
+    "chai": "^4.2.0",
+    "node-mocks-http": "^1.8.1",
+    "nyc": "^15.0.1",
+    "supertest": "^4.0.2",
+    "sinon": "^9.0.2"
   },
   "scripts": {
     "prod": "node -r esm -r dotenv/config src/index.js",
     "dev": "nodemon --exec \"npm run prod\"",
-    "test": "mocha --require esm 'src/test/**/*.spec.js'",
+    "test-unit": "nyc mocha -r esm -r dotenv/config 'src/**/tests/*.unit.js'",
+    "test-integration": "nyc mocha -r esm -r dotenv/config 'src/**/tests/*.integration.js'",
     "lint": "prettier \"src/**/*.js\" --write",
     "docker-build": "docker build -t ses-2a-backend .",
     "docker-run-prod": "docker run -p 3000:3000 ses-2a-backend",

@@ -14,5 +14,9 @@
 	{
 		"name": "submission",
 		"description": "Submission of quantum circuits."
+	},
+	{
+		"name": "auth",
+		"description": "Handling authentication within the quantum solver application."
 	}
 ]
