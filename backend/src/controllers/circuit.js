@@ -1,3 +1,5 @@
+import { successResponse } from "../helpers/apiResponse";
+
 const quantumSimulator = require("../helpers/quantom-simulator/application");
 const quantumParser = require("../helpers/quantom-solver/parser");
 const numeric = require("numeric");
@@ -36,3 +38,88 @@ export function solve(req, response) {
     });
   }
 }
+
+export const saveUserCircuit = async (req, res) => {
+  try {
+    return res
+      .status(501)
+      .json(successResponse({ msg: "Endpoint not yet implemented" }));
+  } catch (error) {
+    switch (error.code) {
+      default:
+        return res
+          .status(500)
+          .json(
+            errorResponse(
+              "An unknown error occurred while trying to create a new user.",
+              undefined,
+              error
+            )
+          );
+    }
+  }
+};
+
+// TODO: Make this handle fetching a single circuit and all based on if circuit Id is present
+export const getUserCircuit = async (req, res) => {
+  try {
+    return res
+      .status(501)
+      .json(successResponse({ msg: "Endpoint not yet implemented" }));
+  } catch (error) {
+    switch (error.code) {
+      default:
+        return res
+          .status(500)
+          .json(
+            errorResponse(
+              "An unknown error occurred while trying to create a new user.",
+              undefined,
+              error
+            )
+          );
+    }
+  }
+};
+
+export const updateUserCircuit = async (req, res) => {
+  try {
+    return res
+      .status(501)
+      .json(successResponse({ msg: "Endpoint not yet implemented" }));
+  } catch (error) {
+    switch (error.code) {
+      default:
+        return res
+          .status(500)
+          .json(
+            errorResponse(
+              "An unknown error occurred while trying to create a new user.",
+              undefined,
+              error
+            )
+          );
+    }
+  }
+};
+
+export const deleteUserCircuit = async (req, res) => {
+  try {
+    return res
+      .status(501)
+      .json(successResponse({ msg: "Endpoint not yet implemented" }));
+  } catch (error) {
+    switch (error.code) {
+      default:
+        return res
+          .status(500)
+          .json(
+            errorResponse(
+              "An unknown error occurred while trying to create a new user.",
+              undefined,
+              error
+            )
+          );
+    }
+  }
+};

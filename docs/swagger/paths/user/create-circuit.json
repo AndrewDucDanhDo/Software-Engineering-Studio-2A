@@ -4,9 +4,6 @@
     "summary": "Create a new quantum circuit for user owned by a user. TODO",
     "parameters": [
       {
-        "$ref": "../../common/parameters/userId.json"
-      },
-      {
         "in": "body",
         "name": "body",
         "description": "Quantum circuit to be created.",

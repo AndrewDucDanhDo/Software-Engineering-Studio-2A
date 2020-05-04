@@ -27,7 +27,7 @@
 		"/user/{userId}/circuit": {
 			"$ref": "paths/user/get-circuit.json#"
 		},
-		"/user/{userId}/circuit/create": {
+		"/user/circuit/create": {
 			"$ref": "paths/user/create-circuit.json#"
 		},
 		"/user/{userId}/circuit/{circuitId}": {
