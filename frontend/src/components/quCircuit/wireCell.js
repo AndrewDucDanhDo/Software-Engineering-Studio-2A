@@ -1,21 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import gates from "./gates";
+import DraggableGate from "./draggableGate";
 
 const useStyles = makeStyles((theme) => ({
     wireBox: {
+        position: "relative",
         height: theme.spacing(3) * 2,
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
+        userSelect: "none",
     },
     wire: {
         borderBottom: "solid black 2px",
         width: theme.spacing(3) * 2,
+        userSelect: "none",
+    },
+    iconContainer: {
+        position: "absolute",
+        backgroundColor: "#ffffff",
+        zIndex: 1,
+        userSelect: "none",
+    },
+    icon: {
+        width: theme.spacing(5),
+        height: theme.spacing(5),
+        userSelect: "none",
     }
 }));
 
 export default function WireCell(props) {
     const classes = useStyles();
+    const [gate, setGate] = useState(null);
 
     function onDraggedOver(event) {
         event.preventDefault();
@@ -24,14 +40,24 @@ export default function WireCell(props) {
 
     function onDrop(event) {
         event.preventDefault();
-        console.log("On drop")
-        console.log(event.currentTarget);
-        console.log(event.target);
 
+        let gate = event.dataTransfer.getData("gate");
+        setGate(gate);
+    }
 
-        let gate = gates[event.dataTransfer.getData("gate")];
+    function onDragGateEnd(event) {
+        event.preventDefault();
+        setGate(null);
+    }
 
-        console.log(gate);
+    function gateIcon() {
+        if (!gate) return null;
+
+        return (
+            <div className={classes.iconContainer}>
+                <DraggableGate imgClassName={classes.icon} gate={gate} onDragEnd={onDragGateEnd} draggable/>
+            </div>
+        );
     }
 
     return (
@@ -46,6 +72,7 @@ export default function WireCell(props) {
         // Use div with makeStyles here. Apparently it's faster for performance when we are rendering hundreds of these.
         <div className={classes.wireBox} onDragOver={onDraggedOver} onDrop={onDrop}>
             <div className={classes.wire}/>
+            {gateIcon()}
         </div>
     );
 }
