@@ -1,7 +1,7 @@
 {
 	"get": {
 		"tags": ["user", "circuit"],
-		"summary": "Fetch all quantum circuits owned by user. TODO",
+		"summary": "Fetch all quantum circuits owned by user.",
 		"produces": ["application/json"],
 		"parameters": [
 			{
