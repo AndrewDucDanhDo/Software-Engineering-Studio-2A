@@ -1,19 +1,19 @@
 {
-  "get": {
-    "tags": ["user", "circuit"],
-    "summary": "Fetch a single quantum circuits information owned by a user. TODO",
-    "parameters": [
-      {
-        "$ref": "../../common/parameters/userId.json#"
-      },
-      {
-        "$ref": "../../common/parameters/circuitId.json#"
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Users circuit successfully fetched.",
-        "schema": {
+	"get": {
+		"tags": ["user", "circuit"],
+		"summary": "Fetch a single quantum circuits information owned by a user.",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json#"
+			},
+			{
+				"$ref": "../../common/parameters/circuitId.json#"
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Users circuit successfully fetched.",
+				"schema": {
 					"type": "object",
 					"properties": {
 						"status": {
@@ -25,21 +25,34 @@
 						}
 					}
 				}
-      },
-      "500": {
-        "description": "Unknown server side error.",
-        "schema": {
-          "$ref": "../../common/schemas/apiErrorResponse.json#"
-        },
-        "examples": {
-          "application/json": {
-            "status": "ERROR",
-            "msg": "An unknown error occurred.",
-            "errorCode": "password-length",
-            "error": "RangeError: Invalid array length"
-          }
-        }
-      }
-    }
-  }
+			},
+			"400": {
+				"description": "Client side error requesting circuit.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "Key 'userId' must be present as a url parameter.",
+						"errorCode": "missing-param"
+					}
+				}
+			},
+			"500": {
+				"description": "Unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
+			}
+		}
+	}
 }

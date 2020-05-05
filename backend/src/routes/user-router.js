@@ -8,6 +8,7 @@ import {
 import {
   saveUserCircuit,
   getUserCircuit,
+  getAllUserCircuits,
   updateUserCircuit,
   deleteUserCircuit
 } from "../controllers/circuit";
@@ -24,7 +25,7 @@ userRouter.delete("/:userId/update", checkToken, checkUser, deleteUser);
 
 // user circuit management endpoints
 userRouter.post("/circuit/create", checkToken, saveUserCircuit);
-userRouter.get("/:userId/circuit", checkToken, checkUser, getUserCircuit);
+userRouter.get("/:userId/circuit", checkToken, checkUser, getAllUserCircuits);
 userRouter.get(
   "/:userId/circuit/:circuitId",
   checkToken,

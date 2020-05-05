@@ -45,15 +45,15 @@ export const saveUserCircuit = async (req, res) => {
   try {
     // Parse details from the request
     const userId = req.authId;
-    const { circuitData, circuitName } = req.body;
+    const { circuitData, circuitId } = req.body;
 
     // Throw an error if no request body and the request body is not object
-    if (circuitName === undefined || typeof circuitName !== "string") {
+    if (circuitId === undefined || typeof circuitId !== "string") {
       return res
         .status(400)
         .json(
           errorResponse(
-            `Key 'circuitName' must be present in request body and be of type string.`,
+            `Key 'circuitId' must be present in request body and be of type string.`,
             "missing-circuit-name",
             undefined
           )
@@ -94,7 +94,7 @@ export const saveUserCircuit = async (req, res) => {
       .collection("users")
       .doc(userId)
       .collection("circuits")
-      .doc(circuitName);
+      .doc(circuitId);
 
     // Check if the doc has been save yet and handle accordingly
     if ((await userCircuitRef.get()).exists === false) {
@@ -133,46 +133,126 @@ export const saveUserCircuit = async (req, res) => {
   }
 };
 
-// TODO: Make this handle fetching a single circuit and all based on if circuit Id is present
 export const getUserCircuit = async (req, res) => {
   try {
     // Parse details from the request
     const userId = req.params.userId;
     const circuitId = req.params.circuitId;
 
-    // Fetch the requested circuit fro firebase
-    let results;
-    if (circuitId !== undefined) {
+    if (userId === undefined || typeof userId !== "string") {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key 'userId' must be present as a url parameter.`,
+            "missing-param",
+            undefined
+          )
+        );
+    }
+
+    if (circuitId === undefined || typeof circuitId !== "string") {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key 'circuitId' must be present as a url parameter.`,
+            "missing-param",
+            undefined
+          )
+        );
+    }
+
+    const userCircuitData = await db
+      .collection("users")
+      .doc(userId)
+      .collection("circuits")
+      .doc(circuitId)
+      .get();
+
+    if (userCircuitData.exists === true) {
+      // The document for the circuit exists so fetch and return it to the user
+      const circuitData = userCircuitData.data();
+      return res.status(200).json(successResponse(circuitData));
     } else {
-      // If no circuit id provided fallback too getting all circuits for user
+      // No document for the circuit id exists so return an error
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            "The requested circuit name does not exist for the user",
+            "circuit-missing",
+            undefined
+          )
+        );
     }
-
-    // // Send a success response back
-    // switch (typeof results) {
-    //   case "object":
-    //     return res.status(200).json(successResponse(results));
-    //   case "array":
-    //     return res.status(200).json(successResponse({ circuits: results }));
-    //   default:
-    //     throw new Error("Unknown results type for response.")
-    // }
-
-    return res
-      .status(501)
-      .json(successResponse({ msg: "Endpoint not yet implemented" }));
   } catch (error) {
-    switch (error.code) {
-      default:
-        return res
-          .status(500)
-          .json(
-            errorResponse(
-              "An unknown error occurred while trying to create a new user.",
-              undefined,
-              error
-            )
-          );
+    return res
+      .status(500)
+      .json(
+        errorResponse(
+          "An unknown error occurred while trying to create a new user.",
+          undefined,
+          error
+        )
+      );
+  }
+};
+
+export const getAllUserCircuits = async (req, res) => {
+  try {
+    // Parse details from the request
+    const userId = req.params.userId;
+
+    if (userId === undefined || typeof userId !== "string") {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key 'userId' must be present as a url parameter.`,
+            "missing-param",
+            undefined
+          )
+        );
     }
+
+    const userCircuitsCollectionData = await db
+      .collection("users")
+      .doc(userId)
+      .collection("circuits")
+      .get();
+
+    if (userCircuitsCollectionData.empty === false) {
+      const userCircuits = userCircuitsCollectionData.docs.map((doc) => {
+        return {
+          circuitId: doc.id,
+          circuitData: doc.data()
+        };
+      });
+
+      return res.status(200).json(successResponse({ circuits: userCircuits }));
+    } else {
+      // No circuits have been saved for the user
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            "The user has no saved circuits.",
+            "circuits-empty",
+            undefined
+          )
+        );
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json(
+        errorResponse(
+          "An unknown error occurred while trying to create a new user.",
+          undefined,
+          error
+        )
+      );
   }
 };
 

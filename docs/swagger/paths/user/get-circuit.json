@@ -24,11 +24,34 @@
 								"circuits": {
 									"type": "array",
 									"items": {
-										"$ref": "../../common/schemas/circuit.json"
+										"type": "object",
+										"properties": {
+											"circuitId": {
+												"type": "string",
+												"example": "Some circuit name"
+											},
+											"circuitData": {
+												"$ref": "../../common/schemas/circuit.json#"
+											}
+										}
 									}
 								}
 							}
+
 						}
+					}
+				}
+			},
+			"400": {
+				"description": "Client side error requesting circuit.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "Key 'userId' must be present as a url parameter.",
+						"errorCode": "missing-param"
 					}
 				}
 			},

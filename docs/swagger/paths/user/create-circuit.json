@@ -1,7 +1,7 @@
 {
   "post": {
     "tags": ["user", "circuit"],
-    "summary": "Create a new quantum circuit for user owned by a user. TODO",
+    "summary": "Create a new quantum circuit for user owned by a user.",
     "parameters": [
       {
         "in": "body",
@@ -11,7 +11,7 @@
         "schema": {
           "type": "object",
           "properties": {
-            "circuitName": {
+            "circuitId": {
               "type": "string",
               "example": "Some circuit name"
             },
@@ -44,7 +44,7 @@
         "examples": {
           "application/json": {
             "status": "ERROR",
-            "msg": "Key 'circuitName' must be present in request body and be of type string.",
+            "msg": "Key 'circuitId' must be present in request body and be of type string.",
             "errorCode": "missing-circuit-name"
           }
         }
