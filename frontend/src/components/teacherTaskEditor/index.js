@@ -1,8 +1,8 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import {Box, Button, Grid, Paper, Typography} from "@material-ui/core";
-import QuantumSimulator from "../quantum";
+import { Link } from "react-router-dom";
+import { Box, Button, Grid, Paper, Typography } from "@material-ui/core";
 import ExpectedOutputBox from "../teacherTaskViewer/expectedOutputBox";
+import QuCircuit from "../quCircuit";
 
 export default class TeacherTaskEditor extends React.Component {
 
@@ -24,7 +24,7 @@ export default class TeacherTaskEditor extends React.Component {
                     </Box>
                 </Grid>
                 <Grid xs={10} item>
-                    <QuantumSimulator/>
+                    <QuCircuit/>
                 </Grid>
             </Grid>
         );
