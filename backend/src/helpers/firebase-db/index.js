@@ -1,6 +1,8 @@
 import admin from "../firebase/index"
 
-let db = admin.firestore();
+const db = admin.firestore();
+
+export const db;
 
 //adds data to a collection. Creates a new collection if collection not found
 export function addData(collection, data) {

@@ -26,6 +26,7 @@ export const checkToken = (req, res, next) => {
     } catch (e) {
       return res
         .status(401)
+        // TODO fix this so its compliant with the other api responses
         .send({ error: "You are not authorized to make this request" });
     }
   });

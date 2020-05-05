@@ -1,3 +1,5 @@
+// TODO make these all accept an response object and return a formatted response to the caller
+
 export const successResponse = (data) => {
   return {
     status: "OK",
