@@ -3,18 +3,18 @@ import Box from "@material-ui/core/Box";
 import { fashion } from "../../helpers/fashion";
 import StretchBox from "../common/stretchBox";
 import WireCell from "./wireCell";
-import Button from "@material-ui/core/Button";
 import { useTheme } from "@material-ui/core";
 import GatesToolbox from "./gatesToolbox";
+import Paper from "@material-ui/core/Paper";
 
 const CircuitBox = fashion(Box, (theme) => ({
     marginTop: theme.spacing(2),
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2)
 }));
 
-const RightBox = fashion(Box, (theme) => ({
-    position: "absolute",
-    right: 0
+const ToolBox = fashion(Box, (theme) => ({
+    backgroundColor: "#f7f7f7",
 }));
 
 export default function QuCircuit(props) {
@@ -47,16 +47,16 @@ export default function QuCircuit(props) {
     }
 
     return (
-        <StretchBox>
-            <CircuitBox>
+        <StretchBox display="flex">
+            <CircuitBox flexGrow={2}>
                 {wires(5, 25)}
             </CircuitBox>
 
-            <Button draggable onDragStart={() => {}} test={1}>Hello</Button>
-
-            <RightBox>
-                <GatesToolbox/>
-            </RightBox>
+            <ToolBox component={Paper} variant="outlined" flexGrow={1}>
+                <Box m={2}>
+                    <GatesToolbox/>
+                </Box>
+            </ToolBox>
         </StretchBox>
     );
 }

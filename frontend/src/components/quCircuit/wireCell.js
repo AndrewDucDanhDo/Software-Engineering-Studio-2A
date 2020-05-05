@@ -22,11 +22,6 @@ const useStyles = makeStyles((theme) => ({
         zIndex: 1,
         userSelect: "none",
     },
-    icon: {
-        width: theme.spacing(5),
-        height: theme.spacing(5),
-        userSelect: "none",
-    }
 }));
 
 export default function WireCell(props) {
@@ -55,7 +50,7 @@ export default function WireCell(props) {
 
         return (
             <div className={classes.iconContainer}>
-                <DraggableGate imgClassName={classes.icon} gate={gate} onDragEnd={onDragGateEnd} draggable/>
+                <DraggableGate size="md" gate={gate} onDragEnd={onDragGateEnd} draggable/>
             </div>
         );
     }

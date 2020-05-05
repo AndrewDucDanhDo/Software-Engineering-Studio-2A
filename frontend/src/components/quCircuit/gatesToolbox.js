@@ -8,10 +8,10 @@ export default function GatesToolbox(props) {
 
     return (
         <Box display="flex" flexWrap="wrap" flexDirection="column">
-            <DraggableGate gate={gates.H}/>
-            <DraggableGate gate={gates.X}/>
-            <DraggableGate gate={gates.Y}/>
-            <DraggableGate gate={gates.Z}/>
+            <DraggableGate size="lg" gate={gates.H}/>
+            <DraggableGate size="lg" gate={gates.X}/>
+            <DraggableGate size="lg" gate={gates.Y}/>
+            <DraggableGate size="lg" gate={gates.Z}/>
         </Box>
     );
 }
