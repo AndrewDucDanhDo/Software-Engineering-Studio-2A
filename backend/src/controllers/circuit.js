@@ -206,15 +206,3 @@ export const deleteUserCircuit = async (req, res) => {
     }
   }
 };
-
-export const saveCircuit = async (req, response) => {
-  try {
-    console.log(req.body);
-    return response.status(200).send(await database.collection("circuits").doc().set(req.body));
-  } catch (error) {
-    response.status(500).json({
-      msg: "An unknown error occurred while trying to save the circuit.",
-      error: error.toString()
-    });
-  }
-}
