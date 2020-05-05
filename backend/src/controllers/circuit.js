@@ -258,46 +258,92 @@ export const getAllUserCircuits = async (req, res) => {
 
 export const updateUserCircuit = async (req, res) => {
   try {
-    // Parse details from the request
     const userId = req.params.userId;
     const circuitId = req.params.circuitId;
-    const circuitToSave = req.body;
+    const circuitData = req.body;
 
-    // Throw an error if no request body and the request body is not object
-    if (circuitToSave === undefined || typeof circuitToSave !== "object") {
-      throw new Error("Body must be of type object.");
-    }
-
-    // Check if the circuit contains the required keys for a valid circuit
-    const requiredKeys = ["gates", "circuit", "qubits", "input"];
-    requiredKeys.forEach((value) => {
-      if (circuitToSave[value] === undefined) {
-        throw new Error(`Key ${value} is required in the request body.`);
-      }
-    });
-
-    // Save to firebase
-
-    // // Send a success response back
-    // return res
-    // .status(200)
-    // .json(successResponse({ msg: "Circuit was successfully created for user" }));
-
-    return res
-      .status(501)
-      .json(successResponse({ msg: "Endpoint not yet implemented" }));
-  } catch (error) {
-    switch (error.code) {
-      default:
-        return res.status(500).json(
+    if (userId === undefined || typeof userId !== "string") {
+      return res
+        .status(400)
+        .json(
           errorResponse(
-            // TODO: Get all these values from a single config option
-            "An unknown error occurred while trying to create a new user.",
-            undefined,
-            error
+            `Key 'userId' must be present in request params and be of type string.`,
+            "missing-param",
+            undefined
           )
         );
     }
+
+    if (circuitId === undefined || typeof circuitId !== "string") {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key 'circuitId' must be present in request params and be of type string.`,
+            "missing-param",
+            undefined
+          )
+        );
+    }
+
+    if (circuitData === undefined || typeof circuitData !== "object") {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key 'circuitData' must be present in request body and be of type object.`,
+            "missing-circuit-data",
+            undefined
+          )
+        );
+    }
+
+    const requiredKeys = ["gates", "circuit", "qubits", "input"];
+    requiredKeys.forEach((value) => {
+      if (circuitData[value] === undefined) {
+        return res
+          .status(400)
+          .json(
+            errorResponse(
+              `Key '${value}' is required in the request body under the 'circuitData' key.`,
+              "missing-circuit-key",
+              undefined
+            )
+          );
+      }
+    });
+
+    const userCircuitRef = db
+      .collection("users")
+      .doc(userId)
+      .collection("circuits")
+      .doc(circuitId);
+
+    if ((await userCircuitRef.get()).exists === true) {
+      await userCircuitRef.set(circuitData);
+      return res
+        .status(200)
+        .json(successResponse({ msg: "Circuit was updated successfully" }));
+    } else {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            "The requested circuit name does not exists for this user and cannot be updated",
+            "circuit-missing",
+            undefined
+          )
+        );
+    }
+  } catch (error) {
+    return res.status(500).json(
+      errorResponse(
+        // TODO: Get all these values from a single config option
+        "An unknown error occurred while trying to create a new user.",
+        undefined,
+        error
+      )
+    );
   }
 };
 
@@ -307,28 +353,66 @@ export const deleteUserCircuit = async (req, res) => {
     const userId = req.params.userId;
     const circuitId = req.params.circuitId;
 
-    // Delete circuit from firebase
-
-    // // Send a success response back
-    // return res
-    // .status(200)
-    // .json(successResponse({ msg: "Circuit was successfully deleted" }));
-
-    return res
-      .status(501)
-      .json(successResponse({ msg: "Endpoint not yet implemented" }));
-  } catch (error) {
-    switch (error.code) {
-      default:
-        return res
-          .status(500)
-          .json(
-            errorResponse(
-              "An unknown error occurred while trying to delete circuit.",
-              undefined,
-              error
-            )
-          );
+    if (userId === undefined || typeof userId !== "string") {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key 'userId' must be present in request params and be of type string.`,
+            "missing-param",
+            undefined
+          )
+        );
     }
+
+    if (circuitId === undefined || typeof circuitId !== "string") {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key 'circuitId' must be present in request params and be of type string.`,
+            "missing-param",
+            undefined
+          )
+        );
+    }
+
+    const userCircuitData = await db
+      .collection("users")
+      .doc(userId)
+      .collection("circuits")
+      .doc(circuitId)
+      .get();
+
+    if (userCircuitData.exists === true) {
+      // Delete the document if it exists
+      await userCircuitData.ref.delete();
+      return res
+        .status(200)
+        .json(
+          successResponse({ msg: "User circuit was deleted successfully" })
+        );
+    } else {
+      // Document doesn't exists so throw an error
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            "The requested circuit name does not exist for the user",
+            "circuit-missing",
+            undefined
+          )
+        );
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json(
+        errorResponse(
+          "An unknown error occurred while trying to delete circuit.",
+          undefined,
+          error
+        )
+      );
   }
 };
