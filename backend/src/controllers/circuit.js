@@ -1,8 +1,10 @@
-import { successResponse } from "../helpers/apiResponse";
+import { successResponse, errorResponse } from "../helpers/apiResponse";
+import admin from "../helpers/firebase-admin";
 
 const quantumSimulator = require("../helpers/quantom-simulator/application");
 const quantumParser = require("../helpers/quantom-solver/parser");
 const numeric = require("numeric");
+const db = admin.firestore();
 
 export function solve(req, response) {
   // TODO: We should write a validator to check the circuit json format is correct before attempting to solve
@@ -42,45 +44,92 @@ export function solve(req, response) {
 export const saveUserCircuit = async (req, res) => {
   try {
     // Parse details from the request
-    const circuitToSave = req.body;
+    const userId = req.authId;
+    const { circuitData, circuitName } = req.body;
 
     // Throw an error if no request body and the request body is not object
-    if (circuitToSave === undefined || typeof circuitToSave !== "object") {
-      throw new Error("Body must be of type object.");
+    if (circuitName === undefined || typeof circuitName !== "string") {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key 'circuitName' must be present in request body and be of type string.`,
+            "missing-circuit-name",
+            undefined
+          )
+        );
+    }
+
+    // Throw an error if no request body and the request body is not object
+    if (circuitData === undefined || typeof circuitData !== "object") {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key 'circuitData' must be present in request body and be of type object.`,
+            "missing-circuit-data",
+            undefined
+          )
+        );
     }
 
     // Check if the circuit contains the required keys for a valid circuit
     const requiredKeys = ["gates", "circuit", "qubits", "input"];
     requiredKeys.forEach((value) => {
-      if (circuitToSave[value] === undefined) {
-        throw new Error(`Key ${value} is required in the request body.`);
+      if (circuitData[value] === undefined) {
+        return res
+          .status(400)
+          .json(
+            errorResponse(
+              `Key '${value}' is required in the request body under the 'circuitData' key.`,
+              "missing-circuit-key",
+              undefined
+            )
+          );
       }
     });
 
-    // Save to firebase
+    // Create a fire store ref for easier access to the same path
+    const userCircuitRef = db
+      .collection("users")
+      .doc(userId)
+      .collection("circuits")
+      .doc(circuitName);
 
-    // // Send a success response back
-    // return res
-    // .status(200)
-    // .json(successResponse({ msg: "Circuit was successfully created for user" }));
+    // Check if the doc has been save yet and handle accordingly
+    if ((await userCircuitRef.get()).exists === false) {
+      // The circuit to be created doesn't exist yet so write to firestore
+      await userCircuitRef.set(circuitData);
 
-    // TODO: Remove when done
-    return res
-      .status(501)
-      .json(successResponse({ msg: "Endpoint not yet implemented" }));
-  } catch (error) {
-    switch (error.code) {
-      default:
-        return res
-          .status(500)
-          .json(
-            errorResponse(
-              "An unknown error occurred while trying to create a new user.",
-              undefined,
-              error
-            )
-          );
+      // Send a success response back
+      return res
+        .status(200)
+        .json(
+          successResponse({ msg: "Circuit was successfully created for user" })
+        );
+    } else {
+      // The circuit id already exists for the user so throw a unique error
+      // as we do not want to over write a saved circuit
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            "The requested circuit name already exists for this user",
+            "circuit-exists",
+            undefined
+          )
+        );
     }
+  } catch (error) {
+    return res
+      .status(500)
+      .json(
+        errorResponse(
+          "An unknown error occurred while trying to create a new user.",
+          undefined,
+          error
+        )
+      );
   }
 };
 
@@ -160,16 +209,14 @@ export const updateUserCircuit = async (req, res) => {
   } catch (error) {
     switch (error.code) {
       default:
-        return res
-          .status(500)
-          .json(
-            errorResponse(
-              // TODO: Get all these values from a single config option
-              "An unknown error occurred while trying to create a new user.",
-              undefined,
-              error
-            )
-          );
+        return res.status(500).json(
+          errorResponse(
+            // TODO: Get all these values from a single config option
+            "An unknown error occurred while trying to create a new user.",
+            undefined,
+            error
+          )
+        );
     }
   }
 };
