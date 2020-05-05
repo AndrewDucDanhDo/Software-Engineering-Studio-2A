@@ -3,7 +3,6 @@ import { successResponse } from "../helpers/apiResponse";
 const quantumSimulator = require("../helpers/quantom-simulator/application");
 const quantumParser = require("../helpers/quantom-solver/parser");
 const numeric = require("numeric");
-import database from "../helpers/firebase/firestore";
 
 export function solve(req, response) {
   // TODO: We should write a validator to check the circuit json format is correct before attempting to solve
