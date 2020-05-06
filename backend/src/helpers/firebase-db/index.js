@@ -3,81 +3,94 @@ import admin from "../firebase/index"
 let db = admin.firestore();
 
 //adds data to a collection. Creates a new collection if collection not found
-export function addData(collection, data) {
-    db.collection(collection).doc().set(data).then(function () {
+export async function addData(collection, data) {
+    try {
+        const result = await db.collection(collection).doc().set(data);
         console.log("Data successfully added!");
-    }).catch(
-        function (error) {
-            console.error("Error adding data: ", error);
-        }
-    );
+        return result;
+    } catch (e) {
+        console.error("Error adding data: ", error);
+        throw e;
+    }
 }
 
 //updates the entire documents data
-export function updateDoc(collection, doc, data) {
-    db.collection(collection).doc(doc).set(data).then(function () {
-        console.log("Document successfully updated!");
-    }).catch(
-        function (error) {
-            console.error("Error updating document: ", error);
-        }
-    );;
+export async function updateDoc(collection, doc, data) {
+    try {
+        const result = await db.collection(collection).doc(doc).set(data);
+        console.log("Document successfully added!");
+        return result;
+    } catch (e) {
+        console.error("Error adding document: ", error);
+        throw e;
+    }
 }
 
 //updates only the given fields in a collection
-export function updateField(collection, doc, data) {
-    db.collection(collection).doc(doc).set(data, { merge: true }).then(function () {
-        console.log("Field/s successfully updated!");
-    }).catch(
-        function (error) {
-            console.error("Error updating Field/s: ", error);
-        }
-    );;
+export async function updateField(collection, doc, data) {
+    try {
+        const result = await db.collection(collection).doc(doc).set(data, {merge:true});
+        console.log("Field/s successfully added!");
+        return result;
+    } catch (e) {
+        console.error("Error adding field/s: ", error);
+        throw e;
+    }
 }
 
 //returns the documents in a collection
-export function getDoc(collection) {
-    db.collection(collection).onSnapshot().then(snap => {
-        snap.forEach(doc => {
-            console.log(doc.data());
-            console.log(doc.id);
+export async function getDoc(collection) {
+    try {
+        const result = await db.collection(collection).onSnapshot().then(snap => {
+            snap.forEach(doc => {
+                console.log(doc.data());
+                console.log(doc.id);
+            });
         });
-    });
+        console.log("Document successfully returned!");
+        return result;
+    } catch (e) {
+        console.error("Error returning document: ", error);
+        throw e;
+    }
 }
 
 //returns the data in a collection
-export function getDocData(collection, doc) {
-    return db.collection(collection).doc(doc).get().then(function () {
+export async function getData(collection, doc) {
+    try {
+        const result = await db.collection(collection).doc(doc).get();
         console.log("Data successfully returned!");
-    }).catch(
-        function (error) {
-            console.error("Error returning data: ", error);
-        }
-    );;
+        return result;
+    } catch (e) {
+        console.error("Error returning data: ", error);
+        throw e;
+    }
 }
 
 //deletes the document from a collection
-export function deleteDoc(collection, doc) {
-    db.collection(collection).doc(doc).delete().then(function () {
+export async function deleteDoc(collection, doc) {
+    try {
+        const result = await db.collection(collection).doc(doc).delete();
         console.log("Document successfully deleted!");
-    }).catch(
-        function (error) {
-            console.error("Error deleting document: ", error);
-        }
-    );
+        return result;
+    } catch (e) {
+        console.error("Error deleting document: ", error);
+        throw e;
+    }
 }
 
 //deletes a field from a document
-export function deleteField(collection, doc, field) {
+export async function deleteField(collection, doc, field) {
     let fieldValue = admin.firestore.FieldValue;
     let updates = {};
-    updates[field] = fieldValue.delete()
-
-    db.collection(collection).doc(doc).update(updates).then(function () {
+    updates[field] = fieldValue.delete();
+    
+    try {
+        const result = await db.collection(collection).doc(doc).update(updates);
         console.log("Field successfully deleted!");
-    }).catch(
-        function (error) {
-            console.error("Error deleting field: ", error);
-        }
-    );;
+        return result;
+    } catch (e) {
+        console.error("Error deleting field: ", error);
+        throw e;
+    }
 }
