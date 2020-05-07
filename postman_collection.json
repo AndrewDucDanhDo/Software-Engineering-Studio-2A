@@ -25,11 +25,10 @@
 							"raw": "{\n    \"gates\": [],\n    \"circuit\": [\n        {\n            \"type\": \"x\",\n            \"time\": 3,\n            \"targets\": [\n                0\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 4,\n            \"targets\": [\n                1\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 5,\n            \"targets\": [\n                0\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 6,\n            \"targets\": [\n                1\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 8,\n            \"targets\": [\n                1\n            ],\n            \"controls\": []\n        },\n        {\n            \"type\": \"x\",\n            \"time\": 9,\n            \"targets\": [\n                0\n            ],\n            \"controls\": []\n        }\n    ],\n    \"qubits\": 2,\n    \"input\": [\n        0,\n        0\n    ],\n    \"version\": 1\n}"
 						},
 						"url": {
-							"raw": "localhost:3000/circuit/solve",
+							"raw": "{{host}}/circuit/solve",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "3000",
 							"path": [
 								"circuit",
 								"solve"
@@ -45,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"circuitId\": \"test cirucitccc\",\n    \"circuitData\": {\n        \"gates\": [\n            \"xyz\"\n        ],\n        \"circuit\": [\n            {\n                \"type\": \"x\",\n                \"time\": 3,\n                \"targets\": [\n                    1\n                ],\n                \"controls\": [\n                    \"foo foo\"\n                ]\n            }\n        ],\n        \"qubits\": 2,\n        \"input\": [\n            0\n        ],\n        \"version\": 1\n    }\n}",
+							"raw": "{\n\t\"circuitId\": \"foo_circuit\",\n    \"circuitData\": {\n        \"gates\": [\n            \"xyz\"\n        ],\n        \"circuit\": [\n            {\n                \"type\": \"x\",\n                \"time\": 3,\n                \"targets\": [\n                    1\n                ],\n                \"controls\": [\n                    \"foo foo\"\n                ]\n            }\n        ],\n        \"qubits\": 2,\n        \"input\": [\n            0\n        ],\n        \"version\": 1\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -53,11 +52,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:4000/user/circuit/create",
+							"raw": "{{host}}/user/circuit/create",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"user",
 								"circuit",
@@ -73,11 +71,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:4000/user/:userId/circuit/:circuitId",
+							"raw": "{{host}}/user/:userId/circuit/:circuitId",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"user",
 								":userId",
@@ -91,7 +88,7 @@
 								},
 								{
 									"key": "circuitId",
-									"value": "test cirucitccc"
+									"value": "foo_circuit"
 								}
 							]
 						}
@@ -104,11 +101,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:4000/user/:userId/circuit",
+							"raw": "{{host}}/user/:userId/circuit",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"user",
 								":userId",
@@ -139,11 +135,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:4000/user/:userId/circuit/:circuitId/update",
+							"raw": "{{host}}/user/:userId/circuit/:circuitId/update",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"user",
 								":userId",
@@ -158,7 +153,7 @@
 								},
 								{
 									"key": "circuitId",
-									"value": "test cirucitccc"
+									"value": "foo_circuit"
 								}
 							]
 						}
@@ -171,11 +166,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:4000/user/:userId/circuit/:circuitId/update",
+							"raw": "{{host}}/user/:userId/circuit/:circuitId/update",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"user",
 								":userId",
@@ -190,7 +184,7 @@
 								},
 								{
 									"key": "circuitId",
-									"value": "test cirucitccc"
+									"value": "foo_circuit"
 								}
 							]
 						}
@@ -219,11 +213,10 @@
 							"raw": "{\n    \"email\": \"aaron.test@example.com\",\n    \"password\": \"test123\",\n    \"displayName\": \"test firstname\"\n}"
 						},
 						"url": {
-							"raw": "localhost:4000/user/create",
+							"raw": "{{host}}/user/create",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"user",
 								"create"
@@ -238,11 +231,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:4000/user/:userId",
+							"raw": "{{host}}/user/:userId",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"user",
 								":userId"
@@ -282,11 +274,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:4000/user/:userId/update",
+							"raw": "{{host}}/user/:userId/update",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"user",
 								":userId",
@@ -308,11 +299,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:4000/user/:userId/update",
+							"raw": "{{host}}/user/:userId/update",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"user",
 								":userId",
@@ -348,11 +338,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:4000/auth/login",
+							"raw": "{{host}}/auth/login",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "4000",
 							"path": [
 								"auth",
 								"login"
@@ -370,7 +359,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg4ODQ4YjVhZmYyZDUyMDEzMzFhNTQ3ZDE5MDZlNWFhZGY2NTEzYzgiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg4NjgwNDk4LCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODg2ODA0OTgsImV4cCI6MTU4ODY4NDA5OCwiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.GiojAdpVg2-aRwmDfBBMIMQakAJNROR7vh9s7-AJKSEHaVhCvCZgbePyNzh6HxtAfhJNXMRz6J9Au0EpUMa5AMZABCa5R9c7dQDP1XLrSJ1g0fkWMNYWKUlWIPxvsN0FpDcRyn6C_BJZfPg_Nh99SVWfOwtjnd8-aTT0zfo0CpUiKjZFp0Oi4G23XixPleddEB58IgFSd7A7abuYRplx28vOXSkimHqGtrqpMeT7VCbXQofuDgjmv0GXxME6ybmqHWHXTWqv1o1KW9yMavvPsncj1yLeQtCKAnznEVukQAthvif0HUrW8HoiVk3hRFoEkOaynlqPh0DtTOrdN46Yyw",
+				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZjMmM4YmIyNmE3OGM0M2JkODYzNzA1YjNkNzkyMWI0ZTY0MjVkNTQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg4ODUyMTk5LCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODg4NTIxOTksImV4cCI6MTU4ODg1NTc5OSwiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.2YhM5HYZEalJe4Pt0NABmKhlQQA14ShzwqdcHdHi5uuBKbBqFU2XyCOLWiONGQ8OD0lSsB1UnnKRvqMOPysWwgpLfC1qCv1El-HX47cpLg2__86FfdvXmiYE1VV13RBGygJHYefgZ8bXbqlEwA-Mrn3bByijDc7P4Ck8EkhpuUGJ9yiwsxdscT1LcdsESIRKAhbL61nXMjmFk2q-dzqTeaDHLpdNA2k4FH2NsFaQsNx3YcbVufU1oF19J0l8mUABC3XbuSOy4Dd_xid7J8Gl1cIHP99cyvOOq_-fJ5SQTsdrho_33DWFtoexmk5pVpsFrvU04yuw0XobK7OyKUQr5Q",
 				"type": "string"
 			}
 		]
@@ -395,6 +384,14 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"id": "11277f72-90b2-4319-abdd-ff70e9cd17f7",
+			"key": "host",
+			"value": "localhost:4000",
+			"type": "string"
 		}
 	]
 }
