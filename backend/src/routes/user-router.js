@@ -12,8 +12,7 @@ import {
   updateUserCircuit,
   deleteUserCircuit
 } from "../controllers/circuit";
-import { checkToken } from "../middleware/firebase-auth";
-import { checkUser } from "../middleware/restrictions";
+import { checkToken, checkUser } from "../middleware/firebase-auth";
 
 const userRouter = Router();
 

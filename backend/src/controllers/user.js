@@ -1,10 +1,26 @@
 import admin from "../helpers/firebase-admin";
-import { successResponse, errorResponse } from "../helpers/apiResponse";
+import { successResponse, errorResponse, handleApiError } from "../helpers/apiResponse";
+import { checkParams } from "../helpers/validators/params";
 
 export const createUser = async (req, res) => {
   try {
     // Parse details from request
     const { email, password, displayName } = req.body;
+
+    checkParams({
+      email: {
+        data: email,
+        expectedType: "string"
+      },
+      password: {
+        data: password,
+        expectedType: "string"
+      },
+      displayName: {
+        data: displayName,
+        expectedType: "string"
+      }
+    });
 
     // Create user in firebase
     const user = await admin.auth().createUser({
@@ -16,6 +32,7 @@ export const createUser = async (req, res) => {
     // Return success with created user details
     return res.status(200).json(successResponse(user));
   } catch (error) {
+    // TODO: Try and have this handled by the handleApiError func
     // The cases for this code should be via tha firebase error codes
     // https://firebase.google.com/docs/auth/admin/errors
     switch (error.code) {
@@ -30,15 +47,7 @@ export const createUser = async (req, res) => {
             )
           );
       default:
-        return res
-          .status(500)
-          .json(
-            errorResponse(
-              "An unknown error occurred while trying to create a new user.",
-              undefined,
-              error
-            )
-          );
+        return handleApiError(res, error);
     }
   }
 };
@@ -47,6 +56,13 @@ export const getUser = async (req, res) => {
   try {
     // Get details from the request
     const userId = req.params.userId;
+
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
 
     // Get details from firebase
     const userDetails = await admin.auth().getUser(userId);
@@ -68,15 +84,7 @@ export const getUser = async (req, res) => {
             )
           );
       default:
-        return res
-          .status(500)
-          .json(
-            errorResponse(
-              "An unknown error occurred while trying to fetch user details.",
-              undefined,
-              error
-            )
-          );
+        return handleApiError(res, error);
     }
   }
 };
@@ -87,6 +95,17 @@ export const updateUser = async (req, res) => {
     const userId = req.params.userId;
     const updateUserBody = req.body;
 
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      },
+      updateUserBody: {
+        data: updateUserBody,
+        expectedType: "object"
+      }
+    });
+
     // Update current user details from firebase
     const updatedUserDetails = await admin
       .auth()
@@ -95,18 +114,7 @@ export const updateUser = async (req, res) => {
     // Prepare a response
     return res.status(200).json(successResponse(updatedUserDetails));
   } catch (error) {
-    switch (error.code) {
-      default:
-        return res
-          .status(500)
-          .json(
-            errorResponse(
-              "An unknown error occurred while trying to update user details.",
-              undefined,
-              error
-            )
-          );
-    }
+    return handleApiError(res, error);
   }
 };
 
@@ -114,6 +122,13 @@ export const deleteUser = async (req, res) => {
   try {
     // Parse request details
     const userId = req.params.userId;
+
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
 
     // Delete current user details from firebase
     await admin.auth().deleteUser(userId);
@@ -123,17 +138,6 @@ export const deleteUser = async (req, res) => {
       .status(200)
       .json(successResponse({ msg: "User was successfully deleted." }));
   } catch (error) {
-    switch (error.code) {
-      default:
-        return res
-          .status(500)
-          .json(
-            errorResponse(
-              "An unknown error occurred while trying to delete user.",
-              undefined,
-              error
-            )
-          );
-    }
+    return handleApiError(res, error);
   }
 };

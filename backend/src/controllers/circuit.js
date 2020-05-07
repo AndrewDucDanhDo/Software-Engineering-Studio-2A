@@ -1,16 +1,23 @@
-import { successResponse, errorResponse } from "../helpers/apiResponse";
+import {
+  successResponse,
+  errorResponse,
+  handleApiError
+} from "../helpers/apiResponse";
 import admin from "../helpers/firebase-admin";
+import { checkParams } from "../helpers/validators/params";
+import { checkCircuitData } from "../helpers/validators/circuitData";
 
 const quantumSimulator = require("../helpers/quantom-simulator/application");
 const quantumParser = require("../helpers/quantom-solver/parser");
 const numeric = require("numeric");
 const db = admin.firestore();
 
-export function solve(req, response) {
-  // TODO: We should write a validator to check the circuit json format is correct before attempting to solve
+export function solve(req, res) {
   try {
-    // TODO: Look into how the circuit object is transformed im concerned its currently not doing anything
     const circuit = req.body;
+
+    checkCircuitData(circuit)
+
     const nqubits = circuit.qubits;
     const state = circuit.input.join("");
     const app = new quantumSimulator(nqubits);
@@ -29,15 +36,12 @@ export function solve(req, response) {
         app.circuit.nqubits,
         amplitudes_y
       );
-      response.status(200).json({
+      res.status(200).json({
         results
       });
     });
   } catch (error) {
-    response.status(500).json({
-      msg: "An unknown error occurred while trying to solve the circuit.",
-      error: error.toString()
-    });
+    return handleApiError(res, error);
   }
 }
 
@@ -47,47 +51,22 @@ export const saveUserCircuit = async (req, res) => {
     const userId = req.authId;
     const { circuitData, circuitId } = req.body;
 
-    // Throw an error if no request body and the request body is not object
-    if (circuitId === undefined || typeof circuitId !== "string") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'circuitId' must be present in request body and be of type string.`,
-            "missing-circuit-name",
-            undefined
-          )
-        );
-    }
-
-    // Throw an error if no request body and the request body is not object
-    if (circuitData === undefined || typeof circuitData !== "object") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'circuitData' must be present in request body and be of type object.`,
-            "missing-circuit-data",
-            undefined
-          )
-        );
-    }
-
-    // Check if the circuit contains the required keys for a valid circuit
-    const requiredKeys = ["gates", "circuit", "qubits", "input"];
-    requiredKeys.forEach((value) => {
-      if (circuitData[value] === undefined) {
-        return res
-          .status(400)
-          .json(
-            errorResponse(
-              `Key '${value}' is required in the request body under the 'circuitData' key.`,
-              "missing-circuit-key",
-              undefined
-            )
-          );
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      },
+      circuitId: {
+        data: circuitId,
+        expectedType: "string"
+      },
+      circuitData: {
+        data: circuitData,
+        expectedType: "object"
       }
     });
+
+    checkCircuitData(circuitData);
 
     // Create a fire store ref for easier access to the same path
     const userCircuitRef = db
@@ -121,15 +100,7 @@ export const saveUserCircuit = async (req, res) => {
         );
     }
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        errorResponse(
-          "An unknown error occurred while trying to create a new user.",
-          undefined,
-          error
-        )
-      );
+    return handleApiError(res, error);
   }
 };
 
@@ -139,29 +110,16 @@ export const getUserCircuit = async (req, res) => {
     const userId = req.params.userId;
     const circuitId = req.params.circuitId;
 
-    if (userId === undefined || typeof userId !== "string") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'userId' must be present as a url parameter.`,
-            "missing-param",
-            undefined
-          )
-        );
-    }
-
-    if (circuitId === undefined || typeof circuitId !== "string") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'circuitId' must be present as a url parameter.`,
-            "missing-param",
-            undefined
-          )
-        );
-    }
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      },
+      circuitId: {
+        data: circuitId,
+        expectedType: "string"
+      }
+    });
 
     const userCircuitData = await db
       .collection("users")
@@ -187,15 +145,7 @@ export const getUserCircuit = async (req, res) => {
         );
     }
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        errorResponse(
-          "An unknown error occurred while trying to create a new user.",
-          undefined,
-          error
-        )
-      );
+    return handleApiError(res, error);
   }
 };
 
@@ -204,17 +154,12 @@ export const getAllUserCircuits = async (req, res) => {
     // Parse details from the request
     const userId = req.params.userId;
 
-    if (userId === undefined || typeof userId !== "string") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'userId' must be present as a url parameter.`,
-            "missing-param",
-            undefined
-          )
-        );
-    }
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
 
     const userCircuitsCollectionData = await db
       .collection("users")
@@ -244,15 +189,7 @@ export const getAllUserCircuits = async (req, res) => {
         );
     }
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        errorResponse(
-          "An unknown error occurred while trying to create a new user.",
-          undefined,
-          error
-        )
-      );
+    return handleApiError(res, error);
   }
 };
 
@@ -262,56 +199,22 @@ export const updateUserCircuit = async (req, res) => {
     const circuitId = req.params.circuitId;
     const circuitData = req.body;
 
-    if (userId === undefined || typeof userId !== "string") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'userId' must be present in request params and be of type string.`,
-            "missing-param",
-            undefined
-          )
-        );
-    }
-
-    if (circuitId === undefined || typeof circuitId !== "string") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'circuitId' must be present in request params and be of type string.`,
-            "missing-param",
-            undefined
-          )
-        );
-    }
-
-    if (circuitData === undefined || typeof circuitData !== "object") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'circuitData' must be present in request body and be of type object.`,
-            "missing-circuit-data",
-            undefined
-          )
-        );
-    }
-
-    const requiredKeys = ["gates", "circuit", "qubits", "input"];
-    requiredKeys.forEach((value) => {
-      if (circuitData[value] === undefined) {
-        return res
-          .status(400)
-          .json(
-            errorResponse(
-              `Key '${value}' is required in the request body under the 'circuitData' key.`,
-              "missing-circuit-key",
-              undefined
-            )
-          );
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      },
+      circuitId: {
+        data: circuitId,
+        expectedType: "string"
+      },
+      circuitData: {
+        data: circuitData,
+        expectedType: "object"
       }
     });
+
+    checkCircuitData(circuitData);
 
     const userCircuitRef = db
       .collection("users")
@@ -336,14 +239,7 @@ export const updateUserCircuit = async (req, res) => {
         );
     }
   } catch (error) {
-    return res.status(500).json(
-      errorResponse(
-        // TODO: Get all these values from a single config option
-        "An unknown error occurred while trying to create a new user.",
-        undefined,
-        error
-      )
-    );
+    return handleApiError(res, error);
   }
 };
 
@@ -353,29 +249,16 @@ export const deleteUserCircuit = async (req, res) => {
     const userId = req.params.userId;
     const circuitId = req.params.circuitId;
 
-    if (userId === undefined || typeof userId !== "string") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'userId' must be present in request params and be of type string.`,
-            "missing-param",
-            undefined
-          )
-        );
-    }
-
-    if (circuitId === undefined || typeof circuitId !== "string") {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key 'circuitId' must be present in request params and be of type string.`,
-            "missing-param",
-            undefined
-          )
-        );
-    }
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      },
+      circuitId: {
+        data: circuitId,
+        expectedType: "string"
+      }
+    });
 
     const userCircuitData = await db
       .collection("users")
@@ -405,14 +288,6 @@ export const deleteUserCircuit = async (req, res) => {
         );
     }
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        errorResponse(
-          "An unknown error occurred while trying to delete circuit.",
-          undefined,
-          error
-        )
-      );
+    return handleApiError(res, error);
   }
 };
