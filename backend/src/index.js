@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import circuitRouter from "./routes/circuit-router";
 import userRouter from "./routes/user-router";
 import authRouter from "./routes/auth-router";
+import taskRouter from "./routes/task-router";
 import cors from "cors";
 import env from "./helpers/env";
 const morgan = require("morgan");
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/circuit", circuitRouter);
+app.use("/task", taskRouter);
 
 // Default route
 app.get("/", (req, res) => {

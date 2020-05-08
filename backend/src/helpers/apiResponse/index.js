@@ -1,6 +1,5 @@
-import { ParamValidationError } from "../validators/params";
-import { CircuitDataSyntaxError } from "../validators/circuitData";
-import { AuthenticationError } from "../../middleware/firebase-auth/index";
+import { MissingKeySyntaxError, KeyTypeSyntaxError } from "../../errors/syntax";
+import { AuthenticationError } from "../../errors/auth";
 
 export const successResponse = (data) => {
   return {
@@ -23,38 +22,6 @@ export const errorResponse = (msg, errorCode, error) => {
 // error unknown if the error cannot be matched
 export const handleApiError = (res, error) => {
   switch (error.constructor) {
-    case ParamValidationError:
-      if (error.failureCode === "undefined") {
-        return res
-          .status(400)
-          .json(
-            errorResponse(
-              `Param '${error.failedParam}' must be present in the request.`,
-              "missing-param",
-              undefined
-            )
-          );
-      } else if (error.failureCode === "type") {
-        return res
-          .status(400)
-          .json(
-            errorResponse(
-              `Param '${error.failedParam}' must be of type ${error.expectedType}.`,
-              "param-type",
-              undefined
-            )
-          );
-      }
-    case CircuitDataSyntaxError:
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            `Key '${error.missingKey}' is required in the circuit object.`,
-            "missing-circuit-key",
-            undefined
-          )
-        );
     case AuthenticationError:
       return res
         .status(401)
@@ -64,16 +31,31 @@ export const handleApiError = (res, error) => {
             "auth-key"
           )
         );
+    case MissingKeySyntaxError:
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key '${error.expectedKey}' is required in '${error.dataName}'.`,
+            "key-missing",
+            undefined
+          )
+        );
+
+    case KeyTypeSyntaxError:
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `Key '${error.expectedKey}' in '${error.dataName}' needs be of type '${error.expectedType}'.`,
+            "key-type",
+            undefined
+          )
+        );
     default:
       // Throw a generic error response for unknown errors
       return res
         .status(500)
-        .json(
-          errorResponse(
-            "An unknown error occurred.",
-            undefined,
-            error
-          )
-        );
+        .json(errorResponse("An unknown error occurred.", undefined, error));
   }
 };

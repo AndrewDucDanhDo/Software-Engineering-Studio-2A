@@ -3,20 +3,19 @@ import {
   errorResponse,
   handleApiError
 } from "../helpers/apiResponse";
-import admin from "../helpers/firebase-admin";
+import { db } from "../helpers/firebase-admin";
 import { checkParams } from "../helpers/validators/params";
 import { checkCircuitData } from "../helpers/validators/circuitData";
 
 const quantumSimulator = require("../helpers/quantom-simulator/application");
-const quantumParser = require("../helpers/quantom-solver/parser");
+const quantumParser = require("../helpers/quantom-simulator/parser");
 const numeric = require("numeric");
-const db = admin.firestore();
 
 export function solve(req, res) {
   try {
     const circuit = req.body;
 
-    checkCircuitData(circuit)
+    checkCircuitData(circuit);
 
     const nqubits = circuit.qubits;
     const state = circuit.input.join("");

@@ -1,5 +1,6 @@
 import admin from "../../helpers/firebase-admin";
 import { handleApiError } from "../../helpers/apiResponse";
+import { AuthenticationError } from "../../errors/auth";
 
 // Get the bearer token form the authorization header
 // and make it available under req.auth token
@@ -14,13 +15,6 @@ const getAuthToken = (req, res, next) => {
   }
   next();
 };
-
-export class AuthenticationError extends Error {
-  constructor() {
-    super();
-    this.name = "AuthenticationError";
-  }
-}
 
 // Check the id token is valid using the auth token fetched from the
 // authoritative header and check it is valid using the firebase admin SDK
@@ -49,4 +43,10 @@ export const checkUser = (req, res, next) => {
   } else {
     return handleApiError(res, new AuthenticationError());
   }
+};
+
+// Check if the user is of type teacher
+export const checkTeacherRole = (req, res, next) => {
+  // TODO: Implement this when we have a solution for user roles
+  return next();
 };
