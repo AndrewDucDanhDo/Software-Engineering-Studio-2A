@@ -6,6 +6,7 @@ import {
 import { db } from "../helpers/firebase-admin";
 import { checkParams } from "../helpers/validators/params";
 import { checkCircuitData } from "../helpers/validators/circuitData";
+import { FirestoreError } from "../errors/firestore";
 
 const quantumSimulator = require("../helpers/quantom-simulator/application");
 const quantumParser = require("../helpers/quantom-simulator/parser");
@@ -68,16 +69,17 @@ export const saveUserCircuit = async (req, res) => {
     checkCircuitData(circuitData);
 
     // Create a fire store ref for easier access to the same path
-    const userCircuitRef = db
+    const userCircuitDoc = await db
       .collection("users")
       .doc(userId)
       .collection("circuits")
-      .doc(circuitId);
+      .doc(circuitId)
+      .get();
 
     // Check if the doc has been save yet and handle accordingly
-    if ((await userCircuitRef.get()).exists === false) {
+    if (userCircuitDoc.exists === false) {
       // The circuit to be created doesn't exist yet so write to firestore
-      await userCircuitRef.set(circuitData);
+      await userCircuitDoc.ref.set(circuitData);
 
       // Send a success response back
       return res
@@ -86,17 +88,7 @@ export const saveUserCircuit = async (req, res) => {
           successResponse({ msg: "Circuit was successfully created for user" })
         );
     } else {
-      // The circuit id already exists for the user so throw a unique error
-      // as we do not want to over write a saved circuit
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            "The requested circuit name already exists for this user",
-            "circuit-exists",
-            undefined
-          )
-        );
+      throw new FirestoreError("exists", userCircuitDoc.ref, "circuit");
     }
   } catch (error) {
     return handleApiError(res, error);
@@ -120,28 +112,19 @@ export const getUserCircuit = async (req, res) => {
       }
     });
 
-    const userCircuitData = await db
+    const userCircuitDoc = await db
       .collection("users")
       .doc(userId)
       .collection("circuits")
       .doc(circuitId)
       .get();
 
-    if (userCircuitData.exists === true) {
+    if (userCircuitDoc.exists === true) {
       // The document for the circuit exists so fetch and return it to the user
-      const circuitData = userCircuitData.data();
+      const circuitData = userCircuitDoc.data();
       return res.status(200).json(successResponse(circuitData));
     } else {
-      // No document for the circuit id exists so return an error
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            "The requested circuit name does not exist for the user",
-            "circuit-missing",
-            undefined
-          )
-        );
+      throw new FirestoreError("missing", userCircuitDoc.ref, "circuit");
     }
   } catch (error) {
     return handleApiError(res, error);
@@ -160,14 +143,14 @@ export const getAllUserCircuits = async (req, res) => {
       }
     });
 
-    const userCircuitsCollectionData = await db
+    const userCircuitsCollection = await db
       .collection("users")
       .doc(userId)
       .collection("circuits")
       .get();
 
-    if (userCircuitsCollectionData.empty === false) {
-      const userCircuits = userCircuitsCollectionData.docs.map((doc) => {
+    if (userCircuitsCollection.empty === false) {
+      const userCircuits = userCircuitsCollection.docs.map((doc) => {
         return {
           circuitId: doc.id,
           circuitData: doc.data()
@@ -176,6 +159,7 @@ export const getAllUserCircuits = async (req, res) => {
 
       return res.status(200).json(successResponse({ circuits: userCircuits }));
     } else {
+      // TODO: Make The firestore error work with collections
       // No circuits have been saved for the user
       return res
         .status(400)
@@ -215,27 +199,20 @@ export const updateUserCircuit = async (req, res) => {
 
     checkCircuitData(circuitData);
 
-    const userCircuitRef = db
+    const userCircuitDoc = await db
       .collection("users")
       .doc(userId)
       .collection("circuits")
-      .doc(circuitId);
+      .doc(circuitId)
+      .get();
 
-    if ((await userCircuitRef.get()).exists === true) {
-      await userCircuitRef.set(circuitData);
+    if (userCircuitDoc.exists === true) {
+      await userCircuitDoc.ref.set(circuitData);
       return res
         .status(200)
         .json(successResponse({ msg: "Circuit was updated successfully" }));
     } else {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            "The requested circuit name does not exists for this user and cannot be updated",
-            "circuit-missing",
-            undefined
-          )
-        );
+      throw new FirestoreError("missing", userCircuitDoc.ref, "circuit");
     }
   } catch (error) {
     return handleApiError(res, error);
@@ -259,32 +236,23 @@ export const deleteUserCircuit = async (req, res) => {
       }
     });
 
-    const userCircuitData = await db
+    const userCircuitDoc = await db
       .collection("users")
       .doc(userId)
       .collection("circuits")
       .doc(circuitId)
       .get();
 
-    if (userCircuitData.exists === true) {
+    if (userCircuitDoc.exists === true) {
       // Delete the document if it exists
-      await userCircuitData.ref.delete();
+      await userCircuitDoc.ref.delete();
       return res
         .status(200)
         .json(
           successResponse({ msg: "User circuit was deleted successfully" })
         );
     } else {
-      // Document doesn't exists so throw an error
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            "The requested circuit name does not exist for the user",
-            "circuit-missing",
-            undefined
-          )
-        );
+      throw new FirestoreError("missing", userCircuitDoc.ref, "circuit");
     }
   } catch (error) {
     return handleApiError(res, error);

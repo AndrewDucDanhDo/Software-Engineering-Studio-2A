@@ -1,5 +1,6 @@
 import { MissingKeySyntaxError, KeyTypeSyntaxError } from "../../errors/syntax";
 import { AuthenticationError } from "../../errors/auth";
+import { FirestoreError } from "../../errors/firestore";
 
 export const successResponse = (data) => {
   return {
@@ -31,6 +32,7 @@ export const handleApiError = (res, error) => {
             "auth-key"
           )
         );
+
     case MissingKeySyntaxError:
       return res
         .status(400)
@@ -38,7 +40,7 @@ export const handleApiError = (res, error) => {
           errorResponse(
             `Key '${error.expectedKey}' is required in '${error.dataName}'.`,
             "key-missing",
-            undefined
+            error
           )
         );
 
@@ -49,13 +51,25 @@ export const handleApiError = (res, error) => {
           errorResponse(
             `Key '${error.expectedKey}' in '${error.dataName}' needs be of type '${error.expectedType}'.`,
             "key-type",
-            undefined
+            error
           )
         );
+
+    case FirestoreError:
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            `'${error.documentType}' ${error.code} at ref '${error.documentRef}'`,
+            `${error.documentType}-${error.code}`,
+            error
+          )
+        );
+
     default:
       // Throw a generic error response for unknown errors
       return res
         .status(500)
-        .json(errorResponse("An unknown error occurred.", undefined, error));
+        .json(errorResponse("An unknown error occurred.", "unknown", error));
   }
 };

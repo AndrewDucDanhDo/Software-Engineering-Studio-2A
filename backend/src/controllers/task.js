@@ -1,11 +1,8 @@
 import { db } from "../helpers/firebase-admin";
-import {
-  handleApiError,
-  successResponse,
-  errorResponse
-} from "../helpers/apiResponse";
+import { handleApiError, successResponse } from "../helpers/apiResponse";
 import { checkParams } from "../helpers/validators/params";
 import { checkTaskData } from "../helpers/validators/taskData";
+import { FirestoreError } from "../errors/firestore";
 
 export const createTask = async (req, res) => {
   try {
@@ -33,15 +30,7 @@ export const createTask = async (req, res) => {
         .status(200)
         .json(successResponse({ msg: "Task created successfully", taskId }));
     } else {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            "The requested task id already exists",
-            "task-exists",
-            undefined
-          )
-        );
+      throw new FirestoreError("exists", taskDoc.ref, "task");
     }
   } catch (error) {
     handleApiError(res, error);
@@ -64,15 +53,7 @@ export const getSingleTask = async (req, res) => {
     if (taskDoc.exists === true) {
       return res.status(200).json(successResponse(taskDoc.data()));
     } else {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            "The requested task id was not found",
-            "task-missing",
-            undefined
-          )
-        );
+      throw new FirestoreError("missing", taskDoc.ref, "task");
     }
   } catch (error) {
     handleApiError(res, error);
@@ -107,15 +88,7 @@ export const updateTask = async (req, res) => {
           successResponse({ msg: "Task was successfully updated", taskId })
         );
     } else {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            "The requested task id does not exists",
-            "task-missing",
-            undefined
-          )
-        );
+      throw new FirestoreError("missing", taskDoc.ref, "task");
     }
   } catch (error) {
     handleApiError(res, error);
@@ -141,15 +114,7 @@ export const deleteTask = async (req, res) => {
         .status(200)
         .json(successResponse({ msg: "Task was successfully deleted." }));
     } else {
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            "The requested task id was not found",
-            "task-missing",
-            undefined
-          )
-        );
+      throw new FirestoreError("missing", taskDoc.ref, "task");
     }
   } catch (error) {
     handleApiError(res, error);
