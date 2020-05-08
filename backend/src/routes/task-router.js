@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { checkToken, checkTeacherRole } from "../middleware/firebase-auth";
+import { checkToken } from "../middleware/auth";
+import { checkTeacherRole } from "../middleware/roles";
 import {
   getSingleTask,
   createTask,
