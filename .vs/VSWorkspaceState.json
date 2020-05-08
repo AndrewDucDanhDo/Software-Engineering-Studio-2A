@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\src\\helpers\\apiResponse",
+    "\\backend\\src\\tests\\data",
+    "\\docs",
+    "\\frontend\\src\\components",
+    "\\frontend\\src\\pages",
+    "\\frontend\\src\\pages\\login",
+    "\\frontend\\src\\pages\\teacherTasks",
+    "\\frontend\\src\\pages\\teacherTaskViewer"
+  ],
+  "SelectedNode": "\\frontend",
+  "PreviewInSolutionExplorer": false
+}

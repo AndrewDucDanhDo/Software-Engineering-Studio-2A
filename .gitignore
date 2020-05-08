@@ -121,3 +121,4 @@ service-account-key.json
 # IDEs
 .idea
 .vscode
+/docs/swagger/common/test.json
