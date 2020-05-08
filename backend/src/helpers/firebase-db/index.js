@@ -1,6 +1,8 @@
 import admin from "../firebase/index"
 
-let db = admin.firestore();
+const db = admin.firestore();
+
+export const db;
 
 //adds data to a collection. Creates a new collection if collection not found
 export async function addData(collection, data) {
@@ -84,7 +86,7 @@ export async function deleteField(collection, doc, field) {
     let fieldValue = admin.firestore.FieldValue;
     let updates = {};
     updates[field] = fieldValue.delete();
-    
+
     try {
         const result = await db.collection(collection).doc(doc).update(updates);
         console.log("Field successfully deleted!");

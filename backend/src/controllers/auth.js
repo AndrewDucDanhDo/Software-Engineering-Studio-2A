@@ -1,4 +1,5 @@
-import { successResponse, errorResponse } from "../helpers/apiResponse";
+import { successResponse, handleApiError } from "../helpers/apiResponse";
+import { checkParams } from "../helpers/validators/params";
 import axios from "axios";
 import env from "../helpers/env";
 
@@ -12,6 +13,17 @@ export const login = async (req, res) => {
   try {
     // Parse details from request
     const { email, password } = req.body;
+
+    checkParams({
+      email: {
+        data: email,
+        expectedType: "string"
+      },
+      password: {
+        data: password,
+        expectedType: "string"
+      }
+    })
 
     // Use a google firebase endpoint to login via email and password
     const response = await axios.post(
@@ -32,14 +44,6 @@ export const login = async (req, res) => {
       })
     );
   } catch (error) {
-    return res
-      .status(500)
-      .json(
-        errorResponse(
-          "An unknown error occurred while trying to login.",
-          undefined,
-          error
-        )
-      );
+    return handleApiError(res, error);
   }
 };
