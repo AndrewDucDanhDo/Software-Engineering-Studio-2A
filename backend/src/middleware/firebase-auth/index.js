@@ -50,3 +50,24 @@ export const checkUser = (req, res, next) => {
     return handleApiError(res, new AuthenticationError());
   }
 };
+
+// Check the token is teacher role 
+export const checkIfTeacher = (req, res, next) => {
+  getAuthToken(req, res, async () => {
+    try {
+      const { authToken } = req;
+      const userInfo = await admin
+        .auth()
+        .verifyIdToken(authToken);
+
+      if (userInfo.teacher === true) {
+        req.authId = userInfo.uid;
+        return next();
+      }
+
+      throw new Error('unauthorized')
+    } catch (error) {
+      return handleApiError(res, error);
+    }
+  });
+};
