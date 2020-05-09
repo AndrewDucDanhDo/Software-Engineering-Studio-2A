@@ -52,7 +52,7 @@ export const checkUser = (req, res, next) => {
 };
 
 // Check the token is teacher role 
-export const checkIfTeacher = (req, res, next) => {
+export const checkTeacher = (req, res, next) => {
   getAuthToken(req, res, async () => {
     try {
       const { authToken } = req;
@@ -65,7 +65,7 @@ export const checkIfTeacher = (req, res, next) => {
         return next();
       }
 
-      throw new Error('unauthorized')
+      return handleApiError(res, new AuthenticationError());
     } catch (error) {
       return handleApiError(res, error);
     }

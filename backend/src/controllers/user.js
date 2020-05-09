@@ -144,7 +144,7 @@ export const deleteUser = async (req, res) => {
 
 export const makeUserTeacher = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     await admin.auth().setCustomUserClaims(userId, { teacher: true });
     return res
       .status(200)
