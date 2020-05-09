@@ -7,6 +7,19 @@ import {
     Chart,
     BarSeries,
 } from '@devexpress/dx-react-chart-material-ui';
+import { Animation, ValueScale } from '@devexpress/dx-react-chart';
+import { Palette } from '@devexpress/dx-react-chart';
+import {
+    schemeCategory10,
+    schemeAccent,
+    schemeDark2,
+    schemePaired,
+    schemePastel1,
+    schemePastel2,
+    schemeSet1,
+    schemeSet2,
+    schemeSet3,
+} from 'd3-scale-chromatic';
 
 const data = [
     { year: '1950', population: 2.525 },
@@ -16,6 +29,18 @@ const data = [
     { year: '1990', population: 5.310 },
     { year: '2000', population: 6.127 },
     { year: '2010', population: 6.930 },
+];
+
+const schemeCollection = [
+    schemeCategory10,
+    schemeAccent,
+    schemeDark2,
+    schemePaired,
+    schemePastel1,
+    schemePastel2,
+    schemeSet1,
+    schemeSet2,
+    schemeSet3,
 ];
 
 export default class Demo extends React.PureComponent {
@@ -38,18 +63,24 @@ export default class Demo extends React.PureComponent {
                         <a href="https://www.youtube.com/watch?v=oT3mCybbhf0" target="_blank">Click me for more info</a>
                     </div>
                 </Grid>
-                <Grid xs={10} item container direction="column">
+                <Grid xs={10} item container direction="column" justify="space-between">
                     <QuantumSimulator />
+                    <Grid style={{ backgroundColor: "#F4C321" }}>
                     <Chart
                         data={data}
                     >
-                        <ValueAxis />
+                        
+                        <ValueScale name="population"/>
+                        <ValueAxis scaleName="population" showGrid={false} showTicks={true} showLine={true}/>
                         <ArgumentAxis />
                         <BarSeries
                             valueField="population"
                             argumentField="year"
+                            scaleName="population"
                         />
-                    </Chart>
+                        <Animation />
+                        </Chart>
+                        </Grid>
                 </Grid>
             </Grid>
         );
