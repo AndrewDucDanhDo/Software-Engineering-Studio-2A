@@ -52,7 +52,11 @@ export class SignUpPage extends React.Component {
 		// Stop the form element from adding query params by default
 		event.preventDefault();
 		try {
-			await createUser({ ...this.state.form });
+			await createUser({
+				displayName: `${this.state.form.firstName} ${this.state.form.lastName}`,
+				email: this.state.form.email,
+				password: this.state.form.password
+			});
 			this.setState({ ...this.state, success: true });
 		} catch (error) {
 			// We will get returned an axios error object here
