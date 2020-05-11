@@ -36,9 +36,6 @@
 		"/user/{userId}/circuit/{circuitId}/update": {
 			"$ref": "paths/user/update-circuit-by-id.json#"
 		},
-		"/user/{userId}/task": {
-			"$ref": "paths/user/get-task.json#"
-		},
 		"/user/{userId}/task/{taskId}/submit": {
 			"$ref": "paths/user/submit-task-by-id.json#"
 		},
@@ -51,11 +48,13 @@
 		"/user/{userId}/submission/{submissionId}/update": {
 			"$ref": "paths/user/update-submission-by-id.json#"
 		},
-
-
-
 		"/admin/task/create": {
 			"$ref": "paths/task/create.json#"
+		},
+
+
+		"/admin/task": {
+			"$ref": "paths/task/get-all-tasks-teacher.json#"
 		},
 		"/admin/task/{taskId}": {
 			"$ref": "paths/task/get-by-id-teacher.json#"
@@ -69,12 +68,15 @@
 
 
 
-		
+
 		"/task": {
-			"$ref": "paths/task/get-tasks-for-student.json#"
+			"$ref": "paths/task/get-all-tasks-student.json#"
 		},
 		"/task/{taskId}": {
 			"$ref": "paths/task/get-by-id-student.json#"
+		},
+		"/task/{taskId}/submission": {
+			"$ref": "paths/task/get-submission-student.json#"
 		}
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"post": {
-		"tags": ["task"],
+		"tags": ["task", "admin"],
 		"summary": "Update quantum circuit task details. TODO",
 		"parameters": [
 			{
@@ -40,7 +40,7 @@
 		}
 	},
 	"delete": {
-		"tags": ["task"],
+		"tags": ["task", "admin"],
 		"summary": "Remove quantum circuit tasks. TODO",
 		"parameters": [
 			{

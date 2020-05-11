@@ -1,16 +1,16 @@
 {
-	"get": {
-		"tags": ["task", "admin"],
-		"summary": "Return the details of a quantum circuit task. For a user with an admin role all data is returned",
-		"parameters": [
-			{
-				"$ref": "../../common/parameters/taskId.json"
-			}
-		],
-		"responses": {
+  "get": {
+    "tags": ["task", "submission", "admin"],
+    "summary": "Fetch the submissions for a quantum circuit for a task. TODO",
+    "parameters": [
+      {
+        "$ref": "../../common/parameters/taskId.json"
+      }
+    ],
+    "responses": {
 			"200": {
-				"description": "Task details successfully returned to the user.",
-				"schema": {
+				"description": "All submissions for the selected task.",
+        "schema": {
 					"type": "object",
 					"properties": {
 						"status": {
@@ -18,7 +18,7 @@
 							"example": "OK"
 						},
 						"data": {
-							"$ref": "../../common/schemas/taskDescriptionTeacher.json#"
+							"$ref": "../../common/schemas/submission.json#"
 						}
 					}
 				}
@@ -31,12 +31,12 @@
 				"examples": {
           "application/json": {
             "status": "ERROR",
-						"msg": "An unknown error occurred.",
-						"errorCode": "password-length",
+            "msg": "An unknown error occurred.",
+            "errorCode": "password-length",
             "error": "RangeError: Invalid array length"
           }
         }
 			}
 		}
-	}
+  }
 }

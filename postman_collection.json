@@ -352,6 +352,138 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "task",
+			"item": [
+				{
+					"name": "teacher",
+					"item": [
+						{
+							"name": "get task",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/admin/task/:taskId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										":taskId"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "e2dbac2f-3793-4ad8-9e98-85860c9def45"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create task",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Quantum Bell Circuit\",\n    \"summary\": \"Create a simple bell circuit\",\n    \"description\": \"An electric bell is a mechanical or electronic bell that functions by means of an electromagnet. When an electric current is applied, it produces a repetitive buzzing, clanging or ringing sound.\",\n    \"expectedResults\": [\n        {\n            \"value\": \"0.0000%\",\n            \"impossible\": true,\n            \"amplitude\": \"0.00000000+0.00000000i\",\n            \"state\": \"10\"\n        }\n    ],\n    \"owners\": [\n    \t\"uKVj1IXKZLS9BwhkxS1RrBANhet1\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/admin/task/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update task",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"taskId\": \"2e92f021-2afb-4080-b7c9-c55b0a0a5dd5\",\n    \"name\": \"Quantum Bell Circuit\",\n    \"summary\": \"Create a simple bell circuit\",\n    \"description\": \"An electric bell is a mechanical or electronic bell that functions by means of an electromagnet. When an electric current is applied, it produces a repetitive buzzing, clanging or ringing sound.\",\n    \"expectedResults\": [\n        {\n            \"value\": \"0.0000%\",\n            \"impossible\": true,\n            \"amplitude\": \"0.00000000+0.00000000i\",\n            \"state\": \"10\"\n        }\n    ],\n    \"owners\": [\n        \"b4b9ce82-815a-11ea-bc55-0242ac130003\",\n        \"d55d5370-815a-11ea-bc55-0242ac130003\"\n    ],\n    \"assignees\": [\n        \"428df0b5-fbe2-42d0-8136-2263bae20a8a\",\n        \"49bf2844-a80c-44fb-80fe-4b95efc160bb\",\n        \"53ffb9f0-08fe-40c3-8036-91a9c92704d5\",\n        \"7991591c-ae25-4d17-ad67-b71154ec5c25\"\n    ],\n    \"submissions\": [\n        \"428df0b5-fbe2-42d0-8136-2263bae20a8a\",\n        \"49bf2844-a80c-44fb-80fe-4b95efc160bb\",\n        \"53ffb9f0-08fe-40c3-8036-91a9c92704d5\",\n        \"7991591c-ae25-4d17-ad67-b71154ec5c25\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/admin/task/:taskId/update",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										":taskId",
+										"update"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "e2dbac2f-3793-4ad8-9e98-85860c9def45"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "student",
+					"item": [
+						{
+							"name": "get task",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/task/:taskId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task",
+										":taskId"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "e2dbac2f-3793-4ad8-9e98-85860c9def45"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"auth": {
@@ -359,7 +491,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZjMmM4YmIyNmE3OGM0M2JkODYzNzA1YjNkNzkyMWI0ZTY0MjVkNTQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg4ODUyMTk5LCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODg4NTIxOTksImV4cCI6MTU4ODg1NTc5OSwiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.2YhM5HYZEalJe4Pt0NABmKhlQQA14ShzwqdcHdHi5uuBKbBqFU2XyCOLWiONGQ8OD0lSsB1UnnKRvqMOPysWwgpLfC1qCv1El-HX47cpLg2__86FfdvXmiYE1VV13RBGygJHYefgZ8bXbqlEwA-Mrn3bByijDc7P4Ck8EkhpuUGJ9yiwsxdscT1LcdsESIRKAhbL61nXMjmFk2q-dzqTeaDHLpdNA2k4FH2NsFaQsNx3YcbVufU1oF19J0l8mUABC3XbuSOy4Dd_xid7J8Gl1cIHP99cyvOOq_-fJ5SQTsdrho_33DWFtoexmk5pVpsFrvU04yuw0XobK7OyKUQr5Q",
+				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZjMmM4YmIyNmE3OGM0M2JkODYzNzA1YjNkNzkyMWI0ZTY0MjVkNTQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsInRlYWNoZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg5MjAwNjU4LCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODkyMDA2NTgsImV4cCI6MTU4OTIwNDI1OCwiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.oqFm7LFBd_Pd4pozdnO8Ezd9fZ6Fn7LuOTaG9gPkKE8bDPQ9L05nS-jCRmdBczdcRcwSm08T2X8w5AJ2eBCEZ6z9m0UmqWajiOv2G9VXF3gXNVKkvp9TuEKztMlU_bpoo38StXVoFfxB8gOvY_qe_6UyHHR4T2OyY776I-F-L9FZVq8Ef93JDFHm50qCqXGyxKweiDRTjL1P49-zSE5ZySjEq_mSvnN3qL_h66KhIte608la3wGud5YtQooAvMgYO7fEvZvVCqN9EZohCxCkQ2R7FFY5y0zDdq1tGOinidDzJCZ3MYtkBopuWvbDnO9-zMLhMyGQX0DMAbQeDnvopw",
 				"type": "string"
 			}
 		]
@@ -388,7 +520,7 @@
 	],
 	"variable": [
 		{
-			"id": "11277f72-90b2-4319-abdd-ff70e9cd17f7",
+			"id": "aabf07cc-b2c2-4cc6-a21d-c8b24e78fae7",
 			"key": "host",
 			"value": "localhost:4000",
 			"type": "string"

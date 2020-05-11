@@ -1,0 +1,46 @@
+{
+	"get": {
+		"tags": ["task", "admin"],
+		"summary": "Fetch all tasks in the system. TODO",
+		"parameters": [],
+		"responses": {
+			"200": {
+				"description": "All tasks successfully fetched",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+              "type": "object",
+              "properties": {
+                "tasks": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../../common/schemas/taskDescriptionTeacher.json#"
+                  }
+                }
+              }
+						}
+					}
+				}
+			},
+			"500": {
+				"description": "An unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
+			}
+		}
+	}
+}

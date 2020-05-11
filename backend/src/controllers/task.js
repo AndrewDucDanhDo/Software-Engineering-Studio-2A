@@ -87,63 +87,67 @@ export const getSingleTask = async (req, res) => {
   }
 };
 
-// export const updateTask = async (req, res) => {
-//   try {
-//     const taskBody = req.body;
-//     const taskId = taskBody.id;
+export const updateTask = async (req, res) => {
+  try {
+    const taskBody = req.body;
+    const taskId = req.params.taskId;
 
-//     checkParams({
-//       taskBody: {
-//         data: taskBody,
-//         expectedType: "object"
-//       },
-//       taskId: {
-//         data: taskId,
-//         expectedType: "string"
-//       }
-//     });
+    // We do not want to update the taskId in firestore after it is set
+    // so just replace the taskBody taskId with the one from params
+    taskBody.taskId = taskId;
 
-//     checkTaskData(taskBody);
+    checkParams({
+      taskBody: {
+        data: taskBody,
+        expectedType: "object"
+      },
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      }
+    });
 
-//     const taskDoc = await db.collection("tasks").doc(taskId).get();
+    checkTaskData(taskBody);
 
-//     if (taskDoc.exists === true) {
-//       await taskDoc.ref.set(taskBody);
-//       return res
-//         .status(200)
-//         .json(
-//           successResponse({ msg: "Task was successfully updated", taskId })
-//         );
-//     } else {
-//       throw new FirestoreError("missing", taskDoc.ref, "task");
-//     }
-//   } catch (error) {
-//     handleApiError(res, error);
-//   }
-// };
+    const taskDoc = await db.collection("tasks").doc(taskId).get();
 
-// export const deleteTask = async (req, res) => {
-//   try {
-//     const taskId = req.params.taskId;
+    if (taskDoc.exists === true) {
+      await taskDoc.ref.set(taskBody);
+      return res
+        .status(200)
+        .json(
+          successResponse({ msg: "Task was successfully updated", taskId })
+        );
+    } else {
+      throw new FirestoreError("missing", taskDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
 
-//     checkParams({
-//       taskId: {
-//         data: taskId,
-//         expectedType: "string"
-//       }
-//     });
+export const deleteTask = async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
 
-//     const taskData = await db.collection("tasks").doc(taskId).get();
+    checkParams({
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      }
+    });
 
-//     if (taskData.exists === true) {
-//       await taskData.ref.delete();
-//       return res
-//         .status(200)
-//         .json(successResponse({ msg: "Task was successfully deleted." }));
-//     } else {
-//       throw new FirestoreError("missing", taskDoc.ref, "task");
-//     }
-//   } catch (error) {
-//     handleApiError(res, error);
-//   }
-// };
+    const taskData = await db.collection("tasks").doc(taskId).get();
+
+    if (taskData.exists === true) {
+      await taskData.ref.delete();
+      return res
+        .status(200)
+        .json(successResponse({ msg: "Task was successfully deleted." }));
+    } else {
+      throw new FirestoreError("missing", taskDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
