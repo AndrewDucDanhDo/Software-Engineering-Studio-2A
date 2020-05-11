@@ -1,7 +1,7 @@
 {
 	"post": {
 		"tags": ["task", "admin"],
-		"summary": "Update quantum circuit task details. TODO",
+		"summary": "Update quantum circuit task details.",
 		"parameters": [
 			{
 				"$ref": "../../common/parameters/taskId.json#"
@@ -41,7 +41,7 @@
 	},
 	"delete": {
 		"tags": ["task", "admin"],
-		"summary": "Remove quantum circuit tasks. TODO",
+		"summary": "Remove quantum circuit tasks.",
 		"parameters": [
 			{
 				"$ref": "../../common/parameters/taskId.json#"
