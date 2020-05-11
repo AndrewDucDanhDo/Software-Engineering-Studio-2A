@@ -3,7 +3,8 @@ import {
   createUser,
   getUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  makeUserTeacher
 } from "../controllers/user";
 import {
   saveUserCircuit,
@@ -12,7 +13,7 @@ import {
   updateUserCircuit,
   deleteUserCircuit
 } from "../controllers/circuit";
-import { checkToken, checkUser } from "../middleware/firebase-auth";
+import { checkToken, checkUser, checkTeacher } from "../middleware/firebase-auth";
 
 const userRouter = Router();
 
@@ -43,5 +44,19 @@ userRouter.delete(
   checkUser,
   deleteUserCircuit
 );
+
+// TODO Remove POC teacher role
+userRouter.post("/:userId/promote", makeUserTeacher);
+userRouter.post("/teacher",
+  checkToken,
+  checkTeacher,
+  function (req, res) {
+    res.status(200).json({
+      status: "OK",
+      data: { msg: "User has teacher auth." }
+    })
+  }
+);
+
 
 export default userRouter;
