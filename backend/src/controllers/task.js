@@ -1,9 +1,19 @@
 import { db } from "../helpers/firebase-admin";
-import { handleApiError, successResponse, errorResponse } from "../helpers/apiResponse";
+import { handleApiError, successResponse } from "../helpers/apiResponse";
 import { checkParams } from "../helpers/validators/params";
 import { checkTaskData } from "../helpers/validators/taskData";
 import { FirestoreError } from "../errors/firestore";
 import { v4 as uuidv4 } from "uuid";
+
+const formatTaskForStudent = (taskData) => {
+  return {
+    taskId: taskData.taskID,
+    name: taskData.name,
+    summary: taskData.summary,
+    description: taskData.description,
+    expectedResults: taskData.expectedResults
+  };
+};
 
 export const createTask = async (req, res) => {
   try {
@@ -50,16 +60,28 @@ export const createTask = async (req, res) => {
 
 export const getAllTasks = async (req, res) => {
   try {
+    const userId = req.authId;
+
+    // Format data based on the type of the user thats signed in
+    // admins receive all tasks and other users only they're assigned
+    let taskList;
     if (req.userClaims !== undefined && req.userClaims.teacher === true) {
       const tasksCollection = await db.collection("tasks").get();
-      const tasksList = tasksCollection.docs.map((doc) => {
-        return { taskId: doc.id, ...doc.data() };
+      taskList = tasksCollection.docs.map((doc) => {
+        return { ...doc.data(), taskId: doc.id };
       });
-      return res.status(200).json(successResponse(tasksList));
     } else {
-      // TODO: Implement a query to check for assigned tasks for a non teacher role request
-      return res.status(500).json(errorResponse("not implemented yet"));
+      // Only return tasks that are assigned to the requesting user
+      const assignedTasksQuery = await db
+        .collection("tasks")
+        .where("assigned", "array-contains", userId)
+        .get();
+
+      taskList = assignedTasksQuery.docs.map((doc) => {
+        return { ...formatTaskForStudent(doc.data()), taskId: doc.id };
+      });
     }
+    return res.status(200).json(successResponse(taskList));
   } catch (error) {
     handleApiError(res, error);
   }
@@ -86,13 +108,8 @@ export const getSingleTask = async (req, res) => {
       if (req.userClaims !== undefined && req.userClaims.teacher === true) {
         formattedTaskData = taskDocData;
       } else {
-        formattedTaskData = {
-          taskId: taskDocData.taskID,
-          name: taskDocData.name,
-          summary: taskDocData.summary,
-          description: taskDocData.description,
-          expectedResults: taskDocData.expectedResults
-        };
+        // TODO: We should also check if the user is assigned to this task as well
+        formattedTaskData = formatTaskForStudent(taskDocData);
       }
 
       return res.status(200).json(successResponse(formattedTaskData));
