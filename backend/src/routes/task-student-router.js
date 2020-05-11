@@ -1,18 +1,12 @@
-// import { Router } from "express";
-// import { checkToken } from "../middleware/auth";
-// import { checkTeacherRole } from "../middleware/roles";
-// import {
-//   getSingleTask,
-//   createTask,
-//   updateTask,
-//   deleteTask
-// } from "../controllers/task";
+import { Router } from "express";
+import { checkToken } from "../middleware/auth";
+import { stripRoles } from "../middleware/roles";
+import { getSingleTask } from "../controllers/task";
 
-// const taskRouter = Router();
+const taskStudentRouter = Router();
 
-// taskRouter.post("/create", checkToken, checkTeacherRole, createTask);
-// taskRouter.get("/:taskId", checkToken, checkTeacherRole, getSingleTask);
-// taskRouter.post("/:taskId/update", checkToken, checkTeacherRole, updateTask);
-// taskRouter.delete("/:taskId/update", checkToken, checkTeacherRole, deleteTask);
+// Stripping the roles here to make sure that all users regardless of role
+// receive the same formatted response back
+taskStudentRouter.get("/:taskId", checkToken, stripRoles, getSingleTask);
 
-// export default taskRouter;
+export default taskStudentRouter;

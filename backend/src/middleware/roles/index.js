@@ -7,3 +7,10 @@ export const checkTeacherRole = (req, res, next) => {
   }
   return handleApiError(res, new AuthenticationError());
 };
+
+// Remove all userClaims on the request to effectively
+// demote the user for the single made request
+export const stripRoles = (req, res, next) => {
+  delete req.userClaims
+  next()
+}

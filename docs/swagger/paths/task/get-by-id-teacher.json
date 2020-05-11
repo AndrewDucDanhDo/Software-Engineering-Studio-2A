@@ -1,7 +1,7 @@
 {
 	"get": {
 		"tags": ["task"],
-		"summary": "Return the details of a quantum circuit task. TODO",
+		"summary": "Return the details of a quantum circuit task. For a user with an admin role all data is returned",
 		"parameters": [
 			{
 				"$ref": "../../common/parameters/taskId.json"
@@ -9,7 +9,7 @@
 		],
 		"responses": {
 			"200": {
-				"description": "Task details",
+				"description": "Task details successfully returned to the user.",
 				"schema": {
 					"type": "object",
 					"properties": {

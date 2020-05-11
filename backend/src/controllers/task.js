@@ -23,6 +23,13 @@ export const createTask = async (req, res) => {
 
     checkTaskData(taskBody);
 
+    // Make sure the owners block of the taskBody has the
+    // authenticated users userId in it and if not add it
+    const userId = req.authId;
+    if (!taskBody.owners.includes(userId)) {
+      taskBody.owners.push(userId);
+    }
+
     const taskDoc = await db.collection("tasks").doc(taskBody.taskId).get();
 
     if (taskDoc.exists === false) {
@@ -55,10 +62,23 @@ export const getSingleTask = async (req, res) => {
     const taskDoc = await db.collection("tasks").doc(taskId).get();
 
     if (taskDoc.exists === true) {
+      const taskDocData = taskDoc.data();
+      let formattedTaskData;
 
-      // Cleanup data based on the role that called for the task
+      // Format task data based on the users role
+      if (req.userClaims !== undefined && req.userClaims.teacher === true) {
+        formattedTaskData = taskDocData;
+      } else {
+        formattedTaskData = {
+          taskId: taskDocData.taskID,
+          name: taskDocData.name,
+          summary: taskDocData.summary,
+          description: taskDocData.description,
+          expectedResults: taskDocData.expectedResults
+        };
+      }
 
-      return res.status(200).json(successResponse(taskDoc.data()));
+      return res.status(200).json(successResponse(formattedTaskData));
     } else {
       throw new FirestoreError("missing", taskDoc.ref, "task");
     }
