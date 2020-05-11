@@ -48,6 +48,7 @@ userRouter.delete(
 // TODO Remove POC teacher role
 userRouter.post("/:userId/promote", makeUserTeacher);
 userRouter.post("/teacher",
+  checkToken,
   checkTeacher,
   function (req, res) {
     res.status(200).json({

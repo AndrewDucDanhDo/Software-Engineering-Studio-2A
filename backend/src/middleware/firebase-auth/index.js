@@ -30,6 +30,7 @@ export const checkToken = (req, res, next) => {
       const { authToken } = req;
       const userInfo = await admin.auth().verifyIdToken(authToken);
       req.authId = userInfo.uid;
+      req.userClaims = { teacher: userInfo.teacher };
       return next();
     } catch (error) {
       return handleApiError(res, new AuthenticationError());
@@ -53,21 +54,10 @@ export const checkUser = (req, res, next) => {
 
 // Check the token is teacher role 
 export const checkTeacher = (req, res, next) => {
-  getAuthToken(req, res, async () => {
-    try {
-      const { authToken } = req;
-      const userInfo = await admin
-        .auth()
-        .verifyIdToken(authToken);
-
-      if (userInfo.teacher === true) {
-        req.authId = userInfo.uid;
-        return next();
-      }
-
-      return handleApiError(res, new AuthenticationError());
-    } catch (error) {
-      return handleApiError(res, error);
-    }
-  });
+  const { teacher } = req.userClaims;
+  
+  if (teacher === true) {
+    return next();
+  }
+  return handleApiError(res, new AuthenticationError());
 };
