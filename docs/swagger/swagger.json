@@ -51,17 +51,30 @@
 		"/user/{userId}/submission/{submissionId}/update": {
 			"$ref": "paths/user/update-submission-by-id.json#"
 		},
-		"/task/create": {
+
+
+
+		"/admin/task/create": {
 			"$ref": "paths/task/create.json#"
 		},
-		"/task/{taskId}": {
-			"$ref": "paths/task/get-by-id.json#"
+		"/admin/task/{taskId}": {
+			"$ref": "paths/task/get-by-id-teacher.json#"
 		},
-		"/task/{taskId}/update": {
+		"/admin/task/{taskId}/update": {
 			"$ref": "paths/task/update-by-id.json#"
 		},
-		"/task/{taskId}/submission": {
-			"$ref": "paths/task/get-all-submissions.json#"
+		"/admin/task/{taskId}/submission": {
+			"$ref": "paths/task/get-all-submissions-teacher.json#"
+		},
+
+
+
+		
+		"/task": {
+			"$ref": "paths/task/get-tasks-for-student.json#"
+		},
+		"/task/{taskId}": {
+			"$ref": "paths/task/get-by-id-student.json#"
 		}
 	}
 }

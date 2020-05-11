@@ -1,24 +1,26 @@
 {
-	"post": {
-		"tags": ["task", "admin"],
-		"summary": "Add a new quantum circuit task. TODO",
-		"produces": ["application/json"],
+	"get": {
+		"tags": ["task"],
+		"summary": "Return the details of a quantum circuit task. TODO",
 		"parameters": [
 			{
-				"in": "body",
-				"name": "body",
-				"description": "User details to be created.",
-				"required": true,
-				"schema": {
-					"$ref": "../../common/schemas/taskDescriptionTeacher.json#"
-				}
+				"$ref": "../../common/parameters/taskId.json"
 			}
 		],
 		"responses": {
 			"200": {
-				"description": "Task created successfully",
+				"description": "Task details",
 				"schema": {
-					"$ref": "../../common/schemas/apiResponse.json#"
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/task.json#"
+						}
+					}
 				}
 			},
 			"500": {

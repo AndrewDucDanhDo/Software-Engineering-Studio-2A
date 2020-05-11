@@ -1,21 +1,32 @@
 {
 	"type": "object",
 	"properties": {
-		"id": {
+		"taskId": {
 			"type": "string",
 			"description": "Id of the task.",
 			"example": "b4b9ce82-815a-11ea-bc55-0242ac130003",
 			"required": "false"
 		},
+		"name": {
+			"type": "string",
+			"description": "A pretty display name for the task.",
+			"example": "Quantum Bell Circuit",
+			"required": "true"
+		},
 		"summary": {
 			"type": "string",
 			"description": "A short summary of the task.",
-			"example": "Create a simple bell circuit"
+			"example": "Create a simple bell circuit",
+			"required": "true"
 		},
 		"description": {
 			"type": "string",
 			"description": "A longer description of the task for assignees to understand the assigned task.",
-			"example": "An electric bell is a mechanical or electronic bell that functions by means of an electromagnet. When an electric current is applied, it produces a repetitive buzzing, clanging or ringing sound."
+			"example": "An electric bell is a mechanical or electronic bell that functions by means of an electromagnet. When an electric current is applied, it produces a repetitive buzzing, clanging or ringing sound.",
+			"required": "true"
+		},
+		"expectedResults": {
+			"$ref": "./circuitResult.json#properties/results"
 		},
 		"owners": {
 			"type": "array",
@@ -26,7 +37,8 @@
 			"example": [
 				"b4b9ce82-815a-11ea-bc55-0242ac130003",
 				"d55d5370-815a-11ea-bc55-0242ac130003"
-			]
+			],
+			"required": "true"
 		},
 		"assignees": {
 			"type": "array",
@@ -34,6 +46,7 @@
 			"items": {
 				"type": "string"
 			},
+			"required": "true",
 			"example": [
 				"428df0b5-fbe2-42d0-8136-2263bae20a8a",
 				"49bf2844-a80c-44fb-80fe-4b95efc160bb",
@@ -47,6 +60,7 @@
 				"type": "string",
 				"description": "Circuit Ids that have been submitted for this task."
 			},
+			"required": "true",
 			"example": [
 				"428df0b5-fbe2-42d0-8136-2263bae20a8a",
 				"49bf2844-a80c-44fb-80fe-4b95efc160bb",

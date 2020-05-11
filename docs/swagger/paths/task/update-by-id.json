@@ -12,7 +12,7 @@
 				"description": "task details to be updated.",
 				"required": true,
 				"schema": {
-					"$ref": "../../common/schemas/task.json#"
+					"$ref": "../../common/schemas/taskDescriptionTeacher.json#"
 				}
 			}
 		],

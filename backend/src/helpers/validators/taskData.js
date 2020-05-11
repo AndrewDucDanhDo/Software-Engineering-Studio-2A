@@ -23,7 +23,14 @@ export const checkTaskData = (taskData) => {
     }
 
     if (typeof data !== expectedType) {
-      throw new KeyTypeSyntaxError("task", expectedKey, expectedType);
+      // Workaround for there being no typeof data for arrays
+      if (expectedType === "array") {
+        if (Array.isArray(data) === false) {
+          throw new KeyTypeSyntaxError("task", expectedKey, expectedType);
+        }
+      } else {
+        throw new KeyTypeSyntaxError("task", expectedKey, expectedType);
+      }
     }
   });
 };
