@@ -1,5 +1,5 @@
 import { db } from "../helpers/firebase-admin";
-import { handleApiError, successResponse } from "../helpers/apiResponse";
+import { handleApiError, successResponse, errorResponse } from "../helpers/apiResponse";
 import { checkParams } from "../helpers/validators/params";
 import { checkTaskData } from "../helpers/validators/taskData";
 import { FirestoreError } from "../errors/firestore";
@@ -42,6 +42,23 @@ export const createTask = async (req, res) => {
       );
     } else {
       throw new FirestoreError("exists", taskDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+export const getAllTasks = async (req, res) => {
+  try {
+    if (req.userClaims !== undefined && req.userClaims.teacher === true) {
+      const tasksCollection = await db.collection("tasks").get();
+      const tasksList = tasksCollection.docs.map((doc) => {
+        return { taskId: doc.id, ...doc.data() };
+      });
+      return res.status(200).json(successResponse(tasksList));
+    } else {
+      // TODO: Implement a query to check for assigned tasks for a non teacher role request
+      return res.status(500).json(errorResponse("not implemented yet"));
     }
   } catch (error) {
     handleApiError(res, error);

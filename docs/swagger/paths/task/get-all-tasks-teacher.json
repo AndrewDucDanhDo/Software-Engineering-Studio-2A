@@ -1,7 +1,7 @@
 {
 	"get": {
 		"tags": ["task", "admin"],
-		"summary": "Fetch all tasks in the system. TODO",
+		"summary": "Fetch all tasks in the system.",
 		"parameters": [],
 		"responses": {
 			"200": {

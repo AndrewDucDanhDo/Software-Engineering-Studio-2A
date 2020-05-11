@@ -5,11 +5,13 @@ import {
   getSingleTask,
   createTask,
   updateTask,
-  deleteTask
+  deleteTask,
+  getAllTasks
 } from "../controllers/task";
 
 const taskAminRouter = Router();
 
+taskAminRouter.get("/", checkToken, checkTeacherRole, getAllTasks)
 taskAminRouter.post("/create", checkToken, checkTeacherRole, createTask);
 taskAminRouter.get("/:taskId", checkToken, checkTeacherRole, getSingleTask);
 taskAminRouter.post("/:taskId/update", checkToken, checkTeacherRole, updateTask);
