@@ -51,8 +51,6 @@
 		"/admin/task/create": {
 			"$ref": "paths/task/create.json#"
 		},
-
-
 		"/admin/task": {
 			"$ref": "paths/task/get-all-tasks-teacher.json#"
 		},
@@ -62,18 +60,14 @@
 		"/admin/task/{taskId}/update": {
 			"$ref": "paths/task/update-by-id.json#"
 		},
-		"/admin/task/{taskId}/submission": {
-			"$ref": "paths/task/get-all-submissions-teacher.json#"
-		},
-
-
-
-
 		"/task": {
 			"$ref": "paths/task/get-all-tasks-student.json#"
 		},
 		"/task/{taskId}": {
 			"$ref": "paths/task/get-by-id-student.json#"
+		},
+		"/admin/task/{taskId}/submission": {
+			"$ref": "paths/task/get-all-submissions-teacher.json#"
 		},
 		"/task/{taskId}/submission": {
 			"$ref": "paths/task/get-submission-student.json#"

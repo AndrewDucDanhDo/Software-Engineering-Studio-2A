@@ -1,7 +1,7 @@
 {
 	"get": {
 		"tags": ["task"],
-		"summary": "Fetch all tasks assigned to the user. TODO",
+		"summary": "Fetch all tasks assigned to the user.",
 		"parameters": [],
 		"responses": {
 			"200": {
