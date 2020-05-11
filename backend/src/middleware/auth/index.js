@@ -24,6 +24,7 @@ export const checkToken = (req, res, next) => {
       const { authToken } = req;
       const userInfo = await admin.auth().verifyIdToken(authToken);
       req.authId = userInfo.uid;
+      req.userClaims = { teacher: userInfo.teacher };
       return next();
     } catch (error) {
       return handleApiError(res, new AuthenticationError());

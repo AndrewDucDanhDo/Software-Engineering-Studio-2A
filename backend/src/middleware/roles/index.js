@@ -1,5 +1,9 @@
-// Check if the user is of type teacher
+// Check the token is teacher role
 export const checkTeacherRole = (req, res, next) => {
-  // TODO: Implement this when we have a solution for user roles
-  return next();
+  const { teacher } = req.userClaims;
+
+  if (teacher === true) {
+    return next();
+  }
+  return handleApiError(res, new AuthenticationError());
 };

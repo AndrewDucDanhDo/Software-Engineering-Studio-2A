@@ -3,7 +3,8 @@ import {
   createUser,
   getUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  makeUserTeacher
 } from "../controllers/user";
 import {
   saveUserCircuit,
@@ -14,6 +15,7 @@ import {
 } from "../controllers/circuit";
 import { checkToken } from "../middleware/auth";
 import { checkUser } from "../middleware/user";
+import { checkTeacherRole } from "../middleware/roles";
 
 const userRouter = Router();
 
@@ -44,5 +46,19 @@ userRouter.delete(
   checkUser,
   deleteUserCircuit
 );
+
+// TODO Remove POC teacher role
+userRouter.post("/:userId/promote", makeUserTeacher);
+userRouter.post("/teacher",
+  checkToken,
+  checkTeacherRole,
+  function (req, res) {
+    res.status(200).json({
+      status: "OK",
+      data: { msg: "User has teacher auth." }
+    })
+  }
+);
+
 
 export default userRouter;
