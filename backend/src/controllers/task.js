@@ -19,6 +19,10 @@ const hasTeacherRole = (req) => {
   return req.userClaims !== undefined && req.userClaims.teacher === true;
 };
 
+const isUserAssignedToTask = (userId, taskData) => {
+  return taskData.assigned !== undefined && taskData.assigned.includes(userId);
+};
+
 export const createTask = async (req, res) => {
   try {
     const taskBody = req.body;
@@ -94,6 +98,7 @@ export const getAllTasks = async (req, res) => {
 export const getSingleTask = async (req, res) => {
   try {
     const taskId = req.params.taskId;
+    const userId = req.authId;
 
     checkParams({
       taskId: {
@@ -112,8 +117,12 @@ export const getSingleTask = async (req, res) => {
       if (hasTeacherRole(req)) {
         formattedTaskData = taskDocData;
       } else {
-        // TODO: We should also check if the user is assigned to this task as well
-        formattedTaskData = formatTaskForStudent(taskDocData);
+        // Only return task data if the user is assigned to the task
+        if (isUserAssignedToTask(userId, taskDocData)) {
+          formattedTaskData = formatTaskForStudent(taskDocData);
+        } else {
+          throw new FirestoreError("auth", taskDoc.ref, "task");
+        }
       }
 
       return res.status(200).json(successResponse(formattedTaskData));

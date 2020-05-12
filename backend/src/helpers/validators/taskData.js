@@ -3,8 +3,10 @@ import { MissingKeySyntaxError, KeyTypeSyntaxError } from "../../errors/syntax";
 // Configuration for the task data validation
 const requiredKeys = [
   { key: "taskId", type: "string" },
+  { key: "name", type: "string" },
   { key: "summary", type: "string" },
   { key: "description", type: "string" },
+  { key: "expectedResults", type: "array" },
   { key: "owners", type: "array" }
 ];
 
