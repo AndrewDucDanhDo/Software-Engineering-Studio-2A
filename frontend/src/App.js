@@ -58,7 +58,7 @@ function App() {
 						</Route>
                 		<Route path="/">
 							<Navigation />
-							<LoginPage />
+							<HomePage />
 						</Route>
 					</Switch>
 					<Footer />
