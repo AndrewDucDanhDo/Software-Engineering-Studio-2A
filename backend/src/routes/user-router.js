@@ -47,18 +47,7 @@ userRouter.delete(
   deleteUserCircuit
 );
 
-// TODO Remove POC teacher role
+// TODO Move to a different router when we know where it'll fit in the spec
 userRouter.post("/:userId/promote", makeUserTeacher);
-userRouter.post("/teacher",
-  checkToken,
-  checkTeacherRole,
-  function (req, res) {
-    res.status(200).json({
-      status: "OK",
-      data: { msg: "User has teacher auth." }
-    })
-  }
-);
-
 
 export default userRouter;

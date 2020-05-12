@@ -56,6 +56,18 @@ export const handleApiError = (res, error) => {
         );
 
     case FirestoreError:
+      if (error.code === "auth") {
+        return res
+          .status(400)
+          .json(
+            errorResponse(
+              `The requesting user does not have permissions to access the ref at '${error.documentRef}'`,
+              `${error.documentType}-${error.code}`,
+              error
+            )
+          );
+      }
+
       return res
         .status(400)
         .json(

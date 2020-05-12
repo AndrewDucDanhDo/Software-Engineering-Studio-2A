@@ -15,9 +15,14 @@ const formatTaskForStudent = (taskData) => {
   };
 };
 
+const hasTeacherRole = (req) => {
+  return req.userClaims !== undefined && req.userClaims.teacher === true;
+};
+
 export const createTask = async (req, res) => {
   try {
     const taskBody = req.body;
+    const userId = req.authId;
 
     // Generate a new uuid if no id was provided
     if (taskBody.taskId === undefined) {
@@ -35,7 +40,6 @@ export const createTask = async (req, res) => {
 
     // Make sure the owners block of the taskBody has the
     // authenticated users userId in it and if not add it
-    const userId = req.authId;
     if (!taskBody.owners.includes(userId)) {
       taskBody.owners.push(userId);
     }
@@ -62,10 +66,10 @@ export const getAllTasks = async (req, res) => {
   try {
     const userId = req.authId;
 
-    // Format data based on the type of the user thats signed in
-    // admins receive all tasks and other users only they're assigned
+    // Format data based on the type of the user thats signed in, admins
+    // receive all tasks and other users only the tasks they're assigned
     let taskList;
-    if (req.userClaims !== undefined && req.userClaims.teacher === true) {
+    if (hasTeacherRole(req)) {
       const tasksCollection = await db.collection("tasks").get();
       taskList = tasksCollection.docs.map((doc) => {
         return { ...doc.data(), taskId: doc.id };
@@ -105,7 +109,7 @@ export const getSingleTask = async (req, res) => {
       let formattedTaskData;
 
       // Format task data based on the users role
-      if (req.userClaims !== undefined && req.userClaims.teacher === true) {
+      if (hasTeacherRole(req)) {
         formattedTaskData = taskDocData;
       } else {
         // TODO: We should also check if the user is assigned to this task as well
@@ -125,6 +129,7 @@ export const updateTask = async (req, res) => {
   try {
     const taskBody = req.body;
     const taskId = req.params.taskId;
+    const userId = req.authId;
 
     // We do not want to update the taskId in firestore after it is set
     // so just replace the taskBody taskId with the one from params
@@ -146,12 +151,17 @@ export const updateTask = async (req, res) => {
     const taskDoc = await db.collection("tasks").doc(taskId).get();
 
     if (taskDoc.exists === true) {
-      await taskDoc.ref.set(taskBody);
-      return res
-        .status(200)
-        .json(
-          successResponse({ msg: "Task was successfully updated", taskId })
-        );
+      // Check that the user requesting to update the tasks is an owner of the task
+      if (taskDoc.data().owners.includes(userId) === true) {
+        await taskDoc.ref.set(taskBody);
+        return res
+          .status(200)
+          .json(
+            successResponse({ msg: "Task was successfully updated", taskId })
+          );
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
     } else {
       throw new FirestoreError("missing", taskDoc.ref, "task");
     }
@@ -163,6 +173,7 @@ export const updateTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const taskId = req.params.taskId;
+    const userId = req.authId;
 
     checkParams({
       taskId: {
@@ -171,13 +182,18 @@ export const deleteTask = async (req, res) => {
       }
     });
 
-    const taskData = await db.collection("tasks").doc(taskId).get();
+    const taskDoc = await db.collection("tasks").doc(taskId).get();
 
-    if (taskData.exists === true) {
-      await taskData.ref.delete();
-      return res
-        .status(200)
-        .json(successResponse({ msg: "Task was successfully deleted." }));
+    if (taskDoc.exists === true) {
+      // Check that the user requesting to delete the tasks is an owner of the task
+      if (taskDoc.data().owners.includes(userId)) {
+        await taskDoc.ref.delete();
+        return res
+          .status(200)
+          .json(successResponse({ msg: "Task was successfully deleted." }));
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
     } else {
       throw new FirestoreError("missing", taskDoc.ref, "task");
     }

@@ -3,7 +3,7 @@
 export const checkUser = (req, res, next) => {
   // This is made available via the firebase checkToken middleware
   const { authId } = req;
-  const userId = req.params.userId;
+  const { userId } = req.params;
 
   if (authId == userId) {
     return next();

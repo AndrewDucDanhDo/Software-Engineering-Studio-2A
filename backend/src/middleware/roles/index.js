@@ -9,7 +9,7 @@ export const checkTeacherRole = (req, res, next) => {
 };
 
 // Remove all userClaims on the request to effectively
-// demote the user for the single made request
+// demote the user for the single request made
 export const stripRoles = (req, res, next) => {
   delete req.userClaims
   next()
