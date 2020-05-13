@@ -1,6 +1,6 @@
 {
   "post": {
-    "tags": ["user", "task", "submission"],
+    "tags": ["task", "submission"],
     "summary": "Submit a quantum circuit for a task for a user. TODO",
     "parameters": [
       {

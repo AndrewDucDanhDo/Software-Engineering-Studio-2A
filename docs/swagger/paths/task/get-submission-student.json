@@ -1,7 +1,7 @@
 {
   "get": {
     "tags": ["task", "submission"],
-    "summary": "Fetch the submissions for a quantum circuit for a task. TODO",
+    "summary": "Fetch the users submission for a qunatum circuit task. TODO",
     "parameters": [
       {
         "$ref": "../../common/parameters/taskId.json"
