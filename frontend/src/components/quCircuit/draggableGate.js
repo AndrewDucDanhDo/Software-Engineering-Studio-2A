@@ -1,7 +1,7 @@
 import React from "react";
 import { fashion } from "../../helpers/fashion";
 import Box from "@material-ui/core/Box";
-import gates from "./gates";
+import Gates from "./gates";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DraggableGate(props) {
     const classes = useStyles();
-    let iconPath = gates.getSvgPath(props.gate);
+    let iconPath = Gates.getSvgPath(props.gate);
 
     function onDragStart(event) {
         event.dataTransfer.setData("gate", props.gate);

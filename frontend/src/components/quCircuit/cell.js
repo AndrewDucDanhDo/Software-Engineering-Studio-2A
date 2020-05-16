@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DraggableGate from "./draggableGate";
 
@@ -24,9 +24,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function WireCell(props) {
+export default function Cell(props) {
     const classes = useStyles();
-    const [gate, setGate] = useState(null);
+
+    function setGateAndListeners(g) {
+        if (props.onGateChanged) {
+            props.onGateChanged(g);
+        }
+    }
 
     function onDraggedOver(event) {
         event.preventDefault();
@@ -37,33 +42,25 @@ export default function WireCell(props) {
         event.preventDefault();
 
         let gate = event.dataTransfer.getData("gate");
-        setGate(gate);
+        setGateAndListeners(gate);
     }
 
     function onDragGateEnd(event) {
         event.preventDefault();
-        setGate(null);
+        setGateAndListeners(null);
     }
 
     function gateIcon() {
-        if (!gate) return null;
+        if (!props.cellData || !props.cellData.gate) return null;
 
         return (
             <div className={classes.iconContainer}>
-                <DraggableGate size="md" gate={gate} onDragEnd={onDragGateEnd} draggable/>
+                <DraggableGate size="md" gate={props.cellData.gate} onDragEnd={onDragGateEnd} draggable/>
             </div>
         );
     }
 
     return (
-        // TODO: Remove commented out, experimental code
-        // <WireBox display="flex" alignItems="center" onDragOver={onDraggedOver} onDrop={onDrop}>
-        //     <Wire/>
-        // </WireBox>
-        // <Box className={classes.wireBox} onDragOver={onDraggedOver} onDrop={onDrop}>
-        //      <Box className={classes.wire}/>
-        // </Box>
-
         // Use div with makeStyles here. Apparently it's faster for performance when we are rendering hundreds of these.
         <div className={classes.wireBox} onDragOver={onDraggedOver} onDrop={onDrop}>
             <div className={classes.wire}/>

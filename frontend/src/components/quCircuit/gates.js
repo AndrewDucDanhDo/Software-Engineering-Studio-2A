@@ -10,7 +10,7 @@ const svgIcons = {
     Z: zGateIcon
 };
 
-const gates = {
+const Gates = {
     X: "X",
     Y: "Y",
     Z: "Z",
@@ -21,4 +21,4 @@ const gates = {
     },
 };
 
-export default gates;
+export default Gates;
