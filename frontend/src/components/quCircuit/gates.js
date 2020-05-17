@@ -5,29 +5,6 @@ import ControlGateIcon from "./controlGateIcon";
 
 const EmptyComponent = () => (<></>);
 
-function createGate(component, targets) {
-    return {
-        component: component,
-        targets: targets || [],
-    }
-}
-
-export const GateProperties = {
-    H: createGate((props) => (<LabeledGateIcon {...props} label="H"/>)),
-    Y: createGate((props) => (<LabeledGateIcon {...props} label="Y"/>)),
-    Z: createGate((props) => (<LabeledGateIcon {...props} label="Z"/>)),
-    CNOT: createGate((props) => (<CNotGateIcon {...props}/>)),
-    CONTROL: createGate((props) => (<ControlGateIcon {...props}/>)),
-    SWAP: createGate((props) => (<LabeledGateIcon {...props} label="SWAP" labelSize={2}/>)),
-    R2: createGate((props) => (<LabeledGateIcon {...props} label="R2" labelSize={3.5}/>)),
-    R4: createGate((props) => (<LabeledGateIcon {...props} label="R4" labelSize={3.5}/>)),
-    R6: createGate((props) => (<LabeledGateIcon {...props} label="R6" labelSize={3.5}/>)),
-};
-
-export function getGateComponentOrEmpty(gate) {
-    return GateProperties[gate].component ?? EmptyComponent;
-}
-
 export const Gates = {
     H: "H",
     Y: "Y",
@@ -39,3 +16,26 @@ export const Gates = {
     R4: "R4",
     R6: "R6",
 };
+
+function createGate(component, targets) {
+    return {
+        component: component,
+        targets: targets || [],
+    }
+}
+
+export const GateProperties = {
+    H: createGate((props) => (<LabeledGateIcon {...props} label="H"/>)),
+    Y: createGate((props) => (<LabeledGateIcon {...props} label="Y"/>)),
+    Z: createGate((props) => (<LabeledGateIcon {...props} label="Z"/>)),
+    CNOT: createGate((props) => (<CNotGateIcon {...props}/>), [Gates.CONTROL]),
+    CONTROL: createGate((props) => (<ControlGateIcon {...props}/>)),
+    SWAP: createGate((props) => (<LabeledGateIcon {...props} label="SWAP" labelSize={2}/>), [Gates.SWAP]),
+    R2: createGate((props) => (<LabeledGateIcon {...props} label="R2" labelSize={3.5}/>)),
+    R4: createGate((props) => (<LabeledGateIcon {...props} label="R4" labelSize={3.5}/>)),
+    R6: createGate((props) => (<LabeledGateIcon {...props} label="R6" labelSize={3.5}/>)),
+};
+
+export function getGateComponentOrEmpty(gate) {
+    return GateProperties[gate].component ?? EmptyComponent;
+}
