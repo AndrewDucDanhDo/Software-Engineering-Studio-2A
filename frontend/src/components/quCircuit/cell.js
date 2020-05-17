@@ -6,21 +6,21 @@ const useStyles = makeStyles((theme) => ({
     wireBox: {
         position: "relative",
         height: theme.spacing(3) * 2,
+        width: theme.spacing(3) * 2,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         userSelect: "none",
     },
     wire: {
-        borderBottom: "solid black 2px",
-        width: theme.spacing(3) * 2,
-        userSelect: "none",
-    },
-    iconContainer: {
         position: "absolute",
-        backgroundColor: "#ffffff",
-        zIndex: 1,
-        userSelect: "none",
+        borderBottom: "solid black 0.15em",
+        width: theme.spacing(3) * 2,
+        top: ((theme.spacing(3) * 2) / 2) - 2, // (height / 2) - borderSize
+        zIndex: -1,
+    },
+    gateContainer: {
+        position: "absolute",
     },
 }));
 

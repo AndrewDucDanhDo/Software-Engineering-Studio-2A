@@ -1,24 +1,41 @@
-import hadmardGateIcon from "../../quantumGates/hadmard_gate_icon.svg";
-import xGateIcon from "../../quantumGates/x_gate_icon.svg";
-import yGateIcon from "../../quantumGates/y_gate_icon.svg";
-import zGateIcon from "../../quantumGates/z_gate_icon.svg";
+import React from "react";
+import LabeledGateIcon from "./labeledGateIcon";
+import CNotGateIcon from "./cnotGateIcon";
+import ControlGateIcon from "./controlGateIcon";
 
-const svgIcons = {
-    H: hadmardGateIcon,
-    Y: yGateIcon,
-    X: xGateIcon,
-    Z: zGateIcon
+const EmptyComponent = () => (<></>);
+
+function createGate(component, targets) {
+    return {
+        component: component,
+        targets: targets || [],
+    }
+}
+
+export const GateProperties = {
+    H: createGate((props) => (<LabeledGateIcon {...props} label="H"/>)),
+    Y: createGate((props) => (<LabeledGateIcon {...props} label="Y"/>)),
+    Z: createGate((props) => (<LabeledGateIcon {...props} label="Z"/>)),
+    CNOT: createGate((props) => (<CNotGateIcon {...props}/>)),
+    CONTROL: createGate((props) => (<ControlGateIcon {...props}/>)),
+    SWAP: createGate((props) => (<LabeledGateIcon {...props} label="SWAP" labelSize={2}/>)),
+    R2: createGate((props) => (<LabeledGateIcon {...props} label="R2" labelSize={3.5}/>)),
+    R4: createGate((props) => (<LabeledGateIcon {...props} label="R4" labelSize={3.5}/>)),
+    R6: createGate((props) => (<LabeledGateIcon {...props} label="R6" labelSize={3.5}/>)),
 };
 
-const Gates = {
-    X: "X",
+export function getGateComponentOrEmpty(gate) {
+    return GateProperties[gate].component ?? EmptyComponent;
+}
+
+export const Gates = {
+    H: "H",
     Y: "Y",
     Z: "Z",
-    H: "H",
-
-    getSvgPath: (gate) => {
-        return svgIcons[gate];
-    },
+    CNOT: "CNOT",
+    CONTROL: "CONTROL",
+    SWAP: "SWAP",
+    R2: "R2",
+    R4: "R4",
+    R6: "R6",
 };
-
-export default Gates;

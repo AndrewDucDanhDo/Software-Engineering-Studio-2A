@@ -91,12 +91,12 @@ export default function QuCircuit(props) {
 
     return (
         <StretchBox display="flex">
-            <CircuitBox flexGrow={2}>
+            <CircuitBox flexGrow={1} flexShrink={6}>
                 {wires(wireAmount, cellAmount)}
             </CircuitBox>
 
-            <ToolBox component={Paper} variant="outlined" flexGrow={1}>
-                <Box m={2}>
+            <ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
+                <Box m={1}>
                     <GatesToolbox/>
                 </Box>
             </ToolBox>

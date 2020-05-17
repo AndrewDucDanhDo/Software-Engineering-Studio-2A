@@ -1,9 +1,8 @@
 import React from "react";
 import { fashion } from "../../helpers/fashion";
 import Box from "@material-ui/core/Box";
-import Gates from "./gates";
+import { EmptyComponent, getGateComponentOrEmpty } from "./gates";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 
 const GateBox = fashion(Box, (theme) => ({
     margin: theme.spacing(0),
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DraggableGate(props) {
     const classes = useStyles();
-    let iconPath = Gates.getSvgPath(props.gate);
+    const GateIcon = getGateComponentOrEmpty(props.gate);
 
     function onDragStart(event) {
         event.dataTransfer.setData("gate", props.gate);
@@ -37,13 +36,23 @@ export default function DraggableGate(props) {
         }
     }
 
+    let size = props.size;
+
+    switch (size) {
+        case "sm":
+            size = 15;
+            break;
+        case "md":
+            size = 35;
+            break;
+        case "lg":
+            size = 55;
+            break;
+    }
+
     return (
-        <GateBox draggable gate={props.gate} onDragStart={onDragStart} onDrag={props.onDrag} onDragEnd={props.onDragEnd}>
-            <img className={clsx(props.imgClassName, classes.icon, {
-                [classes.smIcon]: props.size === "sm",
-                [classes.mdIcon]: props.size === "md",
-                [classes.lgIcon]: props.size === "lg",
-            })} src={iconPath}/>
+        <GateBox className={props.className} draggable gate={props.gate} onDragStart={onDragStart} onDrag={props.onDrag} onDragEnd={props.onDragEnd}>
+            <GateIcon className={classes.icon} size={size}/>
         </GateBox>
     );
 }
