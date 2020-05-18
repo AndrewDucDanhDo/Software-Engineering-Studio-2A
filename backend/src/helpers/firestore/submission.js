@@ -1,13 +1,23 @@
 import { db } from "../firebase-admin";
 import { v4 as uuid } from "uuid";
 
+const taskCollectionName = "tasks";
+const submissionCollectionName = "submissions";
+
 export const firestoreSubmission = {
   get: (taskId, userId) => {
     return db
-      .collection("tasks")
+      .collection(taskCollectionName)
       .doc(taskId)
-      .collection("submissions")
+      .collection(submissionCollectionName)
       .doc(userId)
+      .get();
+  },
+  getAll: (taskId) => {
+    return db
+      .collection(taskCollectionName)
+      .doc(taskId)
+      .collection(submissionCollectionName)
       .get();
   },
   create: (submissionDoc, circuitData) => {
@@ -22,7 +32,6 @@ export const firestoreSubmission = {
         comment: ""
       }
     };
-
     return submissionDoc.ref.set(submissionData);
   }
 };

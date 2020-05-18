@@ -8,6 +8,10 @@ const userCanSubmit = (taskData, userId) => {
   return taskData.assigned.includes(userId);
 };
 
+const hasTeacherRole = (userClaims) => {
+  return userClaims !== undefined && userClaims.teacher === true;
+};
+
 export const createSubmission = async (req, res) => {
   try {
     const submissionCircuitBody = req.body;
@@ -49,6 +53,48 @@ export const createSubmission = async (req, res) => {
         }
       } else {
         throw new FirestoreError("exists", submissionDoc.ref, "submission");
+      }
+    } else {
+      throw new FirestoreError("missing", taskDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+export const getTaskSubmissions = async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
+    const userId = req.authId;
+    const userClaims = req.userClaims;
+
+    checkParams({
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      }
+    });
+
+    const taskDoc = await firestore.task.get(taskId);
+    const taskSubmissionsCollection = await firestore.submission.getAll(taskId);
+
+    // Check the document exists
+    if (taskDoc.exists) {
+      // Check the user has a role of teacher and can access all submissions
+      if (hasTeacherRole(userClaims)) {
+        const formattedSubmissions = taskSubmissionsCollection.docs.map(
+          (submission) => {
+            return {
+              owner: submission.id,
+              ...submission.data()
+            };
+          }
+        );
+
+        return res.status(200).json(successResponse(formattedSubmissions));
+      } else {
+        // TODO: Make this fetch only a students submission for a task
+        throw new FirestoreError("auth", taskDoc.ref, "task");
       }
     } else {
       throw new FirestoreError("missing", taskDoc.ref, "task");

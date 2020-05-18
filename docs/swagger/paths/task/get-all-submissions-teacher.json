@@ -1,16 +1,16 @@
 {
-  "get": {
-    "tags": ["task", "submission", "admin"],
-    "summary": "Fetch all submissions for a quantum circuit task. TODO",
-    "parameters": [
-      {
-        "$ref": "../../common/parameters/taskId.json"
-      }
-    ],
-    "responses": {
+	"get": {
+		"tags": ["task", "submission", "admin"],
+		"summary": "Fetch all submissions for a quantum circuit task.",
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/taskId.json"
+			}
+		],
+		"responses": {
 			"200": {
 				"description": "All submissions for the selected task.",
-        "schema": {
+				"schema": {
 					"type": "object",
 					"properties": {
 						"status": {
@@ -18,7 +18,10 @@
 							"example": "OK"
 						},
 						"data": {
-							"$ref": "../../common/schemas/submission.json#"
+							"type": "array",
+							"items": {
+								"$ref": "../../common/schemas/submission.json#"
+							}
 						}
 					}
 				}
@@ -29,14 +32,14 @@
 					"$ref": "../../common/schemas/apiErrorResponse.json#"
 				},
 				"examples": {
-          "application/json": {
-            "status": "ERROR",
-            "msg": "An unknown error occurred.",
-            "errorCode": "password-length",
-            "error": "RangeError: Invalid array length"
-          }
-        }
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
 			}
 		}
-  }
+	}
 }
