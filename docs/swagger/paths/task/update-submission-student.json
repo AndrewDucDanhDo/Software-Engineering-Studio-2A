@@ -1,14 +1,11 @@
 {
 	"post": {
-		"tags": ["submission"],
+		"tags": ["submission", "task"],
 		"summary": "Update a single quantum circuit submissions information. TODO",
 		"description": "This endpoint can be used to updated the details of a submission. Updates to submissions are done via an object merge of the current submission object and the provided new submission details. In simple terms, consider all of object keys in the body optional.",
 		"parameters": [
 			{
-				"$ref": "../../common/parameters/userId.json"
-			},
-			{
-				"$ref": "../../common/parameters/submissionId.json"
+				"$ref": "../../common/parameters/taskId.json"
 			},
 			{
 				"in": "body",
@@ -50,11 +47,11 @@
 		}
 	},
 	"delete": {
-		"tags": ["submission"],
+		"tags": ["submission", "task"],
 		"summary": "Delete single quantum circuit submission. TODO",
 		"parameters": [
 			{
-				"$ref": "../../common/parameters/userId.json"
+				"$ref": "../../common/parameters/taskId.json"
 			},
 			{
 				"$ref": "../../common/parameters/submissionId.json"

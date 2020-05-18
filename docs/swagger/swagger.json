@@ -63,17 +63,11 @@
 		"/task/{taskId}/submission": {
 			"$ref": "paths/task/get-submission-student.json#"
 		},
-		"/submission": {
-			"$ref": "paths/submission/get-submission.json#"
+		"/task/{taskId}/submission/update": {
+			"$ref": "paths/task/update-submission-student.json#"
 		},
-		"/submission/{submissionId}": {
-			"$ref": "paths/submission/get-submission-by-id.json#"
-		},
-		"/submission/{submissionId}/update": {
-			"$ref": "paths/submission/update-submission-by-id.json#"
-		},
-		"/admin/submission/{submissionId}/update": {
-			"$ref": "paths/submission/update-submission-by-id-teacher.json#"
+		"/admin/task/{taskId}/submission/{userId}/update": {
+			"$ref": "paths/task/update-submission-teacher.json#"
 		}
 	}
 }
