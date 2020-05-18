@@ -20,7 +20,7 @@
 		},
 		"description": {
 			"type": "string",
-			"description": "A longer description of the task for assignees to understand the assigned task.",
+			"description": "A longer description of the task for assigned students to understand the assigned task.",
 			"example": "An electric bell is a mechanical or electronic bell that functions by means of an electromagnet. When an electric current is applied, it produces a repetitive buzzing, clanging or ringing sound."
 		},
 		"expectedResults": {

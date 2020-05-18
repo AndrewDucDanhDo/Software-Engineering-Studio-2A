@@ -7,7 +7,8 @@ const requiredKeys = [
   { key: "summary", type: "string" },
   { key: "description", type: "string" },
   { key: "expectedResults", type: "array" },
-  { key: "owners", type: "array" }
+  { key: "owners", type: "array" },
+  { key: "assigned", type: "array" }
 ];
 
 // TODO: Make this a super function that can be called by all the specific validators
