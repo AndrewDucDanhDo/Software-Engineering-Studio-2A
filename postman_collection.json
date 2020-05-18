@@ -594,6 +594,31 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "get task submission",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/task/:taskId/submission",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"submission"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -670,7 +695,7 @@
 	],
 	"variable": [
 		{
-			"id": "66505995-b08c-4644-8928-6dd0d6a095f0",
+			"id": "8f9ec954-a68b-408e-b0ce-354b45f64c9c",
 			"key": "host",
 			"value": "localhost:4000",
 			"type": "string"

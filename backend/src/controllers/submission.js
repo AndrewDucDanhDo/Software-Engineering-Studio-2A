@@ -93,8 +93,22 @@ export const getTaskSubmissions = async (req, res) => {
 
         return res.status(200).json(successResponse(formattedSubmissions));
       } else {
-        // TODO: Make this fetch only a students submission for a task
-        throw new FirestoreError("auth", taskDoc.ref, "task");
+        const submissionDoc = await firestore.submission.get(taskId, userId);
+
+        if (submissionDoc.exists) {
+          return res
+            .status(200)
+            .json(successResponse({
+              owner: submissionDoc.id,
+              ...submissionDoc.data()
+            }));
+        } else {
+          throw new FirestoreError(
+            "missing",
+            submissionDoc.ref,
+            "submission"
+          );
+        }
       }
     } else {
       throw new FirestoreError("missing", taskDoc.ref, "task");
