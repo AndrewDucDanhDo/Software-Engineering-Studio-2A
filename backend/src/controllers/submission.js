@@ -96,23 +96,43 @@ export const getTaskSubmissions = async (req, res) => {
         const submissionDoc = await firestore.submission.get(taskId, userId);
 
         if (submissionDoc.exists) {
-          return res
-            .status(200)
-            .json(successResponse({
+          return res.status(200).json(
+            successResponse({
               owner: submissionDoc.id,
               ...submissionDoc.data()
-            }));
-        } else {
-          throw new FirestoreError(
-            "missing",
-            submissionDoc.ref,
-            "submission"
+            })
           );
+        } else {
+          throw new FirestoreError("missing", submissionDoc.ref, "submission");
         }
       }
     } else {
       throw new FirestoreError("missing", taskDoc.ref, "task");
     }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+export const updateSubmission = async (req, res) => {
+  try {
+    res.status(500).json({ msg: "not implemented" });
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+export const deleteSubmission = async (req, res) => {
+  try {
+    res.status(500).json({ msg: "not implemented" });
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+export const updateSubmissionResults = async (req, res) => {
+  try {
+    res.status(500).json({ msg: "not implemented" });
   } catch (error) {
     handleApiError(res, error);
   }

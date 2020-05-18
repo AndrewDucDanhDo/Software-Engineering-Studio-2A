@@ -619,6 +619,58 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "update submission",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/task/:taskId/submission/update",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"submission",
+										"update"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "asda"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete submission",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/task/:taskId/submission/update",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"submission",
+										"update"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "asdsad"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -652,6 +704,38 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "update submission results",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/admin/task/:taskId/submission/:userId/update",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										":taskId",
+										"submission",
+										":userId",
+										"update"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": ""
+										},
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -666,7 +750,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1YzlhZWJlMjM0ZGE2MDE2YmQ3Yjk0OTE2OGI4Y2Q1YjRlYzllZWIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsInRlYWNoZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg5ODAxMjQwLCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODk4MDEyNDAsImV4cCI6MTU4OTgwNDg0MCwiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.E5_qZMy7VAwkPTgKW0cqliYJq9PgVivoStwzqV-9s3OLgM4cru9CdWqShcUXnjZJuHdFJ35JIoLATTPXeAz9lqG1NTue4i4_QDbIWtNTMO4S73nlZrweWvNyDYhyt-NuXVDW_9YleT4R6Y_GDAKzTnk6hTN3uiABmOXBZ81Jih4LGOLHP3PMhynvdCAQb0HGo9bBiPQ_-HQE98tC8y3XkpQK2BccCxCc_dnBDXEJPvU_E8Y6eCi78ks-PaUE6rpaTWRb7-1KsZtSbd_hLvmV0vkji9uH6pV7LVuT9F9DjXaEusPLGA54pl5-a5JSiTZWL18d_a67lutYb3-JbASwUg",
+				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1YzlhZWJlMjM0ZGE2MDE2YmQ3Yjk0OTE2OGI4Y2Q1YjRlYzllZWIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsInRlYWNoZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg5ODA1OTM4LCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODk4MDU5MzgsImV4cCI6MTU4OTgwOTUzOCwiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ePRivQzuk_L1ctB5WRL-lFR1XEx7rLeRyATI3DeyLqIYIWT-B5sMjM-f_zr8sptQ3tFxyz-fGb1RJqvium9ik9NOB5LNZNH9dAHKZKnDGQC3cIJXETl-wPP8kWR_qm4oO6u_oaQ7Rz8B-FFW_Aj6gTtl0qkD-r_lEhzO13lsoB_jQh65DjXUh5zQN81QM6cZQ8ef5SxVXGz8_XpBepwfZ2wf3dmCBp8Vn9qoaO7EPEZtjqSgRxLyk8c49RwNJDlw8-BTppLHndebaOKIQdlhzWzFX-VvH8L5QIkJ0cqhRZFf_laXS0dIDJ_KLEzhySSao-x6Bqzkf2jPnT3v1OTNUQ",
 				"type": "string"
 			}
 		]
@@ -695,7 +779,7 @@
 	],
 	"variable": [
 		{
-			"id": "8f9ec954-a68b-408e-b0ce-354b45f64c9c",
+			"id": "d6e06097-20d1-4fc1-a33b-5e77bf447b64",
 			"key": "host",
 			"value": "localhost:4000",
 			"type": "string"

@@ -4,7 +4,9 @@ import { stripRoles } from "../middleware/roles";
 import { getSingleTask, getAllTasks } from "../controllers/task";
 import {
   createSubmission,
-  getTaskSubmissions
+  getTaskSubmissions,
+  updateSubmission,
+  deleteSubmission
 } from "../controllers/submission";
 
 const taskStudentRouter = Router().use(checkToken, stripRoles);
@@ -15,5 +17,7 @@ taskStudentRouter.get("/", getAllTasks);
 taskStudentRouter.get("/:taskId", getSingleTask);
 taskStudentRouter.post("/:taskId/submit", createSubmission);
 taskStudentRouter.get("/:taskId/submission", getTaskSubmissions);
+taskStudentRouter.post("/:taskId/submission/update", updateSubmission);
+taskStudentRouter.delete("/:taskId/submission/update", deleteSubmission);
 
 export default taskStudentRouter;
