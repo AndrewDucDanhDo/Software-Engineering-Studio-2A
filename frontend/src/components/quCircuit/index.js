@@ -6,6 +6,7 @@ import Cell from "./cell";
 import { useTheme } from "@material-ui/core";
 import GatesToolbox from "./gatesToolbox";
 import Paper from "@material-ui/core/Paper";
+import CellLife from "./cellLife";
 
 const CircuitBox = fashion(Box, (theme) => ({
     marginTop: theme.spacing(2),
@@ -40,7 +41,7 @@ export default function QuCircuit(props) {
 
     // TODO Remove this debug piece of code.
     useEffect(() => {
-        console.log(`Circuit now ==> ${JSON.stringify(circuit)}`)
+        console.log(`Circuit now ==> ${JSON.stringify(circuit)}`);
     }, [circuit]);
 
     useEffect(() => {
@@ -55,21 +56,6 @@ export default function QuCircuit(props) {
             document.removeEventListener("mousedown", onMouseDown);
         }
     }, [circuitRef]);
-
-    function findGateVertically(startWireIndex, startCellIndex, gate, increment = 1) {
-        let wireIndex = startWireIndex;
-        wireIndex += increment;
-
-        while (wireIndex > 0 && wireIndex < wireAmount) {
-            let cellData = circuit[wireIndex][startCellIndex];
-
-            if (cellData.gate === gate) {
-                return startWireIndex - wireIndex;
-            }
-            wireIndex += increment;
-        }
-        return 0;
-    }
 
     function disconnectTargetsAt(cellIndex, wireIndex) {
         for (let i = 0; i < wireAmount; i++) {
@@ -86,9 +72,10 @@ export default function QuCircuit(props) {
         let wireCells = new Array(amount);
 
         for (let cellIndex = 0; cellIndex < amount; cellIndex++) {
+            let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell);
 
-            function onGateChanged(g, oldCellData) {
-                console.log(`Changing gate from ${JSON.stringify(oldCellData)} to ${g}`)
+            cellLife.onGateChanged = (g) => {
+                console.log(`Changing gate from ${JSON.stringify(cellLife.cellData)} to ${g}`)
                 setCell(wireIndex, cellIndex, {gate: g, targets: []});
 
                 // Check if we are setting a new gate at the cell.
@@ -97,40 +84,28 @@ export default function QuCircuit(props) {
                 } else {
                     disconnectTargetsAt(cellIndex, wireIndex);
                 }
-            }
+            };
 
-            function onGateClicked(event, cellData) {
-                console.log(`Selecting ${JSON.stringify(cellData)} !`);
+            cellLife.onGateClicked = (event) => {
+                console.log(`Selecting ${JSON.stringify(cellLife.cellData)} !`);
                 setSelectedCell({w: wireIndex, c: cellIndex})
-            }
+            };
 
-            function onConnect(event, cellData) {
-                setCell(wireIndex, cellIndex, {...cellData, targets: [...cellData.targets, selectedCell.w]});
-            }
+            cellLife.onConnect = (event) => {
+                setCell(wireIndex, cellIndex, {...cellLife.cellData, targets: [...cellLife.cellData.targets, selectedCell.w]});
+            };
 
-            function onDisconnect(event, cellData) {
-                let targets = cellData.targets;
+            cellLife.onDisconnect = (event) => {
+                let targets = cellLife.cellData.targets;
                 let selectedTargetIndex = targets.indexOf(selectedCell.w);
 
                 if (selectedTargetIndex !== -1) {
                     targets.splice(selectedTargetIndex, 1);
                 }
-                setCell(wireIndex, cellIndex, {...cellData, targets: targets});
-            }
+                setCell(wireIndex, cellIndex, {...cellLife.cellData, targets: targets});
+            };
 
-            let cellData;
-            if (circuit[wireIndex])
-                cellData = circuit[wireIndex][cellIndex];
-
-            let selectedCellData;
-            if (selectedCell) {
-                selectedCellData = circuit[selectedCell.w][selectedCell.c];
-            }
-
-            wireCells[cellIndex] = (<Cell key={cellIndex} wireIndex={wireIndex} cellIndex={cellIndex}
-                                          selectedCell={selectedCell} cellData={cellData} circuit={circuit} selectedCellData={selectedCellData}
-                                          onGateClicked={onGateClicked} onGateChanged={onGateChanged}
-                                          onConnect={onConnect} onDisconnect={onDisconnect}/>);
+            wireCells[cellIndex] = (<Cell key={cellIndex} cellLife={cellLife}/>);
         }
 
         return wireCells;
