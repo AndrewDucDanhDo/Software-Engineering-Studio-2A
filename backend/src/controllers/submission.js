@@ -173,14 +173,22 @@ export const deleteSubmission = async (req, res) => {
       }
     });
 
+    const taskDoc = await firestore.task.get(taskId);
     const submissionDoc = await firestore.submission.get(taskId, userId);
 
     // Check if the submission exists before deleting
     if (submissionDoc.exists) {
-      await submissionDoc.ref.delete();
-      return res
-        .status(200)
-        .json(successResponse({ msg: "Task submission successfully deleted" }));
+      // Check the user is still assigned to the task to update the submission
+      if (userCanSubmit(taskDoc.data(), userId)) {
+        await submissionDoc.ref.delete();
+        return res
+          .status(200)
+          .json(
+            successResponse({ msg: "Task submission successfully deleted" })
+          );
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
     } else {
       throw new FirestoreError("missing", submissionDoc.ref, "submission");
     }
