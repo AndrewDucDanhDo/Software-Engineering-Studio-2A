@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\frontend",
+    "\\frontend\\src",
+    "\\frontend\\src\\components",
+    "\\frontend\\src\\components\\teacherTasks",
+    "\\frontend\\src\\components\\teacherTaskViewer",
+    "\\frontend\\src\\pages",
+    "\\frontend\\src\\pages\\login",
+    "\\frontend\\src\\pages\\teacherTaskEditor",
+    "\\frontend\\src\\pages\\teacherTasks"
+  ],
+  "SelectedNode": "\\frontend\\src\\components\\teacherTaskViewer\\index.js",
+  "PreviewInSolutionExplorer": false
+}
