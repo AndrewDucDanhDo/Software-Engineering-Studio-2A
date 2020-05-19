@@ -48,13 +48,10 @@
 	},
 	"delete": {
 		"tags": ["submission", "task"],
-		"summary": "Delete single quantum circuit submission. TODO",
+		"summary": "Delete single quantum circuit submission.",
 		"parameters": [
 			{
 				"$ref": "../../common/parameters/taskId.json"
-			},
-			{
-				"$ref": "../../common/parameters/submissionId.json"
 			}
 		],
 		"responses": {

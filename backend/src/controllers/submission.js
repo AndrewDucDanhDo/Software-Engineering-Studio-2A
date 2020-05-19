@@ -124,7 +124,27 @@ export const updateSubmission = async (req, res) => {
 
 export const deleteSubmission = async (req, res) => {
   try {
-    res.status(500).json({ msg: "not implemented" });
+    const taskId = req.params.taskId;
+    const userId = req.authId;
+
+    checkParams({
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      }
+    });
+
+    const submissionDoc = await firestore.submission.get(taskId, userId);
+
+    // Check if the submission exists before deleting
+    if (submissionDoc.exists) {
+      await submissionDoc.ref.delete();
+      return res
+        .status(200)
+        .json({ msg: "User submission successfully deleted" });
+    } else {
+      throw new FirestoreError("missing", submissionDoc.ref, "submission");
+    }
   } catch (error) {
     handleApiError(res, error);
   }
