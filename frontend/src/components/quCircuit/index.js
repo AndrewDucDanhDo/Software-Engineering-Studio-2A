@@ -7,16 +7,19 @@ import { useTheme } from "@material-ui/core";
 import GatesToolbox from "./gatesToolbox";
 import Paper from "@material-ui/core/Paper";
 import CellLife from "./cellLife";
+import CircuitInputButton from "./circuitInputButton";
 
 const CircuitBox = fashion(Box, (theme) => ({
-    marginTop: theme.spacing(2),
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2)
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
 }));
 
 const ToolBox = fashion(Box, (theme) => ({
     backgroundColor: "#f7f7f7",
 }));
+
+export const AllowedCircuitInputs = ["0", "1"];
 
 export default function QuCircuit(props) {
     const theme = useTheme();
@@ -24,6 +27,7 @@ export default function QuCircuit(props) {
     const [cellAmount, setCellAmount] = useState(25);
     const [circuit, setCircuit] = useState([]);
     const [selectedCell, setSelectedCell] = useState(null);
+    const [circuitInputs, setCircuitInputs] = useState(new Array(wireAmount).fill(AllowedCircuitInputs[0]));
     const circuitRef = useRef();
 
     function refreshCircuit() {
@@ -32,16 +36,28 @@ export default function QuCircuit(props) {
 
     useEffect(() => {
         console.log("recreate circuit!");
-        setCircuit(prev => new Array(wireAmount)
+        setCircuit(prevState => new Array(wireAmount)
             .fill(null)
             .map(e => new Array(cellAmount))
-            .concat(prev.map(e => new Array(cellAmount).concat(e))));
+            .concat(prevState.map(e => new Array(cellAmount).concat(e))));
     }, [wireAmount, cellAmount]);
+
+    useEffect(() => {
+        setCircuitInputs(prevState =>
+            new Array(wireAmount)
+                .fill("0")
+                .map((e, i) => prevState[i] ? prevState[i] : e));
+    }, [wireAmount]);
 
     // TODO Remove this debug piece of code.
     useEffect(() => {
         console.log(`Circuit now ==> ${JSON.stringify(circuit)}`);
     }, [circuit]);
+
+    // TODO Remove this debug piece of code.
+    useEffect(() => {
+        console.log(`Circuit Inputs now ==> ${JSON.stringify(circuitInputs)}`);
+    }, [circuitInputs]);
 
     useEffect(() => {
         function onMouseDown(event) {
@@ -148,10 +164,19 @@ export default function QuCircuit(props) {
     function wires(wireAmount, cellAmount) {
         let wires = new Array(wireAmount);
 
-        for (let i = 0; i < wireAmount; i++) {
-            wires[i] = (
-                <Box display="flex" key={i}>
-                    {cells(cellAmount, i)}
+        for (let wireIndex = 0; wireIndex < wireAmount; wireIndex++) {
+
+            function onInputButtonClicked(event) {
+                let inputIndex = AllowedCircuitInputs.indexOf(circuitInputs[wireIndex]);
+                let nextIndex = (inputIndex + 1) % AllowedCircuitInputs.length;
+                circuitInputs[wireIndex] = AllowedCircuitInputs[nextIndex];
+                setCircuitInputs([...circuitInputs]);
+            }
+
+            wires[wireIndex] = (
+                <Box display="flex" key={wireIndex}>
+                    <CircuitInputButton circuitInputs={circuitInputs} wireIndex={wireIndex} onClick={onInputButtonClicked}/>
+                    {cells(cellAmount, wireIndex)}
                 </Box>
             );
         }
