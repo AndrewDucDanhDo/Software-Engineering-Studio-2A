@@ -1,8 +1,8 @@
 {
 	"post": {
 		"tags": ["submission", "task"],
-		"summary": "Update a single quantum circuit submissions information. TODO",
-		"description": "This endpoint can be used to updated the details of a submission. Updates to submissions are done via an object merge of the current submission object and the provided new submission details. In simple terms, consider all of object keys in the body optional.",
+		"summary": "Update a single quantum circuit submissions information.",
+		"description": "Allows for the student user to update the submissions circuit. A complete circuit must be provided.",
 		"parameters": [
 			{
 				"$ref": "../../common/parameters/taskId.json"

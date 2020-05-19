@@ -116,7 +116,46 @@ export const getTaskSubmissions = async (req, res) => {
 
 export const updateSubmission = async (req, res) => {
   try {
-    res.status(500).json({ msg: "not implemented" });
+    const submissionCircuitBody = req.body;
+    const taskId = req.params.taskId;
+    const userId = req.authId;
+
+    checkParams({
+      submissionCircuitBody: {
+        data: submissionCircuitBody,
+        expectedType: "object"
+      },
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      }
+    });
+
+    checkCircuitData(submissionCircuitBody);
+
+    const taskDoc = await firestore.task.get(taskId);
+    const submissionDoc = await firestore.submission.get(taskId, userId);
+
+    // Check if the submission exists before updating
+    if (submissionDoc.exists) {
+      // Check the user is still assigned to the task to update the submission
+      if (userCanSubmit(taskDoc.data(), userId)) {
+        await firestore.submission.updateSubmissionCircuit(
+          submissionDoc,
+          submissionCircuitBody
+        );
+
+        return res
+          .status(200)
+          .json(
+            successResponse({ msg: "Task submission successfully updated" })
+          );
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
+    } else {
+      throw new FirestoreError("missing", submissionDoc.ref, "submission");
+    }
   } catch (error) {
     handleApiError(res, error);
   }
@@ -141,7 +180,7 @@ export const deleteSubmission = async (req, res) => {
       await submissionDoc.ref.delete();
       return res
         .status(200)
-        .json({ msg: "User submission successfully deleted" });
+        .json(successResponse({ msg: "Task submission successfully deleted" }));
     } else {
       throw new FirestoreError("missing", submissionDoc.ref, "submission");
     }

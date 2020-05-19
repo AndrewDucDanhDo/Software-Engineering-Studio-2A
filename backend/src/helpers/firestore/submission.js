@@ -33,5 +33,11 @@ export const firestoreSubmission = {
       }
     };
     return submissionDoc.ref.set(submissionData);
+  },
+  updateSubmissionCircuit: (submissionDoc, circuitData) => {
+    return submissionDoc.ref.update({ circuit: circuitData });
+  },
+  updateSubmissionResults: (submissionDoc, resultsData) => {
+    return submissionDoc.ref.update({ results: resultsData });
   }
 };
