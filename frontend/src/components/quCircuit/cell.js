@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme) => ({
     },
     cell: {
         position: "relative",
-        height: theme.spacing(3) * 2,
-        width: theme.spacing(3) * 2,
+        height: theme.circuitCellSize(1),
+        width: theme.circuitCellSize(1),
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
     wire: {
         position: "absolute",
         borderBottom: "solid black 0.15em",
-        width: theme.spacing(3) * 2,
-        top: ((theme.spacing(3) * 2) / 2) - 2, // (height / 2) - borderSize
+        width: theme.circuitCellSize(1),
+        top: (theme.circuitCellSize(1) / 2) - 2, // (height / 2) - borderSize
         zIndex: -1,
     },
     gateContainer: {
@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
     },
     greenHighlight: {
         position: "absolute",
-        height: theme.spacing(3) * 2,
-        width: theme.spacing(3) * 2,
+        height: theme.circuitCellSize(1),
+        width: theme.circuitCellSize(1),
         backgroundColor: "green",
         opacity: 0.5,
         zIndex: -2,
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     connectPanel: {
         position: "absolute",
         top: 0,
-        left: theme.spacing(3) * 3,
+        left: theme.circuitCellSize(2),
         zIndex: 2,
     },
 }));
