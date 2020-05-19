@@ -625,6 +625,15 @@
 							"request": {
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"gates\": [\n        \"xyz\"\n    ],\n    \"circuit\": [\n        {\n            \"type\": \"x\",\n            \"time\": 3,\n            \"targets\": [\n                1\n            ],\n            \"controls\": [\n                \"foo foo poo\"\n            ]\n        }\n    ],\n    \"qubits\": 2,\n    \"input\": [\n        0\n    ],\n    \"version\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{host}}/task/:taskId/submission/update",
 									"host": [
@@ -639,7 +648,7 @@
 									"variable": [
 										{
 											"key": "taskId",
-											"value": "asda"
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
 										}
 									]
 								}
@@ -665,7 +674,7 @@
 									"variable": [
 										{
 											"key": "taskId",
-											"value": "asdsad"
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
 										}
 									]
 								}
@@ -710,6 +719,15 @@
 							"request": {
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"totalMarks\": 100,\n    \"assessor\": \"\",\n    \"status\": \"PASS\",\n    \"comment\": \"\",\n    \"submissionMark\": 100\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{host}}/admin/task/:taskId/submission/:userId/update",
 									"host": [
@@ -726,11 +744,11 @@
 									"variable": [
 										{
 											"key": "taskId",
-											"value": ""
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
 										},
 										{
 											"key": "userId",
-											"value": ""
+											"value": "uKVj1IXKZLS9BwhkxS1RrBANhet1"
 										}
 									]
 								}
@@ -750,7 +768,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1YzlhZWJlMjM0ZGE2MDE2YmQ3Yjk0OTE2OGI4Y2Q1YjRlYzllZWIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsInRlYWNoZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg5ODA1OTM4LCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODk4MDU5MzgsImV4cCI6MTU4OTgwOTUzOCwiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ePRivQzuk_L1ctB5WRL-lFR1XEx7rLeRyATI3DeyLqIYIWT-B5sMjM-f_zr8sptQ3tFxyz-fGb1RJqvium9ik9NOB5LNZNH9dAHKZKnDGQC3cIJXETl-wPP8kWR_qm4oO6u_oaQ7Rz8B-FFW_Aj6gTtl0qkD-r_lEhzO13lsoB_jQh65DjXUh5zQN81QM6cZQ8ef5SxVXGz8_XpBepwfZ2wf3dmCBp8Vn9qoaO7EPEZtjqSgRxLyk8c49RwNJDlw8-BTppLHndebaOKIQdlhzWzFX-VvH8L5QIkJ0cqhRZFf_laXS0dIDJ_KLEzhySSao-x6Bqzkf2jPnT3v1OTNUQ",
+				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1YzlhZWJlMjM0ZGE2MDE2YmQ3Yjk0OTE2OGI4Y2Q1YjRlYzllZWIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsInRlYWNoZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg5ODgyNzk3LCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODk4ODI3OTcsImV4cCI6MTU4OTg4NjM5NywiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.QJihCaw51EmQpPAFzx-kQdUDYlSGRsSroenxr9Yw0wR9OhI5Re5Uq-daybuBUu7kiaTV49q4uNct2GLvDKYyigoca7fAls2ajKr4tWa8oR5UnbqdifKyr_KWSuhvpxKXITzZMo1S_Hbr3TvMfeNA_TnE1yltg3yZSjbaDuGkTDYVzCg-AYoJMz-knaYJv06UfHBwBnbJ9E591557aMN69OLMkbCLLpewNaoQLRX69jjqUYi9LhpKS6WfRiFqgguXX9XgY12p0p7D-9P0K8hB688UjQ7B6VGfX32ym42OARAZSM0Hm7spSdgfp4saQik48XiSLpOWzbfXrg8NhRyO-A",
 				"type": "string"
 			}
 		]
@@ -779,7 +797,7 @@
 	],
 	"variable": [
 		{
-			"id": "d6e06097-20d1-4fc1-a33b-5e77bf447b64",
+			"id": "344d69d2-7e0b-41f5-bac0-211219880ee8",
 			"key": "host",
 			"value": "localhost:4000",
 			"type": "string"

@@ -3,9 +3,14 @@ import { checkCircuitData } from "../helpers/validators/circuitData";
 import { handleApiError, successResponse } from "../helpers/apiResponse";
 import { FirestoreError } from "../errors/firestore";
 import firestore from "../helpers/firestore";
+import { checkSubmissionResultsData } from "../helpers/validators/submissionResultsData";
 
 const userCanSubmit = (taskData, userId) => {
   return taskData.assigned.includes(userId);
+};
+
+const teacherCanUpdate = (taskData, teacherId) => {
+  return taskData.owners.includes(teacherId);
 };
 
 const hasTeacherRole = (userClaims) => {
@@ -199,7 +204,52 @@ export const deleteSubmission = async (req, res) => {
 
 export const updateSubmissionResults = async (req, res) => {
   try {
-    res.status(500).json({ msg: "not implemented" });
+    const submissionResultsBody = req.body;
+    const taskId = req.params.taskId;
+    const userId = req.params.userId;
+    const teacherId = req.authId;
+
+    checkParams({
+      submissionResultsBody: {
+        data: submissionResultsBody,
+        expectedType: "object"
+      },
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      },
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
+
+    checkSubmissionResultsData(submissionResultsBody);
+
+    const taskDoc = await firestore.task.get(taskId);
+    const submissionDoc = await firestore.submission.get(taskId, userId);
+
+    // Check the submission doc we want to update exists
+    if (submissionDoc.exists) {
+      // Check the teacher is one of the owners of the task and can update results
+      if (teacherCanUpdate(taskDoc.data(), teacherId)) {
+        await firestore.submission.updateSubmissionResults(
+          submissionDoc,
+          submissionResultsBody
+        );
+
+        return res.status(200).json(
+          successResponse({
+            msg: `Submission results successfully updated for ${userId}`
+          })
+        );
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
+    } else {
+      throw new FirestoreError("missing", submissionDoc.ref, "task");
+    }
+
   } catch (error) {
     handleApiError(res, error);
   }

@@ -1,7 +1,7 @@
 {
 	"post": {
 		"tags": ["admin", "submission", "task"],
-		"summary": "Update a single quantum circuit submissions information. TODO",
+		"summary": "Update a single quantum circuit submissions information.",
 		"description": "This endpoints allows for admin users to update admin related submission information such as submission results.",
 		"parameters": [
 			{
