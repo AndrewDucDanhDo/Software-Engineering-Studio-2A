@@ -1,24 +1,26 @@
 {
-	"post": {
+	"get": {
 		"tags": ["task", "admin"],
-		"summary": "Add a new quantum circuit task.",
-		"produces": ["application/json"],
+		"summary": "Return the details of a quantum circuit task. For a user with an admin role all data is returned",
 		"parameters": [
 			{
-				"in": "body",
-				"name": "body",
-				"description": "User details to be created. If the userId of the user that made the authenticated request is not present on in the owners array it will be added.",
-				"required": true,
-				"schema": {
-					"$ref": "../../common/schemas/taskDescriptionTeacher.json#"
-				}
+				"$ref": "../../common/parameters/taskId.json"
 			}
 		],
 		"responses": {
 			"200": {
-				"description": "Task created successfully",
+				"description": "Task details successfully returned to the user.",
 				"schema": {
-					"$ref": "../../common/schemas/apiResponse.json#"
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/taskDescriptionTeacher.json#"
+						}
+					}
 				}
 			},
 			"500": {

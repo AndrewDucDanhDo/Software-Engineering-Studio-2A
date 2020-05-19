@@ -1,13 +1,4 @@
-export class ParamValidationError extends Error {
-  constructor(failedParam, failureCode, expectedType = undefined) {
-    super();
-
-    this.name = "ParamValidationError";
-    this.failedParam = failedParam;
-    this.failureCode = failureCode;
-    this.expectedType = expectedType;
-  }
-}
+import { MissingKeySyntaxError, KeyTypeSyntaxError } from "../../errors/syntax";
 
 // Takes in the following data structure and sees that the objects passed in
 // are present and of the type required
@@ -31,11 +22,15 @@ export const checkParams = (paramMap) => {
     const value = item[1];
 
     if (value.data === undefined) {
-      throw new ParamValidationError(key, "undefined");
+      throw new MissingKeySyntaxError("request parameter", key);
     }
 
     if (typeof value.data !== value.expectedType) {
-      throw new ParamValidationError(key, "type", value.expectedType);
+      throw new KeyTypeSyntaxError(
+        "request parameter",
+        key,
+        value.expectedType
+      );
     }
   });
 };
