@@ -75,7 +75,7 @@ export default function QuCircuit(props) {
             let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell);
 
             cellLife.onGateChanged = (g) => {
-                console.log(`Changing gate from ${JSON.stringify(cellLife.cellData)} to ${g}`)
+                console.log(`Changing gate from ${JSON.stringify(cellLife.cellData)} to ${g}`);
                 setCell(wireIndex, cellIndex, {gate: g, targets: []});
 
                 // Check if we are setting a new gate at the cell.

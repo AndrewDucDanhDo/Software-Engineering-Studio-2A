@@ -24,6 +24,10 @@ export default class CellLife {
             this.circuit[this.wireIndex][this.cellIndex] : {};
     }
 
+    get hasTargets() {
+        return this.cellData.targets && this.cellData.targets.length > 0;
+    }
+
     get isConnected() {
         return this.cellData.targets.includes(this.selectedCell.w)
     }

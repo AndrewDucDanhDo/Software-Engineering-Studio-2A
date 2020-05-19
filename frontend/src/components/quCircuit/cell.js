@@ -1,7 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DraggableGate from "./draggableGate";
-import ConnectGatePanel from "./connectGatePanel";
+import ConnectionPanel from "./connectionPanel";
+import ConnectionLine from "./connectionLine";
 
 const useStyles = makeStyles((theme) => ({
     cellContainer: {
@@ -40,12 +41,20 @@ const useStyles = makeStyles((theme) => ({
         left: theme.circuitCellSize(2),
         zIndex: 2,
     },
+    connectionLines: {
+        position: "absolute",
+        userSelect: "none",
+        top: 0,
+        left: 0,
+        zIndex: -1,
+    }
 }));
 
 export default function Cell(props) {
     const classes = useStyles();
 
     /**
+     * Apply type for autocomplete.
      * @type {./CellLife}
      */
     let cellLife = props.cellLife;
@@ -80,21 +89,6 @@ export default function Cell(props) {
         }
     }
 
-    function onPanelClicked(event) {
-        let connected = cellLife.isConnected;
-
-        if (!connected) {
-            if (cellLife.onConnect) {
-                cellLife.onConnect(event);
-            }
-        } else {
-            if (cellLife.onDisconnect) {
-                cellLife.onDisconnect(event);
-            }
-        }
-
-    }
-
     function gateIcon() {
         if (!cellLife.hasGate) return null;
 
@@ -103,6 +97,22 @@ export default function Cell(props) {
                 <DraggableGate size="md" gate={cellLife.cellData.gate} onDragEnd={onDragGateEnd} draggable/>
             </div>
         );
+    }
+
+    function connectionLines() {
+        if (cellLife.hasTargets) {
+            return (
+                <div className={classes.connectionLines}>
+                    {cellLife.cellData.targets
+                        .map(t => (
+                            <ConnectionLine key={t} cellDistance={Math.abs(t - cellLife.wireIndex)}
+                                            direction={(t - cellLife.wireIndex) > 0 ? "down" : "up"}/>)
+                        )}
+                </div>
+            );
+        }
+
+        return null;
     }
 
     return (
@@ -115,10 +125,10 @@ export default function Cell(props) {
             </div>
 
             {cellLife.shouldShowConnectionPanel ?
-                <ConnectGatePanel className={classes.connectPanel} onClick={onPanelClicked}
-                                  connected={cellLife.isConnected}/>
-                : null
+                <ConnectionPanel className={classes.connectPanel} cellLife={cellLife}/> : null
             }
+
+            {connectionLines()}
         </div>
     );
 }
