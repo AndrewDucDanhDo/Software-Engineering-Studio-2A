@@ -84,33 +84,31 @@ export default function Cell(props) {
     }
 
     function onClick(event) {
-        if (cellLife.onGateClicked && cellLife.hasGate) {
-            cellLife.onGateClicked(event, cellLife.cellData);
+        if (cellLife.onGateClicked && cellLife.gate) {
+            cellLife.onGateClicked(event);
         }
     }
 
     function gateIcon() {
-        if (!cellLife.hasGate) return null;
+        if (!cellLife.gate) return null;
 
         return (
             <div className={classes.iconContainer}>
-                <DraggableGate size="md" gate={cellLife.cellData.gate} onDragEnd={onDragGateEnd} draggable/>
+                <DraggableGate size="md" gate={cellLife.gate} onDragEnd={onDragGateEnd} draggable/>
             </div>
         );
     }
 
     function connectionLines() {
-        if (cellLife.hasTargets) {
-            return (
-                <div className={classes.connectionLines}>
-                    {cellLife.cellData.targets
-                        .map(t => (
-                            <ConnectionLine key={t} cellDistance={Math.abs(t - cellLife.wireIndex)}
-                                            direction={(t - cellLife.wireIndex) > 0 ? "down" : "up"}/>)
-                        )}
-                </div>
-            );
-        }
+        return (
+            <div className={classes.connectionLines}>
+                {cellLife.targets
+                    .map(t => (
+                        <ConnectionLine key={t} cellDistance={Math.abs(t - cellLife.wireIndex)}
+                                        direction={(t - cellLife.wireIndex) > 0 ? "down" : "up"}/>)
+                    )}
+            </div>
+        );
 
         return null;
     }
@@ -121,10 +119,10 @@ export default function Cell(props) {
             <div className={classes.cell} onDragOver={onDraggedOver} onDrop={onDrop} onClick={onClick}>
                 <div className={classes.wire}/>
                 {gateIcon()}
-                {cellLife.hasGate && cellLife.isSelected ? <div className={classes.greenHighlight}/> : null}
+                {cellLife.gate && cellLife.isSelected ? <div className={classes.greenHighlight}/> : null}
             </div>
 
-            {cellLife.shouldShowConnectionPanel ?
+            {cellLife.shouldShowConnectionPanel() ?
                 <ConnectionPanel className={classes.connectPanel} cellLife={cellLife}/> : null
             }
 

@@ -20,19 +20,18 @@ const ToolBox = fashion(Box, (theme) => ({
 
 export default function QuCircuit(props) {
     const theme = useTheme();
-    const [wireAmount, setWireAmount] = useState(3);
+    const [wireAmount, setWireAmount] = useState(6);
     const [cellAmount, setCellAmount] = useState(25);
     const [circuit, setCircuit] = useState([]);
     const [selectedCell, setSelectedCell] = useState(null);
     const circuitRef = useRef();
 
-    function setCell(wireIndex, cellIndex, cell) {
-        let newCircuit = [...circuit];
-        newCircuit[wireIndex][cellIndex] = cell;
-        setCircuit(newCircuit);
+    function refreshCircuit() {
+        setCircuit([...circuit]);
     }
 
     useEffect(() => {
+        console.log("recreate circuit!");
         setCircuit(prev => new Array(wireAmount)
             .fill(null)
             .map(e => new Array(cellAmount))
@@ -59,13 +58,13 @@ export default function QuCircuit(props) {
 
     function disconnectTargetsAt(cellIndex, wireIndex) {
         for (let i = 0; i < wireAmount; i++) {
-            let cellData = circuit[i][cellIndex];
+            let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell);
 
-            if (cellData && cellData.targets.includes(wireIndex)) {
-                cellData.targets.splice(cellData.targets.indexOf(wireIndex))
+            if (cellLife && cellLife.hasTarget(wireIndex)) {
+                cellLife.removeTarget(wireIndex);
             }
         }
-        setCircuit([...circuit]);
+        refreshCircuit();
     }
 
     function cells(amount, wireIndex) {
@@ -76,33 +75,43 @@ export default function QuCircuit(props) {
 
             cellLife.onGateChanged = (g) => {
                 console.log(`Changing gate from ${JSON.stringify(cellLife.cellData)} to ${g}`);
-                setCell(wireIndex, cellIndex, {gate: g, targets: []});
+                let cellData = circuit[wireIndex][cellIndex];
+
+                if (!cellData) {
+                    cellData = {gate: g, targets: [], controls: []};
+                    circuit[wireIndex][cellIndex] = cellData
+                } else {
+                    cellData.gate = g;
+                    cellData.targets = [];
+                    cellData.controls = [];
+                }
 
                 // Check if we are setting a new gate at the cell.
                 if (g) {
-                    setSelectedCell({w: wireIndex, c: cellIndex})
+                    setSelectedCell(cellLife);
                 } else {
                     disconnectTargetsAt(cellIndex, wireIndex);
                 }
+
+                refreshCircuit();
             };
 
             cellLife.onGateClicked = (event) => {
-                console.log(`Selecting ${JSON.stringify(cellLife.cellData)} !`);
-                setSelectedCell({w: wireIndex, c: cellIndex})
+                setSelectedCell(cellLife);
             };
 
             cellLife.onConnect = (event) => {
-                setCell(wireIndex, cellIndex, {...cellLife.cellData, targets: [...cellLife.cellData.targets, selectedCell.w]});
+                cellLife.addTarget(selectedCell.wireIndex);
+                selectedCell.addControl(cellLife.wireIndex);
+                refreshCircuit();
             };
 
             cellLife.onDisconnect = (event) => {
-                let targets = cellLife.cellData.targets;
-                let selectedTargetIndex = targets.indexOf(selectedCell.w);
-
-                if (selectedTargetIndex !== -1) {
-                    targets.splice(selectedTargetIndex, 1);
+                if (cellLife.hasTarget(selectedCell.wireIndex)) {
+                    cellLife.removeTarget(selectedCell.wireIndex);
+                    selectedCell.removeControl(cellLife.wireIndex);
+                    refreshCircuit();
                 }
-                setCell(wireIndex, cellIndex, {...cellLife.cellData, targets: targets});
             };
 
             wireCells[cellIndex] = (<Cell key={cellIndex} cellLife={cellLife}/>);
