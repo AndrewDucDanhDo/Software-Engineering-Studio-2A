@@ -49,6 +49,7 @@ export default function QuCircuit(props) {
                 setSelectedCell(null);
             }
         }
+
         document.addEventListener("mousedown", onMouseDown);
 
         return () => {
@@ -81,13 +82,20 @@ export default function QuCircuit(props) {
                     cellData = {gate: g, targets: [], controls: []};
                     circuit[wireIndex][cellIndex] = cellData
                 } else {
+                    cellLife.removeAllConnections();
                     cellData.gate = g;
-                    cellData.targets = [];
-                    cellData.controls = [];
                 }
 
                 // Check if we are setting a new gate at the cell.
                 if (g) {
+                    // Connect to selected if the cell is placed in the middle of a connection.
+                    if (cellLife.shouldShowConnectionPanel() && selectedCell.hasControlsBelow(cellLife.wireIndex)) {
+                        cellLife.createConnectionToSelected();
+                    }
+
+                    // Needs to be here to have the selectedCell have an updated selectedCell.
+                    cellLife.selectedCell = cellLife;
+                    // Finally set current cell as selected cell.
                     setSelectedCell(cellLife);
                 } else {
                     disconnectTargetsAt(cellIndex, wireIndex);
@@ -97,21 +105,38 @@ export default function QuCircuit(props) {
             };
 
             cellLife.onGateClicked = (event) => {
+                // Needs to be here to have the selectedCell have an updated selectedCell.
+                cellLife.selectedCell = cellLife;
                 setSelectedCell(cellLife);
             };
 
             cellLife.onConnect = (event) => {
-                cellLife.addTarget(selectedCell.wireIndex);
-                selectedCell.addControl(cellLife.wireIndex);
+                cellLife.createConnectionToSelected();
+
+                let cellsToLook = cellLife.getDirectionTowards(selectedCell.wireIndex) === "up" ?
+                    cellLife.getCellsAbove() : cellLife.getCellsBelow();
+
+                for (let cell of cellsToLook) {
+                    if (cell.samePositionAs(selectedCell)) {
+                        break;
+                    }
+
+                    if (cell.gate) {
+                        cell.createConnectionToSelected();
+                    }
+                }
+
                 refreshCircuit();
             };
 
             cellLife.onDisconnect = (event) => {
-                if (cellLife.hasTarget(selectedCell.wireIndex)) {
-                    cellLife.removeTarget(selectedCell.wireIndex);
-                    selectedCell.removeControl(cellLife.wireIndex);
-                    refreshCircuit();
-                }
+                let direction = cellLife.getDirectionTowards(selectedCell.wireIndex);
+                selectedCell.getControlCells()
+                    .filter(cell => (direction === "up" && cell.wireIndex >= cellLife.wireIndex)
+                        || (direction === "down" && cell.wireIndex <= cellLife.wireIndex))
+                    .forEach(cell => cell.removeConnectionToSelected());
+
+                refreshCircuit();
             };
 
             wireCells[cellIndex] = (<Cell key={cellIndex} cellLife={cellLife}/>);
