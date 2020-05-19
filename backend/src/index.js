@@ -5,8 +5,6 @@ import userRouter from "./routes/user-router";
 import authRouter from "./routes/auth-router";
 import taskAdminRouter from "./routes/task-admin-router";
 import taskStudentRouter from "./routes/task-student-router";
-import submissionAdminRouter from "./routes/submission-admin-router";
-import submissionStudentRouter from "./routes/submission-student-router";
 import cors from "cors";
 import env from "./helpers/env";
 const morgan = require("morgan");
@@ -29,8 +27,6 @@ app.use("/user", userRouter);
 app.use("/circuit", circuitRouter);
 app.use("/task", taskStudentRouter);
 app.use("/admin/task", taskAdminRouter);
-app.use("/submission", submissionStudentRouter);
-app.use("/admin/submission", submissionAdminRouter);
 
 // Default route
 app.get("/", (req, res) => {
