@@ -51,7 +51,12 @@ const buildGuestNav = (classes, signOutFunc) => {
 				>
 					Sign Up
 				</Button>
-				<Button color="inherit" component={Link} onClick={signOutFunc} to="/login">
+				<Button
+					color="inherit"
+					component={Link}
+					onClick={signOutFunc}
+					to="/login"
+				>
 					Login
 				</Button>
 			</Toolbar>
@@ -103,6 +108,14 @@ const buildTeacherNav = (classes, signOutFunc) => {
 						Quantum Circuit Simulator Group 2 - Teacher
 					</Typography>
 				</Box>
+				<Button
+					className={classes.signup}
+					color="inherit"
+					component={Link}
+					to="/profile"
+				>
+					Profile
+				</Button>
 				<Button
 					className={classes.signup}
 					color="inherit"
