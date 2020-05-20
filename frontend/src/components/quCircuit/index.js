@@ -8,6 +8,9 @@ import GatesToolbox from "./gatesToolbox";
 import Paper from "@material-ui/core/Paper";
 import CellLife from "./cellLife";
 import CircuitInputButton from "./circuitInputButton";
+import Button from "@material-ui/core/Button";
+import { translateToSimulator } from "../../helpers/quantumSimulator/quantumTranslator";
+import { solveQuantumCircuit } from "../../helpers/quantumSimulator/quantumSolver";
 
 const CircuitBox = fashion(Box, (theme) => ({
     marginTop: theme.spacing(1),
@@ -23,7 +26,7 @@ export const AllowedCircuitInputs = ["0", "1"];
 
 export default function QuCircuit(props) {
     const theme = useTheme();
-    const [wireAmount, setWireAmount] = useState(6);
+    const [wireAmount, setWireAmount] = useState(3);
     const [cellAmount, setCellAmount] = useState(25);
     const [circuit, setCircuit] = useState([]);
     const [selectedCell, setSelectedCell] = useState(null);
@@ -184,6 +187,15 @@ export default function QuCircuit(props) {
         return (<>{wires}</>);
     }
 
+    function onEvaluateButtonClicked(event) {
+        let translatedCircuit = translateToSimulator(circuit, circuitInputs);
+
+        console.log("Got translation", JSON.stringify(translatedCircuit))
+
+        solveQuantumCircuit(translatedCircuit)
+            .then(result => console.log(JSON.stringify(result.filter(r => r.probability > 0))));
+    }
+
     return (
         <StretchBox display="flex">
             <CircuitBox flexGrow={1} flexShrink={6}>
@@ -195,6 +207,9 @@ export default function QuCircuit(props) {
             <ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
                 <Box m={1}>
                     <GatesToolbox/>
+                </Box>
+                <Box m={3}>
+                    <Button color="primary" variant="contained" onClick={onEvaluateButtonClicked}>Evaluate</Button>
                 </Box>
             </ToolBox>
         </StretchBox>
