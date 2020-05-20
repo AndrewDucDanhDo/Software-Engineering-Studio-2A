@@ -124,9 +124,6 @@ function Navigation() {
 	const { authState, setAuthState } = React.useContext(AuthContext);
 	let navComp;
 
-	console.log(authState);
-
-
 	const handleSignOut = () => {
 		setAuthState(null);
 	};

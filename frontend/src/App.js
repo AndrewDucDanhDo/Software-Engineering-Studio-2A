@@ -19,6 +19,7 @@ import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
 
 // Context
 import { AuthProvider } from "./context/auth";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
 	return (
@@ -29,28 +30,36 @@ function App() {
 						<Navigation />
 						<div>
 							<Switch>
+								<PrivateRoute
+									path="/teacherTasks"
+									component={TeacherTasksPage}
+									adminRoute={true}
+								/>
+
+								<PrivateRoute
+									path="/teacherTaskViewer"
+									component={TeacherTaskViewerPage}
+									adminRoute={true}
+								/>
+
+								<PrivateRoute
+									path="/teacherTaskEditor"
+									component={TeacherTaskEditorPage}
+									adminRoute={true}
+								/>
+
+								<PrivateRoute
+									path="/profile"
+									adminRoute={false}
+									component={ProfilePage}
+								/>
+
 								<Route path="/signup">
 									<SignupPage />
 								</Route>
 
 								<Route path="/login">
 									<LoginPage />
-								</Route>
-
-								<Route path="/teacherTasks">
-									<TeacherTasksPage />
-								</Route>
-
-								<Route path="/teacherTaskViewer">
-									<TeacherTaskViewerPage />
-								</Route>
-
-								<Route path="/teacherTaskEditor">
-									<TeacherTaskEditorPage />
-								</Route>
-
-								<Route path="/profile">
-									<ProfilePage />
 								</Route>
 
 								<Route path="/">
