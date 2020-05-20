@@ -51,7 +51,7 @@ const buildGuestNav = (classes, signOutFunc) => {
 				>
 					Sign Up
 				</Button>
-				<Button color="inherit" component={Link} onClick={signOutFunc} to="/">
+				<Button color="inherit" component={Link} onClick={signOutFunc} to="/login">
 					Login
 				</Button>
 			</Toolbar>
