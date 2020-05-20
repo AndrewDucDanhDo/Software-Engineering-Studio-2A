@@ -10,7 +10,11 @@ export const loginUser = async (email, password) => {
 	const user = (await auth().signInWithEmailAndPassword(email, password)).user;
 	const idToken = await user.getIdToken()
 	return {
-		user, // The full firebase user object
+		user: {
+			uid: user.uid,
+			displayName: user.displayName,
+			email: user.email,
+		},
 		idToken // idToken for the user, should be saved in session
 	};
 };
