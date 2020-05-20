@@ -34,7 +34,7 @@ function App() {
 								</Route>
 
 								<Route path="/login">
-									<LoginPage foo="bar" />
+									<LoginPage />
 								</Route>
 
 								<Route path="/teacherTasks">
