@@ -20,56 +20,61 @@ import TeacherTasksPage from "./pages/teacherTasks";
 import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
 
 // Context
-import { AuthContext } from "./context/auth";
+import { AuthProvider } from "./context/auth";
+
+// const globalAuthState = {
+// 	authenticated: false,
+// };
 
 function App() {
-	const [authState, setAuthState] = React.useState({ authenticated: false });
-	const authStateValue = { authState, setAuthState };
+	// const [authState, setAuthState] = React.useState(globalAuthState);
+	// const authStateValue = { authState, setAuthState };
 
 	return (
-		<AuthContext.Provider value={authStateValue}>
+		<AuthProvider>
 			<div className="App">
 				<ThemeProvider theme={appTheme}>
 					<BrowserRouter>
+						<Navigation />
 						<div>
 							<Switch>
 								<Route path="/signup">
-									<Navigation />
+									{/* <Navigation /> */}
 									<SignupPage />
 								</Route>
 
 								<Route path="/login">
-									<Navigation />
+									{/* <Navigation /> */}
 									<LoginPage foo="bar" />
 								</Route>
 
 								<Route path="/teacherTasks">
-									<TeacherNavigation />
+									{/* <TeacherNavigation /> */}
 									<TeacherTasksPage />
 								</Route>
 
 								<Route path="/teacherTaskViewer">
-									<TeacherNavigation />
+									{/* <TeacherNavigation /> */}
 									<TeacherTaskViewerPage />
 								</Route>
 
 								<Route path="/teacherTaskEditor">
-									<TeacherNavigation />
+									{/* <TeacherNavigation /> */}
 									<TeacherTaskEditorPage />
 								</Route>
 
 								<Route path="/profile">
-									<StudentNavigation />
+									{/* <StudentNavigation /> */}
 									<ProfilePage />
 								</Route>
 
 								<Route path="/homepage">
-									<StudentNavigation />
+									{/* <StudentNavigation /> */}
 									<HomePage />
 								</Route>
 
 								<Route path="/">
-									<Navigation />
+									{/* <Navigation /> */}
 									<LoginPage />
 								</Route>
 							</Switch>
@@ -78,7 +83,7 @@ function App() {
 					</BrowserRouter>
 				</ThemeProvider>
 			</div>
-		</AuthContext.Provider>
+		</AuthProvider>
 	);
 }
 
