@@ -4,11 +4,14 @@ const AuthContext = React.createContext();
 const localState = JSON.parse(localStorage.getItem("authState"));
 const initialState = {
 	authenticated: false,
-	idToken: undefined,
-	userProfile: undefined,
+	user: undefined,
 };
 
 const reducer = (authState, newAuthState) => {
+	if (newAuthState === null) {
+    localStorage.removeItem("authState");
+    return initialState;
+  }
 	return { ...authState, ...newAuthState };
 };
 
