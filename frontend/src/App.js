@@ -53,12 +53,8 @@ function App() {
 									<ProfilePage />
 								</Route>
 
-								<Route path="/homepage">
-									<HomePage />
-								</Route>
-
 								<Route path="/">
-									<LoginPage />
+									<HomePage />
 								</Route>
 							</Switch>
 							<Footer />

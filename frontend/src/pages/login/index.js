@@ -98,7 +98,7 @@ export default function LoginPage() {
 							variant="contained"
 							color="inherit"
 							component={Link}
-							to="/homepage"
+							to="/"
 						>
 							Student Portal
 						</Button>

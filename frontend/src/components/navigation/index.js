@@ -38,7 +38,7 @@ const buildGuestNav = (classes, signOutFunc) => {
 						variant="h5"
 						className={classes.title}
 						component={Link}
-						to="/login"
+						to="/"
 					>
 						Quantum Circuit Simulator Group 2 - Guest
 					</Typography>
@@ -68,7 +68,7 @@ const buildStudentNav = (classes, signOutFunc) => {
 						variant="h5"
 						className={classes.title}
 						component={Link}
-						to="/homepage"
+						to="/"
 					>
 						Quantum Circuit Simulator Group 2 - Student
 					</Typography>
