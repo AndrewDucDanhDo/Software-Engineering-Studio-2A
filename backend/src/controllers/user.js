@@ -154,6 +154,43 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+export const getUserRoles = async (req, res) => {
+  try {
+    // Get details from the request
+    const userId = req.params.userId;
+
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
+
+    // Get user roles from firebase
+    const { customClaims } = await admin.auth().getUser(userId);
+
+    // Prepare a response
+    return res.status(200).json(successResponse(customClaims));
+  } catch (error) {
+    // The cases for this code should be via tha firebase error codes
+    // https://firebase.google.com/docs/auth/admin/errors
+    switch (error.code) {
+      case "auth/user-not-found":
+        return res
+          .status(500)
+          .json(
+            errorResponse(
+              "No user found for the provided userId.",
+              error.code,
+              undefined
+            )
+          );
+      default:
+        return handleApiError(res, error);
+    }
+  }
+};
+
 export const makeUserTeacher = async (req, res) => {
   try {
     const { userId } = req.params;

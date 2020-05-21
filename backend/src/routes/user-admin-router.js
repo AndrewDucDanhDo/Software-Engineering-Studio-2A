@@ -13,5 +13,6 @@ const userAdminRouter = Router().use(checkToken, checkTeacherRole);
 
 userAdminRouter.get("/", getAllUsers);
 userAdminRouter.get("/:userId", getUser);
+userAdminRouter.get("/:userId/roles", getUserRoles);
 
 export default userAdminRouter;
