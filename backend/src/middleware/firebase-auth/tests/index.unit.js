@@ -6,8 +6,11 @@ import { login } from "../../../controllers/auth";
 
 
 describe("Middle Firebase Auth", () => {
-    it("Should check token", function (done) {
+    it("Should check token", async function () {
+        // Allow more time for firebase requests
         this.timeout(10000);
+
+        // Setup mocks
         const mockReq = httpMocks.createRequest({
             body: {
                 email: "middleware@unit.test",
@@ -17,19 +20,19 @@ describe("Middle Firebase Auth", () => {
         const mockRes = httpMocks.createResponse();
 
         // Login to get idToken
-        login(mockReq, mockRes).then(function () {
-            // Assert was able to get token
-            expect(mockRes._getStatusCode()).to.equal(200);
+        await login(mockReq, mockRes);
 
-            mockReq.headers.authorization = "Bearer " + mockRes._getJSONData().data.idToken;
-            const userId = mockRes._getJSONData().data.userId;
+        // Assert was able to get token
+        expect(mockRes._getStatusCode()).to.equal(200);
 
-            checkToken(mockReq, mockRes, function () {
-                // Assert
-                expect(mockReq.authId).to.equal(userId);
+        // Add token to header
+        mockReq.headers.authorization = "Bearer " + mockRes._getJSONData().data.idToken;
+        const userId = mockRes._getJSONData().data.userId;
 
-                done();
-            });
+        // Call function
+        checkToken(mockReq, mockRes, function () {
+            // Assert
+            expect(mockReq.authId).to.equal(userId);
         });
     });
 
