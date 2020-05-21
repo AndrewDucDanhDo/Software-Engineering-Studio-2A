@@ -167,10 +167,18 @@ export const getUserRoles = async (req, res) => {
     });
 
     // Get user roles from firebase
-    const { customClaims } = await admin.auth().getUser(userId);
+    var { customClaims } = await admin.auth().getUser(userId);
+
+    // If no roles are set prepare empty customClaims so it can be filtered
+    if (typeof customClaims === 'undefined') customClaims = {};
+    
+    const filteredRoles = {
+      "teacher": customClaims.teacher || false,
+      "superuser": customClaims.superuser || false
+    }
 
     // Prepare a response
-    return res.status(200).json(successResponse(customClaims));
+    return res.status(200).json(successResponse(filteredRoles));
   } catch (error) {
     // The cases for this code should be via tha firebase error codes
     // https://firebase.google.com/docs/auth/admin/errors
@@ -207,7 +215,12 @@ export const updateUserRoles = async (req, res) => {
       }
     });
 
-    await admin.auth().setCustomUserClaims(userId, userRoles);
+    const filteredRoles = {
+      "teacher": userRoles.teacher || false,
+      "superuser": userRoles.superuser || false
+    }
+
+    await admin.auth().setCustomUserClaims(userId, filteredRoles);
     return res
       .status(200)
       .json(successResponse({ msg: "The action was completed successfully." }));
