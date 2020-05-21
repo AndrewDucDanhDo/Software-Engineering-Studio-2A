@@ -1,7 +1,7 @@
 import React from "react";
 import { fashion } from "../../helpers/fashion";
 import Box from "@material-ui/core/Box";
-import { EmptyComponent, getGateComponentOrEmpty } from "./gates";
+import { getGateComponent } from "./gates";
 import { makeStyles } from "@material-ui/core/styles";
 
 const GateBox = fashion(Box, (theme) => ({
@@ -26,10 +26,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DraggableGate(props) {
     const classes = useStyles();
-    const GateIcon = getGateComponentOrEmpty(props.gate);
+    const gate = props.gate || (props.cellLife ? props.cellLife.gate : null);
+
+    const Gate = getGateComponent(gate);
 
     function onDragStart(event) {
-        event.dataTransfer.setData("gate", props.gate);
+        event.dataTransfer.setData("gate", gate);
 
         if (props.onDragStart) {
             props.onDragStart(event)
@@ -51,8 +53,8 @@ export default function DraggableGate(props) {
     }
 
     return (
-        <GateBox className={props.className} draggable gate={props.gate} onDragStart={onDragStart} onDrag={props.onDrag} onDragEnd={props.onDragEnd}>
-            <GateIcon className={classes.icon} size={size}/>
+        <GateBox className={props.className} draggable onDragStart={onDragStart} onDrag={props.onDrag} onDragEnd={props.onDragEnd}>
+            <Gate className={classes.icon} cellLife={props.cellLife} size={size}/>
         </GateBox>
     );
 }

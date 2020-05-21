@@ -1,7 +1,7 @@
 import React from "react";
-import LabeledGateIcon from "./labeledGateIcon";
-import CNotGateIcon from "./cnotGateIcon";
-import ControlGateIcon from "./controlGateIcon";
+import LabeledGate from "./labeledGate";
+import CNotGate from "./CNotGate";
+import ControlGate from "./controlGate";
 
 const EmptyComponent = () => (<></>);
 
@@ -17,25 +17,32 @@ export const Gates = {
     R6: "R6",
 };
 
-function createGate(component, targets) {
+function establishGate(component, validEnds) {
     return {
         component: component,
-        targets: targets || [],
+        validEnds: validEnds || [Gates.CONTROL],
     }
 }
 
 export const GateProperties = {
-    H: createGate((props) => (<LabeledGateIcon {...props} label="H"/>)),
-    Y: createGate((props) => (<LabeledGateIcon {...props} label="Y"/>)),
-    Z: createGate((props) => (<LabeledGateIcon {...props} label="Z"/>)),
-    CNOT: createGate((props) => (<CNotGateIcon {...props}/>), [Gates.CONTROL]),
-    CONTROL: createGate((props) => (<ControlGateIcon {...props}/>)),
-    SWAP: createGate((props) => (<LabeledGateIcon {...props} label="SWAP" labelSize={2}/>), [Gates.SWAP]),
-    R2: createGate((props) => (<LabeledGateIcon {...props} label="R2" labelSize={3.5}/>)),
-    R4: createGate((props) => (<LabeledGateIcon {...props} label="R4" labelSize={3.5}/>)),
-    R6: createGate((props) => (<LabeledGateIcon {...props} label="R6" labelSize={3.5}/>)),
+    H: establishGate((props) => (<LabeledGate {...props} label="H"/>)),
+    Y: establishGate((props) => (<LabeledGate {...props} label="Y"/>)),
+    Z: establishGate((props) => (<LabeledGate {...props} label="Z"/>)),
+    CNOT: establishGate((props) => (<CNotGate {...props}/>)),
+    CONTROL: establishGate(ControlGate, []),
+    SWAP: establishGate((props) => (<LabeledGate {...props} label="SWAP" labelSize={2}/>), [Gates.SWAP]),
+    R2: establishGate((props) => (<LabeledGate {...props} label="R2" labelSize={3.5}/>)),
+    R4: establishGate((props) => (<LabeledGate {...props} label="R4" labelSize={3.5}/>)),
+    R6: establishGate((props) => (<LabeledGate {...props} label="R6" labelSize={3.5}/>)),
 };
 
 export function getGateComponentOrEmpty(gate) {
-    return GateProperties[gate].component ?? EmptyComponent;
+    return GateProperties[gate] ? GateProperties[gate].component : EmptyComponent;
+}
+
+export function getGateComponent(gate) {
+    if (!GateProperties[gate]) {
+        throw new Error(`Expected an actual gate but got ${gate}`);
+    }
+    return GateProperties[gate].component;
 }

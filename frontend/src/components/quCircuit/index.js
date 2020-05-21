@@ -11,6 +11,7 @@ import CircuitInputButton from "./circuitInputButton";
 import Button from "@material-ui/core/Button";
 import { translateToSimulator } from "../../helpers/quantumSimulator/quantumTranslator";
 import { solveQuantumCircuit } from "../../helpers/quantumSimulator/quantumSolver";
+import CellData from "./cellData";
 
 const CircuitBox = fashion(Box, (theme) => ({
     marginTop: theme.spacing(1),
@@ -76,39 +77,28 @@ export default function QuCircuit(props) {
         }
     }, [circuitRef]);
 
-    function disconnectTargetsAt(cellIndex, wireIndex) {
-        for (let i = 0; i < wireAmount; i++) {
-            let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell);
-
-            if (cellLife && cellLife.hasTarget(wireIndex)) {
-                cellLife.removeTarget(wireIndex);
-            }
-        }
-        refreshCircuit();
-    }
-
     function cells(amount, wireIndex) {
         let wireCells = new Array(amount);
 
         for (let cellIndex = 0; cellIndex < amount; cellIndex++) {
             let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell);
 
-            cellLife.onGateChanged = (g) => {
-                console.log(`Changing gate from ${JSON.stringify(cellLife.cellData)} to ${g}`);
-                let cellData = circuit[wireIndex][cellIndex];
-
-                if (!cellData) {
-                    cellData = {gate: g, targets: [], controls: []};
-                    circuit[wireIndex][cellIndex] = cellData
-                } else {
-                    cellLife.removeAllConnections();
-                    cellData.gate = g;
-                }
+            cellLife.onGateChanged = (gate) => {
+                console.log(`Changing gate from ${JSON.stringify(cellLife.cellData)} to ${gate}`);
+                cellLife.removeAllConnections();
 
                 // Check if we are setting a new gate at the cell.
-                if (g) {
+                if (gate) {
+                    let cellData = circuit[wireIndex][cellIndex];
+
+                    if (!cellData) {
+                        circuit[wireIndex][cellIndex] = new CellData(gate);
+                    } else {
+                        cellData.gate = gate;
+                    }
+
                     // Connect to selected if the cell is placed in the middle of a connection.
-                    if (cellLife.shouldShowConnectionPanel() && selectedCell.hasControlsBelow(cellLife.wireIndex)) {
+                    if (cellLife.shouldShowConnectionPanel() && selectedCell.hasSourcesBelow(cellLife.wireIndex)) {
                         cellLife.createConnectionToSelected();
                     }
 
@@ -117,7 +107,7 @@ export default function QuCircuit(props) {
                     // Finally set current cell as selected cell.
                     setSelectedCell(cellLife);
                 } else {
-                    disconnectTargetsAt(cellIndex, wireIndex);
+                    circuit[wireIndex][cellIndex] = null;
                 }
 
                 refreshCircuit();
@@ -150,7 +140,7 @@ export default function QuCircuit(props) {
 
             cellLife.onDisconnect = (event) => {
                 let direction = cellLife.getDirectionTowards(selectedCell.wireIndex);
-                selectedCell.getControlCells()
+                selectedCell.getSourceCells()
                     .filter(cell => (direction === "up" && cell.wireIndex >= cellLife.wireIndex)
                         || (direction === "down" && cell.wireIndex <= cellLife.wireIndex))
                     .forEach(cell => cell.removeConnectionToSelected());
@@ -190,7 +180,7 @@ export default function QuCircuit(props) {
     function onEvaluateButtonClicked(event) {
         let translatedCircuit = translateToSimulator(circuit, circuitInputs);
 
-        console.log("Got translation", JSON.stringify(translatedCircuit))
+        console.log("Got translation", JSON.stringify(translatedCircuit));
 
         solveQuantumCircuit(translatedCircuit)
             .then(result => console.log(JSON.stringify(result.filter(r => r.probability > 0))));

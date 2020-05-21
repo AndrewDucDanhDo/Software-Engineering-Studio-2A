@@ -13,7 +13,7 @@ const useStyle = makeStyles({
     },
 });
 
-export default function CNotGateIcon(props) {
+export default function CNotGate(props) {
     const classes = useStyle();
     let size = props.size || 100;
     let radius = size / 3;

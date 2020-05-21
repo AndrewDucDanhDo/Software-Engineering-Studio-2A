@@ -31,7 +31,7 @@ export function translateToSimulator(circuit, circuitInputs) {
                     type: translatedGate,
                     time: cellIndex,
                     targets: [wireIndex],
-                    controls: [...cellData.controls]
+                    controls: [...cellData.sources]
                 };
 
                 translatedCircuit.circuit.push(translatedCell);
@@ -41,10 +41,10 @@ export function translateToSimulator(circuit, circuitInputs) {
                 let translatedCell = {
                     type: translatedGate,
                     time: cellIndex,
-                    targets: [...cellData.controls, wireIndex],
+                    targets: [...cellData.sources, wireIndex],
                     controls: []
                 };
-                visitedSwapGates = [...visitedSwapGates, ...cellData.controls, wireIndex];
+                visitedSwapGates = [...visitedSwapGates, ...cellData.sources, wireIndex];
 
                 translatedCircuit.circuit.push(translatedCell);
             }

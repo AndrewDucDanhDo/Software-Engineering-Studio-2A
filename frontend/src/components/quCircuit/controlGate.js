@@ -7,7 +7,7 @@ const useStyle = makeStyles({
     },
 });
 
-export default function ControlGateIcon(props) {
+export default function ControlGate(props) {
     const classes = useStyle();
     let size = props.size || 100;
     let radius = size / 6;

@@ -1,4 +1,5 @@
 import { GateProperties } from "./gates";
+import CellData from "./cellData";
 
 export default class CellLife {
 
@@ -15,33 +16,36 @@ export default class CellLife {
         this.onDisconnect = (event) => {};
     }
 
+    /**
+     * @returns {CellData}
+     */
     get cellData() {
         return this.circuit[this.wireIndex] && this.circuit[this.wireIndex][this.cellIndex] ?
-            this.circuit[this.wireIndex][this.cellIndex] : {};
+            this.circuit[this.wireIndex][this.cellIndex] : new CellData();
     }
 
     get gate() {
         return this.cellData.gate;
     }
 
-    get targets() {
-        return this.cellData.targets || [];
+    get ends() {
+        return this.cellData.ends || [];
     }
 
-    get controls() {
-        return this.cellData.controls || [];
+    get sources() {
+        return this.cellData.sources || [];
     }
 
-    get hasTargets() {
-        return this.targets.length > 0;
+    get hasEnds() {
+        return this.ends.length > 0;
     }
 
-    get hasControls() {
-        return this.controls.length > 0;
+    get hasSources() {
+        return this.sources.length > 0;
     }
 
     get isConnected() {
-        return this.selectedCell && this.targets.includes(this.selectedCell.wireIndex)
+        return this.selectedCell && this.ends.includes(this.selectedCell.wireIndex)
     }
 
     get isSelected() {
@@ -56,8 +60,8 @@ export default class CellLife {
             && this.selectedCell.cellIndex === this.cellIndex
             && !this.isSelected
             && this.selectedCell.gate // Extra safety, prevents crash when moving gate on top of itself.
-            && GateProperties[this.selectedCell.gate].targets.includes(this.gate)
-            && (!this.hasTargets || this.hasTargetCell(this.selectedCell));
+            && GateProperties[this.selectedCell.gate].validEnds.includes(this.gate)
+            && (!this.hasEnds || this.hasEndCell(this.selectedCell));
     }
 
     get circuitWireCount() {
@@ -68,88 +72,88 @@ export default class CellLife {
         return this.circuit[this.wireIndex].length;
     }
 
-    removeTarget(wireIndex) {
-        if (this.hasTarget(wireIndex)) {
-            this.targets.splice(this.targets.indexOf(wireIndex), 1);
+    removeEnd(wireIndex) {
+        if (this.hasEnd(wireIndex)) {
+            this.ends.splice(this.ends.indexOf(wireIndex), 1);
         }
     }
 
-    removeControl(wireIndex) {
-        if (this.hasControl(wireIndex)) {
-            this.controls.splice(this.controls.indexOf(wireIndex), 1);
+    removeSource(wireIndex) {
+        if (this.hasSource(wireIndex)) {
+            this.sources.splice(this.sources.indexOf(wireIndex), 1);
         }
     }
 
-    pushTarget(wireIndex) {
-        if (!this.hasTarget(wireIndex)) {
-            this.targets.push(wireIndex);
+    addEnd(wireIndex) {
+        if (!this.hasEnd(wireIndex)) {
+            this.cellData.ends.push(wireIndex);
         }
     }
 
-    pushControl(wireIndex) {
-        if (!this.hasControl(wireIndex)) {
-            this.controls.push(wireIndex);
+    addSource(wireIndex) {
+        if (!this.hasSource(wireIndex)) {
+            this.cellData.sources.push(wireIndex);
         }
     }
 
     createConnectionToSelected() {
-        this.pushTarget(this.selectedCell.wireIndex);
-        this.selectedCell.pushControl(this.wireIndex);
+        this.addEnd(this.selectedCell.wireIndex);
+        this.selectedCell.addSource(this.wireIndex);
     }
 
     removeConnectionToSelected() {
         console.log("removing", this, "from ", this.selectedCell);
-        this.removeTarget(this.selectedCell.wireIndex);
-        this.selectedCell.removeControl(this.wireIndex);
+        this.removeEnd(this.selectedCell.wireIndex);
+        this.selectedCell.removeSource(this.wireIndex);
     }
 
     removeAllConnections() {
-        this.getTargetCells()
+        this.getEndCells()
             .forEach(cell => {
-                cell.removeControl(this.wireIndex);
-                this.removeTarget(cell.wireIndex);
+                cell.removeSource(this.wireIndex);
+                this.removeEnd(cell.wireIndex);
             });
 
-        this.getControlCells()
+        this.getSourceCells()
             .forEach(cell => {
-                cell.removeTarget(this.wireIndex);
-                this.removeControl(cell.wireIndex);
+                cell.removeEnd(this.wireIndex);
+                this.removeSource(cell.wireIndex);
             });
 
-        this.cellData.targets = [];
-        this.cellData.controls = [];
+        this.cellData.ends = [];
+        this.cellData.sources = [];
     }
 
-    hasTarget(wireIndex) {
-        return this.targets.includes(wireIndex);
+    hasEnd(wireIndex) {
+        return this.ends.includes(wireIndex);
     }
 
-    hasControl(wireIndex) {
-        return this.controls.includes(wireIndex);
+    hasSource(wireIndex) {
+        return this.sources.includes(wireIndex);
     }
 
-    hasTargetCell(cell) {
-        return this.targets.includes(cell.wireIndex);
+    hasEndCell(cell) {
+        return this.ends.includes(cell.wireIndex);
     }
 
-    hasTargetCell(cell) {
-        return this.targets.includes(cell.wireIndex);
+    hasSourceCell(cell) {
+        return this.sources.includes(cell.wireIndex);
     }
 
-    hasTargetsBelow(wireIndex) {
-        return this.targets.filter(t => t > wireIndex).length;
+    hasEndsBelow(wireIndex) {
+        return this.ends.filter(t => t > wireIndex).length;
     }
 
-    hasTargetsAbove(wireIndex) {
-        return this.targets.filter(t => t < wireIndex).length;
+    hasEndsAbove(wireIndex) {
+        return this.ends.filter(t => t < wireIndex).length;
     }
 
-    hasControlsBelow(wireIndex) {
-        return this.controls.filter(t => t > wireIndex).length;
+    hasSourcesBelow(wireIndex) {
+        return this.sources.filter(t => t > wireIndex).length;
     }
 
-    hasControlsAbove(wireIndex) {
-        return this.controls.filter(t => t < wireIndex).length;
+    hasSourcesAbove(wireIndex) {
+        return this.sources.filter(t => t < wireIndex).length;
     }
 
     getCellsAbove() {
@@ -172,12 +176,12 @@ export default class CellLife {
         return result;
     }
 
-    getControlCells() {
-        return this.controls.map(con => new CellLife(con, this.cellIndex, this.circuit, this.selectedCell));
+    getSourceCells() {
+        return this.sources.map(con => new CellLife(con, this.cellIndex, this.circuit, this.selectedCell));
     }
 
-    getTargetCells() {
-        return this.targets.map(t => new CellLife(t, this.cellIndex, this.circuit, this.selectedCell));
+    getEndCells() {
+        return this.ends.map(t => new CellLife(t, this.cellIndex, this.circuit, this.selectedCell));
     }
 
     getDirectionTowards(wireIndex) {
@@ -193,6 +197,6 @@ export default class CellLife {
     }
 
     toString() {
-        return this.gate ? `CellLife(gate(${this.gate}) targets[${this.targets}] controls[${this.controls}])` : `(Empty cell)`
+        return this.gate ? `CellLife(gate(${this.gate}) ends[${this.ends}] sources[${this.sources}])` : `(Empty Cell)`
     }
 }

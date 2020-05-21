@@ -75,6 +75,7 @@ export default function Cell(props) {
         event.preventDefault();
 
         let gate = event.dataTransfer.getData("gate");
+        console.log("dropped", gate, gate === undefined);
         setGateAndListeners(gate);
     }
 
@@ -89,12 +90,12 @@ export default function Cell(props) {
         }
     }
 
-    function gateIcon() {
+    function gate() {
         if (!cellLife.gate) return null;
 
         return (
             <div className={classes.iconContainer}>
-                <DraggableGate size="md" gate={cellLife.gate} onDragEnd={onDragGateEnd} draggable/>
+                <DraggableGate size="md" cellLife={cellLife} onDragEnd={onDragGateEnd} draggable/>
             </div>
         );
     }
@@ -102,7 +103,7 @@ export default function Cell(props) {
     function connectionLines() {
         return (
             <div className={classes.connectionLines}>
-                {cellLife.targets
+                {cellLife.ends
                     .map(t => (
                         <ConnectionLine key={t} cellDistance={Math.abs(t - cellLife.wireIndex)}
                                         direction={(t - cellLife.wireIndex) > 0 ? "down" : "up"}/>)
@@ -118,7 +119,7 @@ export default function Cell(props) {
         <div className={classes.cellContainer}>
             <div className={classes.cell} onDragOver={onDraggedOver} onDrop={onDrop} onClick={onClick}>
                 <div className={classes.wire}/>
-                {gateIcon()}
+                {gate()}
                 {cellLife.gate && cellLife.isSelected ? <div className={classes.greenHighlight}/> : null}
             </div>
 

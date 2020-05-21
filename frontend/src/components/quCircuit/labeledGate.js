@@ -13,7 +13,7 @@ const useStyle = makeStyles({
     }
 });
 
-export default function LabeledGateIcon(props) {
+export default function LabeledGate(props) {
     const classes = useStyle();
     let size = props.size || 100;
     let label = props.label || "G";
