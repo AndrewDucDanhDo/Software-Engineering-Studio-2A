@@ -117,6 +117,7 @@ out
 
 # Firebase
 service-account-key.json
+key.json
 
 # IDEs
 .idea
