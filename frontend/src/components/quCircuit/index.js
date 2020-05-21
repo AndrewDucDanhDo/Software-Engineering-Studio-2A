@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import CellLife from "./cellLife";
 import CircuitInputButton from "./circuitInputButton";
 import Button from "@material-ui/core/Button";
-import { translateToSimulator } from "../../helpers/quantumSimulator/quantumTranslator";
+import { translateToQuCircuit, translateToSimulator } from "../../helpers/quantumSimulator/quantumTranslator";
 import { solveQuantumCircuit } from "../../helpers/quantumSimulator/quantumSolver";
 import CellData from "./cellData";
 
@@ -188,6 +188,34 @@ export default function QuCircuit(props) {
             .then(result => console.log(JSON.stringify(result.filter(r => r.probability > 0))));
     }
 
+    function onExport(event) {
+        let translatedCircuit = translateToSimulator(circuit, circuitInputs);
+        const blob = new Blob([JSON.stringify(translatedCircuit)]);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'workspace.json';
+        a.click();
+    }
+
+    function onImport(event) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.onchange = evt => {
+            const reader = new FileReader();
+            reader.onloadend = evt => {
+                let rawCircuit = JSON.parse(evt.target.result);
+                console.log(rawCircuit);
+                let [translatedCircuit, inputs]  = translateToQuCircuit(rawCircuit, cellAmount);
+                setWireAmount(inputs.length);
+                setCircuit(translatedCircuit);
+                setCircuitInputs(inputs);
+            };
+            reader.readAsText(evt.target.files[0]);
+        };
+        input.click();
+    }
+
     return (
         <StretchBox display="flex">
             <CircuitBox flexGrow={1} flexShrink={6}>
@@ -197,6 +225,16 @@ export default function QuCircuit(props) {
             </CircuitBox>
 
             <ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
+                <Box m={1} display="flex">
+                    <Box m={1}>
+                        <Button color="primary" variant="contained" onClick={onExport}>Export</Button>
+                    </Box>
+
+                    <Box m={1}>
+                        <Button color="primary" variant="contained" onClick={onImport}>Import</Button>
+                    </Box>
+                </Box>
+
                 <Box m={1}>
                     <GatesToolbox/>
                 </Box>

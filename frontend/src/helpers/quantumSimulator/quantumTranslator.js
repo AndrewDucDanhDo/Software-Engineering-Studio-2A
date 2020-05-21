@@ -1,11 +1,20 @@
 import { Gates } from "../../components/quCircuit/gates";
 
+class GateAliases {
+
+    static ToSimulator = {};
+    static FromSimulator = {};
+
+    static addAlias(from, to) {
+        this.ToSimulator[from] = to;
+        this.FromSimulator[to] = from;
+    }
+}
+
+GateAliases.addAlias(Gates.CNOT, "x");
+
 export function translateToSimulator(circuit, circuitInputs) {
     const SimpleGatesFilter = [Gates.CONTROL, Gates.SWAP];
-
-    const GateAliases = {
-        [Gates.CNOT]: "x",
-    };
 
     let translatedCircuit = {
         gates: [],
@@ -24,7 +33,7 @@ export function translateToSimulator(circuit, circuitInputs) {
             let cellData = circuit[wireIndex][cellIndex];
             if (!cellData || !cellData.gate) continue;
 
-            let translatedGate = GateAliases[cellData.gate] ? GateAliases[cellData.gate] : cellData.gate.toLowerCase();
+            let translatedGate = GateAliases.ToSimulator[cellData.gate] ? GateAliases.ToSimulator[cellData.gate] : cellData.gate.toLowerCase();
 
             if (!SimpleGatesFilter.includes(cellData.gate)) {
                 let translatedCell = {
@@ -53,6 +62,51 @@ export function translateToSimulator(circuit, circuitInputs) {
     return translatedCircuit;
 }
 
-export function translateToQuCircuit(circuit) {
-    // TODO
+export function translateToQuCircuit(circuit, cellAmount) {
+    let inputs = circuit.input;
+    let wireAmount = inputs.length;
+    let quCircuit = new Array(wireAmount)
+        .fill(null)
+        .map(e => new Array(cellAmount));
+
+    function fillTwinData(w, c, cellData) {
+        fillData(w, c, {
+          gate: cellData.gate,
+          ends: cellData.sources,
+          sources: cellData.ends,
+        });
+    }
+
+    function fillData(w, c, cellData) {
+        quCircuit[w][c] = cellData;
+    }
+
+    for (let entry of circuit.circuit) {
+        let gate = GateAliases.FromSimulator[entry.type] ? GateAliases.FromSimulator[entry.type] : entry.type.toUpperCase();
+        let ends = [];
+        let sources = [];
+        let wire = entry.targets[0];
+        let cell = entry.time;
+
+        let cellData = { gate, ends, sources };
+
+        if (gate === Gates.SWAP && entry.targets.length === 2) {
+            ends.push(entry.targets[1]);
+            fillTwinData(entry.targets[1], cell, cellData);
+        }
+
+        for (let control of entry.controls) {
+            fillData(control, cell, {
+                gate: Gates.CONTROL,
+                sources: [wire],
+                ends: [wire],
+            });
+            ends.push(control);
+            sources.push(control);
+        }
+
+        fillData(wire, cell, cellData);
+    }
+
+    return [quCircuit, inputs.map(e => e.toString())];
 }
