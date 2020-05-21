@@ -89,6 +89,18 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const getAllUsers = async (req, res) => {
+  try {
+    // Get details from firebase
+    const userDetails = await admin.auth().listUsers();
+
+    // Prepare a response
+    return res.status(200).json(successResponse(userDetails));
+  } catch (error) {
+    return handleApiError(res, error);
+  }
+}
+
 export const updateUser = async (req, res) => {
   try {
     // Parse details from the request
