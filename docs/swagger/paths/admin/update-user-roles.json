@@ -31,7 +31,7 @@
         ],
         "responses": {
             "200": {
-                "description": "Task updated successfully",
+                "description": "User roles updated successfully",
                 "schema": {
                     "$ref": "../../common/schemas/apiResponse.json#"
                 }

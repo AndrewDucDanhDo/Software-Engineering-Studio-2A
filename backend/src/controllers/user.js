@@ -210,7 +210,7 @@ export const updateUserRoles = async (req, res) => {
     await admin.auth().setCustomUserClaims(userId, userRoles);
     return res
       .status(200)
-      .json(successResponse({ msg: "Successfully updated users roles." }));
+      .json(successResponse({ msg: "The action was completed successfully." }));
   } catch (error) {
     return handleApiError(res, error);
   }
