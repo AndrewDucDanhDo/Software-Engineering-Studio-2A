@@ -1,0 +1,14 @@
+{
+	"type": "object",
+	"properties": {
+		"email": {
+			"type": "string",
+			"example": "john.smith@example.com"
+		},
+		"password": {
+			"type": "string",
+			"description": "Password for the new user.",
+			"example": "password12345"
+		}
+	}
+}

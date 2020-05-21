@@ -1,0 +1,68 @@
+{
+  "post": {
+    "tags": ["user", "circuit"],
+    "summary": "Create a new quantum circuit for user owned by a user.",
+    "parameters": [
+      {
+        "in": "body",
+        "name": "body",
+        "description": "Quantum circuit to be created.",
+        "required": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "circuitId": {
+              "type": "string",
+              "example": "Some circuit name"
+            },
+            "circuitData": {
+              "$ref": "../../common/schemas/circuit.json#"
+            }
+          }
+
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Circuits was successfully created.",
+        "schema": {
+          "$ref": "../../common/schemas/apiResponse.json#"
+        },
+        "examples": {
+          "application/json": {
+            "status": "OK",
+            "msg": "Circuit was successfully created for user"
+          }
+        }
+      },
+      "400": {
+        "description": "Bad data from client to create circuit",
+        "schema": {
+          "$ref": "../../common/schemas/apiErrorResponse.json#"
+        },
+        "examples": {
+          "application/json": {
+            "status": "ERROR",
+            "msg": "Key 'circuitId' must be present in request body and be of type string.",
+            "errorCode": "missing-circuit-name"
+          }
+        }
+      },
+      "500": {
+        "description": "Unknown server side error.",
+        "schema": {
+          "$ref": "../../common/schemas/apiErrorResponse.json#"
+        },
+        "examples": {
+          "application/json": {
+            "status": "ERROR",
+            "msg": "An unknown error occurred while trying to fetch users circuit.",
+            "errorCode": "password-length",
+            "error": "RangeError: Invalid array length"
+          }
+        }
+      }
+    }
+  }
+}
