@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {Box, Button, Card, Grid, Paper, Table, TableBody, TableCell, TableRow, Typography} from "@material-ui/core";
 import ExpectedOutputBox from "./expectedOutputBox";
 import QuantumSimulator from "../quantum";
+import axios from 'axios';
 
 export default class TeacherTaskViewer extends React.Component {
 
@@ -40,6 +41,13 @@ export default class TeacherTaskViewer extends React.Component {
             { name: "William" },
             { name: "Ned" }
         ];
+
+        axios
+        .post('', { name })
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+        });
 
         return (
             <Grid container style={{position: "absolute", width: "100%", height: "90%"}}>
