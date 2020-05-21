@@ -10,12 +10,13 @@ export const Gates = {
     H: "H",
     Y: "Y",
     Z: "Z",
+    S: "S",
     CNOT: "CNOT",
     CONTROL: "CONTROL",
     SWAP: "SWAP",
     R2: "R2",
     R4: "R4",
-    R6: "R6",
+    R8: "R8",
 };
 
 
@@ -36,6 +37,7 @@ export class GateProperty {
 let h = new GateProperty(Gates.H, (props) => (<LabeledGate {...props} label="H"/>));
 let y = new GateProperty(Gates.Y, (props) => (<LabeledGate {...props} label="Y"/>));
 let z = new GateProperty(Gates.Z, (props) => (<LabeledGate {...props} label="Z"/>));
+let s = new GateProperty(Gates.S, (props) => (<LabeledGate {...props} label="S"/>));
 let cnot = new GateProperty(Gates.CNOT, (props) => (<CNotGate {...props}/>));
 let control = new GateProperty(Gates.CONTROL, ControlGate, []);
 let swap = new GateProperty(Gates.SWAP, SwapGate, [Gates.SWAP]);
@@ -43,7 +45,7 @@ swap.canConnectToItself = true;
 swap.maxEnds = 1;
 let r2 = new GateProperty(Gates.R2, (props) => (<LabeledGate {...props} label="R2" labelSize={3.5}/>));
 let r4 = new GateProperty(Gates.R4, (props) => (<LabeledGate {...props} label="R4" labelSize={3.5}/>));
-let r6 = new GateProperty(Gates.R6, (props) => (<LabeledGate {...props} label="R6" labelSize={3.5}/>));
+let r8 = new GateProperty(Gates.R8, (props) => (<LabeledGate {...props} label="R8" labelSize={3.5}/>));
 
 
 export function getGateComponentOrEmpty(gate) {
