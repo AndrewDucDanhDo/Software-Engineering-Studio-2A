@@ -1,8 +1,21 @@
+import { handleApiError } from "../../helpers/apiResponse";
+import { AuthenticationError } from "../../errors/auth";
+
 // Check the token is teacher role
 export const checkTeacherRole = (req, res, next) => {
-  const { teacher } = req.userClaims;
+  const { teacher, superuser } = req.userClaims;
 
-  if (teacher === true) {
+  if (teacher === true || superuser === true) {
+    return next();
+  }
+  return handleApiError(res, new AuthenticationError());
+};
+
+// Check the token is super user role
+export const checkSuperUserRole = (req, res, next) => {
+  const { teacher, superuser } = req.userClaims;
+
+  if (superuser === true) {
     return next();
   }
   return handleApiError(res, new AuthenticationError());

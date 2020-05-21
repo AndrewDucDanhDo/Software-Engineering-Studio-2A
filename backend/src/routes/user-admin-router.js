@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { checkToken } from "../middleware/auth";
-import { checkTeacherRole } from "../middleware/roles";
+import { checkTeacherRole, checkSuperUserRole } from "../middleware/roles";
 import {
   getUser,
   getAllUsers,
@@ -9,7 +9,7 @@ import {
 } from "../controllers/user";
 import { getTaskSubmissions, updateSubmissionResults } from "../controllers/submission";
 
-const userAdminRouter = Router().use(checkToken, checkTeacherRole);
+const userAdminRouter = Router().use(checkToken, checkSuperUserRole);
 
 userAdminRouter.get("/", getAllUsers);
 userAdminRouter.get("/:userId", getUser);
