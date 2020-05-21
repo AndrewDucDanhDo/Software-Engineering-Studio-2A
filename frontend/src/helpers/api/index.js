@@ -7,13 +7,26 @@ import {
 	updateCircuit,
 	deleteCircuit,
 } from "./circuit";
+import {
+	getAllTasks,
+	getSingleTask,
+	createTask,
+	getAllTasksAdmin,
+	getSingleTasksAdmin,
+	updateTask,
+	deleteTask,
+} from "./task";
+import {
+	getSubmission,
+	updateSubmission,
+	deleteSubmission,
+	getAllSubmissionsAdmin,
+	updateSubmissionAdmin,
+} from "./submission";
 
 export const API_HOST = "localhost:4000";
 
 export default {
-	auth: {
-		login: () => {},
-	},
 	user: {
 		create: createUser,
 		get: getUser,
@@ -31,24 +44,24 @@ export default {
 		solve: solveCircuit,
 	},
 	task: {
-		getAll: () => {},
-		getSingle: () => {},
+		getAll: getAllTasks,
+		getSingle: getSingleTask,
 		submission: {
-			get: () => {},
-			update: () => {},
-			delete: () => {},
+			get: getSubmission,
+			update: updateSubmission,
+			delete: deleteSubmission,
 		},
 	},
 	admin: {
 		tasks: {
-			create: () => {},
-			getAll: () => {},
-			getSingle: () => {},
-			update: () => {},
-			delete: () => {},
+			create: createTask,
+			getAll: getAllTasksAdmin,
+			getSingle: getSingleTasksAdmin,
+			update: updateTask,
+			delete: deleteTask,
 			submission: {
-				getAll: () => {},
-				update: () => {},
+				getAll: getAllSubmissionsAdmin,
+				update: updateSubmissionAdmin,
 			},
 		},
 	},
