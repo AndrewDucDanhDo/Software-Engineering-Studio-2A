@@ -191,13 +191,26 @@ export const getUserRoles = async (req, res) => {
   }
 };
 
-export const makeUserTeacher = async (req, res) => {
+export const updateUserRoles = async (req, res) => {
   try {
+    const userRoles = req.body;
     const { userId } = req.params;
-    await admin.auth().setCustomUserClaims(userId, { teacher: true });
+
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      },
+      userRoles: {
+        data: userRoles,
+        expectedType: "object"
+      }
+    });
+
+    await admin.auth().setCustomUserClaims(userId, userRoles);
     return res
       .status(200)
-      .json(successResponse({ msg: "User was successfully made teacher." }));
+      .json(successResponse({ msg: "Successfully updated users roles." }));
   } catch (error) {
     return handleApiError(res, error);
   }

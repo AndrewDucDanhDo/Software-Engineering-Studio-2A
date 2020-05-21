@@ -5,7 +5,7 @@ import {
   getUser,
   getAllUsers,
   getUserRoles,
-  makeUserTeacher
+  updateUserRoles
 } from "../controllers/user";
 import { getTaskSubmissions, updateSubmissionResults } from "../controllers/submission";
 
@@ -14,5 +14,6 @@ const userAdminRouter = Router().use(checkToken, checkTeacherRole);
 userAdminRouter.get("/", getAllUsers);
 userAdminRouter.get("/:userId", getUser);
 userAdminRouter.get("/:userId/roles", getUserRoles);
+userAdminRouter.post("/:userId/roles/update", updateUserRoles);
 
 export default userAdminRouter;
