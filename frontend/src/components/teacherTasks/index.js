@@ -19,7 +19,12 @@ class TeacherTasks extends React.Component {
     taskRow(data) {
         return (
             <TableRow hover onClick={this.handleRowSelect}>
-                <TableCell>{data.title}</TableCell>
+                <TableCell >
+                    <Button >
+                        X
+                    </Button>
+                    {data.title}
+                </TableCell>
             </TableRow>
         );
     }
@@ -39,8 +44,8 @@ class TeacherTasks extends React.Component {
                 </Box>
 
                 {/* Right now, this is a table with example data. */}
-                <Paper variant="outlined" style={{padding: 8, backgroundColor: "rgb(255, 81, 81)"}}>
-                    <Table component={Paper} my={2} variant="outlined">
+                <Paper variant="outlined" style={{padding: 8, backgroundColor: "rgb(211, 211, 211)"}}>
+                    <Table component={Paper}  size='medium' my={2} variant="outlined">
                         <TableBody>
                             {sampleData.map((data) => this.taskRow(data))}
                         </TableBody>
@@ -50,7 +55,7 @@ class TeacherTasks extends React.Component {
                 <Box display="flex" flexDirection="row-reverse" my={2} mr={5}>
                     {/* TODO: Create a new task then redirect to teacherTaskEditor when button is clicked. */}
                     <Button component={Link} to="/teacherTaskEditor" variant="contained" color="primary">
-                        New Task
+                        + Add New Task
                     </Button>
                 </Box>
             </Container>
