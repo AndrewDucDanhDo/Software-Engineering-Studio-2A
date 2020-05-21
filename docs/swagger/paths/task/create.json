@@ -1,16 +1,16 @@
 {
 	"post": {
-		"tags": ["task"],
-		"summary": "Add a new quantum circuit task. TODO",
+		"tags": ["task", "admin"],
+		"summary": "Add a new quantum circuit task.",
 		"produces": ["application/json"],
 		"parameters": [
 			{
 				"in": "body",
 				"name": "body",
-				"description": "User details to be created.",
+				"description": "User details to be created. If the userId of the user that made the authenticated request is not present on in the owners array it will be added.",
 				"required": true,
 				"schema": {
-					"$ref": "../../common/schemas/task.json#"
+					"$ref": "../../common/schemas/taskDescriptionTeacher.json#"
 				}
 			}
 		],

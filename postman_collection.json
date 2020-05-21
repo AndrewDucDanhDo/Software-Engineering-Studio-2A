@@ -352,6 +352,415 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "task",
+			"item": [
+				{
+					"name": "teacher",
+					"item": [
+						{
+							"name": "create task",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Quantum Bell Circuit\",\n    \"summary\": \"Create a simple bell circuit\",\n    \"description\": \"An electric bell is a mechanical or electronic bell that functions by means of an electromagnet. When an electric current is applied, it produces a repetitive buzzing, clanging or ringing sound.\",\n    \"expectedResults\": [\n        {\n            \"value\": \"0.0000%\",\n            \"impossible\": true,\n            \"amplitude\": \"0.00000000+0.00000000i\",\n            \"state\": \"10\"\n        }\n    ],\n    \"owners\": [\n        \"uKVj1IXKZLS9BwhkxS1RrBANhet1\"\n    ],\n    \"assigned\": [\n        \"uKVj1IXKZLS9BwhkxS1RrBANhet1\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/admin/task/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get task",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/admin/task/:taskId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										":taskId"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "f807759e-1107-4fa3-8f57-acde17116c6f"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update task",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Quantum Bell Circuit\",\n    \"summary\": \"Create a simple bell circuit\",\n    \"description\": \"An electric bell is a mechanical or electronic bell that functions by means of an electromagnet. When an electric current is applied, it produces a repetitive buzzing, clanging or ringing sound.\",\n    \"expectedResults\": [\n        {\n            \"value\": \"0.0000%\",\n            \"impossible\": true,\n            \"amplitude\": \"0.00000000+0.00000000i\",\n            \"state\": \"10\"\n        }\n    ],\n    \"owners\": [\n        \"uKVj1IXKZLS9BwhkxS1RrBANhet1\"\n    ],\n    \"assigned\": [\n        \"uKVj1IXKZLS9BwhkxS1RrBANhet1\"\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/admin/task/:taskId/update",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										":taskId",
+										"update"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "7a69b262-53c0-48b2-96d2-2bc00ec0bc08"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete task",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/admin/task/:taskId/update",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										":taskId",
+										"update"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "7a69b262-53c0-48b2-96d2-2bc00ec0bc08"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all tasks",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/admin/task",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "student",
+					"item": [
+						{
+							"name": "get task",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/task/:taskId",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task",
+										":taskId"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "f807759e-1107-4fa3-8f57-acde17116c6f"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all assigned tasks",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/task",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "submission",
+			"item": [
+				{
+					"name": "student",
+					"item": [
+						{
+							"name": "submit to task",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"gates\": [\n        \"xyz\"\n    ],\n    \"circuit\": [\n        {\n            \"type\": \"x\",\n            \"time\": 3,\n            \"targets\": [\n                1\n            ],\n            \"controls\": [\n                \"foo foo\"\n            ]\n        }\n    ],\n    \"qubits\": 2,\n    \"input\": [\n        0\n    ],\n    \"version\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/task/:taskId/submit",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"submit"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get task submission",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/task/:taskId/submission",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"submission"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update submission",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"gates\": [\n        \"xyz\"\n    ],\n    \"circuit\": [\n        {\n            \"type\": \"x\",\n            \"time\": 3,\n            \"targets\": [\n                1\n            ],\n            \"controls\": [\n                \"foo foo poo\"\n            ]\n        }\n    ],\n    \"qubits\": 2,\n    \"input\": [\n        0\n    ],\n    \"version\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/task/:taskId/submission/update",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"submission",
+										"update"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete submission",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/task/:taskId/submission/update",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"task",
+										":taskId",
+										"submission",
+										"update"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "teacher",
+					"item": [
+						{
+							"name": "get all submissions",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/admin/task/:taskId/submission",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										":taskId",
+										"submission"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update submission results",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"totalMarks\": 100,\n    \"assessor\": \"\",\n    \"status\": \"PASS\",\n    \"comment\": \"\",\n    \"submissionMark\": 100\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/admin/task/:taskId/submission/:userId/update",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"admin",
+										"task",
+										":taskId",
+										"submission",
+										":userId",
+										"update"
+									],
+									"variable": [
+										{
+											"key": "taskId",
+											"value": "248d3024-5152-4a08-a5a1-91976d60c7e6"
+										},
+										{
+											"key": "userId",
+											"value": "uKVj1IXKZLS9BwhkxS1RrBANhet1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"auth": {
@@ -359,7 +768,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImZjMmM4YmIyNmE3OGM0M2JkODYzNzA1YjNkNzkyMWI0ZTY0MjVkNTQiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg4ODUyMTk5LCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODg4NTIxOTksImV4cCI6MTU4ODg1NTc5OSwiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.2YhM5HYZEalJe4Pt0NABmKhlQQA14ShzwqdcHdHi5uuBKbBqFU2XyCOLWiONGQ8OD0lSsB1UnnKRvqMOPysWwgpLfC1qCv1El-HX47cpLg2__86FfdvXmiYE1VV13RBGygJHYefgZ8bXbqlEwA-Mrn3bByijDc7P4Ck8EkhpuUGJ9yiwsxdscT1LcdsESIRKAhbL61nXMjmFk2q-dzqTeaDHLpdNA2k4FH2NsFaQsNx3YcbVufU1oF19J0l8mUABC3XbuSOy4Dd_xid7J8Gl1cIHP99cyvOOq_-fJ5SQTsdrho_33DWFtoexmk5pVpsFrvU04yuw0XobK7OyKUQr5Q",
+				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImY1YzlhZWJlMjM0ZGE2MDE2YmQ3Yjk0OTE2OGI4Y2Q1YjRlYzllZWIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVzdGZpcnN0bmFtZSIsInRlYWNoZXIiOnRydWUsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9zZXMyYS1xdWFudHVtLXNvbHZlciIsImF1ZCI6InNlczJhLXF1YW50dW0tc29sdmVyIiwiYXV0aF90aW1lIjoxNTg5ODgyNzk3LCJ1c2VyX2lkIjoidUtWajFJWEtaTFM5Qndoa3hTMVJyQkFOaGV0MSIsInN1YiI6InVLVmoxSVhLWkxTOUJ3aGt4UzFSckJBTmhldDEiLCJpYXQiOjE1ODk4ODI3OTcsImV4cCI6MTU4OTg4NjM5NywiZW1haWwiOiJhYXJvbi50ZXN0QGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImFhcm9uLnRlc3RAZXhhbXBsZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.QJihCaw51EmQpPAFzx-kQdUDYlSGRsSroenxr9Yw0wR9OhI5Re5Uq-daybuBUu7kiaTV49q4uNct2GLvDKYyigoca7fAls2ajKr4tWa8oR5UnbqdifKyr_KWSuhvpxKXITzZMo1S_Hbr3TvMfeNA_TnE1yltg3yZSjbaDuGkTDYVzCg-AYoJMz-knaYJv06UfHBwBnbJ9E591557aMN69OLMkbCLLpewNaoQLRX69jjqUYi9LhpKS6WfRiFqgguXX9XgY12p0p7D-9P0K8hB688UjQ7B6VGfX32ym42OARAZSM0Hm7spSdgfp4saQik48XiSLpOWzbfXrg8NhRyO-A",
 				"type": "string"
 			}
 		]
@@ -388,7 +797,7 @@
 	],
 	"variable": [
 		{
-			"id": "11277f72-90b2-4319-abdd-ff70e9cd17f7",
+			"id": "344d69d2-7e0b-41f5-bac0-211219880ee8",
 			"key": "host",
 			"value": "localhost:4000",
 			"type": "string"

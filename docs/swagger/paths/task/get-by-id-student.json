@@ -1,7 +1,7 @@
 {
 	"get": {
 		"tags": ["task"],
-		"summary": "Return the details of a quantum circuit task. TODO",
+		"summary": "Return the details of a quantum circuit task. For a user that does not have the teacher role a formatted version of the data is returned.",
 		"parameters": [
 			{
 				"$ref": "../../common/parameters/taskId.json"
@@ -18,7 +18,7 @@
 							"example": "OK"
 						},
 						"data": {
-							"$ref": "../../common/schemas/task.json#"
+							"$ref": "../../common/schemas/taskDescriptionStudent.json#"
 						}
 					}
 				}

@@ -13,7 +13,9 @@ import {
   updateUserCircuit,
   deleteUserCircuit
 } from "../controllers/circuit";
-import { checkToken, checkUser, checkTeacher } from "../middleware/firebase-auth";
+import { checkToken } from "../middleware/auth";
+import { checkUser } from "../middleware/user";
+import { checkTeacherRole } from "../middleware/roles";
 
 const userRouter = Router();
 
@@ -45,18 +47,7 @@ userRouter.delete(
   deleteUserCircuit
 );
 
-// TODO Remove POC teacher role
+// TODO Move to a different router when we know where it'll fit in the spec
 userRouter.post("/:userId/promote", makeUserTeacher);
-userRouter.post("/teacher",
-  checkToken,
-  checkTeacher,
-  function (req, res) {
-    res.status(200).json({
-      status: "OK",
-      data: { msg: "User has teacher auth." }
-    })
-  }
-);
-
 
 export default userRouter;
