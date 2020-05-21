@@ -10,7 +10,7 @@ describe("User Management", () => {
         password: "password",
         displayName: "Test"
     }
-    it("Should create a user", function (done) {
+    it("Should create a user", async function () {
         this.timeout(10000);
 
         // Setup mocks
@@ -20,20 +20,18 @@ describe("User Management", () => {
         const mockRes = httpMocks.createResponse();
 
         // call function
-        createUser(mockReq, mockRes).then(() => {
+        await createUser(mockReq, mockRes);
 
-            // assert response
-            var { data } = mockRes._getJSONData();
-            expect(data.email).to.equal(body.email);
-            expect(data.displayName).to.equal(body.displayName);
-            expect(mockRes._getStatusCode()).to.equal(200);
+        // assert response
+        const { data } = mockRes._getJSONData();
+        expect(data.email).to.equal(body.email);
+        expect(data.displayName).to.equal(body.displayName);
+        expect(mockRes._getStatusCode()).to.equal(200);
 
-            uid = data.uid;
-            done();
-        });
+        uid = data.uid;
     });
 
-    it("Should get a user", function (done) {
+    it("Should get a user", async function () {
         this.timeout(10000);
 
         // Setup mocks
@@ -46,18 +44,16 @@ describe("User Management", () => {
         const mockRes = httpMocks.createResponse();
 
         // call function
-        getUser(mockReq, mockRes).then(() => {
+        await getUser(mockReq, mockRes);
 
-            // assert response
-            var { data } = mockRes._getJSONData();
-            expect(data.email).to.equal(body.email);
-            expect(data.displayName).to.equal(body.displayName);
-            expect(mockRes._getStatusCode()).to.equal(200);
-            done();
-        });
+        // assert response
+        var { data } = mockRes._getJSONData();
+        expect(data.email).to.equal(body.email);
+        expect(data.displayName).to.equal(body.displayName);
+        expect(mockRes._getStatusCode()).to.equal(200);
     });
 
-    it("Should update a user", function (done) {
+    it("Should update a user", async function () {
         this.timeout(10000);
 
         // Setup mocks
@@ -76,18 +72,17 @@ describe("User Management", () => {
         const mockRes = httpMocks.createResponse();
 
         // call function
-        updateUser(mockReq, mockRes).then(() => {
+        await updateUser(mockReq, mockRes);
 
-            // assert response
-            var { data } = mockRes._getJSONData();
-            expect(data.email).to.equal(updateUserBody.email);
-            expect(data.displayName).to.equal(updateUserBody.displayName);
-            expect(mockRes._getStatusCode()).to.equal(200);
-            done();
-        });
+        // assert response
+        var { data } = mockRes._getJSONData();
+        expect(data.email).to.equal(updateUserBody.email);
+        expect(data.displayName).to.equal(updateUserBody.displayName);
+        expect(mockRes._getStatusCode()).to.equal(200);
+
     });
 
-    it("Should delete a user", function (done) {
+    it("Should delete a user", async function () {
         this.timeout(10000);
 
         // Setup mocks
@@ -101,16 +96,13 @@ describe("User Management", () => {
         const mockRes = httpMocks.createResponse();
 
         // call function
-        deleteUser(mockReq, mockRes).then(() => {
+        await deleteUser(mockReq, mockRes);
 
-            // assert response
-            expect(mockRes._getStatusCode()).to.equal(200);
+        // assert response
+        expect(mockRes._getStatusCode()).to.equal(200);
 
-            // assert user was deleted and no longer exists
-            getUser(mockReq, mockRes).then(() => {
-                expect(mockRes._getStatusCode()).to.equal(500);
-                done();
-            });
-        });
+        // assert user was deleted and no longer exists
+        await getUser(mockReq, mockRes);
+        expect(mockRes._getStatusCode()).to.equal(500);
     });
 });
