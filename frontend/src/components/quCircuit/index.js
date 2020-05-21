@@ -97,9 +97,11 @@ export default function QuCircuit(props) {
                         cellData.gate = gate;
                     }
 
+                    let disturbedCell = cellLife.getDisturbedCell();
+
                     // Connect to selected if the cell is placed in the middle of a connection.
-                    if (cellLife.shouldShowConnectionPanel() && selectedCell.hasSourcesBelow(cellLife.wireIndex)) {
-                        cellLife.createConnectionToSelected();
+                    if (disturbedCell) {
+                        cellLife.createConnectionTo(disturbedCell);
                     }
 
                     // Needs to be here to have the selectedCell have an updated selectedCell.

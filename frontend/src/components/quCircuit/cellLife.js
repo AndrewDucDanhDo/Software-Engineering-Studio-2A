@@ -16,6 +16,10 @@ export default class CellLife {
         this.onDisconnect = (event) => {};
     }
 
+    copyOfPosition(wireIndex, cellIndex) {
+        return new CellLife(wireIndex, cellIndex, this.circuit, this.selectedCell)
+    }
+
     /**
      * @returns {CellData}
      */
@@ -96,15 +100,22 @@ export default class CellLife {
         }
     }
 
+    createConnectionTo(otherCell) {
+        this.addEnd(otherCell.wireIndex);
+        otherCell.addSource(this.wireIndex);
+    }
+
+    removeConnectionTo(otherCell) {
+        this.removeEnd(otherCell.wireIndex);
+        otherCell.removeSource(this.wireIndex);
+    }
+
     createConnectionToSelected() {
-        this.addEnd(this.selectedCell.wireIndex);
-        this.selectedCell.addSource(this.wireIndex);
+        this.createConnectionTo(this.selectedCell);
     }
 
     removeConnectionToSelected() {
-        console.log("removing", this, "from ", this.selectedCell);
-        this.removeEnd(this.selectedCell.wireIndex);
-        this.selectedCell.removeSource(this.wireIndex);
+        this.removeConnectionTo(this.selectedCell);
     }
 
     removeAllConnections() {
@@ -160,9 +171,8 @@ export default class CellLife {
         let result = [];
 
         for (let w = this.wireIndex - 1; w >= 0; w--) {
-            result.push(new CellLife(w, this.cellIndex, this.circuit, this.selectedCell));
+            result.push(this.copyOfPosition(w, this.cellIndex));
         }
-
         return result;
     }
 
@@ -170,18 +180,28 @@ export default class CellLife {
         let result = [];
 
         for (let w = this.wireIndex + 1; w < this.circuitWireCount; w++) {
-            result.push(new CellLife(w, this.cellIndex, this.circuit, this.selectedCell));
+            result.push(this.copyOfPosition(w, this.cellIndex));
         }
+        return result;
+    }
 
+    getColumnCells() {
+        let result = [];
+
+        for (let w = 0; w < this.circuitWireCount; w++) {
+            if (w !== this.wireIndex) {
+                result.push(this.copyOfPosition(w, this.cellIndex));
+            }
+        }
         return result;
     }
 
     getSourceCells() {
-        return this.sources.map(con => new CellLife(con, this.cellIndex, this.circuit, this.selectedCell));
+        return this.sources.map(con => this.copyOfPosition(con, this.cellIndex));
     }
 
     getEndCells() {
-        return this.ends.map(t => new CellLife(t, this.cellIndex, this.circuit, this.selectedCell));
+        return this.ends.map(t => this.copyOfPosition(t, this.cellIndex));
     }
 
     getDirectionTowards(wireIndex) {
@@ -194,6 +214,20 @@ export default class CellLife {
 
     samePositionAs(otherCell) {
         return this.wireIndex === otherCell.wireIndex && this.cellIndex === otherCell.cellIndex;
+    }
+
+    isInterferingWith(otherCell) {
+        let direction = this.getDirectionTowards(otherCell.wireIndex);
+        return direction === "up" ? otherCell.hasSourcesBelow(this.wireIndex)
+            : otherCell.hasSourcesAbove(this.wireIndex);
+    }
+
+    getDisturbedCell() {
+        for (let cell of this.getColumnCells()) {
+            if (cell.gate && this.isInterferingWith(cell))
+                return cell;
+        }
+        return null;
     }
 
     toString() {
