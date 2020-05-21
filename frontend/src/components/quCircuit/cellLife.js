@@ -1,5 +1,5 @@
-import { GateProperties } from "./gates";
 import CellData from "./cellData";
+import { GateProperties } from "./gates";
 
 export default class CellLife {
 
@@ -59,13 +59,19 @@ export default class CellLife {
     }
 
     shouldShowConnectionPanel() {
-        return this.gate
-            && this.selectedCell
-            && this.selectedCell.cellIndex === this.cellIndex
-            && !this.isSelected
-            && this.selectedCell.gate // Extra safety, prevents crash when moving gate on top of itself.
-            && GateProperties[this.selectedCell.gate].validEnds.includes(this.gate)
-            && (!this.hasEnds || this.hasEndCell(this.selectedCell));
+        if (this.selectedCell && this.selectedCell.gate) {
+            let selectedProperties = GateProperties[this.selectedCell.gate];
+
+            let shouldShow = this.gate
+                && this.selectedCell.cellIndex === this.cellIndex
+                && !this.isSelected
+                && (!this.hasEnds || this.hasEndCell(this.selectedCell))
+                && selectedProperties.validEnds.includes(this.gate)
+                && (this.selectedCell.hasEndCell(this) || this.selectedCell.ends.length < selectedProperties.maxEnds);
+
+            return shouldShow;
+        }
+        return false;
     }
 
     get circuitWireCount() {
@@ -103,11 +109,23 @@ export default class CellLife {
     createConnectionTo(otherCell) {
         this.addEnd(otherCell.wireIndex);
         otherCell.addSource(this.wireIndex);
+
+        // Check if cell can connect to itself.
+        if (this.gate && GateProperties[this.gate].canConnectToItself) {
+            otherCell.addEnd(this.wireIndex);
+            this.addSource(otherCell.wireIndex);
+        }
     }
 
     removeConnectionTo(otherCell) {
         this.removeEnd(otherCell.wireIndex);
         otherCell.removeSource(this.wireIndex);
+
+        // Check if cell can connect to itself.
+        if (this.gate && GateProperties[this.gate].canConnectToItself) {
+            otherCell.removeEnd(this.wireIndex);
+            this.removeSource(otherCell.wireIndex);
+        }
     }
 
     createConnectionToSelected() {
