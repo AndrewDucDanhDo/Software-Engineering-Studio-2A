@@ -1,5 +1,9 @@
 import admin from "../helpers/firebase-admin";
-import { successResponse, errorResponse, handleApiError } from "../helpers/apiResponse";
+import {
+  successResponse,
+  errorResponse,
+  handleApiError
+} from "../helpers/apiResponse";
 import { checkParams } from "../helpers/validators/params";
 
 export const createUser = async (req, res) => {
@@ -42,6 +46,17 @@ export const createUser = async (req, res) => {
           .json(
             errorResponse(
               "The email address provided has currently got an account associated with it",
+              error.code,
+              error
+            )
+          );
+      case "auth/invalid-password":
+
+        return res
+          .status(400)
+          .json(
+            errorResponse(
+              "The password does not meet requirements (6 letters in length)",
               error.code,
               error
             )
@@ -99,7 +114,7 @@ export const getAllUsers = async (req, res) => {
   } catch (error) {
     return handleApiError(res, error);
   }
-}
+};
 
 export const updateUser = async (req, res) => {
   try {
@@ -170,12 +185,12 @@ export const getUserRoles = async (req, res) => {
     var { customClaims } = await admin.auth().getUser(userId);
 
     // If no roles are set prepare empty customClaims so it can be filtered
-    if (typeof customClaims === 'undefined') customClaims = {};
-    
+    if (typeof customClaims === "undefined") customClaims = {};
+
     const filteredRoles = {
-      "teacher": customClaims.teacher || false,
-      "superuser": customClaims.superuser || false
-    }
+      teacher: customClaims.teacher || false,
+      superuser: customClaims.superuser || false
+    };
 
     // Prepare a response
     return res.status(200).json(successResponse(filteredRoles));
@@ -216,9 +231,9 @@ export const updateUserRoles = async (req, res) => {
     });
 
     const filteredRoles = {
-      "teacher": userRoles.teacher || false,
-      "superuser": userRoles.superuser || false
-    }
+      teacher: userRoles.teacher || false,
+      superuser: userRoles.superuser || false
+    };
 
     await admin.auth().setCustomUserClaims(userId, filteredRoles);
     return res
