@@ -62,10 +62,16 @@ export class SignUpPage extends React.Component {
 			// We will get returned an axios error object here
 			const errStatusCode = error.response.status;
 			const errMessage = error.response.data;
-			console.error({
-				errStatusCode,
-				errMessage,
-			});
+			const errorCode = errMessage.errorCode;
+
+			switch (errorCode){
+				case "auth/email-already-exists":
+					this.setState({
+						...this.state,
+						errorCode,
+						errorMessage: "The email already been registered",
+					});
+			}
 			// TODO: Have the frontend display the specific returned error would be good
 			this.setState({ ...this.state, success: false });
 		}
@@ -79,6 +85,9 @@ export class SignUpPage extends React.Component {
 						<LockOutlinedIcon />
 					</Avatar>
 					<h1>Sign Up</h1>
+					{this.state.errorCode !== undefined && (
+							<p>{this.state.errorMessage}</p>
+						)}
 					<form onSubmit={this.handleSubmit}>
 						<Grid container spacing={2}>
 							<Grid item xs={12} sm={6}>
@@ -151,16 +160,7 @@ export class SignUpPage extends React.Component {
 	};
 
 	render() {
-		// Show the signup form when we haven't successfully registered the user
-		if (this.state.success === undefined) {
-			return this.signupForm();
-		} else if (this.state.success === true) {
-			// Show a success message when the user is able to success fully signup
-			return this.signupSuccess();
-		} else if (this.state.success === false) {
-			// Show an error message when the user is unable to signup
-			return this.signupError();
-		}
+		return this.signupForm();
 	}
 }
 
