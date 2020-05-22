@@ -57,8 +57,12 @@ export class SignUpPage extends React.Component {
 				email: this.state.form.email,
 				password: this.state.form.password
 			});
-			this.setState({ ...this.state, success: true });
-		} catch (error) {
+			this.setState({ 
+				...this.state,
+				success: true
+			});
+		}
+		catch (error) {
 			// We will get returned an axios error object here
 			const errStatusCode = error.response.status;
 			const errMessage = error.response.data;
@@ -86,14 +90,17 @@ export class SignUpPage extends React.Component {
 					</Avatar>
 					<h1>Sign Up</h1>
 					{this.state.errorCode !== undefined && (
-							<p>{this.state.errorMessage}</p>
+							<h2>{this.state.errorMessage}</h2>
+						)}
+					{this.state.success !== undefined && (
+							<h2>Registration success, please login.</h2>
 						)}
 					<form onSubmit={this.handleSubmit}>
 						<Grid container spacing={2}>
 							<Grid item xs={12} sm={6}>
 								{/* firstName */}
 								<TextField
-									label="firstName"
+									label="First Name"
 									variant="outlined"
 									name="firstName"
 									required
@@ -116,7 +123,7 @@ export class SignUpPage extends React.Component {
 							<Grid item xs={12}>
 								{/* email */}
 								<TextField
-									label="email"
+									label="Email"
 									variant="outlined"
 									name="email"
 									required
@@ -127,7 +134,7 @@ export class SignUpPage extends React.Component {
 							<Grid item xs={12}>
 								{/* password */}
 								<TextField
-									label="password"
+									label="Password (More than 6 characters)"
 									variant="outlined"
 									name="password"
 									required
@@ -149,14 +156,6 @@ export class SignUpPage extends React.Component {
 				</div>
 			</Container>
 		);
-	};
-
-	signupSuccess = () => {
-		return <p>Signup was a success</p>;
-	};
-
-	signupError = () => {
-		return <p>Signup was a failure</p>;
 	};
 
 	render() {
