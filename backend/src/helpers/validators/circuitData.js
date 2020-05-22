@@ -1,10 +1,6 @@
-export class CircuitDataSyntaxError extends Error {
-  constructor(missingKey) {
-    super(`The key ${missingKey} was not found on the circuitData object`);
-    this.name = "CircuitDataSyntaxError";
-    this.missingKey = missingKey;
-  }
-}
+import { MissingKeySyntaxError } from "../../errors/syntax";
+
+// TODO: Refactor this to be like the task data validator
 
 // Call this function to check if a quantum circuit object is valid
 // Required keys param is optional if the required keys need to be
@@ -15,7 +11,7 @@ export const checkCircuitData = (
 ) => {
   requiredKeys.forEach((key) => {
     if (data[key] === undefined) {
-      throw new CircuitDataSyntaxError(key);
+      throw new MissingKeySyntaxError("circuit", key)
     }
   });
 };

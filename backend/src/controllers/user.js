@@ -141,3 +141,15 @@ export const deleteUser = async (req, res) => {
     return handleApiError(res, error);
   }
 };
+
+export const makeUserTeacher = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    await admin.auth().setCustomUserClaims(userId, { teacher: true });
+    return res
+      .status(200)
+      .json(successResponse({ msg: "User was successfully made teacher." }));
+  } catch (error) {
+    return handleApiError(res, error);
+  }
+};

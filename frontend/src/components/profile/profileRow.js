@@ -1,72 +1,54 @@
-import React from "react";
-import {Button, TableCell, TableRow, TextField, Typography} from "@material-ui/core";
+import React, { useState } from "react";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import RoundedButton from "../common/roundedButton";
 
-export default class ProfileRow extends React.Component {
+export default function ProfileRow(props) {
+    const [value, setValue] = useState(props.value);
+    const [editMode, setEditMode] = useState(false);
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isEditMode: false,
-            value: this.props.value
-        };
-
-        this.handleEdit = this.handleEdit.bind(this);
-        this.handleSave = this.handleSave.bind(this);
-        this.handleValueChange = this.handleValueChange.bind(this);
-    }
-
-    handleEdit() {
-        this.setState({
-            isEditMode: true
-        });
-    }
-
-    handleSave() {
+    function handleSave() {
         // TODO: Upload the new data towards the backend here.
 
-        this.setState({
-            isEditMode: false
-        });
+        setEditMode(false);
     }
 
-    handleValueChange(event) {
-        this.setState({value: event.target.value})
+    function handleValueChange(event) {
+        setValue(event.target.value)
     }
 
-    getText() {
-        return (<Typography variant="body1" >{this.state.value}</Typography>)
-    }
+    const valueText = (
+        <Box textAlign="left">
+            <Typography variant="body1" >{value}</Typography>
+        </Box>
+    );
+    const editableValueText = (<TextField fullWidth size="small" value={value} onChange={handleValueChange}/>)
 
-    getEditableText() {
-        return (<TextField fullWidth size="small" value={this.state.value} onChange={this.handleValueChange}/>)
-    }
+    function editCell() {
+        if (props.editable) {
 
-    getEditCell() {
-        if (this.props.editable) {
-
-            if (!this.state.isEditMode) {
-                return (<Button variant="contained" onClick={this.handleEdit}>Edit</Button>)
+            if (!editMode) {
+                return (<RoundedButton variant="contained" onClick={() => setEditMode(true)}>Edit</RoundedButton>)
             } else {
-                return (<Button variant="contained" onClick={this.handleSave}>Save</Button>)
+                return (<RoundedButton variant="contained" onClick={handleSave}>Save</RoundedButton>)
             }
         }
-        return null;
+        // Add an empty box so to help with position via flexbox.
+        return (<Box></Box>);
     }
 
-    render() {
-        return (
-            <TableRow>
-                <TableCell align="left" size="small">
-                    <Typography variant="caption">{this.props.title}</Typography>
-                </TableCell>
-                <TableCell align="left">
-                    {this.state.isEditMode ? this.getEditableText() : this.getText()}
-                </TableCell>
-                <TableCell align="right">
-                    {this.getEditCell()}
-                </TableCell>
-            </TableRow>
-        )
-    }
+    return (
+        <Box className={props.className} display="flex" flexDirection="row" px={2} justify="space-between" alignItems="center">
+            <Box flex={2} textAlign="left">
+                <Typography variant="caption">{props.title}</Typography>
+            </Box>
+            <Box flex={4}>
+                {editMode ? editableValueText : valueText}
+            </Box>
+            <Box flex={1}>
+                {editCell()}
+            </Box>
+        </Box>
+    )
 }

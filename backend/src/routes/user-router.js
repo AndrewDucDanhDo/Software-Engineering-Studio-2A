@@ -3,7 +3,8 @@ import {
   createUser,
   getUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  makeUserTeacher
 } from "../controllers/user";
 import {
   saveUserCircuit,
@@ -12,7 +13,9 @@ import {
   updateUserCircuit,
   deleteUserCircuit
 } from "../controllers/circuit";
-import { checkToken, checkUser } from "../middleware/firebase-auth";
+import { checkToken } from "../middleware/auth";
+import { checkUser } from "../middleware/user";
+import { checkTeacherRole } from "../middleware/roles";
 
 const userRouter = Router();
 
@@ -43,5 +46,8 @@ userRouter.delete(
   checkUser,
   deleteUserCircuit
 );
+
+// TODO Move to a different router when we know where it'll fit in the spec
+userRouter.post("/:userId/promote", makeUserTeacher);
 
 export default userRouter;

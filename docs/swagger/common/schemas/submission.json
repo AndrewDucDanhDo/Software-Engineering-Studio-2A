@@ -11,11 +11,6 @@
 			"description": "User Id of the owner of the submission",
 			"example": "49bf2844-a80c-44fb-80fe-4b95efc160bb"
 		},
-		"task": {
-			"type": "string",
-			"description": "Task Id of the task the submission was for.",
-			"example": "7991591c-ae25-4d17-ad67-b71154ec5c25"
-		},
 		"circuit": {
 			"$ref": "./circuit.json#"
 		},
