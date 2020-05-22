@@ -1,4 +1,4 @@
-import { getUser, createUser, updateUser, deleteUser } from "./user";
+import { getUser, getAllUsers, createUser, updateUser, deleteUser } from "./user";
 import {
 	solveCircuit,
 	getAllCircuits,
@@ -30,6 +30,7 @@ export default {
 	user: {
 		create: createUser,
 		get: getUser,
+		getAll: getAllUsers,
 		update: updateUser,
 		delete: deleteUser,
 		circuit: {

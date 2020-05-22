@@ -16,6 +16,7 @@ import appTheme from "./helpers/appTheme";
 import TeacherTaskEditorPage from "./pages/teacherTaskEditor";
 import TeacherTasksPage from "./pages/teacherTasks";
 import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
+import AdminPage from "./pages/admin";
 
 // Context
 import { AuthProvider } from "./context/auth";
@@ -52,6 +53,12 @@ function App() {
 									path="/profile"
 									adminRoute={false}
 									component={ProfilePage}
+								/>
+								
+								<PrivateRoute
+									path="/admin"
+									component={AdminPage}
+									adminRoute={true}
 								/>
 
 								<Route path="/signup">
