@@ -112,6 +112,14 @@ const buildTeacherNav = (classes, signOutFunc) => {
 					className={classes.signup}
 					color="inherit"
 					component={Link}
+					to="/profile"
+				>
+					Profile
+				</Button>
+				<Button
+					className={classes.signup}
+					color="inherit"
+					component={Link}
 					to="/teacherTasks"
 				>
 					Tasks List
