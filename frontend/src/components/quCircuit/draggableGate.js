@@ -53,7 +53,8 @@ export default function DraggableGate(props) {
     }
 
     return (
-        <GateBox className={props.className} draggable onDragStart={onDragStart} onDrag={props.onDrag} onDragEnd={props.onDragEnd}>
+        <GateBox display="flex" justifyContent="center" alignItems="center"
+            className={props.className} draggable onDragStart={onDragStart} onDrag={props.onDrag} onDragEnd={props.onDragEnd}>
             <Gate className={classes.icon} cellLife={props.cellLife} size={size}/>
         </GateBox>
     );

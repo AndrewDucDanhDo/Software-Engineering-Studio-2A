@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import DraggableGate from "./draggableGate";
 import ConnectionPanel from "./connectionPanel";
 import ConnectionLine from "./connectionLine";
+import SimpleLine from "./simpleLine";
+import useTheme from "@material-ui/core/styles/useTheme";
 
 const useStyles = makeStyles((theme) => ({
     cellContainer: {
@@ -19,9 +21,8 @@ const useStyles = makeStyles((theme) => ({
     },
     wire: {
         position: "absolute",
-        borderBottom: "solid black 0.15em",
-        width: theme.circuitCellSize(1),
-        top: (theme.circuitCellSize(1) / 2) - 2, // (height / 2) - borderSize
+        left: 0,
+        top: 0,
         zIndex: -1,
     },
     gateContainer: {
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Cell(props) {
+    const theme = useTheme()
     const classes = useStyles();
 
     /**
@@ -66,22 +68,25 @@ export default function Cell(props) {
         }
     }
 
+    function onDragStart(event) {
+        event.dataTransfer.setData("wireIndex", cellLife.wireIndex);
+        event.dataTransfer.setData("cellIndex", cellLife.cellIndex);
+    }
+
     function onDraggedOver(event) {
         event.preventDefault();
-        console.log("Dragging over")
     }
 
     function onDrop(event) {
         event.preventDefault();
 
         let gate = event.dataTransfer.getData("gate");
-        console.log("dropped", gate, gate === undefined);
         setGateAndListeners(gate);
     }
 
     function onDragGateEnd(event) {
         event.preventDefault();
-        setGateAndListeners(null);
+        // setGateAndListeners(null);
     }
 
     function onClick(event) {
@@ -117,8 +122,11 @@ export default function Cell(props) {
     return (
         // Use div with makeStyles here. Apparently it's faster for performance when we are rendering hundreds of these.
         <div className={classes.cellContainer}>
-            <div className={classes.cell} onDragOver={onDraggedOver} onDrop={onDrop} onClick={onClick}>
-                <div className={classes.wire}/>
+            <div className={classes.cell} onDragOver={onDraggedOver} onDrop={onDrop} onClick={onClick} onDragStart={onDragStart}>
+                <div className={classes.wire}>
+                    <SimpleLine direction="horizontal" size={theme.circuitCellSize(1)}/>
+                </div>
+
                 {gate()}
                 {cellLife.gate && cellLife.isSelected ? <div className={classes.greenHighlight}/> : null}
             </div>

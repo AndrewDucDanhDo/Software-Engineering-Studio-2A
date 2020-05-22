@@ -3,7 +3,6 @@ import Box from "@material-ui/core/Box";
 import { fashion } from "../../helpers/fashion";
 import StretchBox from "../common/stretchBox";
 import Cell from "./cell";
-import { useTheme } from "@material-ui/core";
 import GatesToolbox from "./gatesToolbox";
 import Paper from "@material-ui/core/Paper";
 import CellLife from "./cellLife";
@@ -12,6 +11,8 @@ import Button from "@material-ui/core/Button";
 import { translateToQuCircuit, translateToSimulator } from "../../helpers/quantumSimulator/quantumTranslator";
 import { solveQuantumCircuit } from "../../helpers/quantumSimulator/quantumSolver";
 import CellData from "./cellData";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 
 const CircuitBox = fashion(Box, (theme) => ({
     marginTop: theme.spacing(1),
@@ -23,15 +24,35 @@ const ToolBox = fashion(Box, (theme) => ({
     backgroundColor: "#f7f7f7",
 }));
 
+const SmallBox = fashion(Box, (theme) => ({
+    position: "absolute",
+    width: "28pt"
+}));
+
+const PlatformBox = fashion(Box, (theme) => ({
+    backgroundColor: "#EEEEEE",
+    border: "solid 1px #EEEEEE",
+    borderRadius: 5,
+    padding: theme.spacing(2),
+}));
+
+const ResultBox = fashion(Box, (theme) => ({
+    overflow: "auto",
+    maxHeight: "15vh",
+    maxWidth: "11vw",
+}));
+
+export const MaxWires = 8;
+export const MinWires = 2;
 export const AllowedCircuitInputs = ["0", "1"];
 
 export default function QuCircuit(props) {
-    const theme = useTheme();
-    const [wireAmount, setWireAmount] = useState(3);
-    const [cellAmount, setCellAmount] = useState(25);
+    const [wireCount, setWireCount] = useState(MinWires);
+    const [cellCount, setCellCount] = useState(25);
     const [circuit, setCircuit] = useState([]);
     const [selectedCell, setSelectedCell] = useState(null);
-    const [circuitInputs, setCircuitInputs] = useState(new Array(wireAmount).fill(AllowedCircuitInputs[0]));
+    const [circuitInputs, setCircuitInputs] = useState(new Array(wireCount).fill(AllowedCircuitInputs[0]));
+    const [results, setResults] = useState([]);
     const circuitRef = useRef();
 
     function refreshCircuit() {
@@ -40,18 +61,28 @@ export default function QuCircuit(props) {
 
     useEffect(() => {
         console.log("recreate circuit!");
-        setCircuit(prevState => new Array(wireAmount)
-            .fill(null)
-            .map(e => new Array(cellAmount))
-            .concat(prevState.map(e => new Array(cellAmount).concat(e))));
-    }, [wireAmount, cellAmount]);
+        setCircuit(prevState =>  {
+            let newCircuit = new Array(wireCount)
+                .fill(null)
+                .map(e => new Array(cellCount));
+
+            for (let i = 0; i < wireCount; i++) {
+                if (prevState[i]) {
+                    for (let j = 0; j < cellCount; j++) {
+                        newCircuit[i][j] = prevState[i][j];
+                    }
+                }
+            }
+            return newCircuit;
+        });
+    }, [wireCount, cellCount]);
 
     useEffect(() => {
         setCircuitInputs(prevState =>
-            new Array(wireAmount)
+            new Array(wireCount)
                 .fill("0")
                 .map((e, i) => prevState[i] ? prevState[i] : e));
-    }, [wireAmount]);
+    }, [wireCount]);
 
     // TODO Remove this debug piece of code.
     useEffect(() => {
@@ -185,7 +216,10 @@ export default function QuCircuit(props) {
         console.log("Got translation", JSON.stringify(translatedCircuit));
 
         solveQuantumCircuit(translatedCircuit)
-            .then(result => console.log(JSON.stringify(result.filter(r => r.probability > 0))));
+            .then(res => {
+                setResults(res);
+                console.log(JSON.stringify(res.filter(r => r.probability > 0)))
+            });
     }
 
     function onExport(event) {
@@ -206,8 +240,8 @@ export default function QuCircuit(props) {
             reader.onloadend = evt => {
                 let rawCircuit = JSON.parse(evt.target.result);
                 console.log(rawCircuit);
-                let [translatedCircuit, inputs]  = translateToQuCircuit(rawCircuit, cellAmount);
-                setWireAmount(inputs.length);
+                let [translatedCircuit, inputs]  = translateToQuCircuit(rawCircuit, cellCount);
+                setWireCount(inputs.length);
                 setCircuit(translatedCircuit);
                 setCircuitInputs(inputs);
             };
@@ -216,16 +250,35 @@ export default function QuCircuit(props) {
         input.click();
     }
 
+    function onClearCircuitClicked(event) {
+        setCircuit([]);
+    }
+
+    function onDrop(event) {
+        event.preventDefault();
+
+        let wireIndex = event.dataTransfer.getData("wireIndex");
+        let cellIndex = event.dataTransfer.getData("cellIndex");
+
+        if (wireIndex && cellIndex) {
+            let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell);
+            cellLife.removeAllConnections();
+            circuit[wireIndex][cellIndex] = null;
+            refreshCircuit();
+        }
+    }
+
     return (
-        <StretchBox display="flex">
+        <StretchBox display="flex" onDrop={onDrop}
+                    onDragOver={(event) => event.preventDefault()}>
             <CircuitBox flexGrow={1} flexShrink={6}>
                 <div ref={circuitRef}>
-                    {wires(wireAmount, cellAmount)}
+                    {wires(wireCount, cellCount)}
                 </div>
             </CircuitBox>
 
             <ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
-                <Box m={1} display="flex">
+                <PlatformBox m={1} display="flex">
                     <Box m={1}>
                         <Button color="primary" variant="contained" onClick={onExport}>Export</Button>
                     </Box>
@@ -233,14 +286,45 @@ export default function QuCircuit(props) {
                     <Box m={1}>
                         <Button color="primary" variant="contained" onClick={onImport}>Import</Button>
                     </Box>
-                </Box>
+                </PlatformBox>
 
-                <Box m={1}>
+                <PlatformBox m={1}>
                     <GatesToolbox/>
-                </Box>
-                <Box m={3}>
-                    <Button color="primary" variant="contained" onClick={onEvaluateButtonClicked}>Evaluate</Button>
-                </Box>
+                </PlatformBox>
+
+                <PlatformBox m={1}>
+                    <Box m={1}>
+                        <Button color="primary" variant="contained" onClick={onEvaluateButtonClicked}>Evaluate</Button>
+                    </Box>
+                </PlatformBox>
+
+                <PlatformBox m={1} display="flex" justifyContent="space-around" alignContent="end">
+                    <Box m={1}>
+                        <Typography>
+                            Wires
+                        </Typography>
+                        <SmallBox >
+                            <TextField type="number" value={wireCount}
+                                       onChange={(event) => setWireCount(Math.max(Math.min(event.target.value, MaxWires), MinWires))}/>
+                        </SmallBox>
+                    </Box>
+
+                    <Box m={1}>
+                        <Button color="primary" variant="contained" onClick={onClearCircuitClicked}>Clear</Button>
+                    </Box>
+                </PlatformBox>
+
+                <PlatformBox m={1}>
+                    <ResultBox>
+                        {results.filter(r => r.probability > 0).map((e, i) => (
+                            <Box m={1} key={i}>
+                                <Typography>
+                                    {e.amplitude}|{e.state}⟩ {e.probability}%
+                                </Typography>
+                            </Box>
+                        ))}
+                    </ResultBox>
+                </PlatformBox>
             </ToolBox>
         </StretchBox>
     );

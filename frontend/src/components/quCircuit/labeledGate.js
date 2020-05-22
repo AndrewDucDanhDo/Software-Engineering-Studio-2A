@@ -10,6 +10,7 @@ const useStyle = makeStyles({
     label: {
         dominantBaseline: "middle",
         textAnchor: "middle",
+        userSelect: "none",
     }
 });
 
