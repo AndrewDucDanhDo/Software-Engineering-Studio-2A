@@ -1,29 +1,36 @@
 import React from "react";
-import { createUser } from "../../helpers/auth";
-import {withStyles} from "@material-ui/styles";
-import {TextField, Grid} from "@material-ui/core";
-import Avatar from '@material-ui/core/Avatar';
+import { createUser, loginUser } from "../../helpers/auth";
+import { withStyles } from "@material-ui/styles";
+import { TextField, Grid } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import Container from '@material-ui/core/Container';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Container from "@material-ui/core/Container";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { AuthContext } from "../../context/auth";
+import { Redirect } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
 
 const styles = {
-	test : {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		paddingTop: '10vh',
+	test: {
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		paddingTop: "10vh",
 	},
 	submit: {
-		display: 'flex',
+		display: "flex",
 	},
-}
+};
 
 export class SignUpPage extends React.Component {
+	static contextType = AuthContext;
+
 	constructor(props) {
 		super(props);
 		this.state = {
-			success: undefined,
+			signupError: undefined,
+			isLoading: false,
 			form: {
 				email: "",
 				password: "",
@@ -34,6 +41,7 @@ export class SignUpPage extends React.Component {
 
 		this.handleFormChange = this.handleFormChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.buildLoginError = this.buildLoginError.bind(this);
 	}
 
 	handleFormChange(event) {
@@ -52,33 +60,47 @@ export class SignUpPage extends React.Component {
 		// Stop the form element from adding query params by default
 		event.preventDefault();
 		try {
+			this.setState({ ...this.state, isLoading: true });
 			await createUser({
 				displayName: `${this.state.form.firstName} ${this.state.form.lastName}`,
 				email: this.state.form.email,
-				password: this.state.form.password
+				password: this.state.form.password,
 			});
-			this.setState({ 
-				...this.state,
-				success: true
-			});
-		}
-		catch (error) {
-			// We will get returned an axios error object here
-			const errStatusCode = error.response.status;
-			const errMessage = error.response.data;
-			const errorCode = errMessage.errorCode;
 
-			switch (errorCode){
-				case "auth/email-already-exists":
-					this.setState({
-						...this.state,
-						errorCode,
-						errorMessage: "The email already been registered",
-					});
-			}
-			// TODO: Have the frontend display the specific returned error would be good
-			this.setState({ ...this.state, success: false });
+			const userDetails = await loginUser(
+				this.state.form.email,
+				this.state.form.password
+			);
+
+			this.context.setAuthState({
+				authenticated: true,
+				user: userDetails.user,
+			});
+		} catch (error) {
+			await this.setState({
+				...this.state,
+				signupError: error.response.data,
+			});
 		}
+		this.setState({ ...this.state, isLoading: false });
+	};
+
+	buildLoginError = () => {
+		let errorMessage = "An error occurred.";
+		const errorCode = this.state.signupError.errorCode;
+
+		if (errorCode == "auth/email-already-exists") {
+			errorMessage = "The email already exists";
+		} else if (errorCode == "auth/invalid-password") {
+			errorMessage = "The password must meet requirements (min 6 characters)";
+		}
+
+		return (
+			<>
+				<Alert severity="error">{errorMessage}</Alert>
+				<br></br>
+			</>
+		);
 	};
 
 	signupForm = () => {
@@ -89,12 +111,7 @@ export class SignUpPage extends React.Component {
 						<LockOutlinedIcon />
 					</Avatar>
 					<h1>Sign Up</h1>
-					{this.state.errorCode !== undefined && (
-							<h2>{this.state.errorMessage}</h2>
-						)}
-					{this.state.success !== undefined && (
-							<h2>Registration success, please login.</h2>
-						)}
+					{this.state.signupError !== undefined && this.buildLoginError()}
 					<form onSubmit={this.handleSubmit}>
 						<Grid container spacing={2}>
 							<Grid item xs={12} sm={6}>
@@ -144,13 +161,14 @@ export class SignUpPage extends React.Component {
 							</Grid>
 							<br />
 							<Button
-							variant="contained"
-							type="submit"
-							fullWidth
-							classname={this.props.classes.submit}
+								variant="contained"
+								type="submit"
+								fullWidth
+								classname={this.props.classes.submit}
 							>
-							Submit
+								Submit
 							</Button>
+							{this.state.isLoading && <CircularProgress />}
 						</Grid>
 					</form>
 				</div>
@@ -159,7 +177,11 @@ export class SignUpPage extends React.Component {
 	};
 
 	render() {
-		return this.signupForm();
+		if (!this.context.authState.authenticated) {
+			return this.signupForm();
+		} else {
+			return <Redirect to="/" />;
+		}
 	}
 }
 
