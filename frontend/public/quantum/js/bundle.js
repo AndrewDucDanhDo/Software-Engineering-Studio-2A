@@ -854,7 +854,7 @@ var displayAmplitudes = function displayAmplitudes(nqubits, amplitudes) {
             }
         }
         var probability = (prob * 100).toFixed(4) + '%';
-        row.innerHTML = '\n            <td style="text-align: right">' + amplitude + '</td>\n            <td>|' + state + '></td>\n            <td style="text-indent: 20px">' + probability + '</td>\n        ';
+        row.innerHTML = '\n            <td style="text-align: right">' + amplitude + '</td>\n            <td>|' + state + '&#x3009;</td>\n            <td style="text-indent: 20px">' + probability + '</td>\n        ';
         table.appendChild(row);
     }
 };

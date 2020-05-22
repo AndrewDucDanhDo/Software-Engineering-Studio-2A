@@ -31,10 +31,11 @@ const displayAmplitudes = (nqubits, amplitudes) => {
         const probability = (prob * 100).toFixed(4) + '%';
         row.innerHTML = `
             <td style="text-align: right">${amplitude}</td>
-            <td>|${state}></td>
+            <td>|${state}&#x3009;</td>
             <td style="text-indent: 20px">${probability}</td>
         `;
         table.appendChild(row);
+        dataG.push({ amplitude, state, prob });
     }
 }
 

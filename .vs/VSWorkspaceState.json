@@ -1,16 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\backend",
-    "\\backend\\src\\helpers\\apiResponse",
-    "\\backend\\src\\tests\\data",
-    "\\docs",
+    "\\frontend",
+    "\\frontend\\public",
+    "\\frontend\\public\\quantum",
+    "\\frontend\\public\\quantum\\js",
+    "\\frontend\\src",
     "\\frontend\\src\\components",
+    "\\frontend\\src\\components\\quantum",
     "\\frontend\\src\\pages",
-    "\\frontend\\src\\pages\\login",
-    "\\frontend\\src\\pages\\teacherTasks",
-    "\\frontend\\src\\pages\\teacherTaskViewer"
+    "\\frontend\\src\\pages\\home"
   ],
-  "SelectedNode": "\\frontend",
+  "SelectedNode": "\\frontend\\src\\pages\\home\\index.js",
   "PreviewInSolutionExplorer": false
 }
