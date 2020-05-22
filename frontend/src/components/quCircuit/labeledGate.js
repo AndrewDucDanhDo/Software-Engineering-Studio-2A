@@ -36,8 +36,8 @@ export default function LabeledGate(props) {
     let size = props.size || 100;
     let label = props.label || "G";
     /**
-     * Apply type for autocomplete.
-     * @type {./CellLife}
+     * Apply for type checking and autocomplete.
+     * @type {CellLife}
      */
     let cellLife = props.cellLife;
     let cellSize = VToPixels(theme.circuitCellSize(1));

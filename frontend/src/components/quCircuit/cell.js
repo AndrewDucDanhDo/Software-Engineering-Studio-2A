@@ -56,8 +56,8 @@ export default function Cell(props) {
     const classes = useStyles();
 
     /**
-     * Apply type for autocomplete.
-     * @type {./CellLife}
+     * Apply for type checking and autocomplete.
+     * @type {CellLife}
      */
     let cellLife = props.cellLife;
 

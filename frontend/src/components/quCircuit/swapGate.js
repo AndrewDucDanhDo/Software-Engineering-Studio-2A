@@ -15,8 +15,8 @@ const useStyle = makeStyles({
 export default function SwapGate(props) {
     const classes = useStyle();
     /**
-     * Apply type for autocomplete.
-     * @type {./CellLife}
+     * Apply for type checking and autocomplete.
+     * @type {CellLife}
      */
     let cellLife = props.cellLife;
     let size = props.size || 100;

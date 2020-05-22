@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-import { Gates } from "./gates";
+import { Gates } from "../../helpers/quCircuit/gates";
 import DraggableGate from "./draggableGate";
 import Paper from "@material-ui/core/Paper";
 

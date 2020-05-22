@@ -1,7 +1,7 @@
 import React from "react";
 import { fashion } from "../../helpers/fashion";
 import Box from "@material-ui/core/Box";
-import { getGateComponent } from "./gates";
+import { getGateComponent } from "../../helpers/quCircuit/gates";
 import { makeStyles } from "@material-ui/core/styles";
 
 const GateBox = fashion(Box, (theme) => ({

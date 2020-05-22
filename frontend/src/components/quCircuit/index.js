@@ -5,12 +5,12 @@ import StretchBox from "../common/stretchBox";
 import Cell from "./cell";
 import GatesToolbox from "./gatesToolbox";
 import Paper from "@material-ui/core/Paper";
-import CellLife from "./cellLife";
 import CircuitInputButton from "./circuitInputButton";
 import Button from "@material-ui/core/Button";
 import { translateToQuCircuit, translateToSimulator } from "../../helpers/quantumSimulator/quantumTranslator";
 import { solveQuantumCircuit } from "../../helpers/quantumSimulator/quantumSolver";
-import CellData from "./cellData";
+import CellLife from "../../helpers/quCircuit/cellLife";
+import CellData from "../../helpers/quCircuit/cellData";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 

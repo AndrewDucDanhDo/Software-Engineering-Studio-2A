@@ -1,5 +1,5 @@
-import { GateProperties, Gates } from "../../components/quCircuit/gates";
-import CellData from "../../components/quCircuit/cellData";
+import { GateProperties, Gates } from "../quCircuit/gates";
+import CellData from "../quCircuit/cellData";
 
 class GateAliases {
 

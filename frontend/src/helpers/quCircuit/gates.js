@@ -1,8 +1,8 @@
 import React from "react";
-import LabeledGate from "./labeledGate";
-import ControlGate from "./controlGate";
-import CNotGate from "./CNotGate";
-import SwapGate from "./swapGate";
+import LabeledGate from "../../components/quCircuit/labeledGate";
+import CNotGate from "../../components/quCircuit/CNotGate";
+import ControlGate from "../../components/quCircuit/controlGate";
+import SwapGate from "../../components/quCircuit/swapGate";
 
 const EmptyComponent = () => (<></>);
 
