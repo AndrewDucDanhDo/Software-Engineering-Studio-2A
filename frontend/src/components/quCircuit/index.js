@@ -108,79 +108,101 @@ export default function QuCircuit(props) {
         }
     }, [circuitRef]);
 
+    let listeners = {};
+
+    listeners.onGateChanged = (cellLife, gate) => {
+        let wireIndex = cellLife.wireIndex;
+        let cellIndex = cellLife.cellIndex;
+        console.log(`Changing gate from ${JSON.stringify(cellLife.cellData)} to ${gate}`);
+        cellLife.removeMultigates();
+        cellLife.removeAllConnections();
+
+        // Check if we are setting a new gate at the cell.
+        if (gate) {
+            let cellData = circuit[wireIndex][cellIndex];
+
+            if (!cellData) {
+                circuit[wireIndex][cellIndex] = new CellData(wireIndex, cellIndex, gate);
+            } else {
+                cellData.gate = gate;
+            }
+
+            let disturbedCell = cellLife.getDisturbedCell();
+
+            // Connect to selected if the cell is placed in the middle of a connection.
+            if (disturbedCell) {
+                cellLife.createConnectionTo(disturbedCell);
+            }
+
+            // Needs to be here to have the selectedCell have an updated selectedCell.
+            cellLife.selectedCell = cellLife;
+            // Finally set current cell as selected cell.
+            setSelectedCell(cellLife);
+        } else {
+            circuit[wireIndex][cellIndex] = null;
+        }
+
+        refreshCircuit();
+    };
+
+    listeners.onGateClicked = (cellLife, event) => {
+        // Needs to be here to have the selectedCell have an updated selectedCell.
+        cellLife.selectedCell = cellLife;
+        setSelectedCell(cellLife);
+    };
+
+    listeners.onConnect = (cellLife, event) => {
+        cellLife.createConnectionToSelected();
+
+        let cellsToLook = cellLife.getDirectionTowards(selectedCell.wireIndex) === "up" ?
+            cellLife.getCellsAbove() : cellLife.getCellsBelow();
+
+        for (let cell of cellsToLook) {
+            if (cell.samePositionAs(selectedCell)) {
+                break;
+            }
+
+            if (cell.gate) {
+                cell.createConnectionToSelected();
+            }
+        }
+
+        refreshCircuit();
+    };
+
+    listeners.onDisconnect = (cellLife, event) => {
+        let direction = cellLife.getDirectionTowards(selectedCell.wireIndex);
+        selectedCell.getSourceCells()
+            .filter(cell => (direction === "up" && cell.wireIndex >= cellLife.wireIndex)
+                || (direction === "down" && cell.wireIndex <= cellLife.wireIndex))
+            .forEach(cell => cell.removeConnectionToSelected());
+
+        refreshCircuit();
+    };
+
+    listeners.onGrowMultigate = (cellLife, wireIndex) => {
+        let otherCell = cellLife.copyOfPosition(wireIndex, cellLife.cellIndex);
+
+        otherCell.removeMultigates();
+        otherCell.removeAllConnections();
+        circuit[wireIndex][cellLife.cellIndex] = new CellData(wireIndex, cellLife.cellIndex, cellLife.gate);
+
+        let finalMultigates = cellLife.cellData.multigates
+            .concat([otherCell.wireIndex])
+            .sort();
+
+        console.log("multigates", cellLife.multigates, otherCell.multigates, finalMultigates);
+        cellLife.getMultigateCells().forEach(cell => cell.cellData.multigates = finalMultigates);
+        otherCell.cellData.multigates = finalMultigates;
+
+        refreshCircuit();
+    };
+
     function cells(amount, wireIndex) {
         let wireCells = new Array(amount);
 
         for (let cellIndex = 0; cellIndex < amount; cellIndex++) {
-            let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell);
-
-            cellLife.onGateChanged = (gate) => {
-                console.log(`Changing gate from ${JSON.stringify(cellLife.cellData)} to ${gate}`);
-                cellLife.removeAllConnections();
-
-                // Check if we are setting a new gate at the cell.
-                if (gate) {
-                    let cellData = circuit[wireIndex][cellIndex];
-
-                    if (!cellData) {
-                        circuit[wireIndex][cellIndex] = new CellData(gate);
-                    } else {
-                        cellData.gate = gate;
-                    }
-
-                    let disturbedCell = cellLife.getDisturbedCell();
-
-                    // Connect to selected if the cell is placed in the middle of a connection.
-                    if (disturbedCell) {
-                        cellLife.createConnectionTo(disturbedCell);
-                    }
-
-                    // Needs to be here to have the selectedCell have an updated selectedCell.
-                    cellLife.selectedCell = cellLife;
-                    // Finally set current cell as selected cell.
-                    setSelectedCell(cellLife);
-                } else {
-                    circuit[wireIndex][cellIndex] = null;
-                }
-
-                refreshCircuit();
-            };
-
-            cellLife.onGateClicked = (event) => {
-                // Needs to be here to have the selectedCell have an updated selectedCell.
-                cellLife.selectedCell = cellLife;
-                setSelectedCell(cellLife);
-            };
-
-            cellLife.onConnect = (event) => {
-                cellLife.createConnectionToSelected();
-
-                let cellsToLook = cellLife.getDirectionTowards(selectedCell.wireIndex) === "up" ?
-                    cellLife.getCellsAbove() : cellLife.getCellsBelow();
-
-                for (let cell of cellsToLook) {
-                    if (cell.samePositionAs(selectedCell)) {
-                        break;
-                    }
-
-                    if (cell.gate) {
-                        cell.createConnectionToSelected();
-                    }
-                }
-
-                refreshCircuit();
-            };
-
-            cellLife.onDisconnect = (event) => {
-                let direction = cellLife.getDirectionTowards(selectedCell.wireIndex);
-                selectedCell.getSourceCells()
-                    .filter(cell => (direction === "up" && cell.wireIndex >= cellLife.wireIndex)
-                        || (direction === "down" && cell.wireIndex <= cellLife.wireIndex))
-                    .forEach(cell => cell.removeConnectionToSelected());
-
-                refreshCircuit();
-            };
-
+            let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell, listeners);
             wireCells[cellIndex] = (<Cell key={cellIndex} cellLife={cellLife}/>);
         }
 
@@ -261,9 +283,10 @@ export default function QuCircuit(props) {
         let cellIndex = event.dataTransfer.getData("cellIndex");
 
         if (wireIndex && cellIndex) {
-            let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell);
-            cellLife.removeAllConnections();
-            circuit[wireIndex][cellIndex] = null;
+            let cellLife = new CellLife(wireIndex, cellIndex, circuit, selectedCell, listeners);
+
+            // Need to look into a better way to do this.
+            cellLife.removeCell();
             refreshCircuit();
         }
     }

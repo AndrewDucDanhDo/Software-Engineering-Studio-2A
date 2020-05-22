@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Cell(props) {
-    const theme = useTheme()
+    const theme = useTheme();
     const classes = useStyles();
 
     /**
@@ -61,16 +61,9 @@ export default function Cell(props) {
      */
     let cellLife = props.cellLife;
 
-    function setGateAndListeners(g) {
-
-        if (cellLife.onGateChanged) {
-            cellLife.onGateChanged(g);
-        }
-    }
-
     function onDragStart(event) {
-        event.dataTransfer.setData("wireIndex", cellLife.wireIndex);
-        event.dataTransfer.setData("cellIndex", cellLife.cellIndex);
+        event.dataTransfer.setData("wireIndex", cellLife.wireIndex.toString());
+        event.dataTransfer.setData("cellIndex", cellLife.cellIndex.toString());
     }
 
     function onDraggedOver(event) {
@@ -81,28 +74,17 @@ export default function Cell(props) {
         event.preventDefault();
 
         let gate = event.dataTransfer.getData("gate");
-        setGateAndListeners(gate);
+        cellLife.onGateChanged(gate);
     }
 
     function onDragGateEnd(event) {
         event.preventDefault();
-        // setGateAndListeners(null);
     }
 
     function onClick(event) {
-        if (cellLife.onGateClicked && cellLife.gate) {
+        if (cellLife.gate) {
             cellLife.onGateClicked(event);
         }
-    }
-
-    function gate() {
-        if (!cellLife.gate) return null;
-
-        return (
-            <div className={classes.iconContainer}>
-                <DraggableGate size="md" cellLife={cellLife} onDragEnd={onDragGateEnd} draggable/>
-            </div>
-        );
     }
 
     function connectionLines() {
@@ -127,7 +109,12 @@ export default function Cell(props) {
                     <SimpleLine direction="horizontal" size={theme.circuitCellSize(1)}/>
                 </div>
 
-                {gate()}
+                {cellLife.gate ? (
+                    <div className={classes.iconContainer}>
+                        <DraggableGate size="md" cellLife={cellLife} onDragEnd={onDragGateEnd} draggable/>
+                    </div>
+                ) : null}
+
                 {cellLife.gate && cellLife.isSelected ? <div className={classes.greenHighlight}/> : null}
             </div>
 

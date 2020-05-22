@@ -29,13 +29,9 @@ export default function ConnectionPanel(props) {
         let connected = cellLife.isConnected;
 
         if (!connected) {
-            if (cellLife.onConnect) {
-                cellLife.onConnect(event);
-            }
+            cellLife.onConnect(event);
         } else {
-            if (cellLife.onDisconnect) {
-                cellLife.onDisconnect(event);
-            }
+            cellLife.onDisconnect(event);
         }
 
     }

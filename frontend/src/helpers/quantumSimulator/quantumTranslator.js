@@ -1,4 +1,5 @@
-import { Gates } from "../../components/quCircuit/gates";
+import { GateProperties, Gates } from "../../components/quCircuit/gates";
+import CellData from "../../components/quCircuit/cellData";
 
 class GateAliases {
 
@@ -30,6 +31,10 @@ export function translateToSimulator(circuit, circuitInputs) {
         let visitedSwapGates = [];
 
         for (let wireIndex = 0; wireIndex < wireCount; wireIndex++) {
+            /**
+             * Apply type for autocomplete.
+             * @type {CellData}
+             */
             let cellData = circuit[wireIndex][cellIndex];
             if (!cellData || !cellData.gate) continue;
 
@@ -39,7 +44,7 @@ export function translateToSimulator(circuit, circuitInputs) {
                 let translatedCell = {
                     type: translatedGate,
                     time: cellIndex,
-                    targets: [wireIndex],
+                    targets: cellData.multigates.length > 0 ? cellData.multigates : [wireIndex],
                     controls: [...cellData.sources]
                 };
 
@@ -70,25 +75,29 @@ export function translateToQuCircuit(circuit, cellAmount) {
         .map(e => new Array(cellAmount));
 
     function fillTwinData(w, c, cellData) {
-        fillData(w, c, {
-          gate: cellData.gate,
-          ends: cellData.sources,
-          sources: cellData.ends,
-        });
+        fillData(w, c, cellData);
     }
 
     function fillData(w, c, cellData) {
-        quCircuit[w][c] = cellData;
+        quCircuit[w][c] = new CellData(w, c, cellData.gate, [...cellData.ends], [...cellData.sources], [...cellData.multigates]);
     }
 
     for (let entry of circuit.circuit) {
+        console.log(entry);
         let gate = GateAliases.FromSimulator[entry.type] ? GateAliases.FromSimulator[entry.type] : entry.type.toUpperCase();
+
+        if (!Gates[gate]) {
+            throw new Error(`Invalid gate '${gate}' found when importing`)
+        }
+
         let ends = [];
         let sources = [];
         let wire = entry.targets[0];
         let cell = entry.time;
+        let properties = GateProperties[gate];
+        let multigates = properties.isMultigate ? entry.targets.map(e => parseInt(e)) : [];
 
-        let cellData = { gate, ends, sources };
+        let cellData = { gate, ends, sources, multigates };
 
         if (gate === Gates.SWAP && entry.targets.length === 2) {
             sources.push(entry.targets[1]);

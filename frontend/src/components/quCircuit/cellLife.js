@@ -3,21 +3,51 @@ import { GateProperties } from "./gates";
 
 export default class CellLife {
 
-    constructor(wireIndex, cellIndex, circuit, selectedCell) {
-        this.wireIndex = wireIndex;
-        this.cellIndex = cellIndex;
+    constructor(wireIndex, cellIndex, circuit, selectedCell, listeners) {
+        this.wireIndex = parseInt(wireIndex);
+        this.cellIndex = parseInt(cellIndex);
         this.circuit = circuit;
+        this.listeners = listeners;
         this.selectedCell = selectedCell;
 
-        // Declare available listeners here for clarity and autocomplete availability.
-        this.onGateClicked = (gate) => {};
-        this.onGateChanged = (event) => {};
-        this.onConnect = (event) => {};
-        this.onDisconnect = (event) => {};
+        if (isNaN(this.wireIndex))
+            throw new Error(`Expected number for wire index got ${this.wireIndex} of type ${typeof this.wireIndex}`);
+        if (isNaN(this.cellIndex))
+            throw new Error(`Expected number for wire index got ${this.cellIndex} of type ${typeof this.cellIndex}`);
+    }
+
+    onGateClicked(event) {
+        if (this.listeners.onGateClicked) {
+            this.listeners.onGateClicked(this, event);
+        }
+    }
+
+    onGateChanged(gate) {
+        if (this.listeners.onGateChanged) {
+            this.listeners.onGateChanged(this, gate);
+        }
+    }
+
+    onConnect(event) {
+        if (this.listeners.onConnect) {
+            this.listeners.onConnect(this, event);
+        }
+    }
+
+    onDisconnect(event) {
+        if (this.listeners.onDisconnect) {
+            this.listeners.onDisconnect(this, event);
+        }
+    }
+
+    onGrowMultigate(wireIndex) {
+        if (this.listeners.onGrowMultigate) {
+            this.listeners.onGrowMultigate(this, wireIndex);
+        }
     }
 
     copyOfPosition(wireIndex, cellIndex) {
-        return new CellLife(wireIndex, cellIndex, this.circuit, this.selectedCell)
+        return new CellLife(wireIndex, cellIndex, this.circuit, this.selectedCell, this.listeners)
     }
 
     /**
@@ -25,7 +55,7 @@ export default class CellLife {
      */
     get cellData() {
         return this.circuit[this.wireIndex] && this.circuit[this.wireIndex][this.cellIndex] ?
-            this.circuit[this.wireIndex][this.cellIndex] : new CellData();
+            this.circuit[this.wireIndex][this.cellIndex] : new CellData(this.wireIndex, this.cellIndex);
     }
 
     get gate() {
@@ -40,12 +70,43 @@ export default class CellLife {
         return this.cellData.sources || [];
     }
 
+    get multigates() {
+        return this.cellData.multigates || [];
+    }
+
+    get topMultigate() {
+        return this.copyOfPosition(this.multigates[0], this.cellIndex);
+    }
+
+    get bottomMultigate() {
+        return this.copyOfPosition(this.multigates[this.multigates.length - 1], this.cellIndex);
+    }
+
+    get isTopMultigate() {
+        return this.multigates[0] === this.wireIndex;
+    }
+
+    get isBottomMultigate() {
+        return this.multigates[this.multigates.length - 1] === this.wireIndex;
+    }
+
+    /**
+     * @returns {GateProperty}
+     */
+    get property() {
+        return GateProperties[this.gate];
+    }
+
     get hasEnds() {
         return this.ends.length > 0;
     }
 
     get hasSources() {
         return this.sources.length > 0;
+    }
+
+    get isMultigate() {
+        return this.multigates.length > 0;
     }
 
     get isConnected() {
@@ -106,6 +167,32 @@ export default class CellLife {
         }
     }
 
+    growMultigateUp() {
+        if (this.wireIndex !== 0) {
+            this.onGrowMultigate(this.wireIndex - 1);
+        }
+    }
+
+    growMultigateDown() {
+        if (this.wireIndex !== this.circuitWireCount - 1) {
+            this.onGrowMultigate(this.wireIndex + 1);
+        }
+    }
+
+    shrinkMultigateDown() {
+        if (this.multigates.length > 0 && this.wireIndex !== 0) {
+            this.copyOfPosition(this.wireIndex - 1, this.cellIndex)
+                .removeCell();
+        }
+    }
+
+    shrinkMultigateUp() {
+        if (this.multigates.length > 0 && this.wireIndex !== this.circuitWireCount - 1) {
+            this.copyOfPosition(this.wireIndex + 1, this.cellIndex)
+                .removeCell();
+        }
+    }
+
     createConnectionTo(otherCell) {
         this.addEnd(otherCell.wireIndex);
         otherCell.addSource(this.wireIndex);
@@ -115,6 +202,22 @@ export default class CellLife {
             otherCell.addEnd(this.wireIndex);
             this.addSource(otherCell.wireIndex);
         }
+    }
+
+    removeMultigates() {
+        if (!this.isMultigate) return;
+        this.cellData._isMultigateRemoved = true;
+
+        for (let m of this.multigates) {
+            if (m !== this.wireIndex) {
+                let nextCellLife = this.copyOfPosition(m, this.cellIndex);
+
+                if (!nextCellLife.cellData._isMultigateRemoved) {
+                    nextCellLife.removeCell();
+                }
+            }
+        }
+        delete this.cellData._isMultigateRemoved;
     }
 
     removeConnectionTo(otherCell) {
@@ -134,6 +237,10 @@ export default class CellLife {
 
     removeConnectionToSelected() {
         this.removeConnectionTo(this.selectedCell);
+    }
+
+    removeCell() {
+        this.onGateChanged(null);
     }
 
     removeAllConnections() {
@@ -220,6 +327,10 @@ export default class CellLife {
 
     getEndCells() {
         return this.ends.map(t => this.copyOfPosition(t, this.cellIndex));
+    }
+
+    getMultigateCells() {
+        return this.multigates.map(m => this.copyOfPosition(m, this.cellIndex))
     }
 
     getDirectionTowards(wireIndex) {

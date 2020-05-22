@@ -17,6 +17,7 @@ export const Gates = {
     R2: "R2",
     R4: "R4",
     R8: "R8",
+    QFT: "QFT",
 };
 
 
@@ -29,6 +30,8 @@ export class GateProperty {
         this.component = component;
         this.validEnds = validEnds || [Gates.CONTROL];
         this.canConnectToItself = false;
+        this.isMultigate = false;
+        this.isResizable = false;
         this.maxEnds = Number.MAX_VALUE;
         GateProperties[gate] = this;
     }
@@ -46,6 +49,9 @@ swap.maxEnds = 1;
 let r2 = new GateProperty(Gates.R2, (props) => (<LabeledGate {...props} label="R2" labelSize={3.5}/>));
 let r4 = new GateProperty(Gates.R4, (props) => (<LabeledGate {...props} label="R4" labelSize={3.5}/>));
 let r8 = new GateProperty(Gates.R8, (props) => (<LabeledGate {...props} label="R8" labelSize={3.5}/>));
+let qft = new GateProperty(Gates.QFT, (props) => (<LabeledGate {...props} label="QFT" labelSize={2.5}/>));
+qft.isMultigate = true;
+qft.isResizable = true;
 
 
 export function getGateComponentOrEmpty(gate) {

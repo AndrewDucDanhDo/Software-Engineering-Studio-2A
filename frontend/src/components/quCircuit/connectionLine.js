@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { VToPixels } from "../../helpers/domUnits";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -16,19 +17,8 @@ export default function ConnectionLine(props) {
     const theme = useTheme();
     const classes = useStyles();
 
-    function convertRelativeViewToPixels(relativeValue) {
-        if (relativeValue.includes("vw")) {
-            let value = parseFloat(relativeValue.replace("vw", ""));
-            return (window.innerWidth / 100) * value;
-        } else if (relativeValue.includes("vh")) {
-            let value = parseFloat(relativeValue.replace("vh", ""));
-            return (window.innerWidth / 100) * value;
-        }
-        return 0;
-    }
-
     function calculateCellSizeInPixels() {
-        return convertRelativeViewToPixels(theme.circuitCellSize(1))
+        return VToPixels(theme.circuitCellSize(1))
     }
 
     const [cellSize, setCellSize] = useState(calculateCellSizeInPixels());
