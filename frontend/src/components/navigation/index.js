@@ -51,7 +51,12 @@ const buildGuestNav = (classes, signOutFunc) => {
 				>
 					Sign Up
 				</Button>
-				<Button color="inherit" component={Link} onClick={signOutFunc} to="/login">
+				<Button
+					color="inherit"
+					component={Link}
+					onClick={signOutFunc}
+					to="/login"
+				>
 					Login
 				</Button>
 			</Toolbar>
@@ -129,7 +134,10 @@ function Navigation() {
 	};
 
 	if (authState.authenticated) {
-		if (authState.user.claims !== undefined && authState.user.claims.teacher) {
+		if (
+			authState.user.claims !== undefined &&
+			(authState.user.claims.superuser || authState.user.claims.teacher)
+		) {
 			navComp = buildTeacherNav(classes, handleSignOut);
 		} else {
 			// If the authenticated user does not have a teacher
