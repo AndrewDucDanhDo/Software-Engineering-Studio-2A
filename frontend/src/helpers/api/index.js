@@ -4,6 +4,7 @@ import {
 	createUser,
 	updateUser,
 	deleteUser,
+	deleteUserAdmin,
 	getRoles,
 	updateRoles,
 } from "./user";
@@ -38,7 +39,6 @@ export default {
 	user: {
 		create: createUser,
 		get: getUser,
-		getAll: getAllUsers,
 		update: updateUser,
 		delete: deleteUser,
 		circuit: {
@@ -47,10 +47,6 @@ export default {
 			getSingle: getSingleCircuit,
 			update: updateCircuit,
 			delete: deleteCircuit,
-		},
-		roles: {
-			get: getRoles,
-			update: updateRoles
 		},
 	},
 	circuit: {
@@ -66,6 +62,14 @@ export default {
 		},
 	},
 	admin: {
+		users: {
+			delete: deleteUserAdmin,
+			getAll: getAllUsers,
+			roles: {
+				get: getRoles,
+				update: updateRoles
+			},
+		},
 		tasks: {
 			create: createTask,
 			getAll: getAllTasksAdmin,
