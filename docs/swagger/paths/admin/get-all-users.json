@@ -1,0 +1,38 @@
+{
+  "get": {
+    "tags": [
+      "user",
+      "admin"
+    ],
+    "summary": "Fetch all users information",
+    "produces": [
+      "application/json"
+    ],
+    "parameters": [],
+    "responses": {
+      "200": {
+        "description": "All users where successfully returned.",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "OK"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../../common/schemas/firebaseUser.json#"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

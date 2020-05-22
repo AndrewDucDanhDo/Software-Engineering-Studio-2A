@@ -12,7 +12,9 @@ import {
   updateUserCircuit,
   deleteUserCircuit
 } from "../controllers/circuit";
-import { checkToken, checkUser } from "../middleware/firebase-auth";
+import { checkToken } from "../middleware/auth";
+import { checkUser } from "../middleware/user";
+import { checkTeacherRole } from "../middleware/roles";
 
 const userRouter = Router();
 

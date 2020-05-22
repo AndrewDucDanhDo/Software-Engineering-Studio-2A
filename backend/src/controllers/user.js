@@ -89,6 +89,18 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const getAllUsers = async (req, res) => {
+  try {
+    // Get details from firebase
+    const userDetails = await admin.auth().listUsers();
+
+    // Prepare a response
+    return res.status(200).json(successResponse(userDetails));
+  } catch (error) {
+    return handleApiError(res, error);
+  }
+}
+
 export const updateUser = async (req, res) => {
   try {
     // Parse details from the request
@@ -137,6 +149,81 @@ export const deleteUser = async (req, res) => {
     return res
       .status(200)
       .json(successResponse({ msg: "User was successfully deleted." }));
+  } catch (error) {
+    return handleApiError(res, error);
+  }
+};
+
+export const getUserRoles = async (req, res) => {
+  try {
+    // Get details from the request
+    const userId = req.params.userId;
+
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
+
+    // Get user roles from firebase
+    var { customClaims } = await admin.auth().getUser(userId);
+
+    // If no roles are set prepare empty customClaims so it can be filtered
+    if (typeof customClaims === 'undefined') customClaims = {};
+    
+    const filteredRoles = {
+      "teacher": customClaims.teacher || false,
+      "superuser": customClaims.superuser || false
+    }
+
+    // Prepare a response
+    return res.status(200).json(successResponse(filteredRoles));
+  } catch (error) {
+    // The cases for this code should be via tha firebase error codes
+    // https://firebase.google.com/docs/auth/admin/errors
+    switch (error.code) {
+      case "auth/user-not-found":
+        return res
+          .status(500)
+          .json(
+            errorResponse(
+              "No user found for the provided userId.",
+              error.code,
+              undefined
+            )
+          );
+      default:
+        return handleApiError(res, error);
+    }
+  }
+};
+
+export const updateUserRoles = async (req, res) => {
+  try {
+    const userRoles = req.body;
+    const { userId } = req.params;
+
+    checkParams({
+      userId: {
+        data: userId,
+        expectedType: "string"
+      },
+      userRoles: {
+        data: userRoles,
+        expectedType: "object"
+      }
+    });
+
+    const filteredRoles = {
+      "teacher": userRoles.teacher || false,
+      "superuser": userRoles.superuser || false
+    }
+
+    await admin.auth().setCustomUserClaims(userId, filteredRoles);
+    return res
+      .status(200)
+      .json(successResponse({ msg: "The action was completed successfully." }));
   } catch (error) {
     return handleApiError(res, error);
   }

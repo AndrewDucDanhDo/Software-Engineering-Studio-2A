@@ -36,32 +36,47 @@
 		"/user/{userId}/circuit/{circuitId}/update": {
 			"$ref": "paths/user/update-circuit-by-id.json#"
 		},
-		"/user/{userId}/task": {
-			"$ref": "paths/user/get-task.json#"
-		},
-		"/user/{userId}/task/{taskId}/submit": {
-			"$ref": "paths/user/submit-task-by-id.json#"
-		},
-		"/user/{userId}/submission": {
-			"$ref": "paths/user/get-submission.json#"
-		},
-		"/user/{userId}/submission/{submissionId}": {
-			"$ref": "paths/user/get-submission-by-id.json#"
-		},
-		"/user/{userId}/submission/{submissionId}/update": {
-			"$ref": "paths/user/update-submission-by-id.json#"
-		},
-		"/task/create": {
+		"/admin/task/create": {
 			"$ref": "paths/task/create.json#"
 		},
-		"/task/{taskId}": {
-			"$ref": "paths/task/get-by-id.json#"
+		"/admin/task": {
+			"$ref": "paths/task/get-all-tasks-teacher.json#"
 		},
-		"/task/{taskId}/update": {
+		"/admin/task/{taskId}": {
+			"$ref": "paths/task/get-by-id-teacher.json#"
+		},
+		"/admin/task/{taskId}/update": {
 			"$ref": "paths/task/update-by-id.json#"
 		},
+		"/task": {
+			"$ref": "paths/task/get-all-tasks-student.json#"
+		},
+		"/task/{taskId}/submit": {
+			"$ref": "paths/task/submit-task-by-id.json#"
+		},
+		"/task/{taskId}": {
+			"$ref": "paths/task/get-by-id-student.json#"
+		},
+		"/admin/task/{taskId}/submission": {
+			"$ref": "paths/task/get-all-submissions-teacher.json#"
+		},
 		"/task/{taskId}/submission": {
-			"$ref": "paths/task/get-all-submissions.json#"
+			"$ref": "paths/task/get-submission-student.json#"
+		},
+		"/task/{taskId}/submission/update": {
+			"$ref": "paths/task/update-submission-student.json#"
+		},
+		"/admin/task/{taskId}/submission/{userId}/update": {
+			"$ref": "paths/task/update-submission-teacher.json#"
+		},
+		"/admin/user/": {
+			"$ref": "paths/admin/get-all-users.json#"
+		},
+		"/admin/user/{userId}/roles": {
+			"$ref": "paths/admin/get-user-roles.json#"
+		},
+		"/admin/user/{userId}/roles/update": {
+			"$ref": "paths/admin/update-user-roles.json#"
 		}
 	}
 }
