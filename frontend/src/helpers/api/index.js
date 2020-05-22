@@ -1,4 +1,12 @@
-import { getUser, getAllUsers, createUser, updateUser, deleteUser } from "./user";
+import {
+	getUser,
+	getAllUsers,
+	createUser,
+	updateUser,
+	deleteUser,
+	getRoles,
+	updateRoles,
+} from "./user";
 import {
 	solveCircuit,
 	getAllCircuits,
@@ -39,6 +47,10 @@ export default {
 			getSingle: getSingleCircuit,
 			update: updateCircuit,
 			delete: deleteCircuit,
+		},
+		roles: {
+			get: getRoles,
+			update: updateRoles
 		},
 	},
 	circuit: {

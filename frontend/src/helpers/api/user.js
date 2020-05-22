@@ -37,3 +37,21 @@ export const deleteUser = async (idToken, userId) => {
 	});
 	return res;
 };
+
+export const getRoles = async (idToken, userId) => {
+	const res = await axios.get(`http://${API_HOST}/admin/user/${userId}/roles`, {
+		headers: { Authorization: `Bearer ${idToken}` },
+	});
+	return res;
+};
+
+export const updateRoles = async (idToken, userId, userRoles) => {
+	const res = await axios.post(
+		`http://${API_HOST}/admin/user/${userId}/roles/update`,
+		userRoles,
+		{
+			headers: { Authorization: `Bearer ${idToken}` },
+		}
+	);
+	return res;
+};
