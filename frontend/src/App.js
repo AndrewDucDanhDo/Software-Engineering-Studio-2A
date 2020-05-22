@@ -17,12 +17,15 @@ import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
 // Context
 import { AuthProvider } from "./context/auth";
 import PrivateRoute from "./components/PrivateRoute";
+import { CircuitProvider } from "./context/circuit";
 
 function AppProvider(props) {
 	return (
 		<ThemeProvider theme={appTheme}>
 			<AuthProvider>
-				{props.children}
+				<CircuitProvider>
+					{props.children}
+				</CircuitProvider>
 			</AuthProvider>
 		</ThemeProvider>
 	);
