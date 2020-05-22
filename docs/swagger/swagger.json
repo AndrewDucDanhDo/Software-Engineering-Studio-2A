@@ -68,6 +68,15 @@
 		},
 		"/admin/task/{taskId}/submission/{userId}/update": {
 			"$ref": "paths/task/update-submission-teacher.json#"
+		},
+		"/admin/user/": {
+			"$ref": "paths/admin/get-all-users.json#"
+		},
+		"/admin/user/{userId}/roles": {
+			"$ref": "paths/admin/get-user-roles.json#"
+		},
+		"/admin/user/{userId}/roles/update": {
+			"$ref": "paths/admin/update-user-roles.json#"
 		}
 	}
 }
