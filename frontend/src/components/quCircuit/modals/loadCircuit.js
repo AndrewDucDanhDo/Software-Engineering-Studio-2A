@@ -56,7 +56,7 @@ export default function LoadCircuitModal(props) {
 			<DialogContent>
 				{circuitsState.circuits === undefined ? (
 					<CircularProgress />
-				) : (
+				) : circuitsState.circuits > 0 ? (
 					<List>
 						{circuitsState.circuits.map((circuit) => (
 							<ListItem
@@ -77,6 +77,8 @@ export default function LoadCircuitModal(props) {
 							</ListItem>
 						))}
 					</List>
+				) : (
+					<p>No saved circuits found.</p>
 				)}
 			</DialogContent>
 			<DialogActions>
