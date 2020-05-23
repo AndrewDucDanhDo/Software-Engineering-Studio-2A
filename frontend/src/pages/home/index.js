@@ -52,28 +52,33 @@ export default class Demo extends React.PureComponent {
             for (var j = 0; j < 2; j++) {
                 for (var k = 0; k < 2; k++) {
                     tempString = '|' + binary[j] + binary[k] + '\u3009';
-
-                    console.log(tempString);
+                    tempArray.push({
+                        state: tempString,
+                        probability: 0
+                    });
                 }
             }
         }
+        console.log(tempArray);
+        return tempArray;
     }
 
     handleKeyPress = (event) => { // Now have to listen for when #evaluate is called
         var temp = [];
+        var index;
         setTimeout(function () {
-            this.calculateNoOfProbs();
-            console.log(document.getElementById('amplitudes').rows[0]);
+            temp = this.calculateNoOfProbs();
             if (document.getElementById('amplitudes').rows[0] != null && event.key === 'Enter') {
                 for (var i = 0; i < document.getElementById('amplitudes').rows.length; i++) {
-                    temp.push({
-                        state: document.getElementById('amplitudes').rows[i].cells[1].innerText,
-                        probability: parseFloat(document.getElementById('amplitudes').rows[i].cells[2].innerText, 10) / 100
-                    });
+                    for (var p in temp) {
+                        if (temp[p].state == document.getElementById('amplitudes').rows[i].cells[1].innerText) {
+                            temp[p].probability = parseFloat(document.getElementById('amplitudes').rows[i].cells[2].innerText, 10) / 100;
+                        }
+                    }
                 }
             }
             this.setState({ data: temp });
-        }.bind(this),1)
+        }.bind(this),5)
     }
 
     render() {
