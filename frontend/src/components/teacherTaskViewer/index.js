@@ -42,12 +42,21 @@ export default class TeacherTaskViewer extends React.Component {
             { name: "Ned" }
         ];
 
+        //below axios goes in backend
         axios
-        .post('', { name })
+        .post('http://localhost:4000​/admin​/task​/{taskId}​/submission', { name })
         .then(res => {
             console.log(res);
             console.log(res.data);
         });
+
+        function fetchSubmissions() {
+            //  Get submissions data from the backend here.
+        }
+        //creating an array of submission names (unsure if this is correct so far)
+        // let submissionName = [
+        //     {subName:}
+        ]
 
         return (
             <Grid container style={{position: "absolute", width: "100%", height: "90%"}}>
