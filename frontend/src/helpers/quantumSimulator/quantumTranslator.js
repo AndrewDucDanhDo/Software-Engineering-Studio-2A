@@ -83,7 +83,6 @@ export function translateToQuCircuit(circuit, cellAmount) {
     }
 
     for (let entry of circuit.circuit) {
-        console.log(entry);
         let gate = GateAliases.FromSimulator[entry.type] ? GateAliases.FromSimulator[entry.type] : entry.type.toUpperCase();
 
         if (!Gates[gate]) {
@@ -110,6 +109,7 @@ export function translateToQuCircuit(circuit, cellAmount) {
                 gate: Gates.CONTROL,
                 sources: [],
                 ends: [wire],
+                multigates: []
             });
             ends.push(control);
             sources.push(control);

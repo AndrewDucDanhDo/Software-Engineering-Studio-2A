@@ -273,7 +273,9 @@ export default function QuCircuit(props) {
     }
 
     function onClearCircuitClicked(event) {
-        setCircuit([]);
+        setCircuit(new Array(wireCount)
+            .fill(null)
+            .map(e => new Array(cellCount)));
     }
 
     function onDrop(event) {
