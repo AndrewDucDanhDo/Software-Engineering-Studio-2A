@@ -1,0 +1,70 @@
+{
+	"post": {
+		"tags": ["circuit"],
+		"summary": "Solve a quantum circuit",
+		"produces": ["application/json"],
+		"parameters": [
+			{
+				"in": "body",
+				"name": "body",
+				"description": "Quantum circuit that needs to be solved.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/circuit.json#"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Result was successfully computed and returned.",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/circuitResult.json#"
+						}
+					}
+				},
+				"examples": {
+					"application/json": {
+						"status": "OK",
+						"data": {
+							"results": [
+								{
+									"value": "0.0000%",
+									"impossible": true,
+									"amplitude": "0.00000000+0.00000000i",
+									"state": "00"
+								},
+								{
+									"value": "0.0000%",
+									"impossible": true,
+									"amplitude": "0.00000000+0.00000000i",
+									"state": "01"
+								}
+							]
+						}
+					}
+				}
+			},
+			"500": {
+				"description": "Unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
+			}
+		}
+	}
+}

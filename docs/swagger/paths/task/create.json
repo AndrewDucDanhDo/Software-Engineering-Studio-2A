@@ -1,0 +1,40 @@
+{
+	"post": {
+		"tags": ["task", "admin"],
+		"summary": "Add a new quantum circuit task.",
+		"produces": ["application/json"],
+		"parameters": [
+			{
+				"in": "body",
+				"name": "body",
+				"description": "User details to be created. If the userId of the user that made the authenticated request is not present on in the owners array it will be added.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/taskDescriptionTeacher.json#"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "Task created successfully",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				}
+			},
+			"500": {
+				"description": "An unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+          "application/json": {
+            "status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+            "error": "RangeError: Invalid array length"
+          }
+        }
+			}
+		}
+	}
+}

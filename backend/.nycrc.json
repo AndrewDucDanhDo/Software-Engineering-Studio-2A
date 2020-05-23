@@ -1,0 +1,11 @@
+{
+  "all": true,
+  "include": [
+    "src/**/*.js"
+  ],
+  "exclude": [
+    "**/*.integration.js",
+    "**/*.unit.js",
+    "node_modules/"
+  ]
+}

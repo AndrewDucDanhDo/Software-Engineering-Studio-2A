@@ -1,0 +1,96 @@
+{
+	"post": {
+		"tags": ["user"],
+		"summary": "Update a users details",
+		"produces": ["application/json"],
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			},
+			{
+				"in": "body",
+				"name": "body",
+				"description": "User details to be updated.",
+				"required": true,
+				"schema": {
+					"$ref": "../../common/schemas/userUpdate.json#"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "User updated successfully",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"$ref": "../../common/schemas/firebaseUser.json#"
+						}
+					}
+				}
+			},
+			"500": {
+				"description": "An unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
+			}
+		}
+	},
+	"delete": {
+		"tags": ["user"],
+		"summary": "Delete a user",
+		"produces": ["application/json"],
+		"parameters": [
+			{
+				"$ref": "../../common/parameters/userId.json"
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "User deleted successfully",
+				"schema": {
+					"type": "object",
+					"properties": {
+						"status": {
+							"type": "string",
+							"example": "OK"
+						},
+						"data": {
+							"type": "object",
+							"example": {
+								"msg": "User was successfully deleted."
+							}
+						}
+					}
+				}
+			},
+			"500": {
+				"description": "An unknown server side error.",
+				"schema": {
+					"$ref": "../../common/schemas/apiErrorResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "An unknown error occurred.",
+						"errorCode": "password-length",
+						"error": "RangeError: Invalid array length"
+					}
+				}
+			}
+		}
+	}
+}
