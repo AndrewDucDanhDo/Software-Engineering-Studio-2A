@@ -142,7 +142,10 @@ function Navigation() {
 	};
 
 	if (authState.authenticated) {
-		if (authState.user.claims !== undefined && authState.user.claims.teacher) {
+		if (
+			authState.user.claims !== undefined &&
+			(authState.user.claims.superuser || authState.user.claims.teacher)
+		) {
 			navComp = buildTeacherNav(classes, handleSignOut);
 		} else {
 			// If the authenticated user does not have a teacher

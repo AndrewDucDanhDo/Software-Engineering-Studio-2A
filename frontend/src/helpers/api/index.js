@@ -1,4 +1,13 @@
-import { getUser, createUser, updateUser, deleteUser } from "./user";
+import {
+	getUser,
+	getAllUsers,
+	createUser,
+	updateUser,
+	deleteUser,
+	deleteUserAdmin,
+	getRoles,
+	updateRoles,
+} from "./user";
 import {
 	solveCircuit,
 	getAllCircuits,
@@ -53,6 +62,14 @@ export default {
 		},
 	},
 	admin: {
+		users: {
+			delete: deleteUserAdmin,
+			getAll: getAllUsers,
+			roles: {
+				get: getRoles,
+				update: updateRoles
+			},
+		},
 		tasks: {
 			create: createTask,
 			getAll: getAllTasksAdmin,

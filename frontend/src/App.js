@@ -14,6 +14,8 @@ import appTheme from "./helpers/appTheme";
 import TeacherTaskEditorPage from "./pages/teacherTaskEditor";
 import TeacherTasksPage from "./pages/teacherTasks";
 import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
+import AdminPage from "./pages/admin";
+
 // Context
 import { AuthProvider } from "./context/auth";
 import PrivateRoute from "./components/PrivateRoute";
@@ -23,9 +25,7 @@ function AppProvider(props) {
 	return (
 		<ThemeProvider theme={appTheme}>
 			<AuthProvider>
-				<CircuitProvider>
-					{props.children}
-				</CircuitProvider>
+				<CircuitProvider>{props.children}</CircuitProvider>
 			</AuthProvider>
 		</ThemeProvider>
 	);
@@ -51,6 +51,13 @@ function AppRouter(props) {
 				component={TeacherTaskEditorPage}
 				adminRoute={true}
 			/>
+			<PrivateRoute
+				path="/profile"
+				adminRoute={false}
+				component={ProfilePage}
+			/>
+
+			<PrivateRoute path="/admin" component={AdminPage} adminRoute={true} />
 
 			<PrivateRoute
 				path="/profile"
@@ -80,7 +87,7 @@ function App() {
 				<BrowserRouter>
 					<Navigation />
 					<div>
-						<AppRouter/>
+						<AppRouter />
 						<Footer />
 					</div>
 				</BrowserRouter>
