@@ -1,0 +1,44 @@
+{
+    "get": {
+        "tags": [
+            "user",
+            "admin"
+        ],
+        "summary": "Fetch user information",
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [
+            {
+                "$ref": "../../common/parameters/userId.json"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "User information successfully fetched.",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "string",
+                            "example": "OK"
+                        },
+                        "data": {
+                            "type": "object",
+                            "properties": {
+                                "teacher": {
+                                    "type": "bool",
+                                    "example": true
+                                },
+                                "superuser": {
+                                    "type": "bool",
+                                    "example": false
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

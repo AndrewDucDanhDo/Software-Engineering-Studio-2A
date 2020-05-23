@@ -1,0 +1,17 @@
+{
+	"type": "object",
+	"properties": {
+		"status": {
+			"type": "string",
+			"description": "The status code of the request. can be ERROR or OK",
+			"example": "OK",
+			"required": true
+		},
+		"msg": {
+			"type": "string",
+			"description": "A message describing the api response",
+			"example": "The action was completed successfully.",
+			"required": true
+		}
+	}
+}

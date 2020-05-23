@@ -10,21 +10,6 @@ module.exports = class Application {
   }
 
   /*
-    Set current "circuit" to that of some "gate" and update the interface
-    for the new circuit.
-    */
-  editCircuit(gate) {
-    this.circuit = gate.circuit;
-    this.editor.resize(gate.circuit.nqubits, this.editor.length);
-    document.querySelector("#nqubits > span").innerHTML =
-      "Qubits: " + this.circuit.nqubits;
-    if (gate.input) {
-      this.editor.input = gate.input;
-    }
-    this.editor.render();
-  }
-
-  /*
   Load a new workspace in from a json object, overwriting the current one.
   JSON struct looks like:
   {
@@ -39,22 +24,22 @@ module.exports = class Application {
   gates in the circuit.
   */
   loadWorkspace(json) {
-      this.workspace = new Workspace(this);
-      if (json.gates) {
-          for (let i = 0 ; i < json.gates.length; i++) {
-              const gate = json.gates[i];
-              this.workspace.addGate({
-                  name: gate.name,
-                  qubits: gate.qubits,
-                  matrix: gate.matrix,
-                  fn: gate.fn,
-                  title: gate.title,
-                  circuit: Circuit.load(this, gate.qubits, gate.circuit)
-              });
-          }
+    this.workspace = new Workspace(this);
+    if (json.gates) {
+      for (let i = 0; i < json.gates.length; i++) {
+        const gate = json.gates[i];
+        this.workspace.addGate({
+          name: gate.name,
+          qubits: gate.qubits,
+          matrix: gate.matrix,
+          fn: gate.fn,
+          title: gate.title,
+          circuit: Circuit.load(this, gate.qubits, gate.circuit)
+        });
       }
-      this.circuit = Circuit.load(this, json.qubits, json.circuit);
-      this.compileAll();
+    }
+    this.circuit = Circuit.load(this, json.qubits, json.circuit);
+    this.compileAll();
   }
 
   /*

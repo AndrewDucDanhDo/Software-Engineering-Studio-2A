@@ -1,0 +1,72 @@
+{
+	"type": "object",
+	"properties": {
+		"taskId": {
+			"type": "string",
+			"description": "Id of the task.",
+			"example": "b4b9ce82-815a-11ea-bc55-0242ac130003",
+			"required": "false"
+		},
+		"name": {
+			"type": "string",
+			"description": "A pretty display name for the task.",
+			"example": "Quantum Bell Circuit",
+			"required": "true"
+		},
+		"summary": {
+			"type": "string",
+			"description": "A short summary of the task.",
+			"example": "Create a simple bell circuit",
+			"required": "true"
+		},
+		"description": {
+			"type": "string",
+			"description": "A longer description of the task for assigned students to understand the assigned task.",
+			"example": "An electric bell is a mechanical or electronic bell that functions by means of an electromagnet. When an electric current is applied, it produces a repetitive buzzing, clanging or ringing sound.",
+			"required": "true"
+		},
+		"expectedResults": {
+			"$ref": "./circuitResult.json#properties/results"
+		},
+		"owners": {
+			"type": "array",
+			"description": "A list of user Ids that own this task and cana modify it.",
+			"items": {
+				"type": "string"
+			},
+			"example": [
+				"b4b9ce82-815a-11ea-bc55-0242ac130003",
+				"d55d5370-815a-11ea-bc55-0242ac130003"
+			],
+			"required": "true"
+		},
+		"assigned": {
+			"type": "array",
+			"description": "User Ids that have been assigned to this task and can access its details and submit circuits against the task.",
+			"items": {
+				"type": "string"
+			},
+			"required": "true",
+			"example": [
+				"428df0b5-fbe2-42d0-8136-2263bae20a8a",
+				"49bf2844-a80c-44fb-80fe-4b95efc160bb",
+				"53ffb9f0-08fe-40c3-8036-91a9c92704d5",
+				"7991591c-ae25-4d17-ad67-b71154ec5c25"
+			]
+		},
+		"submissions": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"description": "Circuit Ids that have been submitted for this task."
+			},
+			"required": "true",
+			"example": [
+				"428df0b5-fbe2-42d0-8136-2263bae20a8a",
+				"49bf2844-a80c-44fb-80fe-4b95efc160bb",
+				"53ffb9f0-08fe-40c3-8036-91a9c92704d5",
+				"7991591c-ae25-4d17-ad67-b71154ec5c25"
+			]
+		}
+	}
+}
