@@ -24,7 +24,7 @@ export const getSingleCircuit = async (idToken, userId, circuitId) => {
 };
 
 export const createCircuit = async (idToken, circuitData) => {
-	const res = await axios.post(`http://${API_HOST}/user/circuit`, circuitData, {
+	const res = await axios.post(`http://${API_HOST}/user/circuit/create`, circuitData, {
 		headers: { Authorization: `Bearer ${idToken}` },
 	});
 	return res;
