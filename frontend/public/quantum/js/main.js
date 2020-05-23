@@ -34,8 +34,7 @@ const displayAmplitudes = (nqubits, amplitudes) => {
             <td>|${state}&#x3009;</td>
             <td style="text-indent: 20px">${probability}</td>
         `;
-        table.appendChild(row);
-        dataG.push({ amplitude, state, prob });
+        table.appendChild(row);;
     }
 }
 

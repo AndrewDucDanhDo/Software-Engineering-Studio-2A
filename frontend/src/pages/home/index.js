@@ -32,33 +32,34 @@ export default class Demo extends React.PureComponent {
             ]
         };
 
-        var test = document.getElementById('amplitudes');
-        console.log(test);
     }
 
     componentDidMount() {
         document.addEventListener("keydown", this.handleKeyPress, false);
     }
+
     componentWillUnmount() {
         document.removeEventListener("keydown", this.handleKeyPress, false);
     }
 
-    handleKeyPress = (event) => { // Problem: have to press enter twice, maybe try add a listener to the evaluate button/function 
+    calculateNoOfProbs() {
+
+    }
+
+    handleKeyPress = (event) => { // Now have to listen for when #evaluate is called
         var temp = [];
-        if (document.getElementById('amplitudes').rows[0] != null && event.key === 'Enter') {
-            console.log(document.getElementById('amplitudes').rows[0].cells[0].innerText);
-            console.log(document.getElementById('amplitudes').rows[0].cells[1].innerText);
-            console.log(document.getElementById('amplitudes').rows[0].cells[2].innerText);
-            console.log(document.getElementById('amplitudes').rows.item(0));
-            var test = document.getElementById('amplitudes').rows[0].cells[0].innerText;
-            for (var i = 0; i < document.getElementById('amplitudes').rows.length; i++) {
-                console.log("I'm blue");
-                temp.push({ state: document.getElementById('amplitudes').rows[i].cells[1].innerText, probability: parseFloat(document.getElementById('amplitudes').rows[i].cells[2].innerText, 10)/100})
+        setTimeout(function () {
+            console.log(document.getElementById('amplitudes').rows[0]);
+            if (document.getElementById('amplitudes').rows[0] != null && event.key === 'Enter') {
+                for (var i = 0; i < document.getElementById('amplitudes').rows.length; i++) {
+                    temp.push({
+                        state: document.getElementById('amplitudes').rows[i].cells[1].innerText,
+                        probability: parseFloat(document.getElementById('amplitudes').rows[i].cells[2].innerText, 10) / 100
+                    });
+                }
             }
-            console.log(temp);
-            console.log("test result is: " + test);
-        }
-        this.setState({ data: temp });
+            this.setState({ data: temp });
+        }.bind(this),1)
     }
 
     render() {
@@ -78,7 +79,6 @@ export default class Demo extends React.PureComponent {
                     <Chart
                         data={chartData}
                     >
-                        
                         <ValueScale name="probability"/>
                         <ValueAxis scaleName="probability" showGrid={false} showTicks={true} showLine={true}/>
                         <ArgumentAxis />
