@@ -306,7 +306,7 @@ export class TeacherTaskViewer extends React.Component {
 				</Grid>
 
 				<Grid xs={10} item>
-					<QuCircuit />
+          <QuCircuit/>
 				</Grid>
 			</Grid>
 		);

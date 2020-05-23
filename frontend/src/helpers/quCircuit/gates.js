@@ -18,6 +18,7 @@ export const Gates = {
     R4: "R4",
     R8: "R8",
     QFT: "QFT",
+    SRN: "SRN",
 };
 
 
@@ -52,6 +53,7 @@ let r8 = new GateProperty(Gates.R8, (props) => (<LabeledGate {...props} label="R
 let qft = new GateProperty(Gates.QFT, (props) => (<LabeledGate {...props} label="QFT" labelSize={2.5}/>));
 qft.isMultigate = true;
 qft.isResizable = true;
+let srn = new GateProperty(Gates.SRN, (props) => (<LabeledGate {...props} label="SRN" labelSize={2.5}/>));
 
 
 export function getGateComponentOrEmpty(gate) {

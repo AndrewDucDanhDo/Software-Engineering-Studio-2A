@@ -246,26 +246,24 @@ export default function QuCircuit(props) {
 		let wires = new Array(wireAmount);
 
 		for (let wireIndex = 0; wireIndex < wireAmount; wireIndex++) {
-			function onInputButtonClicked(event) {
-				let inputIndex = AllowedCircuitInputs.indexOf(circuitInputs[wireIndex]);
-				let nextIndex = (inputIndex + 1) % AllowedCircuitInputs.length;
-				circuitInputs[wireIndex] = AllowedCircuitInputs[nextIndex];
-				setCircuitInputs([...circuitInputs]);
-			}
 
-			wires[wireIndex] = (
-				<Box display="flex" key={wireIndex}>
-					<CircuitInputButton
-						circuitInputs={circuitInputs}
-						wireIndex={wireIndex}
-						onClick={onInputButtonClicked}
-					/>
-					{cells(cellAmount, wireIndex)}
-				</Box>
-			);
+				function onInputButtonClicked(event) {
+						let inputIndex = AllowedCircuitInputs.indexOf(circuitInputs[wireIndex]);
+						let nextIndex = (inputIndex + 1) % AllowedCircuitInputs.length;
+						circuitInputs[wireIndex] = AllowedCircuitInputs[nextIndex];
+						setCircuitInputs([...circuitInputs]);
+				}
+
+				wires[wireIndex] = (
+						<Box display="flex" key={wireIndex}>
+								{/*Use lowercase prop names here because for some reason react doesn't like it and throws warnings */}
+								<CircuitInputButton circuitinputs={circuitInputs} wireindex={wireIndex} onClick={onInputButtonClicked}/>
+								{cells(cellAmount, wireIndex)}
+						</Box>
+				);
 		}
 
-		return <>{wires}</>;
+		return (<>{wires}</>);
 	}
 
 	function onEvaluateButtonClicked(event) {

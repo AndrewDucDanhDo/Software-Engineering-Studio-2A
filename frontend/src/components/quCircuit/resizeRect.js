@@ -45,15 +45,15 @@ export default function ResizeRect(props) {
             let xDistance = Math.abs(xOffset);
             let yDistance = Math.abs(xOffset);
 
-            if (!props.lockDirection) {
+            if (!props.lockdirection) {
                 if (yDistance > xDistance) {
                     updateListeners(yOffset > 0 ? "up" : "down");
                 } else {
                     updateListeners(xOffset > 0 ? "right" : "left");
                 }
-            } else if (props.lockDirection === "vertical") {
+            } else if (props.lockdirection === "vertical") {
                 updateListeners(yOffset < 0 ? "up" : "down");
-            } else if (props.lockDirection === "horizontal") {
+            } else if (props.lockdirection === "horizontal") {
                 updateListeners(xOffset > 0 ? "right" : "left");
             }
         }
@@ -64,8 +64,8 @@ export default function ResizeRect(props) {
     }
 
     function updateListeners(direction) {
-        if (props.onMouseResize) {
-            props.onMouseResize(direction);
+        if (props.onResize) {
+            props.onResize(direction);
         }
     }
 

@@ -47,7 +47,6 @@ export default class TeacherTaskEditor extends React.Component {
 			});
 			taskIsValid = false;
 		}
-
 		return taskIsValid;
 	}
 
