@@ -1,19 +1,15 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {
 	DialogContent,
-	DialogContentText,
 	TextField,
 	DialogActions,
 } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 
-const useStyles = makeStyles({});
 
 export default function SaveCircuitModal(props) {
-	const classes = useStyles();
 	const { onClose, open, onSubmit } = props;
 	const [formState, setFormState] = React.useState({ circuitName: "" });
 

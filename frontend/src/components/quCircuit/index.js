@@ -18,6 +18,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { AuthContext } from "../../context/auth";
 import SaveCircuitModal from "./modals/saveCircuit";
+import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
 import Toast from "./toast";
 
@@ -67,12 +68,21 @@ export default function QuCircuit(props) {
 	const [modalState, setModalState] = useState({ open: false });
 	const [toastState, setToastState] = useState({ open: false });
 
+	const loadCircuit = (rawCircuit) => {
+		let [translatedCircuit, inputs] = translateToQuCircuit(
+			rawCircuit,
+			cellCount
+		);
+		setWireCount(inputs.length);
+		setCircuit(translatedCircuit);
+		setCircuitInputs(inputs);
+	};
+
 	function refreshCircuit() {
 		setCircuit([...circuit]);
 	}
 
 	useEffect(() => {
-		console.log("recreate circuit!");
 		setCircuit((prevState) => {
 			let newCircuit = new Array(wireCount)
 				.fill(null)
@@ -97,16 +107,6 @@ export default function QuCircuit(props) {
 		);
 	}, [wireCount]);
 
-	// TODO Remove this debug piece of code.
-	useEffect(() => {
-		console.log(`Circuit now ==> ${JSON.stringify(circuit)}`);
-	}, [circuit]);
-
-	// TODO Remove this debug piece of code.
-	useEffect(() => {
-		console.log(`Circuit Inputs now ==> ${JSON.stringify(circuitInputs)}`);
-	}, [circuitInputs]);
-
 	useEffect(() => {
 		function onMouseDown(event) {
 			if (circuitRef.current && !circuitRef.current.contains(event.target)) {
@@ -126,9 +126,6 @@ export default function QuCircuit(props) {
 	listeners.onGateChanged = (cellLife, gate) => {
 		let wireIndex = cellLife.wireIndex;
 		let cellIndex = cellLife.cellIndex;
-		console.log(
-			`Changing gate from ${JSON.stringify(cellLife.cellData)} to ${gate}`
-		);
 		cellLife.removeMultigates();
 		cellLife.removeAllConnections();
 
@@ -220,12 +217,6 @@ export default function QuCircuit(props) {
 			.concat([otherCell.wireIndex])
 			.sort();
 
-		console.log(
-			"multigates",
-			cellLife.multigates,
-			otherCell.multigates,
-			finalMultigates
-		);
 		cellLife
 			.getMultigateCells()
 			.forEach((cell) => (cell.cellData.multigates = finalMultigates));
@@ -279,12 +270,8 @@ export default function QuCircuit(props) {
 
 	function onEvaluateButtonClicked(event) {
 		let translatedCircuit = translateToSimulator(circuit, circuitInputs);
-
-		console.log("Got translation", JSON.stringify(translatedCircuit));
-
 		solveQuantumCircuit(translatedCircuit).then((res) => {
 			setResults(res);
-			console.log(JSON.stringify(res.filter((r) => r.probability > 0)));
 		});
 	}
 
@@ -304,15 +291,7 @@ export default function QuCircuit(props) {
 		input.onchange = (evt) => {
 			const reader = new FileReader();
 			reader.onloadend = (evt) => {
-				let rawCircuit = JSON.parse(evt.target.result);
-				console.log(rawCircuit);
-				let [translatedCircuit, inputs] = translateToQuCircuit(
-					rawCircuit,
-					cellCount
-				);
-				setWireCount(inputs.length);
-				setCircuit(translatedCircuit);
-				setCircuitInputs(inputs);
+				loadCircuit(JSON.parse(evt.target.result));
 			};
 			reader.readAsText(evt.target.files[0]);
 		};
@@ -368,11 +347,14 @@ export default function QuCircuit(props) {
 		return (
 			<Box>
 				<Box m={1}>
-					<Button color="primary" variant="contained">
+					<Button
+						color="primary"
+						variant="contained"
+						onClick={() => setModalState({ open: true, type: "loadCircuit" })}
+					>
 						Load Circuit
 					</Button>
 				</Box>
-
 				<Box m={1}>
 					<Button
 						color="primary"
@@ -418,6 +400,33 @@ export default function QuCircuit(props) {
 		}
 	};
 
+	const onCircuitLoadSelect = async (circuit, action) => {
+		setModalState({ open: false });
+		try {
+			if (action === "SELECT") {
+				loadCircuit(circuit.circuitData);
+			} else if (action === "DELETE") {
+				await api.user.circuit.delete(
+					authState.user.idToken,
+					authState.user.uid,
+					circuit.circuitId
+				);
+				return setToastState({
+					open: true,
+					severity: "success",
+					message: "Circuit successfully deleted.",
+				});
+			}
+		} catch (error) {
+			const { errorCode } = error.response.data;
+			return setToastState({
+				open: true,
+				severity: "error",
+				message: `An unknown error occurred will trying to save the users circuit. (${errorCode})`,
+			});
+		}
+	};
+
 	const buildModal = () => {
 		if (modalState.type === "saveCircuit") {
 			return (
@@ -429,7 +438,27 @@ export default function QuCircuit(props) {
 					onSubmit={onSaveCircuitSubmit}
 				/>
 			);
+		} else if (modalState.type === "loadCircuit") {
+			return (
+				<LoadCircuitModal
+					open={modalState.open}
+					onClose={() => {
+						setModalState({ open: false });
+					}}
+					onItemSelect={onCircuitLoadSelect}
+				/>
+			);
 		}
+	};
+
+	const buildToast = () => {
+		return (
+			<Toast
+				severity={toastState.severity}
+				message={toastState.message}
+				onClose={() => setToastState({ open: false })}
+			/>
+		);
 	};
 
 	return (
@@ -441,7 +470,6 @@ export default function QuCircuit(props) {
 			<CircuitBox flexGrow={1} flexShrink={6}>
 				<div ref={circuitRef}>{wires(wireCount, cellCount)}</div>
 			</CircuitBox>
-
 			<ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
 				<PlatformBox m={1} display="flex">
 					<Box>
@@ -459,11 +487,9 @@ export default function QuCircuit(props) {
 					</Box>
 					{authState.authenticated && buildAuthenticatedOptions()}
 				</PlatformBox>
-
 				<PlatformBox m={1}>
 					<GatesToolbox />
 				</PlatformBox>
-
 				<PlatformBox m={1}>
 					<Box m={1}>
 						<Button
@@ -496,7 +522,6 @@ export default function QuCircuit(props) {
 							/>
 						</SmallBox>
 					</Box>
-
 					<Box m={1}>
 						<Button
 							color="primary"
@@ -511,13 +536,7 @@ export default function QuCircuit(props) {
 			</ToolBox>
 			{/* Utility components that are displayed when needed */}
 			{modalState.open && buildModal()}
-			{toastState.open && (
-				<Toast
-					severity={toastState.severity}
-					message={toastState.message}
-					onClose={() => setToastState({ open: false })}
-				/>
-			)}
+			{toastState.open && buildToast()}
 		</StretchBox>
 	);
 }
