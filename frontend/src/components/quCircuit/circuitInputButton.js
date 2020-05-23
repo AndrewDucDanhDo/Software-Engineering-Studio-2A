@@ -11,11 +11,14 @@ let useStyles = makeStyles((theme) => ({
 }));
 
 export default function CircuitInputButton(props) {
+    const { layout, ...rest } = props;
+    const wireIndex = props.wireindex;
+    const circuitInputs = props.circuitinputs;
     const classes = useStyles();
 
     return (
-        <Button className={clsx(classes.button, props.className)} {...props}>
-            |{props.circuitInputs[props.wireIndex]}⟩
+        <Button className={clsx(classes.button, props.className)} {...rest}>
+            |{circuitInputs[wireIndex]}⟩
         </Button>
     )
 }

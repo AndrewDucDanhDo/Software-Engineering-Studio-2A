@@ -5,6 +5,7 @@ import ConnectionPanel from "./connectionPanel";
 import ConnectionLine from "./connectionLine";
 import SimpleLine from "./simpleLine";
 import useTheme from "@material-ui/core/styles/useTheme";
+import { VToPixels } from "../../helpers/domUnits";
 
 const useStyles = makeStyles((theme) => ({
     cellContainer: {
@@ -97,8 +98,6 @@ export default function Cell(props) {
                     )}
             </div>
         );
-
-        return null;
     }
 
     return (
@@ -106,7 +105,7 @@ export default function Cell(props) {
         <div className={classes.cellContainer}>
             <div className={classes.cell} onDragOver={onDraggedOver} onDrop={onDrop} onClick={onClick} onDragStart={onDragStart}>
                 <div className={classes.wire}>
-                    <SimpleLine direction="horizontal" size={theme.circuitCellSize(1)}/>
+                    <SimpleLine direction="horizontal" size={VToPixels(theme.circuitCellSize(1))}/>
                 </div>
 
                 {cellLife.gate ? (

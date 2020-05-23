@@ -32,7 +32,7 @@ quantum.expandMatrix = (nqubits, U, qubits) => {
   }
   qubits.reverse();
   for (let i = 0; i < nqubits; i++) {
-    if (qubits.indexOf(i) == -1) {
+    if (qubits.indexOf(i) === -1) {
       _qubits.push(i);
     }
   }
@@ -45,7 +45,7 @@ quantum.expandMatrix = (nqubits, U, qubits) => {
       let bitsEqual = true;
       let k = _qubits.length;
       while (k--) {
-        if ((i & (1 << _qubits[k])) != (j & (1 << _qubits[k]))) {
+        if ((i & (1 << _qubits[k])) !== (j & (1 << _qubits[k]))) {
           bitsEqual = false;
           break;
         }

@@ -87,12 +87,12 @@ export default function LabeledGate(props) {
                     <g>
                         {cellLife.isTopMultigate ? (
                             // <rect onMouseDown={() => cellLife.growMultigateUp()}
-                            <ResizeRect onMouseResize={onResizeTop} lockDirection="vertical"
+                            <ResizeRect onResize={onResizeTop} lockdirection="vertical"
                                         y={0} width={size} height={quarterSize} className={classes.upResizeRect}/>
                         ) : null}
                         {cellLife.isBottomMultigate ? (
                             // <rect onMouseDown={() => cellLife.growMultigateDown()}
-                            <ResizeRect onMouseResize={onResizeBottom} lockDirection="vertical"
+                            <ResizeRect onResize={onResizeBottom} lockdirection="vertical"
                                         y={size - quarterSize} width={size} height={quarterSize} className={classes.downResizeRect}/>
                         ) : null}
                     </g>

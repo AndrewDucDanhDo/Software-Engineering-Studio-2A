@@ -26,7 +26,7 @@ export default class Gate {
   }
 
   touching(time, qubit) {
-    if (time != this.time) {
+    if (time !== this.time) {
       return false;
     }
     return this.range[0] <= qubit && qubit <= this.range[1];

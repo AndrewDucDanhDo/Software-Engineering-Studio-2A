@@ -223,7 +223,8 @@ export default function QuCircuit(props) {
 
             wires[wireIndex] = (
                 <Box display="flex" key={wireIndex}>
-                    <CircuitInputButton circuitInputs={circuitInputs} wireIndex={wireIndex} onClick={onInputButtonClicked}/>
+                    {/*Use lowercase prop names here because for some reason react doesn't like it and throws warnings */}
+                    <CircuitInputButton circuitinputs={circuitInputs} wireindex={wireIndex} onClick={onInputButtonClicked}/>
                     {cells(cellAmount, wireIndex)}
                 </Box>
             );
@@ -342,7 +343,7 @@ export default function QuCircuit(props) {
                 <PlatformBox m={1}>
                     <ResultBox>
                         {results.filter(r => r.probability > 0).map((e, i) => (
-                            <Box m={1} key={i}>
+                            <Box m={1} key={i + e.amplitude + e.state + e.probability}>
                                 <Typography>
                                     {e.amplitude}|{e.state}⟩ {e.probability}%
                                 </Typography>
