@@ -38,7 +38,7 @@ export default function LoadCircuitModal(props) {
 		if (circuitsState.circuits === undefined) {
 			fetchUserCircuits();
 		}
-	}, []);
+	});
 
 	const handleClose = () => {
 		onClose();

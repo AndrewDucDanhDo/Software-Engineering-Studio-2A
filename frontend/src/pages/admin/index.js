@@ -1,15 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
 	Box,
-	Button,
-	Container,
 	Paper,
 	Table,
 	TableBody,
 	TableCell,
 	TableRow,
 	TableHead,
-	Typography,
 	CircularProgress,
 } from "@material-ui/core";
 import api from "../../helpers/api";
@@ -27,7 +24,7 @@ export default class AdminPage extends React.Component {
 	}
 
 	async componentDidMount() {
-		const { idToken, uid } = this.context.authState.user;
+		const { idToken } = this.context.authState.user;
 		const allUsersData = (await api.admin.users.getAll(idToken)).data.data.users;
 		this.setState({ allUsersData });
 	}
@@ -43,7 +40,7 @@ export default class AdminPage extends React.Component {
 	}
 
 	userRow(data) {
-		if (data.customClaims == undefined) data.customClaims = {};
+		if (data.customClaims === undefined) data.customClaims = {};
 		data.customClaims = {
 			teacher: data.customClaims.teacher || false,
 			superuser: data.customClaims.superuser || false
@@ -69,8 +66,9 @@ export default class AdminPage extends React.Component {
 				</TableCell>
 				<TableCell>
 					<button name="delete" onClick={(e) => {
-						this.state.allUsersData = this.state.allUsersData.filter(user => user.uid !== data.uid);
-						this.setState(this.state);
+						// this.state.allUsersData =
+						// this.setState(this.state);
+						this.setState({...this.state, allUsersData: this.state.allUsersData.filter(user => user.uid !== data.uid)});
 
 						this.handleUserDelete(e, data.uid);
 					}}>DELETE</button>

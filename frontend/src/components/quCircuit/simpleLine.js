@@ -34,6 +34,8 @@ export default function SimpleLine(props) {
             x2 = "100%";
             x1 = 0;
             break;
+        default:
+            break;
     }
 
     return (

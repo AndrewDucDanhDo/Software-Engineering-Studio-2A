@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { Box, Modal } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { fashion } from "../../helpers/fashion";
 import StretchBox from "../common/stretchBox";
 import Cell from "./cell";
@@ -55,9 +55,9 @@ export const MinWires = 2;
 export const AllowedCircuitInputs = ["0", "1"];
 
 export default function QuCircuit(props) {
-	const { authState, setAuthState } = useContext(AuthContext);
+	const { authState } = useContext(AuthContext);
 	const [wireCount, setWireCount] = useState(MinWires);
-	const [cellCount, setCellCount] = useState(25);
+	const [cellCount] = useState(25);
 	const [circuit, setCircuit] = useState([]);
 	const [selectedCell, setSelectedCell] = useState(null);
 	const [circuitInputs, setCircuitInputs] = useState(
@@ -348,18 +348,18 @@ export default function QuCircuit(props) {
 					<Button
 						color="primary"
 						variant="contained"
-						onClick={() => setModalState({ open: true, type: "loadCircuit" })}
+						onClick={() => setModalState({ open: true, type: "saveCircuit" })}
 					>
-						Load Circuit
+						Save Circuit
 					</Button>
 				</Box>
 				<Box m={1}>
 					<Button
 						color="primary"
 						variant="contained"
-						onClick={() => setModalState({ open: true, type: "saveCircuit" })}
+						onClick={() => setModalState({ open: true, type: "loadCircuit" })}
 					>
-						Save Circuit
+						Load Circuit
 					</Button>
 				</Box>
 			</Box>
@@ -382,7 +382,7 @@ export default function QuCircuit(props) {
 			});
 		} catch (error) {
 			const { errorCode } = error.response.data;
-			if (errorCode == "circuit-exists") {
+			if (errorCode === "circuit-exists") {
 				return setToastState({
 					open: true,
 					severity: "error",

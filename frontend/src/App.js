@@ -90,7 +90,8 @@ function App() {
 					<Navigation />
 					<div>
 						<AppRouter />
-						<Footer />
+						{/* TODO: Fix this so it actually goes to the bottom of the page */}
+						{/* <Footer /> */}
 					</div>
 				</BrowserRouter>
 			</AppProvider>

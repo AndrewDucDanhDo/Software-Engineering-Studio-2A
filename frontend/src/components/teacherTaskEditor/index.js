@@ -2,11 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
 	Box,
-	TextField,
 	Button,
 	Grid,
 	Paper,
-	Typography,
 	Card,
 } from "@material-ui/core";
 import ExpectedOutputBox from "../teacherTaskViewer/expectedOutputBox";
