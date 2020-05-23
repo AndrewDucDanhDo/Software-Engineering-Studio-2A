@@ -25,10 +25,10 @@ export default class Demo extends React.PureComponent {
 
         this.state = {
             data: [                             // Need to update this to become automated 
-                { state: '|00\u3009', probability: 0.0 },
+                /*{ state: '|00\u3009', probability: 0.0 },
                 { state: '|01\u3009', probability: 0.0 },
                 { state: '|10\u3009', probability: 0.0 },
-                { state: '|11\u3009', probability: 0.0 },
+                { state: '|11\u3009', probability: 0.0 },*/
             ]
         };
 
@@ -43,12 +43,26 @@ export default class Demo extends React.PureComponent {
     }
 
     calculateNoOfProbs() {
+        var tempString;
+        var tempArray = [];
+        var binary = ["0", "1"];
+        if (document.getElementById('amplitudes').rows[0] != null) {
+            var length = document.getElementById('amplitudes').rows[0].cells[1].innerText.length - 2;
+            var numberOfPerm = Math.pow(length, 2);
+            for (var j = 0; j < 2; j++) {
+                for (var k = 0; k < 2; k++) {
+                    tempString = '|' + binary[j] + binary[k] + '\u3009';
 
+                    console.log(tempString);
+                }
+            }
+        }
     }
 
     handleKeyPress = (event) => { // Now have to listen for when #evaluate is called
         var temp = [];
         setTimeout(function () {
+            this.calculateNoOfProbs();
             console.log(document.getElementById('amplitudes').rows[0]);
             if (document.getElementById('amplitudes').rows[0] != null && event.key === 'Enter') {
                 for (var i = 0; i < document.getElementById('amplitudes').rows.length; i++) {
