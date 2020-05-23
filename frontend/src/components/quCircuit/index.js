@@ -20,7 +20,7 @@ import { AuthContext } from "../../context/auth";
 import SaveCircuitModal from "./modals/saveCircuit";
 import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
-import Toast from "./toast";
+import Toast from "../Toast/toast";
 
 const CircuitBox = fashion(Box, (theme) => ({
 	marginTop: theme.spacing(1),

@@ -103,7 +103,7 @@ const buildTeacherNav = (classes, signOutFunc) => {
 						variant="h5"
 						className={classes.title}
 						component={Link}
-						to="/teacherTaskEditor"
+						to="/"
 					>
 						Quantum Circuit Simulator Group 2 - Teacher
 					</Typography>
@@ -120,7 +120,7 @@ const buildTeacherNav = (classes, signOutFunc) => {
 					className={classes.signup}
 					color="inherit"
 					component={Link}
-					to="/teacherTasks"
+					to="/admin/tasks"
 				>
 					Tasks List
 				</Button>

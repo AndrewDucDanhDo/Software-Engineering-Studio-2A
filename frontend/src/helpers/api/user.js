@@ -9,7 +9,7 @@ export const getUser = async (idToken, userId) => {
 };
 
 export const getAllUsers = async (idToken) => {
-	const res = await axios.get(`http://${API_HOST}/admin/user/`, {
+	const res = await axios.get(`http://${API_HOST}/admin/user`, {
 		headers: { Authorization: `Bearer ${idToken}` },
 	});
 	return res;

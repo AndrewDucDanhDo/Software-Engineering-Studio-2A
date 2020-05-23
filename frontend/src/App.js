@@ -13,9 +13,9 @@ import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
 import ProfilePage from "./pages/profile";
 import appTheme from "./helpers/appTheme";
-import TeacherTaskEditorPage from "./pages/teacherTaskEditor";
-import TeacherTasksPage from "./pages/teacherTasks";
-import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
+import TaskEditorPage from "./pages/teacher/TaskEditor";
+import TasksPage from "./pages/teacher/Tasks";
+import TaskViewerPage from "./pages/teacher/TaskViewer";
 import AdminPage from "./pages/admin";
 
 // Context
@@ -37,20 +37,21 @@ function AppRouter(props) {
 	return (
 		<Switch>
 			<PrivateRoute
-				path="/teacherTasks"
-				component={TeacherTasksPage}
+				path="/admin/tasks"
+				component={TasksPage}
 				adminRoute={true}
 			/>
 
 			<PrivateRoute
-				path="/teacherTaskViewer"
-				component={TeacherTaskViewerPage}
+				path="/admin/task/:taskId"
+				component={TaskViewerPage}
 				adminRoute={true}
 			/>
 
+			{/* TODO: This might not be needed */}
 			<PrivateRoute
 				path="/teacherTaskEditor"
-				component={TeacherTaskEditorPage}
+				component={TaskEditorPage}
 				adminRoute={true}
 			/>
 			<PrivateRoute

@@ -51,7 +51,6 @@ export const createUser = async (req, res) => {
             )
           );
       case "auth/invalid-password":
-
         return res
           .status(400)
           .json(

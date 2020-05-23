@@ -85,7 +85,7 @@ export default class TeacherTaskEditor extends React.Component {
 							<Box my={2} textAlign="center">
 								<Button
 									component={Link}
-									to="/teacherTaskViewer"
+									to="/admin/tasks/:taskId"
 									variant="contained"
 									style={{ fontSize: "10px" }}
 									size="small"
