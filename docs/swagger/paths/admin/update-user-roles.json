@@ -1,0 +1,41 @@
+{
+    "post": {
+        "tags": [
+            "user",
+            "admin"
+        ],
+        "summary": "Update user roles.",
+        "parameters": [
+            {
+                "$ref": "../../common/parameters/userId.json#"
+            },
+            {
+                "in": "body",
+                "name": "body",
+                "description": "task details to be updated.",
+                "required": true,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "teacher": {
+                            "type": "bool",
+                            "example": true
+                        },
+                        "superuser": {
+                            "type": "bool",
+                            "example": false
+                        }
+                    }
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "User roles updated successfully",
+                "schema": {
+                    "$ref": "../../common/schemas/apiResponse.json#"
+                }
+            }
+        }
+    }
+}
