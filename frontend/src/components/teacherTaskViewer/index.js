@@ -19,7 +19,7 @@ import {
 	withStyles,
 } from "@material-ui/core";
 import ExpectedOutputBox from "./expectedOutputBox";
-import QuantumSimulator from "../quantum";
+import QuCircuit from "../quCircuit";
 
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -308,7 +308,7 @@ export class TeacherTaskViewer extends React.Component {
 				</Grid>
 
 				<Grid xs={10} item>
-					<QuantumSimulator />
+                    <QuCircuit/>
 				</Grid>
 			</Grid>
 		);
