@@ -73,7 +73,7 @@ const TeacherTasks = () => {
 				{/* TODO: Create a new task then redirect to teacherTaskEditor when button is clicked. */}
 				<Button
 					component={Link}
-					to="/teacherTaskEditor"
+					to="/admin/task/new-task"
 					variant="contained"
 					color="primary"
 				>

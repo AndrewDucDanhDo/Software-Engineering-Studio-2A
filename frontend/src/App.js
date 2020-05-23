@@ -17,6 +17,7 @@ import TaskEditorPage from "./pages/teacher/TaskEditor";
 import TasksPage from "./pages/teacher/Tasks";
 import TaskViewerPage from "./pages/teacher/TaskViewer";
 import AdminPage from "./pages/admin";
+import CreateNewTaskPage from "./pages/teacher/CreateTask";
 
 // Context
 import { AuthProvider } from "./context/auth";
@@ -43,17 +44,24 @@ function AppRouter(props) {
 			/>
 
 			<PrivateRoute
+				path="/admin/task/new-task"
+				component={CreateNewTaskPage}
+				adminRoute={true}
+			/>
+
+			<PrivateRoute
 				path="/admin/task/:taskId"
 				component={TaskViewerPage}
 				adminRoute={true}
 			/>
 
 			{/* TODO: This might not be needed */}
-			<PrivateRoute
+			{/* <PrivateRoute
 				path="/teacherTaskEditor"
 				component={TaskEditorPage}
 				adminRoute={true}
-			/>
+			/> */}
+
 			<PrivateRoute
 				path="/profile"
 				adminRoute={false}

@@ -32,7 +32,7 @@ import AddOwnerModal from "./modal/addUser";
 import api from "../../helpers/api";
 import { AuthContext } from "../../context/auth";
 import Toast from "../Toast/toast";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
 const styles = {
 	palette: {
@@ -58,7 +58,7 @@ const arrayToObject = (array, key) =>
 	}, {});
 
 const TeacherTaskViewer = (props) => {
-	const { taskData, usersData } = props;
+	const { taskData, usersData, newTask } = props;
 	const { authState } = React.useContext(AuthContext);
 	const history = useHistory();
 
@@ -91,9 +91,8 @@ const TeacherTaskViewer = (props) => {
 	const [modalState, setModalState] = React.useState({ open: false });
 	const [toastState, setToastState] = React.useState({ open: false });
 
-	const handleTaskUpdate = async () => {
+	const handleTaskSave = async () => {
 		const requestData = {
-			taskId: taskData.taskId,
 			name: taskState.name,
 			summary: taskData.summary,
 			description: taskState.description,
@@ -103,16 +102,25 @@ const TeacherTaskViewer = (props) => {
 		};
 
 		try {
-			await api.admin.tasks.update(
-				authState.user.idToken,
-				taskData.taskId,
-				requestData
-			);
-			return setToastState({
-				open: true,
-				severity: "success",
-				message: "Task successfully updated.",
-			});
+			if (newTask) {
+				await api.admin.tasks.create(authState.user.idToken, requestData);
+				return setToastState({
+					open: true,
+					severity: "success",
+					message: "Task successfully created.",
+				});
+			} else {
+				await api.admin.tasks.update(
+					authState.user.idToken,
+					taskData.taskId,
+					requestData
+				);
+				return setToastState({
+					open: true,
+					severity: "success",
+					message: "Task successfully updated.",
+				});
+			}
 		} catch (error) {
 			return setToastState({
 				open: true,
@@ -125,17 +133,14 @@ const TeacherTaskViewer = (props) => {
 	const handleTaskDelete = async () => {
 		try {
 			console.log(authState.user.uid);
-			
-			await api.admin.tasks.delete(
-				authState.user.idToken,
-				taskData.taskId
-			);
+
+			await api.admin.tasks.delete(authState.user.idToken, taskData.taskId);
 			setToastState({
 				open: true,
 				severity: "success",
 				message: "Task successfully deleted",
 			});
-			return history.push(`/admin/tasks`)
+			return history.push(`/admin/tasks`);
 		} catch (error) {
 			return setToastState({
 				open: true,
@@ -164,7 +169,7 @@ const TeacherTaskViewer = (props) => {
 					<Box mt={2} textAlign="center">
 						<Box mr={1} display="inline">
 							<Button
-								onClick={handleTaskUpdate}
+								onClick={handleTaskSave}
 								variant="contained"
 								color="primary"
 								style={{ fontSize: "10px" }}
@@ -176,16 +181,18 @@ const TeacherTaskViewer = (props) => {
 						</Box>
 
 						<Box ml={0} display="inline">
-							<Button
-								variant="contained"
-								color="secondary"
-								style={{ fontSize: "10px" }}
-								size="small"
-								startIcon={<DeleteIcon />}
-								onClick={handleTaskDelete}
-							>
-								Delete
-							</Button>
+							{!newTask && (
+								<Button
+									variant="contained"
+									color="secondary"
+									style={{ fontSize: "10px" }}
+									size="small"
+									startIcon={<DeleteIcon />}
+									onClick={handleTaskDelete}
+								>
+									Delete
+								</Button>
+							)}
 						</Box>
 					</Box>
 				</Grid>
