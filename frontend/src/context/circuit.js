@@ -87,11 +87,8 @@ export class CircuitStructure {
 export class CircuitSetter {
 
     constructor(options = {}) {
-        this._circuitStructureSetter = options.circuitStructureSetter || (function() {});
-        this._circuitResultsSetter = options.circuitResultsSetter || (function() {});
-        // Note: you're not suppose to touch the values below unless you are in this class. Use another useContext instead.
-        this._circuitStructure = options.circuitStructure;
-        this._circuitResults = options.circuitResults;
+        this._circuitStructureSetter = options.setCircuitStructure || (function() {});
+        this._circuitResultsSetter = options.setCircuitResults || (function() {});
     }
 
     /**
@@ -131,9 +128,10 @@ export class CircuitSetter {
 
     /**
      * Calculate the results from the circuit and set {@link CircuitResultsContext}.
+     * @param {CircuitStructure} circuitStructure The current circuit structure fetched from {@link CircuitStructureContext}
      */
-    updateResultsFromCircuit() {
-        let results = this._circuitStructure.calculateResults();
+    setResultsFromCircuitStructure(circuitStructure) {
+        let results = circuitStructure.calculateResults();
         this._circuitResultsSetter(results);
     }
 }
