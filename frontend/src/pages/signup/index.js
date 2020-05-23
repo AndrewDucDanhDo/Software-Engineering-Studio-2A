@@ -156,6 +156,7 @@ export class SignUpPage extends React.Component {
 									name="password"
 									required
 									fullWidth
+									type="password"
 									onChange={this.handleFormChange}
 								/>
 							</Grid>
