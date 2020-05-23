@@ -1,14 +1,11 @@
 import React from "react";
 import "./styles/App.css";
-import { ThemeProvider } from "@material-ui/core/styles"
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Components
 import Navigation from "./components/navigation";
 import Footer from "./components/footer";
-import StudentNavigation from "./components/studentnav";
-import TeacherNavigation from "./components/teachernav";
-
 
 // Pages
 import SignupPage from "./pages/signup";
@@ -20,52 +17,61 @@ import TeacherTaskEditorPage from "./pages/teacherTaskEditor";
 import TeacherTasksPage from "./pages/teacherTasks";
 import TeacherTaskViewerPage from "./pages/teacherTaskViewer";
 
+// Context
+import { AuthProvider } from "./context/auth";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
 	return (
-		<div className="App">
-    <ThemeProvider theme={appTheme}>
-			<BrowserRouter>
-				<div>
-					<Switch>
-						<Route path="/signup">
-							<Navigation />
-							<SignupPage />
-						</Route>
-						<Route path="/login">
-							<Navigation />
-							<LoginPage />
-						</Route>
-						<Route path="/teacherTasks">
-							<TeacherNavigation />
-							<TeacherTasksPage />
-						</Route>
-						<Route path="/teacherTaskViewer">
-							<TeacherNavigation />
-							<TeacherTaskViewerPage />
-						</Route>
-						<Route path="/teacherTaskEditor">
-							<TeacherNavigation />
-							<TeacherTaskEditorPage/>
-						</Route>
-						<Route path="/profile">
-							<StudentNavigation />
-							<ProfilePage />
-						</Route>
-						<Route path="/homepage">
-							<StudentNavigation />
-							<HomePage />
-						</Route>
-                		<Route path="/">
-							<Navigation />
-							<LoginPage />
-						</Route>
-					</Switch>
-					<Footer />
-				</div>
-			</BrowserRouter>
-    </ThemeProvider>
-		</div>
+		<AuthProvider>
+			<div className="App">
+				<ThemeProvider theme={appTheme}>
+					<BrowserRouter>
+						<Navigation />
+						<div>
+							<Switch>
+								<PrivateRoute
+									path="/teacherTasks"
+									component={TeacherTasksPage}
+									adminRoute={true}
+								/>
+
+								<PrivateRoute
+									path="/teacherTaskViewer"
+									component={TeacherTaskViewerPage}
+									adminRoute={true}
+								/>
+
+								<PrivateRoute
+									path="/teacherTaskEditor"
+									component={TeacherTaskEditorPage}
+									adminRoute={true}
+								/>
+
+								<PrivateRoute
+									path="/profile"
+									adminRoute={false}
+									component={ProfilePage}
+								/>
+
+								<Route path="/signup">
+									<SignupPage />
+								</Route>
+
+								<Route path="/login">
+									<LoginPage />
+								</Route>
+
+								<Route path="/">
+									<HomePage />
+								</Route>
+							</Switch>
+							<Footer />
+						</div>
+					</BrowserRouter>
+				</ThemeProvider>
+			</div>
+		</AuthProvider>
 	);
 }
 

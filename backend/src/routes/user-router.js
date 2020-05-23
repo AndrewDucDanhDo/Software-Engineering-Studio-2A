@@ -3,8 +3,7 @@ import {
   createUser,
   getUser,
   updateUser,
-  deleteUser,
-  makeUserTeacher
+  deleteUser
 } from "../controllers/user";
 import {
   saveUserCircuit,
@@ -46,8 +45,5 @@ userRouter.delete(
   checkUser,
   deleteUserCircuit
 );
-
-// TODO Move to a different router when we know where it'll fit in the spec
-userRouter.post("/:userId/promote", makeUserTeacher);
 
 export default userRouter;
