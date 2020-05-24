@@ -21,6 +21,7 @@ import {
 import ExpectedOutputBox from "./expectedOutputBox";
 import QuantumSimulator from "../quantum";
 import axios from 'axios';
+import api from "../../helpers/api";
 
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -141,6 +142,13 @@ export class TeacherTaskViewer extends React.Component {
 				</Grid>
 			</Card>
 		);
+    }
+    
+    async componentDidMount() {
+		const { idToken, taskid } = this.context.authState.user;
+		const userData = (await api.user.get(idToken, uid)).data.data;
+        this.setState({ userData });
+        console.log('Data fetched');
 	}
 
 	render() {
