@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import { translateToSimulator } from "../helpers/quantumSimulator/quantumTranslator";
 
 // TODO Implement proper functionality.
 /**
@@ -15,60 +16,64 @@ import React, { createContext, useState } from "react";
  * // Remember to handle errors from res here!
  */
 export class CircuitStructure {
+	constructor(circuit, inputs, wireCount) {
+		this._internalStructure = circuit || {};
+		this._inputs = inputs || [];
+		this._wireCount = wireCount || 1;
+	}
 
-    constructor(circuit, inputs, wireCount) {
-        this._internalStructure = circuit || {};
-        this._inputs = inputs || [];
-        this._wireCount = wireCount || 1;
-    }
+	/**
+	 * @returns {*[]} The results you would get from the circuit.
+	 */
+	calculateResults() {
+		return [];
+	}
 
-    /**
-     * @returns {*[]} The results you would get from the circuit.
-     */
-    calculateResults() {
-        return [];
-    }
+	/**
+	 * @returns {*[]} The qubit inputs that the user has inserted.
+	 */
+	get inputs() {
+		return this._inputs;
+	}
 
-    /**
-     * @returns {*[]} The qubit inputs that the user has inserted.
-     */
-    get inputs() {
-        return this._inputs;
-    }
+	/**
+	 * @returns {boolean} true if the circuit contains no placed gates.
+	 */
+	get isEmpty() {
+		return false;
+	}
 
-    /**
-     * @returns {boolean} true if the circuit contains no placed gates.
-     */
-    get isEmpty() {
-        return false;
-    }
+	/**
+	 * @returns {number}
+	 */
+	get wireCount() {
+		return this._wireCount;
+	}
 
-    /**
-     * @returns {number}
-     */
-    get wireCount() {
-        return this._wireCount;
-    }
+	/**
+	 * @returns {Object} A structure of the circuit that is safe to be stored in file or sent to the backend.
+	 */
+	getStoredCircuit() {
+		if (this._internalStructure.length > 0) {
+			return {
+				...translateToSimulator(this._internalStructure, this._inputs),
+				input: this._inputs,
+				version: 1,
+			};
+		} else {
+			return {
+				gates: [],
+				circuit: [],
+				input: this._inputs,
+				version: 1,
+			};
+		}
+	}
 
-    /**
-     * @returns {Object} A structure of the circuit that is safe to be stored in file or sent to the backend.
-     */
-    getStoredCircuit() {
-        return {
-            gates: [],
-            circuit: [],
-            qubits: [],
-            input: this._inputs,
-            version: 1
-        };
-    }
-
-    /**
-     * Automatically run a user download of the current circuit from the browser.
-     */
-    userDownloadCircuit() {
-
-    }
+	/**
+	 * Automatically run a user download of the current circuit from the browser.
+	 */
+	userDownloadCircuit() {}
 }
 
 /**
@@ -85,55 +90,54 @@ export class CircuitStructure {
  * circuitSetter.loadStoredCircuit(res.data);
  */
 export class CircuitSetter {
+	constructor(options = {}) {
+		this._structureSetter = options.setCircuitStructure || function () {};
+		this._resultsSetter = options.setCircuitResults || function () {};
+	}
 
-    constructor(options = {}) {
-        this._structureSetter = options.setCircuitStructure || (function() {});
-        this._resultsSetter = options.setCircuitResults || (function() {});
-    }
+	/**
+	 * @param {function(prevState: CircuitStructure): CircuitStructure | CircuitStructure} value
+	 */
+	setStructure(value) {
+		this._structureSetter(value);
+	}
 
-    /**
-     * @param {function(prevState: CircuitStructure): CircuitStructure | CircuitStructure} value
-     */
-    setStructure(value) {
-        this._structureSetter(value);
-    }
+	/**
+	 * @param {function(prevState: *[]): *[] | *[]} value
+	 */
+	setResults(value) {
+		this._resultsSetter(value);
+	}
 
-    /**
-     * @param {function(prevState: *[]): *[] | *[]} value
-     */
-    setResults(value) {
-        this._resultsSetter(value);
-    }
+	/**
+	 * @param {Number} wireCount
+	 */
+	setWires(wireCount) {
+		// TODO do something and call this.setCircuitStructure
+	}
 
-    /**
-     * @param {Number} wireCount
-     */
-    setWires(wireCount) {
-        // TODO do something and call this.setCircuitStructure
-    }
+	/**
+	 * @param {Object} circuitData Load the circuit based on the stored format, one that is used in the backend
+	 */
+	loadStoredCircuit(circuitData) {
+		// TODO do something and call this.setCircuitStructure
+	}
 
-    /**
-     * @param {Object} circuitData Load the circuit based on the stored format, one that is used in the backend
-     */
-    loadStoredCircuit(circuitData) {
-        // TODO do something and call this.setCircuitStructure
-    }
+	/**
+	 * Automatically ask the user to upload a new circuit from the browser.
+	 */
+	userUploadCircuit() {
+		// TODO do something and call this.setCircuitStructure
+	}
 
-    /**
-     * Automatically ask the user to upload a new circuit from the browser.
-     */
-    userUploadCircuit() {
-        // TODO do something and call this.setCircuitStructure
-    }
-
-    /**
-     * Calculate the results from the circuit and set {@link CircuitResultsContext}.
-     * @param {CircuitStructure} circuitStructure The current circuit structure fetched from {@link CircuitStructureContext}
-     */
-    setResultsFromStructure(circuitStructure) {
-        let results = circuitStructure.calculateResults();
-        this.setResults(results);
-    }
+	/**
+	 * Calculate the results from the circuit and set {@link CircuitResultsContext}.
+	 * @param {CircuitStructure} circuitStructure The current circuit structure fetched from {@link CircuitStructureContext}
+	 */
+	setResultsFromStructure(circuitStructure) {
+		let results = circuitStructure.calculateResults();
+		this.setResults(results);
+	}
 }
 
 /**
@@ -166,20 +170,26 @@ export const CircuitStructureContext = createContext(new CircuitStructure());
 export const CircuitResultsContext = createContext([]);
 
 export function CircuitProvider(props) {
-    const [circuitStructure, setCircuitStructure] = useState(new CircuitStructure());
-    const [circuitResults, setCircuitResults] = useState([]);
-    const [circuitSetter] = useState(new CircuitSetter({
-        circuitStructure, setCircuitStructure,
-        circuitResults, setCircuitResults
-    }));
+	const [circuitStructure, setCircuitStructure] = useState(
+		new CircuitStructure()
+	);
+	const [circuitResults, setCircuitResults] = useState([]);
+	const [circuitSetter] = useState(
+		new CircuitSetter({
+			circuitStructure,
+			setCircuitStructure,
+			circuitResults,
+			setCircuitResults,
+		})
+	);
 
-    return (
-        <CircuitSetterContext.Provider value={circuitSetter}>
-            <CircuitStructureContext.Provider value={circuitStructure}>
-                <CircuitResultsContext.Provider value={circuitResults}>
-                    {props.children}
-                </CircuitResultsContext.Provider>
-            </CircuitStructureContext.Provider>
-        </CircuitSetterContext.Provider>
-    )
+	return (
+		<CircuitSetterContext.Provider value={circuitSetter}>
+			<CircuitStructureContext.Provider value={circuitStructure}>
+				<CircuitResultsContext.Provider value={circuitResults}>
+					{props.children}
+				</CircuitResultsContext.Provider>
+			</CircuitStructureContext.Provider>
+		</CircuitSetterContext.Provider>
+	);
 }

@@ -6,11 +6,6 @@ import {
 	Card,
 	Grid,
 	Paper,
-	Table,
-	TableHead,
-	TableBody,
-	TableCell,
-	TableRow,
 	Typography,
 	TextField,
 	ExpansionPanel,
@@ -22,8 +17,8 @@ import {
 	ListItemText,
 	ListItemSecondaryAction,
 	IconButton,
+	Container,
 } from "@material-ui/core";
-import ExpectedOutputBox from "./expectedOutputBox";
 import QuCircuit from "../quCircuit";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -33,6 +28,9 @@ import api from "../../helpers/api";
 import { AuthContext } from "../../context/auth";
 import Toast from "../Toast/toast";
 import { useHistory } from "react-router-dom";
+import { CircuitResultsContext } from "../../context/circuit";
+import { CircuitStructureContext } from "../../context/circuit";
+import { CircuitSetterContext } from "../../context/circuit";
 
 const styles = {
 	palette: {
@@ -61,6 +59,8 @@ const TeacherTaskViewer = (props) => {
 	const { taskData, usersData, newTask } = props;
 	const { authState } = React.useContext(AuthContext);
 	const history = useHistory();
+	const circuitResults = React.useContext(CircuitResultsContext);
+	const circuitStructure = React.useContext(CircuitStructureContext);
 
 	const teacherUsers = arrayToObject(
 		usersData.filter(
@@ -88,6 +88,13 @@ const TeacherTaskViewer = (props) => {
 		assigned: taskData.assigned.map((user) => studentUsers[user]),
 	});
 
+	const [expectedResultsState, setExpectedResultsState] = React.useState(
+		taskData.expectedResults
+	);
+	const [circuitState, setCircuitState] = React.useState(
+		taskData.masterCircuit
+	);
+
 	const [modalState, setModalState] = React.useState({ open: false });
 	const [toastState, setToastState] = React.useState({ open: false });
 
@@ -95,8 +102,9 @@ const TeacherTaskViewer = (props) => {
 		const requestData = {
 			name: taskState.name,
 			summary: taskData.summary,
+			masterCircuit: circuitState,
 			description: taskState.description,
-			expectedResults: taskData.expectedResults,
+			expectedResults: expectedResultsState,
 			owners: ownersState.owners.map((user) => user.uid),
 			assigned: assignedState.assigned.map((user) => user.uid),
 		};
@@ -132,8 +140,6 @@ const TeacherTaskViewer = (props) => {
 
 	const handleTaskDelete = async () => {
 		try {
-			console.log(authState.user.uid);
-
 			await api.admin.tasks.delete(authState.user.idToken, taskData.taskId);
 			setToastState({
 				open: true,
@@ -376,6 +382,10 @@ const TeacherTaskViewer = (props) => {
 		);
 	};
 
+	const buildSimulator = () => {
+		return <QuCircuit defaultCircuit={taskData.masterCircuit} />;
+	};
+
 	return (
 		<Grid
 			container
@@ -434,7 +444,49 @@ const TeacherTaskViewer = (props) => {
 				<Box m={1}>
 					<Box my={1}>
 						<Card variant="outlined" style={{ padding: 8 }}>
-							<ExpectedOutputBox editable />
+							<Box>
+								<Box m={2} textAlign="left">
+									<Typography variant="h6">Expected Results</Typography>
+								</Box>
+								<Container>
+									<Box textAlign="center">
+										{expectedResultsState.map((result, index) => {
+											const amp = result.amplitude;
+											const stat = result.amplitude;
+											const prob = result.probability;
+
+											if (prob > 0) {
+												return (
+													<Typography
+														variant="body1"
+														style={{ fontSize: "14px" }}
+														key={index}
+													>
+														{/* <1.00000000+0.00000000i|1.00000000+0.00000000i> 100% */}
+														&lt;{`${amp}|${stat}`}&gt; {Math.floor(prob)}%
+													</Typography>
+												);
+											}
+										})}
+									</Box>
+									<Box m={2} textAlign="center">
+										<Button
+											variant="contained"
+											style={{ fontSize: "10px" }}
+											size="small"
+											color="primary"
+											onClick={() => {
+												setExpectedResultsState(circuitResults);
+												console.log(circuitStructure.getStoredCircuit());
+
+												setCircuitState(circuitStructure.getStoredCircuit());
+											}}
+										>
+											Set expected as current circuit result
+										</Button>
+									</Box>
+								</Container>
+							</Box>
 						</Card>
 					</Box>
 
@@ -443,7 +495,7 @@ const TeacherTaskViewer = (props) => {
 			</Grid>
 
 			<Grid xs={10} item>
-				<QuCircuit />
+				{buildSimulator()}
 			</Grid>
 			{/* Utility components that are displayed when needed */}
 			{modalState.open && buildModal()}

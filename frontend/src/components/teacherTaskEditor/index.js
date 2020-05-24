@@ -7,7 +7,6 @@ import {
 	Paper,
 	Card,
 } from "@material-ui/core";
-import ExpectedOutputBox from "../teacherTaskViewer/expectedOutputBox";
 import QuCircuit from "../quCircuit";
 
 export default class TeacherTaskEditor extends React.Component {
@@ -66,7 +65,6 @@ export default class TeacherTaskEditor extends React.Component {
 				>
 					<Box m={2}>
 						<Card variant="outlined" style={{ padding: 8 }}>
-							<ExpectedOutputBox />
 
 							<Box m={2} textAlign="center">
 								<Button

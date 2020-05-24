@@ -21,6 +21,8 @@ import SaveCircuitModal from "./modals/saveCircuit";
 import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
 import Toast from "../Toast/toast";
+import { CircuitStructure } from "../../context/circuit";
+import { CircuitSetterContext } from "../../context/circuit";
 
 const CircuitBox = fashion(Box, (theme) => ({
 	marginTop: theme.spacing(1),
@@ -67,6 +69,7 @@ export default function QuCircuit(props) {
 	const circuitRef = useRef();
 	const [modalState, setModalState] = useState({ open: false });
 	const [toastState, setToastState] = useState({ open: false });
+	const circuitSetter = useContext(CircuitSetterContext);
 
 	const loadCircuit = (rawCircuit) => {
 		let [translatedCircuit, inputs] = translateToQuCircuit(
@@ -246,30 +249,37 @@ export default function QuCircuit(props) {
 		let wires = new Array(wireAmount);
 
 		for (let wireIndex = 0; wireIndex < wireAmount; wireIndex++) {
+			function onInputButtonClicked(event) {
+				let inputIndex = AllowedCircuitInputs.indexOf(circuitInputs[wireIndex]);
+				let nextIndex = (inputIndex + 1) % AllowedCircuitInputs.length;
+				circuitInputs[wireIndex] = AllowedCircuitInputs[nextIndex];
+				setCircuitInputs([...circuitInputs]);
+			}
 
-				function onInputButtonClicked(event) {
-						let inputIndex = AllowedCircuitInputs.indexOf(circuitInputs[wireIndex]);
-						let nextIndex = (inputIndex + 1) % AllowedCircuitInputs.length;
-						circuitInputs[wireIndex] = AllowedCircuitInputs[nextIndex];
-						setCircuitInputs([...circuitInputs]);
-				}
-
-				wires[wireIndex] = (
-						<Box display="flex" key={wireIndex}>
-								{/*Use lowercase prop names here because for some reason react doesn't like it and throws warnings */}
-								<CircuitInputButton circuitinputs={circuitInputs} wireindex={wireIndex} onClick={onInputButtonClicked}/>
-								{cells(cellAmount, wireIndex)}
-						</Box>
-				);
+			wires[wireIndex] = (
+				<Box display="flex" key={wireIndex}>
+					{/*Use lowercase prop names here because for some reason react doesn't like it and throws warnings */}
+					<CircuitInputButton
+						circuitinputs={circuitInputs}
+						wireindex={wireIndex}
+						onClick={onInputButtonClicked}
+					/>
+					{cells(cellAmount, wireIndex)}
+				</Box>
+			);
 		}
 
-		return (<>{wires}</>);
+		return <>{wires}</>;
 	}
 
 	function onEvaluateButtonClicked(event) {
 		let translatedCircuit = translateToSimulator(circuit, circuitInputs);
 		solveQuantumCircuit(translatedCircuit).then((res) => {
 			setResults(res);
+			circuitSetter.setResults(res);
+			circuitSetter.setStructure(
+				new CircuitStructure(circuit, circuitInputs, wireCount)
+			);
 		});
 	}
 
@@ -294,6 +304,9 @@ export default function QuCircuit(props) {
 			reader.readAsText(evt.target.files[0]);
 		};
 		input.click();
+		circuitSetter.setStructure(
+			new CircuitStructure(circuit, circuitInputs, wireCount)
+		);
 	}
 
 	function onClearCircuitClicked(event) {
@@ -320,6 +333,9 @@ export default function QuCircuit(props) {
 			cellLife.removeCell();
 			refreshCircuit();
 		}
+		circuitSetter.setStructure(
+			new CircuitStructure(circuit, circuitInputs, wireCount)
+		);
 	}
 
 	const buildResultsComp = () => {
