@@ -13,9 +13,8 @@ import LoginPage from "./pages/login";
 import HomePage from "./pages/home";
 import ProfilePage from "./pages/profile";
 import appTheme from "./helpers/appTheme";
-import TaskEditorPage from "./pages/teacher/TaskEditor";
 import TasksPage from "./pages/teacher/Tasks";
-import TaskViewerPage from "./pages/teacher/TaskViewer";
+import TeacherTaskEditorPage from "./pages/teacher/TaskEditor";
 import AdminPage from "./pages/admin";
 import CreateNewTaskPage from "./pages/teacher/CreateTask";
 
@@ -51,16 +50,9 @@ function AppRouter(props) {
 
 			<PrivateRoute
 				path="/admin/task/:taskId"
-				component={TaskViewerPage}
+				component={TeacherTaskEditorPage}
 				adminRoute={true}
 			/>
-
-			{/* TODO: This might not be needed */}
-			{/* <PrivateRoute
-				path="/teacherTaskEditor"
-				component={TaskEditorPage}
-				adminRoute={true}
-			/> */}
 
 			<PrivateRoute
 				path="/profile"
