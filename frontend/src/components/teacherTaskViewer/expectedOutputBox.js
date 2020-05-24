@@ -7,10 +7,10 @@ export default class ExpectedOutputBox extends React.Component {
 
     editButton() {
         return (
-            <Box my={4} display="flex" flexDirection="center">
+            <Box m={2} textAlign="center">
                 {/* TODO: Send extra information to the teacherTaskEditor about the current circuit. */}
-                <Button component={Link} to="/teacherTaskEditor" mr={4} variant="contained" color="primary">
-                    Edit Expected Output
+                <Button component={Link} to="/teacherTaskEditor" variant="contained" style={{ fontSize: '10px' }} size="small" color="primary" >
+                    Edit
                 </Button>
             </Box>
         );
@@ -19,15 +19,15 @@ export default class ExpectedOutputBox extends React.Component {
     render() {
         return (
             <Box>
-                <Box textAlign="left" p={2}>
+                <Box m={2} textAlign="left">
                     <Typography variant="h6">Expected</Typography>
                 </Box>
                 <Container>
-                    <Box>
-                        <Typography variant="body1">
+                    <Box textAlign="center">
+                        <Typography variant="body1" style={{ fontSize: '14px' }}>
                             &lt;1.0000+0.00000i|00&gt;
                         </Typography>
-                    </Box>
+                    </Box >
                     {this.props.editable ? this.editButton() : null}
                 </Container>
             </Box>

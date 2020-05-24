@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { loginUser } from "../../helpers/auth";
 import { TextField, makeStyles } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -38,11 +39,11 @@ const useStyles = makeStyles({
 
 export default function LoginPage() {
 	const [state, setState] = React.useState({
-		success: undefined,
 		form: {
 			email: "",
 			password: "",
 		},
+		loginError: undefined,
 	});
 	const { authState, setAuthState } = React.useContext(AuthContext);
 	const classes = useStyles();
@@ -62,59 +63,33 @@ export default function LoginPage() {
 	const handleLogin = async (event) => {
 		event.preventDefault();
 		try {
-			// TODO: Do something more with this response maybe
 			const userDetails = await loginUser(
 				state.form.email,
 				state.form.password
 			);
-			// Set the global auth context to reflect the succesfful login
+			// Set the global auth context to reflect the successful login
 			setAuthState({
 				authenticated: true,
-				idToken: userDetails.idToken,
 				user: userDetails.user,
 			});
-			setState({ ...state, success: true });
 		} catch (error) {
-			console.log(error);
-			setState({ ...state, success: false });
+			console.log("loginError", error);
+			setState({ ...state, loginError: error });
 		}
 	};
 
-	const loginSuccess = () => {
+	const buildLoginError = () => {
 		return (
-			<Grid container justify="center" alignItems="center">
-				<div>
-					<h1>Login was a success</h1>
-					<div>
-						<Button
-							variant="contained"
-							color="inherit"
-							component={Link}
-							to="/teacherTaskEditor"
-						>
-							Teacher Portal
-						</Button>
-						<Button
-							variant="contained"
-							color="inherit"
-							component={Link}
-							to="/"
-						>
-							Student Portal
-						</Button>
-					</div>
-				</div>
-			</Grid>
+			<>
+				<Alert severity="error">Login failed</Alert>
+				<br></br>
+			</>
 		);
 	};
 
-	const loginError = () => {
-		return <p>Login was a failure</p>;
-	};
-
-	const loginForm = () => {
+	const buildLoginForm = () => {
 		return (
-			<Grid container component="main" classname={classes.root}>
+			<Grid container component="main" className={classes.root}>
 				<CssBaseline />
 				<Grid item xs={false} sm={4} md={7} className={classes.image} />
 				<Grid
@@ -123,14 +98,14 @@ export default function LoginPage() {
 					sm={8}
 					md={5}
 					elevation={6}
-					square
 					className={classes.card}
+					square="true"
 				>
 					<div className={classes.test}>
 						<Avatar>
 							<LockOutlinedIcon />
 						</Avatar>
-						<h1>Login</h1>
+						<h2>Login</h2>
 						<form onSubmit={handleLogin}>
 							{/* email */}
 							<div>
@@ -158,11 +133,12 @@ export default function LoginPage() {
 								/>
 							</div>
 							<br></br>
+							{state.loginError !== undefined && buildLoginError()}
 							<Button
 								variant="contained"
 								type="submit"
 								fullWidth
-								classname={classes.submit}
+								className={classes.submit}
 							>
 								Submit
 							</Button>
@@ -173,14 +149,11 @@ export default function LoginPage() {
 		);
 	};
 
-	// Show the login form if the user hasn't successfully login in yet
-	if (state.success === undefined) {
-		return loginForm();
-	} else if (state.success === true) {
-		// Show a success message when the user is able to success fully login
-		return loginSuccess();
-	} else if (state.success === false) {
-		// Show an error message when the user is unable to login
-		return loginError();
+	// Redirect the user to the homepage if they are already logged in
+	// tother wise show the login form
+	if (authState.authenticated) {
+		return <Redirect to="/" />;
+	} else {
+		return buildLoginForm();
 	}
 }

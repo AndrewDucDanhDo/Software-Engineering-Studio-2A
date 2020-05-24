@@ -1,6 +1,7 @@
 import React from "react";
-import {Box, Button, Grid, Paper} from "@material-ui/core";
-import QuantumSimulator from "../../components/quantum";
+import { Grid, Paper } from "@material-ui/core";
+import QuCircuit from "../../components/quCircuit";
+
 function HomePage() {
 	return (
 		<Grid container style={{position: "absolute", width: "100%", height: "90%"}}>
@@ -11,7 +12,7 @@ function HomePage() {
                 </div>
                 </Grid>
                 <Grid xs={10} item>
-                    <QuantumSimulator/>
+                    <QuCircuit/>
                 </Grid>
         </Grid>
 	);
