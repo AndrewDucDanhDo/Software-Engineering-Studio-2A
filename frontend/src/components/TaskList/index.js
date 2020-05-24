@@ -17,7 +17,14 @@ import { AuthContext } from "../../context/auth";
 import api from "../../helpers/api";
 import { useHistory } from "react-router-dom";
 
-const TeacherTasks = () => {
+const isAdminUser = (authState) => {
+	return (
+		authState.user.claims !== undefined &&
+		(authState.user.claims.teacher || authState.user.claims.superuser)
+	);
+};
+
+const TaskList = () => {
 	const [state, setState] = React.useState({ tasks: undefined });
 	const { authState } = React.useContext(AuthContext);
 	const history = useHistory();
@@ -29,13 +36,22 @@ const TeacherTasks = () => {
 	});
 
 	const fetchTaskList = async () => {
-		const res = await api.admin.tasks.getAll(authState.user.idToken);
-		setState({ ...state, tasks: res.data.data });
+		if (isAdminUser(authState)) {
+			const res = await api.admin.tasks.getAll(authState.user.idToken);
+			setState({ ...state, tasks: res.data.data });
+		} else {
+			const res = await api.task.getAll(authState.user.idToken);
+			setState({ ...state, tasks: res.data.data });
+		}
 	};
 
 	const taskRow = (taskId, name, description) => {
+		const taskPath = isAdminUser(authState)
+			? `/admin/task/${taskId}`
+			: `/student/task/${taskId}`;
+
 		return (
-			<TableRow hover onClick={() => history.push(`/admin/task/${taskId}`)}>
+			<TableRow hover onClick={() => history.push(taskPath)}>
 				<TableCell style={{ width: "30%" }}>{name}</TableCell>
 				<TableCell style={{ width: "70%" }}>{description}</TableCell>
 			</TableRow>
@@ -70,18 +86,19 @@ const TeacherTasks = () => {
 				)}
 			</Paper>
 			<Box display="flex" flexDirection="row-reverse" my={2} mr={5}>
-				{/* TODO: Create a new task then redirect to teacherTaskEditor when button is clicked. */}
-				<Button
-					component={Link}
-					to="/admin/task/new-task"
-					variant="contained"
-					color="primary"
-				>
-					Create New Task
-				</Button>
+				{isAdminUser(authState) && (
+					<Button
+						component={Link}
+						to="/admin/task/new-task"
+						variant="contained"
+						color="primary"
+					>
+						Create New Task
+					</Button>
+				)}
 			</Box>
 		</Container>
 	);
 };
 
-export default TeacherTasks;
+export default TaskList;

@@ -78,6 +78,15 @@ const buildStudentNav = (classes, signOutFunc) => {
 						Quantum Circuit Simulator Group 2 - Student
 					</Typography>
 				</Box>
+
+				<Button
+					className={classes.signup}
+					color="inherit"
+					component={Link}
+					to="/student/tasks"
+				>
+					Tasks List
+				</Button>
 				<Button
 					className={classes.signup}
 					color="inherit"
