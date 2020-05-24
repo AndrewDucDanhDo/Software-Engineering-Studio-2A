@@ -114,6 +114,7 @@ node_modules
 out
 .eslintrc
 *.git_ignore.js
+package-lock.json
 
 # Firebase
 service-account-key.json

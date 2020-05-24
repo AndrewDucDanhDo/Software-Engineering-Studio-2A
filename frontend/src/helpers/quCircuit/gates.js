@@ -4,8 +4,6 @@ import CNotGate from "../../components/quCircuit/CNotGate";
 import ControlGate from "../../components/quCircuit/controlGate";
 import SwapGate from "../../components/quCircuit/swapGate";
 
-const EmptyComponent = () => (<></>);
-
 export const Gates = {
     H: "H",
     Y: "Y",
@@ -57,7 +55,7 @@ let srn = new GateProperty(Gates.SRN, (props) => (<LabeledGate {...props} label=
 
 
 export function getGateComponentOrEmpty(gate) {
-    return GateProperties[gate] ? GateProperties[gate].component : EmptyComponent;
+    return GateProperties[gate] ? GateProperties[gate].component : (<></>);
 }
 
 export function getGateComponent(gate) {
