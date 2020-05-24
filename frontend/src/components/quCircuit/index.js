@@ -170,9 +170,10 @@ export default function QuCircuit(props) {
 			cellLife.gate
 		);
 
-		let finalMultigates = cellLife.cellData.multigates
-			.concat([otherCell.wireIndex])
-			.sort();
+		let finalMultigates = [
+			...cellLife.cellData.multigates,
+			otherCell.wireIndex
+		].sort();
 
 		cellLife
 			.getMultigateCells()

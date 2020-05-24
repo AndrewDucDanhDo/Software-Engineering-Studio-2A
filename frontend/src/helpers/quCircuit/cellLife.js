@@ -146,24 +146,26 @@ export default class CellLife {
     removeEnd(wireIndex) {
         if (this.hasEnd(wireIndex)) {
             this.ends.splice(this.ends.indexOf(wireIndex), 1);
+            this.cellData.ends = [...this.ends];
         }
     }
 
     removeSource(wireIndex) {
         if (this.hasSource(wireIndex)) {
             this.sources.splice(this.sources.indexOf(wireIndex), 1);
+            this.cellData.sources = [...this.sources];
         }
     }
 
     addEnd(wireIndex) {
         if (!this.hasEnd(wireIndex)) {
-            this.cellData.ends.push(wireIndex);
+            this.cellData.ends = [...this.cellData.ends, wireIndex];
         }
     }
 
     addSource(wireIndex) {
         if (!this.hasSource(wireIndex)) {
-            this.cellData.sources.push(wireIndex);
+            this.cellData.sources = [...this.cellData.sources, wireIndex];
         }
     }
 

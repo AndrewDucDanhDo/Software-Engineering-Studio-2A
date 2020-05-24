@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Cell(props) {
+function Cell(props) {
     const theme = useTheme();
     const classes = useStyles();
 
@@ -125,3 +125,24 @@ export default function Cell(props) {
         </div>
     );
 }
+
+function areEqual(prevProps, nextProps) {
+    /**
+     * Apply for type checking and autocomplete.
+     * @type {CellLife}
+     */
+    let prevCellLife = prevProps.cellLife;
+    /**
+     * Apply for type checking and autocomplete.
+     * @type {CellLife}
+     */
+    let nextCellLife = nextProps.cellLife;
+
+    return prevCellLife.wireIndex === nextCellLife.wireIndex
+        && prevCellLife.cellIndex === nextCellLife.wireIndex
+        && prevCellLife.ends === nextCellLife.ends
+        && prevCellLife.sources === nextCellLife.sources
+        && prevCellLife.multigates === nextCellLife.multigates
+}
+
+export default React.memo(Cell, areEqual);
