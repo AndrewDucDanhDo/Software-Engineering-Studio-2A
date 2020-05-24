@@ -16,8 +16,11 @@ export default function ProfileRow(props) {
     function handleSave() {
         // TODO: Upload the new data towards the backend here.\
         setEditMode(true);
-        api.user.update(props.idToken, props.uid, value);
-        console.log(props.value);
+        try {
+            api.user.update(props.idToken, props.uid, value);
+        } catch (error){
+            console.log(error);
+        }
         
     }
 

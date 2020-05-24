@@ -22,7 +22,7 @@ export default function Profile(props) {
 	const { userData } = props;
 
 	const divider = <Box className={classes.divider} />;
-	
+
 	return (
 		<Box m={3}>
 			<Container maxWidth="md">

@@ -18,7 +18,6 @@ export default class ProfilePage extends React.Component {
 		const { idToken, uid } = this.context.authState.user;
 		const profileData = (await api.user.get(idToken, uid)).data.data;
 		const userData = {idToken, uid, profileData};
-		console.log(userData);
 		this.setState({ userData });
 	}
 
