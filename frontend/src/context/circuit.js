@@ -1,9 +1,9 @@
 import React, { createContext, useState } from "react";
-import { translateToSimulator } from "../helpers/quantumSimulator/quantumTranslator";
+import { translateToQuCircuit, translateToSimulator } from "../helpers/quantumSimulator/quantumTranslator";
 
-// TODO Implement proper functionality.
 /**
- * A level of abstraction for storing and reading circuits.
+ * A level of abstraction for storing and reading circuits. This class is immutable which is more convenient when using React states.
+ * It's internal values however, are not immutable.
  *
  * Here's the motivation, the person trying to store or load a circuit should not care what format the circuit is in.
  * All the person should care about is what to do with the circuit, whether it is loading or saving. This abstraction
@@ -16,10 +16,74 @@ import { translateToSimulator } from "../helpers/quantumSimulator/quantumTransla
  * // Remember to handle errors from res here!
  */
 export class CircuitStructure {
-	constructor(circuit, inputs, wireCount) {
-		this._internalStructure = circuit || {};
+
+	static CellCount = 25;
+	static MaxWires = 8;
+	static MinWires = 2;
+	static AllowedCircuitInputs = ["0", "1"];
+
+	constructor(circuit, inputs) {
+		this.internalStructure = circuit || {};
 		this._inputs = inputs || [];
-		this._wireCount = wireCount || 1;
+		this._wireCount = Math.max(CircuitStructure.MinWires, Math.min(CircuitStructure.MaxWires, inputs.length));
+	}
+
+	static createDefault() {
+		return this.create(this.MinWires);
+	}
+
+	static create(wireCount) {
+		let safeWireCount = Math.max(this.MinWires, Math.min(this.MaxWires, wireCount));
+
+		return new CircuitStructure(
+			new Array(safeWireCount)
+				.fill(null)
+				.map((e) => new Array(this.CellCount)),
+			new Array(safeWireCount)
+				.fill(this.AllowedCircuitInputs[0])
+		);
+	}
+
+	/**
+	 * Create a new circuit with the desired inputs.
+	 * @param {*[]} inputs
+	 * @return {CircuitStructure}
+	 */
+	static createWithInputs(inputs) {
+		return new CircuitStructure(
+			new Array(inputs.length)
+				.fill(null)
+				.map((e) => new Array(this.CellCount)),
+			[...inputs]);
+	}
+
+	/**
+	 * Create a new circuit from stored data.
+	 * @param circuitData
+	 * @return {CircuitStructure}
+	 */
+	static fromStored(circuitData) {
+		let [translatedCircuit, inputs] = translateToQuCircuit(
+			circuitData,
+			CircuitStructure.CellCount
+		);
+		return new CircuitStructure(translatedCircuit, inputs);
+	}
+
+	/**
+	 * @param {CircuitStructure} otherCircuit
+	 */
+	mergeWith(otherCircuit) {
+		let circuit = this.copy();
+
+		for (let i = 0; i < this._wireCount; i++) {
+			if (otherCircuit.internalStructure[i]) {
+				for (let j = 0; j < CircuitStructure.CellCount; j++) {
+					circuit.internalStructure[i][j] = otherCircuit.internalStructure[i][j];
+				}
+			}
+		}
+		return circuit;
 	}
 
 	/**
@@ -54,9 +118,9 @@ export class CircuitStructure {
 	 * @returns {Object} A structure of the circuit that is safe to be stored in file or sent to the backend.
 	 */
 	getStoredCircuit() {
-		if (this._internalStructure.length > 0) {
+		if (this.internalStructure.length > 0) {
 			return {
-				...translateToSimulator(this._internalStructure, this._inputs),
+				...translateToSimulator(this.internalStructure, this._inputs),
 				input: this._inputs,
 				version: 1,
 			};
@@ -74,6 +138,32 @@ export class CircuitStructure {
 	 * Automatically run a user download of the current circuit from the browser.
 	 */
 	userDownloadCircuit() {}
+
+	/**
+	 * Convenience function for getting a copy. Useful when trying to update React state.
+	 * @return {CircuitStructure}
+	 */
+	copy() {
+		return new CircuitStructure(this.internalStructure, this.inputs);
+	}
+
+	/**
+	 * Create a new circuit structure copy with the new inputs.
+	 * @param {*[]} newInputs
+	 * @return {CircuitStructure}
+	 */
+	setInputs(newInputs) {
+		return new CircuitStructure(this.internalStructure, newInputs);
+	}
+
+	/**
+	 * Create a new circuit structure copy with the new wire count.
+	 * @param {Number} newWireCount
+	 * @return {CircuitStructure}
+	 */
+	setWireCount(newWireCount) {
+		return CircuitStructure.create(newWireCount).mergeWith(this);
+	}
 }
 
 /**
@@ -110,17 +200,28 @@ export class CircuitSetter {
 	}
 
 	/**
+	 * @param {*[]} value
+	 */
+	setInputs(value) {
+		this.setStructure(prevState => new CircuitStructure(prevState.internalStructure, value));
+	}
+
+	/**
 	 * @param {Number} wireCount
 	 */
-	setWires(wireCount) {
-		// TODO do something and call this.setCircuitStructure
+	setWireCount(wireCount) {
+		this.setStructure(prevState => prevState.setWireCount(wireCount))
+	}
+
+	clearStructure() {
+		this.setStructure(prevState => CircuitStructure.createWithInputs(prevState.inputs))
 	}
 
 	/**
 	 * @param {Object} circuitData Load the circuit based on the stored format, one that is used in the backend
 	 */
 	loadStoredCircuit(circuitData) {
-		// TODO do something and call this.setCircuitStructure
+		this.setStructure(CircuitStructure.fromStored(circuitData));
 	}
 
 	/**
@@ -157,7 +258,7 @@ export const CircuitSetterContext = createContext(new CircuitSetter());
  * @see CircuitStructure
  * @type {React.Context<CircuitStructure>}
  */
-export const CircuitStructureContext = createContext(new CircuitStructure());
+export const CircuitStructureContext = createContext(CircuitStructure.createDefault());
 
 /**
  * @summary The current set of results that should be shown the the user.
@@ -170,9 +271,7 @@ export const CircuitStructureContext = createContext(new CircuitStructure());
 export const CircuitResultsContext = createContext([]);
 
 export function CircuitProvider(props) {
-	const [circuitStructure, setCircuitStructure] = useState(
-		new CircuitStructure()
-	);
+	const [circuitStructure, setCircuitStructure] = useState(CircuitStructure.createDefault());
 	const [circuitResults, setCircuitResults] = useState([]);
 	const [circuitSetter] = useState(
 		new CircuitSetter({
