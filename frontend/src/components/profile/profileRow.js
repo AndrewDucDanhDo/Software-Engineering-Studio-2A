@@ -8,18 +8,20 @@ import api, { API_HOST } from "../../helpers/api";
 export default function ProfileRow(props) {
     const [value, setValue] = useState(props.value);
     const [editMode, setEditMode] = useState(false);
+    
+    function handleValueChange(event) {
+        setValue(event.target.value)
+    }
 
     function handleSave() {
-        // TODO: Upload the new data towards the backend here.
-        console.log(props.value);
+        // TODO: Upload the new data towards the backend here.\
         setEditMode(true);
+        api.user.update(props.idToken, props.uid, value);
+        console.log(props.value);
         
     }
 
-    function handleValueChange(event) {
-        setValue(event.target.value)
-
-    }
+    
 
     const valueText = (
         <Box textAlign="left">
