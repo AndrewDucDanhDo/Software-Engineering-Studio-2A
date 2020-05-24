@@ -18,9 +18,8 @@ import SaveCircuitModal from "./modals/saveCircuit";
 import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
 import Toast from "../Toast/toast";
-import {
-	CircuitResultsContext, CircuitSetterContext, CircuitStructure, CircuitStructureContext
-} from "../../context/circuit";
+import { CircuitResultsContext, CircuitSetterContext, CircuitStructureContext } from "../../context/circuit";
+import { CircuitStructure } from "../../helpers/quCircuit/circuitStructure";
 
 const CircuitBox = fashion(Box, (theme) => ({
 	marginTop: theme.spacing(1),
