@@ -1,12 +1,13 @@
 import { translateToQuCircuit, translateToSimulator } from "../quantumSimulator/quantumTranslator";
+import { solveQuantumCircuit } from "../quantumSimulator/quantumSolver";
 
 /**
- * A level of abstraction for storing and reading circuits. This class is immutable which is more convenient when using React states.
- * It's internal values however, are not immutable.
+ * A generic data structure that can be used to interact with the circuit.
  *
- * Here's the motivation, the person trying to store or load a circuit should not care what format the circuit is in.
- * All the person should care about is what to do with the circuit, whether it is loading or saving. This abstraction
- * provides this.
+ * It provides a level of abstraction for storing and reading circuits, that means you can still interact with the circuit
+ * regardless whatever format the circuit is stored in.
+ *
+ * This class is immutable which is more convenient when using React states. It's internal values however, are not immutable.
  *
  * @example Saving circuit to the backend.
  * const circuitStructure = useContext(CircuitStructureContext);
@@ -22,9 +23,10 @@ export class CircuitStructure {
 	static AllowedCircuitInputs = ["0", "1"];
 
 	constructor(circuit, inputs) {
-		this.internalStructure = circuit || {};
 		this._inputs = inputs || [];
-		this._wireCount = Math.max(CircuitStructure.MinWires, Math.min(CircuitStructure.MaxWires, inputs.length));
+		this._wireCount = Math.max(CircuitStructure.MinWires, Math.min(CircuitStructure.MaxWires, this._inputs.length));
+		// The internal structure is always guaranteed to be a 2D array.
+		this.internalStructure = circuit || createInternalCircuitStructure(this.wireCount);
 	}
 
 	static createDefault() {
@@ -32,14 +34,11 @@ export class CircuitStructure {
 	}
 
 	static create(wireCount) {
-		let safeWireCount = Math.max(this.MinWires, Math.min(this.MaxWires, wireCount));
+		let safeWireCount = Math.max(CircuitStructure.MinWires, Math.min(CircuitStructure.MaxWires, wireCount));
 
 		return new CircuitStructure(
-			new Array(safeWireCount)
-				.fill(null)
-				.map((e) => new Array(this.CellCount)),
-			new Array(safeWireCount)
-				.fill(this.AllowedCircuitInputs[0])
+			createInternalCircuitStructure(safeWireCount),
+			new Array(safeWireCount).fill(this.AllowedCircuitInputs[0])
 		);
 	}
 
@@ -53,7 +52,7 @@ export class CircuitStructure {
 			new Array(inputs.length)
 				.fill(null)
 				.map((e) => new Array(this.CellCount)),
-			[...inputs]);
+			inputs);
 	}
 
 	/**
@@ -88,8 +87,8 @@ export class CircuitStructure {
 	/**
 	 * @returns {*[]} The results you would get from the circuit.
 	 */
-	calculateResults() {
-		return [];
+	async calculateResults() {
+		return await solveQuantumCircuit(this.getStoredCircuit());
 	}
 
 	/**
@@ -136,7 +135,13 @@ export class CircuitStructure {
 	/**
 	 * Automatically run a user download of the current circuit from the browser.
 	 */
-	userDownloadCircuit() {
+	runUserDownload() {
+		const blob = new Blob([JSON.stringify(this.getStoredCircuit())]);
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = "circuit.json";
+		a.click();
 	}
 
 	/**
@@ -164,4 +169,15 @@ export class CircuitStructure {
 	setWireCount(newWireCount) {
 		return CircuitStructure.create(newWireCount).mergeWith(this);
 	}
+}
+
+/**
+ * A helper function for creating the internal format of {@link CircuitStructure}
+ * @param {Number} wireCount
+ */
+export function createInternalCircuitStructure(wireCount) {
+	// Why not just do .fill(new Array())? well that's because it will only create a single shared array.
+	return new Array(wireCount)
+		.fill(null)
+		.map((e) => new Array(CircuitStructure.CellCount));
 }

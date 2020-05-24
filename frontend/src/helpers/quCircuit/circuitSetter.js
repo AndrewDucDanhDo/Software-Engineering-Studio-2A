@@ -15,10 +15,8 @@ import { CircuitStructure } from "./circuitStructure";
  */
 export class CircuitSetter {
 	constructor(options = {}) {
-		this._structureSetter = options.setCircuitStructure || function () {
-		};
-		this._resultsSetter = options.setCircuitResults || function () {
-		};
+		this._structureSetter = options.setCircuitStructure || (() => {});
+		this._resultsSetter = options.setCircuitResults || (() => {});
 	}
 
 	/**
@@ -63,16 +61,16 @@ export class CircuitSetter {
 	/**
 	 * Automatically ask the user to upload a new circuit from the browser.
 	 */
-	userUploadCircuit() {
-		// TODO do something and call this.setCircuitStructure
-	}
-
-	/**
-	 * Calculate the results from the circuit and set {@link CircuitResultsContext}.
-	 * @param {CircuitStructure} circuitStructure The current circuit structure fetched from {@link CircuitStructureContext}
-	 */
-	setResultsFromStructure(circuitStructure) {
-		let results = circuitStructure.calculateResults();
-		this.setResults(results);
+	runUserUpload() {
+		const input = document.createElement("input");
+		input.type = "file";
+		input.onchange = (evt) => {
+			const reader = new FileReader();
+			reader.onloadend = (evt) => {
+				this.loadStoredCircuit(JSON.parse(evt.target.result));
+			};
+			reader.readAsText(evt.target.files[0]);
+		};
+		input.click();
 	}
 }

@@ -8,7 +8,6 @@ import Paper from "@material-ui/core/Paper";
 import CircuitInputButton from "./circuitInputButton";
 import Button from "@material-ui/core/Button";
 import { translateToSimulator, } from "../../helpers/quantumSimulator/quantumTranslator";
-import { solveQuantumCircuit } from "../../helpers/quantumSimulator/quantumSolver";
 import CellLife from "../../helpers/quCircuit/cellLife";
 import CellData from "../../helpers/quCircuit/cellData";
 import TextField from "@material-ui/core/TextField";
@@ -229,32 +228,8 @@ export default function QuCircuit(props) {
 	}
 
 	async function onEvaluateButtonClicked(event) {
-		let translatedCircuit = translateToSimulator(circuit, circuitInputs);
-		let res = await solveQuantumCircuit(translatedCircuit);
+		let res = await circuitStructure.calculateResults();
 		circuitSetter.setResults(res);
-	}
-
-	function onExport(event) {
-		let translatedCircuit = translateToSimulator(circuit, circuitInputs);
-		const blob = new Blob([JSON.stringify(translatedCircuit)]);
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement("a");
-		a.href = url;
-		a.download = "workspace.json";
-		a.click();
-	}
-
-	function onImport(event) {
-		const input = document.createElement("input");
-		input.type = "file";
-		input.onchange = (evt) => {
-			const reader = new FileReader();
-			reader.onloadend = (evt) => {
-				circuitSetter.loadStoredCircuit(JSON.parse(evt.target.result));
-			};
-			reader.readAsText(evt.target.files[0]);
-		};
-		input.click();
 	}
 
 	function onClearCircuitClicked(event) {
@@ -432,13 +407,13 @@ export default function QuCircuit(props) {
 				<PlatformBox m={1} display="flex">
 					<Box>
 						<Box m={1}>
-							<Button color="primary" variant="contained" onClick={onExport}>
+							<Button color="primary" variant="contained" onClick={() => circuitStructure.runUserDownload()}>
 								Export File
 							</Button>
 						</Box>
 
 						<Box m={1}>
-							<Button color="primary" variant="contained" onClick={onImport}>
+							<Button color="primary" variant="contained" onClick={() => circuitSetter.runUserUpload()}>
 								Import File
 							</Button>
 						</Box>
