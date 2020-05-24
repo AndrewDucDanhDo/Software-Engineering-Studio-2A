@@ -52,7 +52,7 @@ export const updateTask = async (idToken, taskId, taskData) => {
 };
 
 export const deleteTask = async (idToken, taskId) => {
-	const res = await axios.post(
+	const res = await axios.delete(
 		`http://${API_HOST}/admin/task/${taskId}/update`,
 		{
 			headers: { Authorization: `Bearer ${idToken}` },

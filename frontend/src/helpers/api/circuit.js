@@ -24,7 +24,7 @@ export const getSingleCircuit = async (idToken, userId, circuitId) => {
 };
 
 export const createCircuit = async (idToken, circuitData) => {
-	const res = await axios.post(`http://${API_HOST}/user/circuit`, circuitData, {
+	const res = await axios.post(`http://${API_HOST}/user/circuit/create`, circuitData, {
 		headers: { Authorization: `Bearer ${idToken}` },
 	});
 	return res;
@@ -37,7 +37,7 @@ export const updateCircuit = async (
 	circuitData
 ) => {
 	const res = await axios.post(
-		`http://${API_HOST}/user/${userId}/circuit/${circuitId}`,
+		`http://${API_HOST}/user/${userId}/circuit/${circuitId}/update`,
 		circuitData,
 		{
 			headers: { Authorization: `Bearer ${idToken}` },
@@ -48,7 +48,7 @@ export const updateCircuit = async (
 
 export const deleteCircuit = async (idToken, userId, circuitId) => {
 	const res = await axios.delete(
-		`http://${API_HOST}/user/${userId}/circuit/${circuitId}`,
+		`http://${API_HOST}/user/${userId}/circuit/${circuitId}/update`,
 		{
 			headers: { Authorization: `Bearer ${idToken}` },
 		}

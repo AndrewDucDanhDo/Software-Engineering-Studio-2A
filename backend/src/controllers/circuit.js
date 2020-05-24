@@ -159,17 +159,7 @@ export const getAllUserCircuits = async (req, res) => {
 
       return res.status(200).json(successResponse({ circuits: userCircuits }));
     } else {
-      // TODO: Make The firestore error work with collections
-      // No circuits have been saved for the user
-      return res
-        .status(400)
-        .json(
-          errorResponse(
-            "The user has no saved circuits.",
-            "circuits-empty",
-            undefined
-          )
-        );
+      return res.status(200).json(successResponse({ circuits: [] }));
     }
   } catch (error) {
     return handleApiError(res, error);
