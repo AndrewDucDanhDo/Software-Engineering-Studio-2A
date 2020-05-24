@@ -33,16 +33,20 @@ export default function Profile(props) {
 				{userData ? (
 					<BoxedSpace>
 						<ProfileRow
+							idToken={userData.idToken}
+							uid={userData.uid}
 							className={classes.row}
 							title="Name"
-							value={userData.displayName}
+							value={userData.profileData.displayName}
 							editable
 						/>
 						{divider}
 						<ProfileRow
+							idToken={userData.idToken}
+							uid={userData.uid}
 							className={classes.row}
 							title="Email"
-							value={userData.email}
+							value={userData.profileData.email}
 							editable
 						/>
 					</BoxedSpace>

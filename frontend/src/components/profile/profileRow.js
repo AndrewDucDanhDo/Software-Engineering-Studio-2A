@@ -3,6 +3,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import RoundedButton from "../common/roundedButton";
+import api, { API_HOST } from "../../helpers/api";
 
 export default function ProfileRow(props) {
     const [value, setValue] = useState(props.value);
@@ -10,12 +11,14 @@ export default function ProfileRow(props) {
 
     function handleSave() {
         // TODO: Upload the new data towards the backend here.
-
-        setEditMode(false);
+        console.log(props.value);
+        setEditMode(true);
+        
     }
 
     function handleValueChange(event) {
         setValue(event.target.value)
+
     }
 
     const valueText = (
@@ -37,9 +40,9 @@ export default function ProfileRow(props) {
         // Add an empty box so to help with position via flexbox.
         return (<Box></Box>);
     }
-
     return (
-        <Box className={props.className} display="flex" flexDirection="row" px={2} justify="space-between" alignItems="center">
+        
+        <Box className={props.className} display="flex" flexDirection="row" px={2} justify="space-between" alignItems="center" onChange ={handleValueChange}>
             <Box flex={2} textAlign="left">
                 <Typography variant="caption">{props.title}</Typography>
             </Box>
