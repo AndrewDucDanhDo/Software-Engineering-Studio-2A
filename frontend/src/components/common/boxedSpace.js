@@ -1,4 +1,3 @@
-import React from "react";
 import Box from "@material-ui/core/Box";
 import {fashion} from "../../helpers/fashion";
 
@@ -6,7 +5,6 @@ import {fashion} from "../../helpers/fashion";
 const BoxedSpace = fashion(Box, {
     border: "solid 1px rgba(0, 0, 0, 0.4)",
     borderRadius: 15,
-    // margin: props.theme.spacing(6)
 });
 
 export default BoxedSpace;
