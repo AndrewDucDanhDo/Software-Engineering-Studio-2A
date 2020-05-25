@@ -1,7 +1,7 @@
 import React from "react";
 import { createUser, loginUser } from "../../helpers/auth";
 import { withStyles } from "@material-ui/styles";
-import { TextField, Grid } from "@material-ui/core";
+import { TextField, Grid, Box } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -10,7 +10,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { AuthContext } from "../../context/auth";
 import { Redirect } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
+
 const styles = {
 	test: {
 		display: "flex",
@@ -22,9 +22,9 @@ const styles = {
 		display: "flex",
 	},
 	load: {
-		marginLeft: '45%',
-		paddingTop: '5vh',
-	}
+		marginLeft: "45%",
+		paddingTop: "5vh",
+	},
 };
 
 export class SignUpPage extends React.Component {
@@ -53,7 +53,6 @@ export class SignUpPage extends React.Component {
 		const value = target.value;
 		const name = target.name;
 
-		// TODO: Theres probably a better way of doing this but i don't remember how rn
 		this.setState({
 			...this.state,
 			form: { ...this.state.form, [name]: value },
@@ -63,6 +62,7 @@ export class SignUpPage extends React.Component {
 	handleSubmit = async (event) => {
 		// Stop the form element from adding query params by default
 		event.preventDefault();
+
 		try {
 			this.setState({ ...this.state, isLoading: true });
 			await createUser({
@@ -81,7 +81,9 @@ export class SignUpPage extends React.Component {
 				user: userDetails.user,
 			});
 		} catch (error) {
-			await this.setState({
+			console.log(error.response);
+			
+			this.setState({
 				...this.state,
 				signupError: error.response.data,
 			});
@@ -93,10 +95,14 @@ export class SignUpPage extends React.Component {
 		let errorMessage = "An error occurred.";
 		const errorCode = this.state.signupError.errorCode;
 
+		console.log(errorCode);
+
 		if (errorCode === "auth/email-already-exists") {
 			errorMessage = "The email already exists";
 		} else if (errorCode === "auth/invalid-password") {
 			errorMessage = "The password must meet requirements (min 6 characters)";
+		} else if (errorCode === "auth/email-invalid") {
+			errorMessage = "The provided email format is invalid";
 		}
 
 		return (
@@ -115,7 +121,9 @@ export class SignUpPage extends React.Component {
 						<LockOutlinedIcon />
 					</Avatar>
 					<h1>Sign Up</h1>
-					{this.state.signupError !== undefined && this.buildLoginError()}
+					{this.state.signupError !== undefined &&
+						!this.state.isLoading &&
+						this.buildLoginError()}
 					<form onSubmit={this.handleSubmit}>
 						<Grid container spacing={2}>
 							<Grid item xs={12} sm={6}>
@@ -169,6 +177,7 @@ export class SignUpPage extends React.Component {
 								variant="contained"
 								type="submit"
 								fullWidth
+								disabled={this.state.isLoading}
 								classname={this.props.classes.submit}
 							>
 								Submit

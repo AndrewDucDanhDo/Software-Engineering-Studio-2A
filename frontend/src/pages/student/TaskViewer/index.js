@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import TeacherTaskViewer from "../../../components/teacherTaskViewer";
+import StudentTaskViewer from "../../../components/StudentTaskViewer";
 import { CircularProgress, makeStyles } from "@material-ui/core";
 import api from "../../../helpers/api";
 import { AuthContext } from "../../../context/auth";
@@ -13,44 +13,38 @@ const withStyles = makeStyles({
 	},
 });
 
-export default function CreateTaskPage(props) {
-	const [state, setState] = useState({});
+export default function StudentTaskViewerPage(props) {
+	const taskId = props.match.params.taskId;
 	const classes = withStyles();
+	const [state, setState] = useState({});
 	const { authState } = useContext(AuthContext);
 
 	const fetchData = async () => {
 		const results = await Promise.all([
-			api.admin.users.getAll(authState.user.idToken),
+			api.task.getSingle(authState.user.idToken, taskId),
+			api.task.submission.get(authState.user.idToken, taskId),
 		]);
 
 		setState({
-			task: {
-				admin: authState.user.uid,
-				name: "New Task",
-				summary: "Some short summary",
-				description: "Some longer description",
-				expectedResults: [],
-				owners: [authState.user.uid],
-				assigned: [],
-			},
-			users: results[0].data.data.users,
+			task: results[0].data.data,
+			submission: results[1].data.data,
 		});
 	};
 
 	useEffect(() => {
-		if (state.users === undefined) {
+		if (state.task === undefined) {
 			fetchData();
 		}
 	});
 
-	if (state.users === undefined) {
+	if (state.task === undefined) {
 		return <CircularProgress className={classes.spinner} />;
 	} else {
 		return (
-			<TeacherTaskViewer
+			<StudentTaskViewer
+				taskId={taskId}
 				taskData={state.task}
-				usersData={state.users}
-				newTask={true}
+				submissionData={state.submission}
 			/>
 		);
 	}

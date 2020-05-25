@@ -26,6 +26,18 @@ export const createUser = async (req, res) => {
       }
     });
 
+    // Check the provided email is valid
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return res
+        .status(400)
+        .json(
+          errorResponse(
+            "The email address provided is invalid",
+            "auth/email-invalid"
+          )
+        );
+    }
+
     // Create user in firebase
     const user = await admin.auth().createUser({
       email,

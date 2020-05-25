@@ -7,7 +7,7 @@ import GatesToolbox from "./gatesToolbox";
 import Paper from "@material-ui/core/Paper";
 import CircuitInputButton from "./circuitInputButton";
 import Button from "@material-ui/core/Button";
-import { translateToSimulator, } from "../../helpers/quantumSimulator/quantumTranslator";
+import { translateToSimulator } from "../../helpers/quantumSimulator/quantumTranslator";
 import CellLife from "../../helpers/quCircuit/cellLife";
 import CellData from "../../helpers/quCircuit/cellData";
 import TextField from "@material-ui/core/TextField";
@@ -16,8 +16,13 @@ import { AuthContext } from "../../context/auth";
 import SaveCircuitModal from "./modals/saveCircuit";
 import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
+import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 import Toast from "../Toast/toast";
-import { CircuitResultsContext, CircuitSetterContext, CircuitStructureContext } from "../../context/circuit";
+import {
+	CircuitResultsContext,
+	CircuitSetterContext,
+	CircuitStructureContext,
+} from "../../context/circuit";
 import { CircuitStructure } from "../../helpers/quCircuit/circuitStructure";
 
 const CircuitBox = fashion(Box, (theme) => ({
@@ -61,7 +66,7 @@ export default function QuCircuit(props) {
 	const circuitInputs = circuitStructure.inputs;
 
 	function refreshCircuit() {
-		circuitSetter.setStructure(circuitStructure.copy())
+		circuitSetter.setStructure(circuitStructure.copy());
 	}
 
 	useEffect(() => {
@@ -172,7 +177,7 @@ export default function QuCircuit(props) {
 
 		let finalMultigates = [
 			...cellLife.cellData.multigates,
-			otherCell.wireIndex
+			otherCell.wireIndex,
 		].sort();
 
 		cellLife
@@ -206,8 +211,11 @@ export default function QuCircuit(props) {
 		for (let wireIndex = 0; wireIndex < wireAmount; wireIndex++) {
 			function onInputButtonClicked(event) {
 				let inputs = circuitStructure.inputs;
-				let inputIndex = CircuitStructure.AllowedCircuitInputs.indexOf(inputs[wireIndex]);
-				let nextIndex = (inputIndex + 1) % CircuitStructure.AllowedCircuitInputs.length;
+				let inputIndex = CircuitStructure.AllowedCircuitInputs.indexOf(
+					inputs[wireIndex]
+				);
+				let nextIndex =
+					(inputIndex + 1) % CircuitStructure.AllowedCircuitInputs.length;
 				inputs[wireIndex] = CircuitStructure.AllowedCircuitInputs[nextIndex];
 				circuitSetter.setInputs([...inputs]);
 			}
@@ -261,17 +269,20 @@ export default function QuCircuit(props) {
 	const buildResultsComp = () => {
 		return (
 			<PlatformBox m={1}>
-				<h2>Circuit Results</h2>
+				<Typography variant="h5">Circuit Results</Typography>
 				<ResultBox>
-					{circuitResults
-						.filter((r) => r.probability > 0)
-						.map((e, i) => (
-							<Box m={1} key={i}>
-								<Typography>
-									{e.amplitude}|{e.state}⟩ {e.probability}%
+					{circuitResults.map((result, index) => {
+						const amp = reduceAmplitude(result.amplitude);
+						const stat = result.state;
+						const prob = Math.floor(result.probability);
+						if (prob > 0) {
+							return (
+								<Typography variant="body1" key={index}>
+									&lt;{`${amp}|${stat}`}&gt; {prob}%
 								</Typography>
-							</Box>
-						))}
+							);
+						}
+					})}
 				</ResultBox>
 			</PlatformBox>
 		);
@@ -402,19 +413,29 @@ export default function QuCircuit(props) {
 			onDragOver={(event) => event.preventDefault()}
 		>
 			<CircuitBox flexGrow={1} flexShrink={6}>
-				<div ref={circuitRef}>{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}</div>
+				<div ref={circuitRef}>
+					{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}
+				</div>
 			</CircuitBox>
 			<ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
 				<PlatformBox m={1} display="flex">
 					<Box>
 						<Box m={1}>
-							<Button color="primary" variant="contained" onClick={() => circuitStructure.runUserDownload()}>
+							<Button
+								color="primary"
+								variant="contained"
+								onClick={() => circuitStructure.runUserDownload()}
+							>
 								Export File
 							</Button>
 						</Box>
 
 						<Box m={1}>
-							<Button color="primary" variant="contained" onClick={() => circuitSetter.runUserUpload()}>
+							<Button
+								color="primary"
+								variant="contained"
+								onClick={() => circuitSetter.runUserUpload()}
+							>
 								Import File
 							</Button>
 						</Box>
@@ -449,7 +470,8 @@ export default function QuCircuit(props) {
 								type="number"
 								value={circuitStructure.wireCount}
 								onChange={(event) =>
-									circuitSetter.setWireCount(event.target.value)}
+									circuitSetter.setWireCount(event.target.value)
+								}
 							/>
 						</SmallBox>
 					</Box>

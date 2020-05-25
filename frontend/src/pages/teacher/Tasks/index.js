@@ -1,10 +1,10 @@
 import React from "react";
-import TeacherTasks from "../../../components/teacherTasks";
+import TaskList from "../../../components/TaskList";
 
 export default function TeacherTasksPage() {
     return (
         <>
-            <TeacherTasks/>
+            <TaskList/>
         </>
     );
 }
