@@ -42,11 +42,8 @@ export const createTask = async (req, res) => {
 
     checkTaskData(taskBody);
 
-    // Make sure the owners block of the taskBody has the
-    // authenticated users userId in it and if not add it
-    if (!taskBody.owners.includes(userId)) {
-      taskBody.owners.push(userId);
-    }
+    // Set the current user as the admin of this task so they cannot be deleted from it
+    taskBody.admin = userId;
 
     const taskDoc = await db.collection("tasks").doc(taskBody.taskId).get();
 
@@ -161,8 +158,11 @@ export const updateTask = async (req, res) => {
 
     if (taskDoc.exists === true) {
       // Check that the user requesting to update the tasks is an owner of the task
-      if (taskDoc.data().owners.includes(userId) === true) {
-        await taskDoc.ref.set(taskBody);
+      if (
+        taskDoc.data().owners.includes(userId) === true ||
+        taskDoc.data().admin === userId
+      ) {
+        await taskDoc.ref.set({admin: taskDoc.data().admin, ...taskBody});
         return res
           .status(200)
           .json(
@@ -195,7 +195,10 @@ export const deleteTask = async (req, res) => {
 
     if (taskDoc.exists === true) {
       // Check that the user requesting to delete the tasks is an owner of the task
-      if (taskDoc.data().owners.includes(userId)) {
+      if (
+        taskDoc.data().owners.includes(userId) ||
+        taskDoc.data().admin === userId
+      ) {
         await taskDoc.ref.delete();
         return res
           .status(200)

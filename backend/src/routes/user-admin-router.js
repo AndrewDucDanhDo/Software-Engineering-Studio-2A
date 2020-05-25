@@ -8,9 +8,8 @@ import {
   updateUserRoles,
   deleteUser
 } from "../controllers/user";
-import { getTaskSubmissions, updateSubmissionResults } from "../controllers/submission";
 
-const userAdminRouter = Router().use(checkToken, checkSuperUserRole);
+const userAdminRouter = Router().use(checkToken, checkTeacherRole);
 
 userAdminRouter.get("/", getAllUsers);
 userAdminRouter.get("/:userId", getUser);

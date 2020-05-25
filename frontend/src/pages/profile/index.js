@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Box, Typography } from "@material-ui/core";
+import React from "react";
+import { Box } from "@material-ui/core";
 import Profile from "../../components/profile";
 import api from "../../helpers/api";
 import { AuthContext } from "../../context/auth";
