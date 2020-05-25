@@ -13,9 +13,9 @@ export default class Demo extends React.PureComponent {
                         <a href="https://www.youtube.com/watch?v=oT3mCybbhf0" target="_blank">Click me for more info</a>
                     </div>
                 </Grid>
-                <Grid xs={10} item container direction="column" justify="space-between" onChange={this.handleTheChange}>
+                <Grid xs={10} item container direction="column" justify="space-between">
                     <QuantumSimulator />
-                    <QuantumBarChart/>
+                    <QuantumBarChart />
                 </Grid>
             </Grid>
         );

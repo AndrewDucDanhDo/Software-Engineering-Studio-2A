@@ -1,16 +1,10 @@
 {
   "ExpandedNodes": [
-    "",
     "\\frontend",
-    "\\frontend\\public",
     "\\frontend\\public\\quantum",
-    "\\frontend\\public\\quantum\\js",
     "\\frontend\\src",
-    "\\frontend\\src\\components",
-    "\\frontend\\src\\components\\quantum",
-    "\\frontend\\src\\pages",
-    "\\frontend\\src\\pages\\home"
+    "\\frontend\\src\\components"
   ],
-  "SelectedNode": "\\frontend\\src\\pages\\home\\index.js",
+  "SelectedNode": "\\frontend\\src\\components\\profile",
   "PreviewInSolutionExplorer": false
 }
