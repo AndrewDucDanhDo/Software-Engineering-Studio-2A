@@ -103,7 +103,7 @@ const buildStudentNav = (classes, signOutFunc) => {
 	);
 };
 
-const buildTeacherNav = (classes, signOutFunc) => {
+const buildTeacherNav = (classes, signOutFunc, superuser) => {
 	return (
 		<AppBar className={classes.navcolor} position="static">
 			<Toolbar>
@@ -117,6 +117,16 @@ const buildTeacherNav = (classes, signOutFunc) => {
 						Quantum Circuit Simulator Group 2 - Teacher
 					</Typography>
 				</Box>
+				{superuser && (
+					<Button
+						className={classes.signup}
+						color="inherit"
+						component={Link}
+						to="/admin"
+					>
+						Admin Dashboard
+					</Button>
+				)}
 				<Button
 					className={classes.signup}
 					color="inherit"
@@ -155,7 +165,11 @@ function Navigation() {
 			authState.user.claims !== undefined &&
 			(authState.user.claims.superuser || authState.user.claims.teacher)
 		) {
-			navComp = buildTeacherNav(classes, handleSignOut);
+			navComp = buildTeacherNav(
+				classes,
+				handleSignOut,
+				authState.user.claims.superuser
+			);
 		} else {
 			// If the authenticated user does not have a teacher
 			// claim assume its a assume they are a student user
