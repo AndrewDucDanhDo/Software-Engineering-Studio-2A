@@ -12,7 +12,7 @@ import {
 	TableRow,
 	Typography,
 	CircularProgress,
-	makeStyles
+	makeStyles,
 } from "@material-ui/core";
 import { AuthContext } from "../../context/auth";
 import api from "../../helpers/api";
@@ -36,7 +36,7 @@ const isAdminUser = (authState) => {
 
 const TaskList = () => {
 	const [state, setState] = React.useState({ tasks: undefined });
-	const classes = withStyles()
+	const classes = withStyles();
 	const { authState } = React.useContext(AuthContext);
 	const history = useHistory();
 
@@ -56,16 +56,38 @@ const TaskList = () => {
 		}
 	};
 
-	const taskRow = (taskId, name, description) => {
+	const taskRow = (task) => {
 		const taskPath = isAdminUser(authState)
-			? `/admin/task/${taskId}`
-			: `/student/task/${taskId}`;
+			? `/admin/task/${task.taskId}`
+			: `/student/task/${task.taskId}`;
 
 		return (
 			<TableRow hover onClick={() => history.push(taskPath)}>
-				<TableCell style={{ width: "30%" }}>{name}</TableCell>
-				<TableCell style={{ width: "70%" }}>{description}</TableCell>
+				<TableCell>{task.name}</TableCell>
+				<TableCell>{task.summary}</TableCell>
 			</TableRow>
+		);
+	};
+
+	const buildTaskTable = () => {
+		return (
+			<Table component={Paper} my={2} variant="outlined">
+				<TableHead>
+					<TableRow>
+						<TableCell style={{ width: "20%" }}>
+							<Typography variant="h5">Task</Typography>
+						</TableCell>
+						<TableCell style={{ width: "50%" }}>
+							<Typography variant="h5">Summary</Typography>
+						</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{state.tasks.map((task) => {
+						return taskRow(task);
+					})}
+				</TableBody>
+			</Table>
 		);
 	};
 
@@ -79,21 +101,9 @@ const TaskList = () => {
 				style={{ padding: 8, backgroundColor: "rgb(224, 233, 236)" }}
 			>
 				{state.tasks === undefined ? (
-					<CircularProgress className={classes.spinner}/>
+					<CircularProgress className={classes.spinner} />
 				) : (
-					<Table component={Paper} my={2} variant="outlined">
-						<TableHead>
-							<TableRow>
-								<TableCell style={{ width: "30%" }}>Tasks</TableCell>
-								<TableCell style={{ width: "70%" }}>Description</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{state.tasks.map((task) => {
-								return taskRow(task.taskId, task.name, task.description);
-							})}
-						</TableBody>
-					</Table>
+					buildTaskTable()
 				)}
 			</Paper>
 			<Box display="flex" flexDirection="row-reverse" my={2} mr={5}>

@@ -21,6 +21,7 @@ import api from "../../helpers/api";
 import { AuthContext } from "../../context/auth";
 import Toast from "../Toast/toast";
 import { CircuitStructureContext } from "../../context/circuit";
+import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 
 const withStyles = makeStyles({
 	palette: {
@@ -59,7 +60,7 @@ const withStyles = makeStyles({
 		overflow: "hidden",
 	},
 	expectedResults: {
-		fontSize: 5,
+		fontSize: 15,
 	},
 });
 
@@ -139,14 +140,6 @@ const StudentTaskViewer = (props) => {
 		);
 	};
 
-	const reduceAmplitude = (result) => {
-		const [firstPart, secondPart] = result
-			.replace("i", "")
-			.split("+")
-			.map((num) => parseFloat(num).toFixed(4));
-		return `${firstPart}+${secondPart}i`;
-	};
-
 	const buildTaskControls = () => {
 		return (
 			<Box m={1}>
@@ -193,7 +186,11 @@ const StudentTaskViewer = (props) => {
 										const prob = Math.floor(result.probability);
 										if (prob > 0) {
 											return (
-												<Typography variant="body1" key={index}>
+												<Typography
+													variant="body1"
+													key={index}
+													className={classes.expectedResults}
+												>
 													&lt;{`${amp}|${stat}`}&gt; {prob}%
 												</Typography>
 											);

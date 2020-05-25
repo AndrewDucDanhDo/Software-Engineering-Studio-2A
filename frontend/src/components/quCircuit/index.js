@@ -16,6 +16,7 @@ import { AuthContext } from "../../context/auth";
 import SaveCircuitModal from "./modals/saveCircuit";
 import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
+import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 import Toast from "../Toast/toast";
 import {
 	CircuitResultsContext,
@@ -264,14 +265,6 @@ export default function QuCircuit(props) {
 			refreshCircuit();
 		}
 	}
-
-	const reduceAmplitude = (result) => {
-		const [firstPart, secondPart] = result
-			.replace("i", "")
-			.split("+")
-			.map((num) => parseFloat(num).toFixed(2));
-		return `${firstPart}+${secondPart}i`;
-	};
 
 	const buildResultsComp = () => {
 		return (

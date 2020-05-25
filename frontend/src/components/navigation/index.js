@@ -57,6 +57,7 @@ const buildGuestNav = (classes, signOutFunc) => {
 					component={Link}
 					onClick={signOutFunc}
 					to="/login"
+					size="small"
 					variant="outlined"
 				>
 					Login
@@ -86,6 +87,7 @@ const buildStudentNav = (classes, signOutFunc) => {
 					color="inherit"
 					component={Link}
 					to="/student/tasks"
+					size="small"
 				>
 					Tasks List
 				</Button>
@@ -94,13 +96,15 @@ const buildStudentNav = (classes, signOutFunc) => {
 					color="inherit"
 					component={Link}
 					to="/profile"
+					size="small"
 				>
 					Profile
 				</Button>
 				<Button
 					color="inherit"
 					onClick={signOutFunc}
-					component={Link} to="/"
+					component={Link}
+					to="/"
 					size="small"
 					variant="outlined"
 				>
@@ -122,7 +126,7 @@ const buildTeacherNav = (classes, signOutFunc, superuser) => {
 						component={Link}
 						to="/"
 					>
-						Quantum Circuit Simulator Group 2 - Teacher
+						Quantum Circuit Simulator Group 2 - {superuser ? "Admin" : "Teacher"}
 					</Typography>
 				</Box>
 				{superuser && (
@@ -131,6 +135,7 @@ const buildTeacherNav = (classes, signOutFunc, superuser) => {
 						color="inherit"
 						component={Link}
 						to="/admin"
+						size="small"
 					>
 						Admin Dashboard
 					</Button>
@@ -140,6 +145,7 @@ const buildTeacherNav = (classes, signOutFunc, superuser) => {
 					color="inherit"
 					component={Link}
 					to="/profile"
+					size="small"
 				>
 					Profile
 				</Button>
@@ -148,12 +154,14 @@ const buildTeacherNav = (classes, signOutFunc, superuser) => {
 					color="inherit"
 					component={Link}
 					to="/admin/tasks"
+					size="small"
 				>
 					Tasks List
 				</Button>
 				<Button
 					color="inherit"
-					component={Link} to="/"
+					component={Link}
+					to="/"
 					onClick={signOutFunc}
 					size="small"
 					variant="outlined"

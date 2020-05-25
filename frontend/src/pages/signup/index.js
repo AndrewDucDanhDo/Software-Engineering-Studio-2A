@@ -53,7 +53,6 @@ export class SignUpPage extends React.Component {
 		const value = target.value;
 		const name = target.name;
 
-		// TODO: Theres probably a better way of doing this but i don't remember how rn
 		this.setState({
 			...this.state,
 			form: { ...this.state.form, [name]: value },
@@ -63,6 +62,7 @@ export class SignUpPage extends React.Component {
 	handleSubmit = async (event) => {
 		// Stop the form element from adding query params by default
 		event.preventDefault();
+
 		try {
 			this.setState({ ...this.state, isLoading: true });
 			await createUser({
@@ -81,7 +81,9 @@ export class SignUpPage extends React.Component {
 				user: userDetails.user,
 			});
 		} catch (error) {
-			await this.setState({
+			console.log(error.response);
+			
+			this.setState({
 				...this.state,
 				signupError: error.response.data,
 			});
@@ -93,10 +95,14 @@ export class SignUpPage extends React.Component {
 		let errorMessage = "An error occurred.";
 		const errorCode = this.state.signupError.errorCode;
 
+		console.log(errorCode);
+
 		if (errorCode === "auth/email-already-exists") {
 			errorMessage = "The email already exists";
 		} else if (errorCode === "auth/invalid-password") {
 			errorMessage = "The password must meet requirements (min 6 characters)";
+		} else if (errorCode === "auth/email-invalid") {
+			errorMessage = "The provided email format is invalid";
 		}
 
 		return (
@@ -115,7 +121,9 @@ export class SignUpPage extends React.Component {
 						<LockOutlinedIcon />
 					</Avatar>
 					<h1>Sign Up</h1>
-					{this.state.signupError !== undefined && this.buildLoginError()}
+					{this.state.signupError !== undefined &&
+						!this.state.isLoading &&
+						this.buildLoginError()}
 					<form onSubmit={this.handleSubmit}>
 						<Grid container spacing={2}>
 							<Grid item xs={12} sm={6}>

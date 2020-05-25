@@ -8,6 +8,8 @@ import {
 	TableRow,
 	TableHead,
 	CircularProgress,
+	Button,
+	Typography,
 } from "@material-ui/core";
 import api from "../../helpers/api";
 import { AuthContext } from "../../context/auth";
@@ -76,8 +78,10 @@ export default class AdminPage extends React.Component {
 					/>
 				</TableCell>
 				<TableCell>
-					<button
-						name="delete"
+					<Button
+						variant="contained"
+						style={{ fontSize: "10px" }}
+						size="small"
 						onClick={(e) => {
 							// this.state.allUsersData =
 							// this.setState(this.state);
@@ -92,7 +96,7 @@ export default class AdminPage extends React.Component {
 						}}
 					>
 						DELETE
-					</button>
+					</Button>
 				</TableCell>
 			</TableRow>
 		);
@@ -103,24 +107,36 @@ export default class AdminPage extends React.Component {
 			<Box>
 				{/* We need to wait for the state to be populated before trying to display the results */}
 				{this.state.allUsersData !== undefined ? (
-					<Paper
-						variant="outlined"
-						style={{ padding: 8, backgroundColor: "rgb(255, 81, 81)" }}
-					>
-						<Table component={Paper} my={2} variant="outlined">
-							<TableHead>
-								<TableCell>Email</TableCell>
-								<TableCell>displayname</TableCell>
-								<TableCell>uid</TableCell>
-								<TableCell>teacher</TableCell>
-								<TableCell>superuser</TableCell>
-							</TableHead>
-							<TableBody>
-								{this.state.allUsersData.map((userData) =>
-									this.userRow(userData)
-								)}
-							</TableBody>
-						</Table>
+					<Paper variant="outlined">
+						<Box m={4}>
+							<Table component={Paper} my={2} variant="outlined">
+								<TableHead>
+									<TableCell>
+										<Typography variant="h6">Email</Typography>
+									</TableCell>
+									<TableCell>
+										<Typography variant="h6">Display Name</Typography>
+									</TableCell>
+									<TableCell>
+										<Typography variant="h6">User Id</Typography>
+									</TableCell>
+									<TableCell>
+										<Typography variant="h6">Teacher Role</Typography>
+									</TableCell>
+									<TableCell>
+										<Typography variant="h6">Super User Role</Typography>
+									</TableCell>
+									<TableCell>
+										<Typography variant="h6">Actions</Typography>
+									</TableCell>
+								</TableHead>
+								<TableBody>
+									{this.state.allUsersData.map((userData) =>
+										this.userRow(userData)
+									)}
+								</TableBody>
+							</Table>
+						</Box>
 					</Paper>
 				) : (
 					<CircularProgress
