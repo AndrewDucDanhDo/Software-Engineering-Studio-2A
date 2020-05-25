@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext, useEffect, useRef, useState, Component } from "react";
+//import React from "react";
 import {Box, Button, Grid, Paper} from "@material-ui/core";
 import {
     ArgumentAxis,
@@ -7,6 +8,7 @@ import {
     BarSeries,
     } from '@devexpress/dx-react-chart-material-ui';
 import { Animation, ValueScale } from '@devexpress/dx-react-chart';
+import { CircuitResultsContext } from "../../context/circuit";
 
 const dataStates = [
     [
@@ -45,9 +47,10 @@ const dataStates = [
         { state: '|1110\u3009', probability: 0 },
         { state: '|1111\u3009', probability: 0 },
     ],
- ]
+];
 
-export default class QuantumBarChart extends React.PureComponent {
+
+/*export default class QuantumBarChart extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = { data: [{}] };  // Need to update this to store all possible states for the number of qubits
@@ -59,10 +62,10 @@ export default class QuantumBarChart extends React.PureComponent {
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.handleKeyPress, false);
-    }
+    }*/
 
 
-    calculateNoOfProbs() {
+    /*calculateNoOfProbs() {
         var tempArray = [];
         var tempArray2 = [];
         if (document.getElementById('amplitudes').rows[0] != null) {
@@ -77,10 +80,10 @@ export default class QuantumBarChart extends React.PureComponent {
             }
         }
         return tempArray2;
-    }
+    }*/
 
-    handleKeyPress = (event) => { // Now have to listen for when #evaluate is called
-        var temp = [];
+    /*handleKeyPress = (event) => { // Now have to listen for when #evaluate is called*/
+        /*var temp = [];
         setTimeout(function () {
             temp = this.calculateNoOfProbs().slice();
             if (document.getElementById('amplitudes').rows[0] != null && event.key === 'Enter') {
@@ -93,9 +96,14 @@ export default class QuantumBarChart extends React.PureComponent {
                 }
             }
             this.setState({ data: temp });
-        }.bind(this), 100)
-    }
+        }.bind(this), 100)*/
 
+        /*var temp;
+        temp = this.circuitResults.slice(0);
+        this.setState({ data: temp });*/
+
+    //}
+/*
     render() {
         const { data: chartData } = this.state;
         console.log(chartData);
@@ -116,5 +124,73 @@ export default class QuantumBarChart extends React.PureComponent {
             </Grid>
         );
     }
-}
+}*/
+
+export default function QuantumBarChart(props) {
+    const circuitResults = useContext(CircuitResultsContext);
+    console.log(circuitResults);
+    const [data, setData] = useState([{}]);
+    const enterPress = useKeyPress('Enter', circuitResults);
+
+    function useKeyPress(targetKey) {
+        // State for keeping track of whether key is pressed
+        const [keyPressed, setKeyPressed] = useState(false);
+
+        // If pressed key is our target key then set to true
+        function downHandler({ key }) {
+            if (key === targetKey) {
+                setKeyPressed(true);
+                add();
+            }
+        }
+
+        // If released key is our target key then set to false
+        const upHandler = ({ key }) => {
+            if (key === targetKey) {
+                setKeyPressed(false);
+            }
+        };
+
+        // Add event listeners
+        useEffect(() => {
+            window.addEventListener('keydown', downHandler); //just build a button
+            window.addEventListener('keyup', upHandler);
+            // Remove event listeners on cleanup
+            return () => {
+                window.removeEventListener('keydown', downHandler);
+                window.removeEventListener('keyup', upHandler);
+            };
+        }, [targetKey]); // Empty array ensures that effect is only run on mount and unmount
+
+        return keyPressed;
+    }
+
+    function add() { // handler
+        console.log(circuitResults);
+        var temp;
+        temp = [...circuitResults];
+        console.log(temp);
+        setData(circuitResults);
+    }
+
+    return (
+        <Grid style={{ backgroundColor: "#F1F1EE" }}>
+            <div>
+                {enterPress}
+            </div>
+            <Chart data={ data } >
+                <ValueScale name="probability" />
+                <ValueAxis scaleName="probability" showGrid={false} showTicks={true} showLine={true} />
+                <ArgumentAxis />
+                <BarSeries
+                    valueField="probability"
+                    argumentField="state"
+                    scaleName="probability"
+                />
+                <Animation />
+            </Chart>
+        </Grid>
+    );
+
+} 
 

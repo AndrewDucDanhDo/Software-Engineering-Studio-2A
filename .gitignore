@@ -118,6 +118,7 @@ package-lock.json
 
 # Firebase
 service-account-key.json
+key.json
 
 # IDEs
 .idea

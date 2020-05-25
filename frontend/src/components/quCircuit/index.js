@@ -56,7 +56,8 @@ export default function QuCircuit(props) {
 	const [toastState, setToastState] = useState({ open: false });
 	const circuitSetter = useContext(CircuitSetterContext);
 	const circuitStructure = useContext(CircuitStructureContext);
-	const circuitResults = useContext(CircuitResultsContext);
+    const circuitResults = useContext(CircuitResultsContext);
+    console.log(circuitResults);
 	const circuit = circuitStructure.internalStructure;
 	const circuitInputs = circuitStructure.inputs;
 
@@ -258,7 +259,12 @@ export default function QuCircuit(props) {
 		}
 	}
 
-	const buildResultsComp = () => {
+    const buildResultsComp = () => {
+        /*var slice = circuitResults.slice(0);
+        for (var p in slice) {
+            console.log(slice[p]);
+        }
+        //console.log(slice);*/
 		return (
 			<PlatformBox m={1}>
 				<h2>Circuit Results</h2>
