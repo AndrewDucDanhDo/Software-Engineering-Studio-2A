@@ -5,18 +5,18 @@ import ControlGate from "../../components/quCircuit/controlGate";
 import SwapGate from "../../components/quCircuit/swapGate";
 
 export const Gates = {
-    H: "H",
-    Y: "Y",
-    Z: "Z",
-    S: "S",
-    CNOT: "CNOT",
-    CONTROL: "CONTROL",
-    SWAP: "SWAP",
-    R2: "R2",
-    R4: "R4",
-    R8: "R8",
-    QFT: "QFT",
-    SRN: "SRN",
+	H: "H",
+	Y: "Y",
+	Z: "Z",
+	S: "S",
+	CNOT: "CNOT",
+	CONTROL: "CONTROL",
+	SWAP: "SWAP",
+	R2: "R2",
+	R4: "R4",
+	R8: "R8",
+	QFT: "QFT",
+	SRN: "SRN",
 };
 
 
@@ -24,16 +24,16 @@ export const GateProperties = {};
 
 export class GateProperty {
 
-    constructor(gate, component, validEnds) {
-        this.gate = gate;
-        this.component = component;
-        this.validEnds = validEnds || [Gates.CONTROL];
-        this.canConnectToItself = false;
-        this.isMultigate = false;
-        this.isResizable = false;
-        this.maxEnds = Number.MAX_VALUE;
-        GateProperties[gate] = this;
-    }
+	constructor(gate, component, validEnds) {
+		this.gate = gate;
+		this.component = component;
+		this.validEnds = validEnds || [Gates.CONTROL];
+		this.canConnectToItself = false;
+		this.isMultigate = false;
+		this.isResizable = false;
+		this.maxEnds = Number.MAX_VALUE;
+		GateProperties[gate] = this;
+	}
 }
 
 let h = new GateProperty(Gates.H, (props) => (<LabeledGate {...props} label="H"/>));
@@ -55,12 +55,12 @@ let srn = new GateProperty(Gates.SRN, (props) => (<LabeledGate {...props} label=
 
 
 export function getGateComponentOrEmpty(gate) {
-    return GateProperties[gate] ? GateProperties[gate].component : (<></>);
+	return GateProperties[gate] ? GateProperties[gate].component : (<></>);
 }
 
 export function getGateComponent(gate) {
-    if (!GateProperties[gate]) {
-        throw new Error(`Expected an actual gate but got ${gate}`);
-    }
-    return GateProperties[gate].component;
+	if (!GateProperties[gate]) {
+		throw new Error(`Expected an actual gate but got ${gate}`);
+	}
+	return GateProperties[gate].component;
 }
