@@ -31,6 +31,7 @@ import {
 	deleteSubmission,
 	getAllSubmissionsAdmin,
 	updateSubmissionAdmin,
+	createSubmission,
 } from "./submission";
 
 export const API_HOST = "localhost:4000";
@@ -56,6 +57,7 @@ export default {
 		getAll: getAllTasks,
 		getSingle: getSingleTask,
 		submission: {
+			create: createSubmission,
 			get: getSubmission,
 			update: updateSubmission,
 			delete: deleteSubmission,
@@ -67,7 +69,7 @@ export default {
 			getAll: getAllUsers,
 			roles: {
 				get: getRoles,
-				update: updateRoles
+				update: updateRoles,
 			},
 		},
 		tasks: {

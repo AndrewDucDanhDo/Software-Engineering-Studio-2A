@@ -338,20 +338,31 @@ export default function QuCircuit(props) {
 		);
 	}
 
+	const reduceAmplitude = (result) => {
+		const [firstPart, secondPart] = result
+			.replace("i", "")
+			.split("+")
+			.map((num) => parseFloat(num).toFixed(4));
+		return `${firstPart}+${secondPart}i`;
+	};
+
 	const buildResultsComp = () => {
 		return (
 			<PlatformBox m={1}>
-				<h2>Circuit Results</h2>
+				<Typography variant="h5">Circuit Results</Typography>
 				<ResultBox>
-					{results
-						.filter((r) => r.probability > 0)
-						.map((e, i) => (
-							<Box m={1} key={i}>
-								<Typography>
-									{e.amplitude}|{e.state}⟩ {e.probability}%
+					{results.map((result, index) => {
+						const amp = reduceAmplitude(result.amplitude);
+						const stat = result.state;
+						const prob = Math.floor(result.probability);
+						if (prob > 0) {
+							return (
+								<Typography variant="body1" key={index}>
+									&lt;{`${amp}|${stat}`}&gt; {prob}%
 								</Typography>
-							</Box>
-						))}
+							);
+						}
+					})}
 				</ResultBox>
 			</PlatformBox>
 		);

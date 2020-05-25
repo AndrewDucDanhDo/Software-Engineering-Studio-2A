@@ -386,6 +386,14 @@ const TeacherTaskViewer = (props) => {
 		return <QuCircuit defaultCircuit={taskData.masterCircuit} />;
 	};
 
+	const reduceAmplitude = (result) => {
+		const [firstPart, secondPart] = result
+			.replace("i", "")
+			.split("+")
+			.map((num) => parseFloat(num).toFixed(4));
+		return `${firstPart}+${secondPart}i`;
+	};
+
 	return (
 		<Grid
 			container
@@ -451,8 +459,8 @@ const TeacherTaskViewer = (props) => {
 								<Container>
 									<Box textAlign="center">
 										{expectedResultsState.map((result, index) => {
-											const amp = result.amplitude;
-											const stat = result.amplitude;
+											const amp = reduceAmplitude(result.amplitude);
+											const stat = result.state;
 											const prob = result.probability;
 
 											if (prob > 0) {

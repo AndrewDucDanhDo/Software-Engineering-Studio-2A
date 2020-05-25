@@ -108,7 +108,11 @@ export const getTaskSubmissions = async (req, res) => {
             })
           );
         } else {
-          throw new FirestoreError("missing", submissionDoc.ref, "submission");
+          return res.status(200).json(
+            successResponse({
+              circuit: {}
+            })
+          );
         }
       }
     } else {
@@ -249,7 +253,6 @@ export const updateSubmissionResults = async (req, res) => {
     } else {
       throw new FirestoreError("missing", submissionDoc.ref, "task");
     }
-
   } catch (error) {
     handleApiError(res, error);
   }

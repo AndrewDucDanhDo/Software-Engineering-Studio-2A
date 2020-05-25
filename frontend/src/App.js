@@ -18,6 +18,7 @@ import TeacherTaskEditorPage from "./pages/teacher/TaskEditor";
 import AdminPage from "./pages/admin";
 import CreateNewTaskPage from "./pages/teacher/CreateTask";
 import StudentTaskListPage from "./pages/student/TasksList";
+import StudentTaskViewerPage from "./pages/student/TaskViewer";
 
 // Context
 import { AuthProvider } from "./context/auth";
@@ -61,6 +62,12 @@ function AppRouter(props) {
 				path="/student/tasks"
 				adminRoute={false}
 				component={StudentTaskListPage}
+			/>
+
+			<PrivateRoute
+				path="/student/task/:taskId"
+				adminRoute={false}
+				component={StudentTaskViewerPage}
 			/>
 
 			<PrivateRoute
