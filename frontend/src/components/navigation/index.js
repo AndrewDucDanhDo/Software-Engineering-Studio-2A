@@ -48,6 +48,7 @@ const buildGuestNav = (classes, signOutFunc) => {
 					color="inherit"
 					component={Link}
 					to="/signup"
+					size="small"
 				>
 					Sign Up
 				</Button>
@@ -56,6 +57,7 @@ const buildGuestNav = (classes, signOutFunc) => {
 					component={Link}
 					onClick={signOutFunc}
 					to="/login"
+					variant="outlined"
 				>
 					Login
 				</Button>
@@ -95,7 +97,13 @@ const buildStudentNav = (classes, signOutFunc) => {
 				>
 					Profile
 				</Button>
-				<Button color="inherit" onClick={signOutFunc} component={Link} to="/">
+				<Button
+					color="inherit"
+					onClick={signOutFunc}
+					component={Link} to="/"
+					size="small"
+					variant="outlined"
+				>
 					Sign out
 				</Button>
 			</Toolbar>
@@ -143,7 +151,13 @@ const buildTeacherNav = (classes, signOutFunc, superuser) => {
 				>
 					Tasks List
 				</Button>
-				<Button color="inherit" component={Link} to="/" onClick={signOutFunc}>
+				<Button
+					color="inherit"
+					component={Link} to="/"
+					onClick={signOutFunc}
+					size="small"
+					variant="outlined"
+				>
 					Sign Out
 				</Button>
 			</Toolbar>

@@ -12,7 +12,7 @@ import { AuthContext } from "../../context/auth";
 
 const useStyles = makeStyles({
 	root: {
-		height: "100vh",
+		height: "100%",
 	},
 	test: {
 		display: "flex",

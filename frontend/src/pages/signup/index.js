@@ -9,6 +9,7 @@ import Container from "@material-ui/core/Container";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { AuthContext } from "../../context/auth";
 import { Redirect } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
 
 const styles = {
 	test: {
@@ -19,6 +20,10 @@ const styles = {
 	},
 	submit: {
 		display: "flex",
+	},
+	load: {
+		marginLeft: "45%",
+		paddingTop: "5vh",
 	},
 };
 
@@ -155,6 +160,7 @@ export class SignUpPage extends React.Component {
 									name="password"
 									required
 									fullWidth
+									type="password"
 									onChange={this.handleFormChange}
 								/>
 							</Grid>
@@ -169,6 +175,9 @@ export class SignUpPage extends React.Component {
 								Submit
 							</Button>
 						</Grid>
+						<Box className={this.props.classes.load}>
+							{this.state.isLoading && <CircularProgress />}
+						</Box>
 					</form>
 				</div>
 			</Container>
