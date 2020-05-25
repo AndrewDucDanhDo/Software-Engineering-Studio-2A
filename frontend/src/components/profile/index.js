@@ -1,43 +1,56 @@
-import React from "react"
-import {Box, Container, Paper, Table, TableBody, Typography} from "@material-ui/core";
+import React from "react";
 import ProfileRow from "./profileRow";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
+import BoxedSpace from "../common/boxedSpace";
 
-export default class Profile extends React.Component {
+const useStyles = makeStyles((theme) => ({
+	row: {
+		marginTop: theme.spacing(2),
+		marginBottom: theme.spacing(2),
+	},
+	divider: {
+		width: "100%",
+		borderBottom: "solid 1px rgba(0, 0, 0, 0.07)",
+	},
+}));
 
-    constructor(props) {
-        super(props);
+export default function Profile(props) {
+	const classes = useStyles();
+	const { userData } = props;
 
-        this.state = {
+	const divider = <Box className={classes.divider} />;
 
-        };
-    }
+	return (
+		<Box m={3}>
+			<Container maxWidth="md">
+				<Box textAlign="left" ml={3} my={1}>
+					<Typography variant="h4">Profile</Typography>
+				</Box>
 
-    fetchProfile() {
-        // TODO: Get profile data from the backend here.
-    }
-
-    render() {
-        return (
-            <Box m={3}>
-                <Container maxWidth="md">
-                    <Typography variant="h4">
-                        <Box  my={2} ml={2} textAlign="left">Profile</Box>
-                    </Typography>
-
-                    <Table component={Paper} style={{tableLayout: "fixed"}}>
-                        <colgroup>
-                            <col style={{width: "22%"}}/>
-                            <col style={{width: "55%"}}/>
-                            <col style={{width: "25%"}}/>
-                        </colgroup>
-                        <TableBody>
-                            <ProfileRow title="Name" value="Sample gazooie" editable/>
-                            <ProfileRow title="Student ID" value="121341"/>
-                            <ProfileRow title="Email" value="sample@gmail.com" editable/>
-                        </TableBody>
-                    </Table>
-                </Container>
-            </Box>
-        )
-    }
+				{userData ? (
+					<BoxedSpace>
+						<ProfileRow
+							className={classes.row}
+							title="Name"
+							value={userData.displayName}
+							editable
+						/>
+						{divider}
+						<ProfileRow
+							className={classes.row}
+							title="Email"
+							value={userData.email}
+							editable
+						/>
+					</BoxedSpace>
+				) : (
+					// TODO: Add some kind of spinner here to show the page is still loading
+					<p>Loading profile</p>
+				)}
+			</Container>
+		</Box>
+	);
 }

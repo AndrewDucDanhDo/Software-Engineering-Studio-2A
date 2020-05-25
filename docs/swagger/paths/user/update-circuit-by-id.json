@@ -1,7 +1,7 @@
 {
 	"post": {
 		"tags": ["user", "circuit"],
-		"summary": "Update a single quantum circuits information owned by a user. TODO",
+		"summary": "Update a single quantum circuits information owned by a user.",
 		"parameters": [
 			{
 				"$ref": "../../common/parameters/userId.json"
@@ -26,25 +26,38 @@
 					"$ref": "../../common/schemas/apiResponse.json#"
 				}
 			},
+			"400": {
+				"description": "Bad request from client.",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "The requested circuit name does not exist for the user",
+						"errorCode": "circuit-missing"
+					}
+				}
+			},
 			"500": {
 				"description": "Unknown server side error.",
 				"schema": {
 					"$ref": "../../common/schemas/apiErrorResponse.json#"
 				},
 				"examples": {
-          "application/json": {
-            "status": "ERROR",
+					"application/json": {
+						"status": "ERROR",
 						"msg": "An unknown error occurred.",
 						"errorCode": "some-error-id",
-            "error": "RangeError: Invalid array length"
-          }
-        }
+						"error": "RangeError: Invalid array length"
+					}
+				}
 			}
 		}
 	},
 	"delete": {
 		"tags": ["user", "circuit"],
-		"summary": "Delete a single quantum circuit owned by a user. TODO",
+		"summary": "Delete a single quantum circuit owned by a user.",
 		"parameters": [
 			{
 				"$ref": "../../common/parameters/userId.json"
@@ -60,19 +73,32 @@
 					"$ref": "../../common/schemas/apiResponse.json#"
 				}
 			},
+			"400": {
+				"description": "Bad request from client.",
+				"schema": {
+					"$ref": "../../common/schemas/apiResponse.json#"
+				},
+				"examples": {
+					"application/json": {
+						"status": "ERROR",
+						"msg": "The requested circuit name does not exist for the user",
+						"errorCode": "circuit-missing"
+					}
+				}
+			},
 			"500": {
 				"description": "Unknown server side error.",
 				"schema": {
 					"$ref": "../../common/schemas/apiErrorResponse.json#"
 				},
 				"examples": {
-          "application/json": {
-            "status": "ERROR",
+					"application/json": {
+						"status": "ERROR",
 						"msg": "An unknown error occurred.",
 						"errorCode": "some-error-id",
-            "error": "RangeError: Invalid array length"
-          }
-        }
+						"error": "RangeError: Invalid array length"
+					}
+				}
 			}
 		}
 	}
