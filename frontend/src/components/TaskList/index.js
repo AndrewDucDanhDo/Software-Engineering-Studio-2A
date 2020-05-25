@@ -12,10 +12,20 @@ import {
 	TableRow,
 	Typography,
 	CircularProgress,
+	makeStyles
 } from "@material-ui/core";
 import { AuthContext } from "../../context/auth";
 import api from "../../helpers/api";
 import { useHistory } from "react-router-dom";
+
+const withStyles = makeStyles({
+	spinner: {
+		position: "absolute",
+		top: "50%",
+		left: "50%",
+		transform: "translate(-50%, -50%)",
+	},
+});
 
 const isAdminUser = (authState) => {
 	return (
@@ -26,6 +36,7 @@ const isAdminUser = (authState) => {
 
 const TaskList = () => {
 	const [state, setState] = React.useState({ tasks: undefined });
+	const classes = withStyles()
 	const { authState } = React.useContext(AuthContext);
 	const history = useHistory();
 
@@ -68,7 +79,7 @@ const TaskList = () => {
 				style={{ padding: 8, backgroundColor: "rgb(224, 233, 236)" }}
 			>
 				{state.tasks === undefined ? (
-					<CircularProgress />
+					<CircularProgress className={classes.spinner}/>
 				) : (
 					<Table component={Paper} my={2} variant="outlined">
 						<TableHead>

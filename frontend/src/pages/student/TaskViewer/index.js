@@ -1,11 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
 import StudentTaskViewer from "../../../components/StudentTaskViewer";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, makeStyles } from "@material-ui/core";
 import api from "../../../helpers/api";
 import { AuthContext } from "../../../context/auth";
 
+const withStyles = makeStyles({
+	spinner: {
+		position: "absolute",
+		top: "50%",
+		left: "50%",
+		transform: "translate(-50%, -50%)",
+	},
+});
+
 export default function StudentTaskViewerPage(props) {
 	const taskId = props.match.params.taskId;
+	const classes = withStyles();
 	const [state, setState] = useState({});
 	const { authState } = useContext(AuthContext);
 
@@ -28,7 +38,7 @@ export default function StudentTaskViewerPage(props) {
 	});
 
 	if (state.task === undefined) {
-		return <CircularProgress />;
+		return <CircularProgress className={classes.spinner} />;
 	} else {
 		return (
 			<StudentTaskViewer

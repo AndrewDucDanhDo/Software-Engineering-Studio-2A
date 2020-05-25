@@ -1,7 +1,7 @@
 import React from "react";
 import { createUser, loginUser } from "../../helpers/auth";
 import { withStyles } from "@material-ui/styles";
-import { TextField, Grid } from "@material-ui/core";
+import { TextField, Grid, Box } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -9,7 +9,6 @@ import Container from "@material-ui/core/Container";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { AuthContext } from "../../context/auth";
 import { Redirect } from "react-router-dom";
-import { CircularProgress } from "@material-ui/core";
 
 const styles = {
 	test: {
@@ -164,11 +163,11 @@ export class SignUpPage extends React.Component {
 								variant="contained"
 								type="submit"
 								fullWidth
+								disabled={this.state.isLoading}
 								classname={this.props.classes.submit}
 							>
 								Submit
 							</Button>
-							{this.state.isLoading && <CircularProgress />}
 						</Grid>
 					</form>
 				</div>

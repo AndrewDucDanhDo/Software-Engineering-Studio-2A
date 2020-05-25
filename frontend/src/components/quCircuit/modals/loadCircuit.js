@@ -11,12 +11,23 @@ import {
 	ListItemText,
 	ListItemSecondaryAction,
 	IconButton,
+	makeStyles,
 } from "@material-ui/core";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 import api from "../../../helpers/api";
 import { AuthContext } from "../../../context/auth";
 
+const withStyles = makeStyles({
+	spinner: {
+		position: "absolute",
+		top: "50%",
+		left: "50%",
+		transform: "translate(-50%, -50%)",
+	},
+});
+
 export default function LoadCircuitModal(props) {
+	const classes = withStyles()
 	const { onClose, open, onItemSelect } = props;
 	const [circuitsState, setCircuitsState] = React.useState({
 		circuits: undefined,
@@ -55,7 +66,7 @@ export default function LoadCircuitModal(props) {
 			</DialogTitle>
 			<DialogContent>
 				{circuitsState.circuits === undefined ? (
-					<CircularProgress />
+					<CircularProgress className={classes.spinner}/>
 				) : circuitsState.circuits > 0 ? (
 					<List>
 						{circuitsState.circuits.map((circuit) => (

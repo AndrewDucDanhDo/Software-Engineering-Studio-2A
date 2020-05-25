@@ -19,59 +19,80 @@ export default class AdminPage extends React.Component {
 		super(props);
 		this.state = {
 			allUsersData: undefined,
-			selected: null
+			selected: null,
 		};
 	}
 
 	async componentDidMount() {
 		const { idToken } = this.context.authState.user;
-		const allUsersData = (await api.admin.users.getAll(idToken)).data.data.users;
+		const allUsersData = (await api.admin.users.getAll(idToken)).data.data
+			.users;
 		this.setState({ allUsersData });
 	}
 
 	handleRoleChange = (e, userId, roles) => {
 		const { idToken } = this.context.authState.user;
-		api.admin.users.roles.update(idToken, userId, roles)
-	}
+		api.admin.users.roles.update(idToken, userId, roles);
+	};
 
 	handleUserDelete = (e, userId) => {
 		const { idToken } = this.context.authState.user;
 		api.admin.users.delete(idToken, userId);
-	}
+	};
 
 	userRow(data) {
 		if (data.customClaims === undefined) data.customClaims = {};
 		data.customClaims = {
 			teacher: data.customClaims.teacher || false,
-			superuser: data.customClaims.superuser || false
-		}
+			superuser: data.customClaims.superuser || false,
+		};
 		return (
 			<TableRow hover onClick={this.handleRowSelect}>
 				<TableCell>{data.email}</TableCell>
 				<TableCell>{data.displayName}</TableCell>
 				<TableCell>{data.uid}</TableCell>
 				<TableCell>
-					<input name="teacher" type="checkbox" checked={data.customClaims.teacher} onChange={(e) => {
-						data.customClaims.teacher = !data.customClaims.teacher;
-						this.setState(this.state);
-						this.handleRoleChange(e, data.uid, data.customClaims);
-					}} />
+					<input
+						name="teacher"
+						type="checkbox"
+						checked={data.customClaims.teacher}
+						onChange={(e) => {
+							data.customClaims.teacher = !data.customClaims.teacher;
+							this.setState(this.state);
+							this.handleRoleChange(e, data.uid, data.customClaims);
+						}}
+					/>
 				</TableCell>
 				<TableCell>
-					<input name="teacher" type="checkbox" checked={data.customClaims.superuser} onChange={(e) => {
-						data.customClaims.superuser = !data.customClaims.superuser;
-						this.setState(this.state);
-						this.handleRoleChange(e, data.uid, data.customClaims);
-					}} />
+					<input
+						name="teacher"
+						type="checkbox"
+						checked={data.customClaims.superuser}
+						onChange={(e) => {
+							data.customClaims.superuser = !data.customClaims.superuser;
+							this.setState(this.state);
+							this.handleRoleChange(e, data.uid, data.customClaims);
+						}}
+					/>
 				</TableCell>
 				<TableCell>
-					<button name="delete" onClick={(e) => {
-						// this.state.allUsersData =
-						// this.setState(this.state);
-						this.setState({...this.state, allUsersData: this.state.allUsersData.filter(user => user.uid !== data.uid)});
+					<button
+						name="delete"
+						onClick={(e) => {
+							// this.state.allUsersData =
+							// this.setState(this.state);
+							this.setState({
+								...this.state,
+								allUsersData: this.state.allUsersData.filter(
+									(user) => user.uid !== data.uid
+								),
+							});
 
-						this.handleUserDelete(e, data.uid);
-					}}>DELETE</button>
+							this.handleUserDelete(e, data.uid);
+						}}
+					>
+						DELETE
+					</button>
 				</TableCell>
 			</TableRow>
 		);
@@ -95,13 +116,22 @@ export default class AdminPage extends React.Component {
 								<TableCell>superuser</TableCell>
 							</TableHead>
 							<TableBody>
-								{this.state.allUsersData.map((userData) => this.userRow(userData))}
+								{this.state.allUsersData.map((userData) =>
+									this.userRow(userData)
+								)}
 							</TableBody>
 						</Table>
 					</Paper>
 				) : (
-						<CircularProgress />
-					)}
+					<CircularProgress
+						style={{
+							position: "absolute",
+							top: "50%",
+							left: "50%",
+							transform: "translate(-50%, -50%)",
+						}}
+					/>
+				)}
 			</Box>
 		);
 	}
