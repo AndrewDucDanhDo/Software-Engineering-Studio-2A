@@ -19,6 +19,8 @@ import api from "../../helpers/api";
 import Toast from "../Toast/toast";
 import { CircuitResultsContext, CircuitSetterContext, CircuitStructureContext } from "../../context/circuit";
 import { CircuitStructure } from "../../helpers/quCircuit/circuitStructure";
+import QuantumBarChart from "./quantumBarChart"
+import { Grid } from "@material-ui/core";
 
 const CircuitBox = fashion(Box, (theme) => ({
 	marginTop: theme.spacing(1),
@@ -406,10 +408,13 @@ export default function QuCircuit(props) {
 			display="flex"
 			onDrop={onDrop}
 			onDragOver={(event) => event.preventDefault()}
-		>
-			<CircuitBox flexGrow={1} flexShrink={6}>
-				<div ref={circuitRef}>{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}</div>
-			</CircuitBox>
+        >
+            <Grid flexGrow={1} flexShrink={6} justifyContent="flex-end" style={{ backgroundColor: "#CB31FF" }}>
+			    <CircuitBox flexGrow={1} flexShrink={6}>
+                    <div ref={circuitRef}>{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}</div>
+                </CircuitBox>
+                <QuantumBarChart />
+            </Grid>
 			<ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
 				<PlatformBox m={1} display="flex">
 					<Box>
@@ -432,7 +437,8 @@ export default function QuCircuit(props) {
 				</PlatformBox>
 				<PlatformBox m={1}>
 					<Box m={1}>
-						<Button
+                        <Button
+                            id = "evaluateButton"
 							color="primary"
 							variant="contained"
 							onClick={onEvaluateButtonClicked}
@@ -468,12 +474,12 @@ export default function QuCircuit(props) {
 							Clear
 						</Button>
 					</Box>
-				</PlatformBox>
+                </PlatformBox>
 				{circuitResults.length > 0 && buildResultsComp()}
 			</ToolBox>
 			{/* Utility components that are displayed when needed */}
 			{modalState.open && buildModal()}
-			{toastState.open && buildToast()}
-		</StretchBox>
+            {toastState.open && buildToast()}
+        </StretchBox>
 	);
 }

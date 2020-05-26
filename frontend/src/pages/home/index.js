@@ -22,10 +22,9 @@ function HomePage() {
 					</a>
                 </div>
             </Grid>
-            <Grid xs={10} item>
+            <Grid xs={10} direction="column" justify="space-between" >
                 <QuCircuit />
             </Grid>
-            <QuantumBarChart />
         </Grid>
     );
 }

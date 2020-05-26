@@ -10,44 +10,13 @@ import {
 import { Animation, ValueScale } from '@devexpress/dx-react-chart';
 import { CircuitResultsContext } from "../../context/circuit";
 
-const dataStates = [
+const dataStates = 
     [
-        { state: '|00\u3009', probability: 0 },
-        { state: '|01\u3009', probability: 0 },
-        { state: '|10\u3009', probability: 0 },
-        { state: '|11\u3009', probability: 0 },
-    ],
-
-    [
-        { state: '|000\u3009', probability: 0 },
-        { state: '|001\u3009', probability: 0 },
-        { state: '|010\u3009', probability: 0 },
-        { state: '|011\u3009', probability: 0 },
-        { state: '|100\u3009', probability: 0 },
-        { state: '|101\u3009', probability: 0 },
-        { state: '|110\u3009', probability: 0 },
-        { state: '|111\u3009', probability: 0 },
-    ],
-
-    [
-        { state: '|0000\u3009', probability: 0 },
-        { state: '|0001\u3009', probability: 0 },
-        { state: '|0010\u3009', probability: 0 },
-        { state: '|0011\u3009', probability: 0 },
-        { state: '|0100\u3009', probability: 0 },
-        { state: '|0101\u3009', probability: 0 },
-        { state: '|0110\u3009', probability: 0 },
-        { state: '|0111\u3009', probability: 0 },
-        { state: '|1000\u3009', probability: 0 },
-        { state: '|1001\u3009', probability: 0 },
-        { state: '|1010\u3009', probability: 0 },
-        { state: '|1011\u3009', probability: 0 },
-        { state: '|1100\u3009', probability: 0 },
-        { state: '|1101\u3009', probability: 0 },
-        { state: '|1110\u3009', probability: 0 },
-        { state: '|1111\u3009', probability: 0 },
-    ],
-];
+        { amplitude: 0.0, state: '|00\u3009', probability: 0.5 },
+        { amplitude: 0.0, state: '|01\u3009', probability: 0 },
+        { amplitude: 0.0, state: '|10\u3009', probability: 0.5 },
+        { amplitude: 0.0, state: '|11\u3009', probability: 0 },
+    ];
 
 
 /*export default class QuantumBarChart extends React.PureComponent {
@@ -130,9 +99,11 @@ export default function QuantumBarChart(props) {
     const circuitResults = useContext(CircuitResultsContext);
     console.log(circuitResults);
     const [data, setData] = useState([{}]);
-    const enterPress = useKeyPress('Enter', circuitResults);
 
-    function useKeyPress(targetKey) {
+  
+    //const enterPress = useKeyPress('Enter', circuitResults);
+
+    /*function useKeyPress(targetKey) {
         // State for keeping track of whether key is pressed
         const [keyPressed, setKeyPressed] = useState(false);
 
@@ -164,6 +135,19 @@ export default function QuantumBarChart(props) {
 
         return keyPressed;
     }
+    */
+
+    window.onload = function () {
+        var evBtn = document.getElementById("evaluateButton");
+        evBtn.onClick = add();
+        setData(dataStates);
+        //document.getElementById("evaluateButton").addEventListener("click",add);
+    }
+
+    function event_handler(event, arg) {
+        console.log(event, arg);
+    }
+
 
     function add() { // handler
         console.log(circuitResults);
@@ -175,9 +159,6 @@ export default function QuantumBarChart(props) {
 
     return (
         <Grid style={{ backgroundColor: "#F1F1EE" }}>
-            <div>
-                {enterPress}
-            </div>
             <Chart data={ data } >
                 <ValueScale name="probability" />
                 <ValueAxis scaleName="probability" showGrid={false} showTicks={true} showLine={true} />
@@ -189,6 +170,9 @@ export default function QuantumBarChart(props) {
                 />
                 <Animation />
             </Chart>
+            <button onClick={add}>
+                press me to test me
+            </button>
         </Grid>
     );
 
