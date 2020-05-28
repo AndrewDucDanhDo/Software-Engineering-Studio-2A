@@ -4,6 +4,7 @@ import { handleApiError, successResponse } from "../helpers/apiResponse";
 import { FirestoreError } from "../errors/firestore";
 import firestore from "../helpers/firestore";
 import { checkSubmissionResultsData } from "../helpers/validators/submissionResultsData";
+import { markSubmission, allSolutions } from "../helpers/quantom-simulator/marker";
 
 const userCanSubmit = (taskData, userId) => {
   return taskData.assigned.includes(userId);
@@ -245,6 +246,54 @@ export const updateSubmissionResults = async (req, res) => {
         return res.status(200).json(
           successResponse({
             msg: `Submission results successfully updated for ${userId}`
+          })
+        );
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
+    } else {
+      throw new FirestoreError("missing", submissionDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+export const markUserSubmission = async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
+    const userId = req.params.userId;
+    const teacherId = req.authId;
+
+    checkParams({
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      },
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
+
+    const taskDoc = await firestore.task.get(taskId);
+    const submissionDoc = await firestore.submission.get(taskId, userId);
+
+    // Check the submission doc we want to update exists
+    if (submissionDoc.exists) {
+      // Check the teacher is one of the owners of the task
+      if (teacherCanUpdate(taskDoc.data(), teacherId)) {
+
+        const masterCircuit = taskDoc.data().masterCircuit;
+        const studentCircuit = submissionDoc.data().circuit;
+
+        const solutions = await allSolutions(masterCircuit);
+        const score = await markSubmission(solutions, masterCircuit.qubits, studentCircuit);
+
+        return res.status(200).json(
+          successResponse({
+            msg: `Submission results successfully updated for ${userId}`,
+            score: score
           })
         );
       } else {
