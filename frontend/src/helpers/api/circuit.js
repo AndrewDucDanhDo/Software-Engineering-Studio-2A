@@ -1,5 +1,9 @@
 import axios from "axios";
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
+import { refreshAuth } from '../tokenRefresh';
 import { API_HOST } from ".";
+
+createAuthRefreshInterceptor(axios, refreshAuth);
 
 export const solveCircuit = async (circuitData) => {
 	const res = await axios.post(`http://${API_HOST}/circuit/solve`, circuitData);
