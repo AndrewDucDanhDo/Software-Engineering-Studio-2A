@@ -1,12 +1,18 @@
 {
   "ExpandedNodes": [
     "",
-    "\\backend",
-    "\\backend\\src\\helpers\\firebase-admin",
     "\\frontend",
     "\\frontend\\src",
-    "\\frontend\\src\\components"
+    "\\frontend\\src\\components",
+    "\\frontend\\src\\components\\PrivateRoute",
+    "\\frontend\\src\\components\\quCircuit",
+    "\\frontend\\src\\context",
+    "\\frontend\\src\\helpers",
+    "\\frontend\\src\\helpers\\quantumSimulator",
+    "\\frontend\\src\\helpers\\quCircuit",
+    "\\frontend\\src\\pages",
+    "\\frontend\\src\\pages\\home"
   ],
-  "SelectedNode": "\\frontend\\src\\pages",
+  "SelectedNode": "\\frontend\\src\\components\\quCircuit\\quantumBarChart.js",
   "PreviewInSolutionExplorer": false
 }
