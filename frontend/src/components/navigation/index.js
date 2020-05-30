@@ -48,6 +48,7 @@ const buildGuestNav = (classes, signOutFunc) => {
 					color="inherit"
 					component={Link}
 					to="/signup"
+					size="small"
 				>
 					Sign Up
 				</Button>
@@ -56,6 +57,8 @@ const buildGuestNav = (classes, signOutFunc) => {
 					component={Link}
 					onClick={signOutFunc}
 					to="/login"
+					size="small"
+					variant="outlined"
 				>
 					Login
 				</Button>
@@ -78,15 +81,33 @@ const buildStudentNav = (classes, signOutFunc) => {
 						Quantum Circuit Simulator Group 2 - Student
 					</Typography>
 				</Box>
+
+				<Button
+					className={classes.signup}
+					color="inherit"
+					component={Link}
+					to="/student/tasks"
+					size="small"
+				>
+					Tasks List
+				</Button>
 				<Button
 					className={classes.signup}
 					color="inherit"
 					component={Link}
 					to="/profile"
+					size="small"
 				>
 					Profile
 				</Button>
-				<Button color="inherit" onClick={signOutFunc} component={Link} to="/">
+				<Button
+					color="inherit"
+					onClick={signOutFunc}
+					component={Link}
+					to="/"
+					size="small"
+					variant="outlined"
+				>
 					Sign out
 				</Button>
 			</Toolbar>
@@ -94,7 +115,7 @@ const buildStudentNav = (classes, signOutFunc) => {
 	);
 };
 
-const buildTeacherNav = (classes, signOutFunc) => {
+const buildTeacherNav = (classes, signOutFunc, superuser) => {
 	return (
 		<AppBar className={classes.navcolor} position="static">
 			<Toolbar>
@@ -105,14 +126,26 @@ const buildTeacherNav = (classes, signOutFunc) => {
 						component={Link}
 						to="/"
 					>
-						Quantum Circuit Simulator Group 2 - Teacher
+						Quantum Circuit Simulator Group 2 - {superuser ? "Admin" : "Teacher"}
 					</Typography>
 				</Box>
+				{superuser && (
+					<Button
+						className={classes.signup}
+						color="inherit"
+						component={Link}
+						to="/admin"
+						size="small"
+					>
+						Admin Dashboard
+					</Button>
+				)}
 				<Button
 					className={classes.signup}
 					color="inherit"
 					component={Link}
 					to="/profile"
+					size="small"
 				>
 					Profile
 				</Button>
@@ -121,10 +154,18 @@ const buildTeacherNav = (classes, signOutFunc) => {
 					color="inherit"
 					component={Link}
 					to="/admin/tasks"
+					size="small"
 				>
 					Tasks List
 				</Button>
-				<Button color="inherit" component={Link} to="/" onClick={signOutFunc}>
+				<Button
+					color="inherit"
+					component={Link}
+					to="/"
+					onClick={signOutFunc}
+					size="small"
+					variant="outlined"
+				>
 					Sign Out
 				</Button>
 			</Toolbar>
@@ -146,7 +187,11 @@ function Navigation() {
 			authState.user.claims !== undefined &&
 			(authState.user.claims.superuser || authState.user.claims.teacher)
 		) {
-			navComp = buildTeacherNav(classes, handleSignOut);
+			navComp = buildTeacherNav(
+				classes,
+				handleSignOut,
+				authState.user.claims.superuser
+			);
 		} else {
 			// If the authenticated user does not have a teacher
 			// claim assume its a assume they are a student user

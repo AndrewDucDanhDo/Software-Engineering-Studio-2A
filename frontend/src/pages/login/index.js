@@ -12,7 +12,7 @@ import { AuthContext } from "../../context/auth";
 
 const useStyles = makeStyles({
 	root: {
-		height: "100vh",
+		height: "100%",
 	},
 	test: {
 		display: "flex",
@@ -43,8 +43,9 @@ export default function LoginPage() {
 			email: "",
 			password: "",
 		},
-		loginError: undefined,
 	});
+	const [isLoading, setLoading] = React.useState(false);
+	const [loginError, setLoginError] = React.useState(undefined);
 	const { authState, setAuthState } = React.useContext(AuthContext);
 	const classes = useStyles();
 
@@ -53,7 +54,6 @@ export default function LoginPage() {
 		const value = target.value;
 		const name = target.name;
 
-		// TODO: Theres probably a better way of doing this but i don't remember how rn
 		setState({
 			...state,
 			form: { ...state.form, [name]: value },
@@ -62,6 +62,7 @@ export default function LoginPage() {
 
 	const handleLogin = async (event) => {
 		event.preventDefault();
+		setLoading(true);
 		try {
 			const userDetails = await loginUser(
 				state.form.email,
@@ -74,8 +75,9 @@ export default function LoginPage() {
 			});
 		} catch (error) {
 			console.log("loginError", error);
-			setState({ ...state, loginError: error });
+			setLoginError(error);
 		}
+		setLoading(false);
 	};
 
 	const buildLoginError = () => {
@@ -106,6 +108,7 @@ export default function LoginPage() {
 							<LockOutlinedIcon />
 						</Avatar>
 						<h2>Login</h2>
+						{loginError !== undefined && buildLoginError()}
 						<form onSubmit={handleLogin}>
 							{/* email */}
 							<div>
@@ -133,12 +136,13 @@ export default function LoginPage() {
 								/>
 							</div>
 							<br></br>
-							{state.loginError !== undefined && buildLoginError()}
+
 							<Button
 								variant="contained"
 								type="submit"
 								fullWidth
 								className={classes.submit}
+								disabled={isLoading}
 							>
 								Submit
 							</Button>
