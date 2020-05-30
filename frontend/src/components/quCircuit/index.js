@@ -64,7 +64,6 @@ export default function QuCircuit(props) {
 	const circuitSetter = useContext(CircuitSetterContext);
 	const circuitStructure = useContext(CircuitStructureContext);
 	const circuitResults = useContext(CircuitResultsContext);
-	console.log(circuitResults);
 	const circuit = circuitStructure.internalStructure;
 	const circuitInputs = circuitStructure.inputs;
 
@@ -431,7 +430,7 @@ export default function QuCircuit(props) {
 						{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}
 					</div>
 				</CircuitBox>
-				<QuantumBarChart />
+				<QuantumBarChart/>
 			</Grid>
 			<ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
 				<PlatformBox m={1} display="flex">
