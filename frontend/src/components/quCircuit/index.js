@@ -54,11 +54,13 @@ const ResultBox = fashion(Box, (theme) => ({
 }));
 
 export default function QuCircuit(props) {
+	const { initialCircuit } = props;
 	const { authState } = useContext(AuthContext);
 	const [selectedCell, setSelectedCell] = useState(null);
 	const circuitRef = useRef();
 	const [modalState, setModalState] = useState({ open: false });
 	const [toastState, setToastState] = useState({ open: false });
+	const [initialLoadState, setInitialLoadState] = useState(false);
 	const circuitSetter = useContext(CircuitSetterContext);
 	const circuitStructure = useContext(CircuitStructureContext);
 	const circuitResults = useContext(CircuitResultsContext);
@@ -82,6 +84,15 @@ export default function QuCircuit(props) {
 			document.removeEventListener("mousedown", onMouseDown);
 		};
 	}, [circuitRef]);
+
+
+	// Load the initial circuit passed as a prop if it hasn't been loaded yet
+	useEffect(() => {
+		if (initialCircuit !== undefined && !initialLoadState) {
+			circuitSetter.loadStoredCircuit(initialCircuit);
+			setInitialLoadState(true);
+		}
+	});
 
 	let listeners = {};
 

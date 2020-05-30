@@ -257,8 +257,7 @@ const StudentTaskViewer = (props) => {
 				{buildTaskControls()}
 			</Grid>
 			<Grid xs={10} item>
-				{/* TODO: Implement passing the current submission circuit as the initial editor circuit */}
-				<QuCircuit />
+				<QuCircuit initialCircuit={submissionData.circuit} />
 			</Grid>
 			{toastState.open && buildToast()}
 		</Grid>
