@@ -16,7 +16,11 @@ function HomePage() {
 			>
 				<div style={{ textAlign: "center" }}>
 					<h2>Advertise here!</h2>
-					<a href="https://www.youtube.com/watch?v=oT3mCybbhf0" target="_blank" rel="noopener noreferrer">
+					<a
+						href="https://www.youtube.com/watch?v=oT3mCybbhf0"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						Click me for more info
 					</a>
 				</div>
