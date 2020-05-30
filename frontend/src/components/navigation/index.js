@@ -55,7 +55,6 @@ const buildGuestNav = (classes, signOutFunc) => {
 				<Button
 					color="inherit"
 					component={Link}
-					onClick={signOutFunc}
 					to="/login"
 					size="small"
 					variant="outlined"
@@ -126,7 +125,8 @@ const buildTeacherNav = (classes, signOutFunc, superuser) => {
 						component={Link}
 						to="/"
 					>
-						Quantum Circuit Simulator Group 2 - {superuser ? "Admin" : "Teacher"}
+						Quantum Circuit Simulator Group 2 -{" "}
+						{superuser ? "Admin" : "Teacher"}
 					</Typography>
 				</Box>
 				{superuser && (

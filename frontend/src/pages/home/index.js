@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Typography, Container, Button } from "@material-ui/core";
 import QuCircuit from "../../components/quCircuit";
 
 function HomePage() {
@@ -12,18 +12,22 @@ function HomePage() {
 				xs={2}
 				item
 				component={Paper}
-				style={{ backgroundColor: "#f7f7f7" }}
+				style={{ backgroundColor: "#f7f7f7", padding: 8 }}
 			>
-				<div style={{ textAlign: "center" }}>
-					<h2>Advertise here!</h2>
-					<a
-						href="https://www.youtube.com/watch?v=oT3mCybbhf0"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Click me for more info
-					</a>
-				</div>
+				<Container>
+					<Typography variant="h5" style={{ paddingTop: 10 }}>
+						Welcome to the quantum simulator!
+					</Typography>
+					<Typography variant="body1" style={{ paddingTop: 10 }}>
+						Get started by dragging one of the gates on the right hand side onto
+						a wire and click the "Evaluate" button to get your results.
+					</Typography>
+					<Typography variant="body1" style={{ paddingTop: 10 }}>
+						You can also <a href="/login">login</a> to access other features of
+						the site such as assigned tasks for students and creating and
+						assigning tasks for teachers.
+					</Typography>
+				</Container>
 			</Grid>
 			<Grid xs={10} item>
 				<QuCircuit />
