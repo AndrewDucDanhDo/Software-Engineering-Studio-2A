@@ -28,8 +28,11 @@ import api from "../../helpers/api";
 import { AuthContext } from "../../context/auth";
 import Toast from "../Toast/toast";
 import { useHistory } from "react-router-dom";
-import { CircuitResultsContext } from "../../context/circuit";
-import { CircuitStructureContext } from "../../context/circuit";
+import {
+	CircuitResultsContext,
+	CircuitSetterContext,
+	CircuitStructureContext,
+} from "../../context/circuit";
 import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 
 const styles = {
@@ -384,7 +387,7 @@ const TeacherTaskViewer = (props) => {
 	};
 
 	const buildSimulator = () => {
-		return <QuCircuit defaultCircuit={taskData.masterCircuit} />;
+		return <QuCircuit initialCircuit={taskData.masterCircuit}/>;
 	};
 
 	return (
@@ -496,8 +499,6 @@ const TeacherTaskViewer = (props) => {
 											color="primary"
 											onClick={() => {
 												setExpectedResultsState(circuitResults);
-												console.log(circuitStructure.getStoredCircuit());
-
 												setCircuitState(circuitStructure.getStoredCircuit());
 											}}
 										>

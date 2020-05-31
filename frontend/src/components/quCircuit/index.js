@@ -54,14 +54,23 @@ const ResultBox = fashion(Box, (theme) => ({
 }));
 
 export default function QuCircuit(props) {
-	const { authState } = useContext(AuthContext);
+	// Props
+	const { initialCircuit } = props;
+
+	// State
 	const [selectedCell, setSelectedCell] = useState(null);
-	const circuitRef = useRef();
 	const [modalState, setModalState] = useState({ open: false });
 	const [toastState, setToastState] = useState({ open: false });
+	const [initialLoadState, setInitialLoadState] = useState(false);
+
+	// Context
+	const { authState } = useContext(AuthContext);
 	const circuitSetter = useContext(CircuitSetterContext);
 	const circuitStructure = useContext(CircuitStructureContext);
 	const circuitResults = useContext(CircuitResultsContext);
+
+	// Helper vars
+	const circuitRef = useRef();
 	const circuit = circuitStructure.internalStructure;
 	const circuitInputs = circuitStructure.inputs;
 
@@ -78,10 +87,23 @@ export default function QuCircuit(props) {
 
 		document.addEventListener("mousedown", onMouseDown);
 
+		// Anything in the return block will be run when the
+		// component is unmounted like componentWillUnmount
 		return () => {
 			document.removeEventListener("mousedown", onMouseDown);
+			// Reset the circuit data when component is unmounted
+			circuitSetter.clearStructure();
+			circuitSetter.setWireCount(CircuitStructure.MinWires);
 		};
 	}, [circuitRef]);
+
+	// Load the initial circuit passed as a prop if it hasn't been loaded yet
+	useEffect(() => {
+		if (initialCircuit !== undefined && !initialLoadState) {
+			circuitSetter.loadStoredCircuit(initialCircuit);
+			setInitialLoadState(true);
+		}
+	}, []);
 
 	let listeners = {};
 
