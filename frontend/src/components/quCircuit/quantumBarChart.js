@@ -29,7 +29,7 @@ const formatResults = (results) => {
 export default function QuantumBarChart(props) {
     const circuitResults = useContext(CircuitResultsContext);
     return (
-        <Grid style={{ backgroundColor: "#F1F1EE" }}>
+        <Grid item flexGrow={1} flexShrink={6} style={{ backgroundColor: "#F1F1EE" }}>
             <Chart data={formatResults(circuitResults)}>
                 <ValueScale name="probability" />
                 <ValueAxis

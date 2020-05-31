@@ -407,13 +407,13 @@ export default function QuCircuit(props) {
 		<StretchBox
 			display="flex"
 			onDrop={onDrop}
-			onDragOver={(event) => event.preventDefault()}
+            onDragOver={(event) => event.preventDefault()}
         >
-            <Grid flexGrow={1} flexShrink={6} justifyContent="flex-end" style={{ backgroundColor: "#CB31FF" }}>
-			    <CircuitBox flexGrow={1} flexShrink={6}>
+            <Grid container direction="column" justifyContent="flex-end">
+                <CircuitBox flexGrow={1} flexShrink={6}>
                     <div ref={circuitRef}>{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}</div>
                 </CircuitBox>
-                <QuantumBarChart />
+                <QuantumBarChart/>
             </Grid>
 			<ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
 				<PlatformBox m={1} display="flex">
@@ -476,7 +476,7 @@ export default function QuCircuit(props) {
 					</Box>
                 </PlatformBox>
 				{circuitResults.length > 0 && buildResultsComp()}
-			</ToolBox>
+            </ToolBox>
 			{/* Utility components that are displayed when needed */}
 			{modalState.open && buildModal()}
             {toastState.open && buildToast()}
