@@ -61,10 +61,23 @@ const TaskList = () => {
 			? `/admin/task/${task.taskId}`
 			: `/student/task/${task.taskId}`;
 
+		const buildSubmissionStatus = (task) => {
+			let submissionString = "Waiting for submission";
+			if (task.submissionReceived) {
+				if (task.submissionEvaluated) {
+					submissionString = "Submitted - Graded";
+				} else {
+					submissionString = "Submitted - Needs Grading";
+				}
+			}
+			return <TableCell>{submissionString}</TableCell>;
+		};
+
 		return (
 			<TableRow hover onClick={() => history.push(taskPath)}>
 				<TableCell>{task.name}</TableCell>
 				<TableCell>{task.summary}</TableCell>
+				{!isAdminUser(authState) && buildSubmissionStatus(task)}
 			</TableRow>
 		);
 	};
@@ -80,6 +93,11 @@ const TaskList = () => {
 						<TableCell style={{ width: "50%" }}>
 							<Typography variant="h5">Summary</Typography>
 						</TableCell>
+						{!isAdminUser(authState) && (
+							<TableCell style={{ width: "20%" }}>
+								<Typography variant="h5">Submission Status</Typography>
+							</TableCell>
+						)}
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -88,6 +106,19 @@ const TaskList = () => {
 					})}
 				</TableBody>
 			</Table>
+		);
+	};
+
+	const buildAdminControls = () => {
+		return (
+			<Button
+				component={Link}
+				to="/admin/task/new-task"
+				variant="contained"
+				color="primary"
+			>
+				Create New Task
+			</Button>
 		);
 	};
 
@@ -106,18 +137,12 @@ const TaskList = () => {
 					buildTaskTable()
 				)}
 			</Paper>
-			<Box display="flex" flexDirection="row-reverse" my={2} mr={5}>
-				{isAdminUser(authState) && (
-					<Button
-						component={Link}
-						to="/admin/task/new-task"
-						variant="contained"
-						color="primary"
-					>
-						Create New Task
-					</Button>
-				)}
-			</Box>
+
+			{isAdminUser(authState) && (
+				<Box display="flex" flexDirection="row-reverse" my={2} mr={5}>
+					{buildAdminControls()}
+				</Box>
+			)}
 		</Container>
 	);
 };

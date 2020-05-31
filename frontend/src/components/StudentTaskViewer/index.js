@@ -22,6 +22,7 @@ import { AuthContext } from "../../context/auth";
 import Toast from "../Toast/toast";
 import { CircuitStructureContext } from "../../context/circuit";
 import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
+import ViewResultsModal from "./modals/ViewResults";
 
 const withStyles = makeStyles({
 	palette: {
@@ -78,6 +79,7 @@ const textContent = {
 		useCurrentCircuit: "Set current circuit to task submission",
 		save: "Save submission",
 		back: "Back to task selection",
+		submissionResults: "View submission results",
 	},
 };
 
@@ -91,6 +93,7 @@ const StudentTaskViewer = (props) => {
 
 	// STATE
 	const [toastState, setToastState] = React.useState({ open: false });
+	const [modalState, setModalState] = React.useState({ open: false });
 	const [editorTouched, setEditorTouched] = React.useState(false);
 	const [circuitState, setCircuitState] = React.useState(
 		submissionData.circuit
@@ -138,6 +141,20 @@ const StudentTaskViewer = (props) => {
 				onClose={() => setToastState({ open: false })}
 			/>
 		);
+	};
+
+	const buildModal = () => {
+		if (modalState.type === "viewResults") {
+			return (
+				<ViewResultsModal
+					open={modalState.open}
+					onClose={() => {
+						setModalState({ open: false });
+					}}
+					submissionData={submissionData}
+				/>
+			);
+		}
 	};
 
 	const buildTaskControls = () => {
@@ -203,6 +220,25 @@ const StudentTaskViewer = (props) => {
 				</Box>
 				<Box my={1}>
 					<Card variant="outlined" style={{ padding: 10 }}>
+						{submissionData.results.status.length > 0 && (
+							<Box m={1} textAlign="center">
+								<Button
+									variant="contained"
+									className={classes.button}
+									size="small"
+									color="primary"
+									fullWidth={true}
+									onClick={() => {
+										setModalState({
+											open: true,
+											type: "viewResults",
+										});
+									}}
+								>
+									{textContent.submissionControls.submissionResults}
+								</Button>
+							</Box>
+						)}
 						<Box m={1} textAlign="center">
 							<Button
 								variant="contained"
@@ -260,6 +296,7 @@ const StudentTaskViewer = (props) => {
 				<QuCircuit initialCircuit={submissionData.circuit} />
 			</Grid>
 			{toastState.open && buildToast()}
+			{modalState.open && buildModal()}
 		</Grid>
 	);
 };

@@ -82,8 +82,33 @@ export const getAllTasks = async (req, res) => {
         .where("assigned", "array-contains", userId)
         .get();
 
+      // Fetch all submissions
+      const allSubmissions = await db.collectionGroup("submissions").get();
+      // Filter only requesting users submissions and create a map of the users
+      // submissions with the key for each submission being the task id it was
+      // submitted to by the user
+      const usersSubmissions = allSubmissions.docs
+        .filter((doc) => doc.id === userId)
+        .reduce((result, doc, index, array) => {
+          const taskId = doc.ref.parent.parent.id;
+          result[taskId] = doc.data();
+          return result;
+        }, {});
+
       taskList = assignedTasksQuery.docs.map((doc) => {
-        return { ...formatTaskForStudent(doc.data()), taskId: doc.id };
+        // These variables are used in the frontend to
+        // make displaying things easier in task lists
+        const submissionReceived = usersSubmissions[doc.id] !== undefined;
+        const submissionEvaluated =
+          submissionReceived &&
+          usersSubmissions[doc.id].results.status.length > 0;
+
+        return {
+          ...formatTaskForStudent(doc.data()),
+          taskId: doc.id,
+          submissionReceived,
+          submissionEvaluated
+        };
       });
     }
     return res.status(200).json(successResponse(taskList));
@@ -162,7 +187,7 @@ export const updateTask = async (req, res) => {
         taskDoc.data().owners.includes(userId) === true ||
         taskDoc.data().admin === userId
       ) {
-        await taskDoc.ref.set({admin: taskDoc.data().admin, ...taskBody});
+        await taskDoc.ref.set({ admin: taskDoc.data().admin, ...taskBody });
         return res
           .status(200)
           .json(
