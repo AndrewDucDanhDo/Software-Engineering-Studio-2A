@@ -284,16 +284,73 @@ export const markUserSubmission = async (req, res) => {
       // Check the teacher is one of the owners of the task
       if (teacherCanUpdate(taskDoc.data(), teacherId)) {
 
+        // Find the output for the master circuit, these will be our solutions
         const masterCircuit = taskDoc.data().masterCircuit;
         const studentCircuit = submissionDoc.data().circuit;
 
+        // Find the students output, compute these against the solutions to get the score.
         const solutions = await allSolutions(masterCircuit);
         const score = await markSubmission(solutions, masterCircuit.qubits, studentCircuit);
 
         return res.status(200).json(
           successResponse({
-            msg: `Submission results successfully updated for ${userId}`,
+            msg: `Student ${userId} circuit submission successfully marked for task ${taskId}`,
             score: score
+          })
+        );
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
+    } else {
+      throw new FirestoreError("missing", submissionDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+export const markTaskSubmissions = async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
+    const teacherId = req.authId;
+    const userClaims = req.userClaims;
+
+    checkParams({
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      }
+    });
+
+    const taskDoc = await firestore.task.get(taskId);
+    const taskSubmissionsCollection = await firestore.submission.getAll(taskId);
+
+    // Check the document exists
+    if (taskDoc.exists) {
+      // Check the user has a role of teacher and can access all submissions
+      if (hasTeacherRole(userClaims)) {
+
+        // Find the output for the master circuit, these will be our solutions
+        const masterCircuit = taskDoc.data().masterCircuit;
+        const solutions = await allSolutions(masterCircuit);
+
+        // Get the scores for each submission
+        const scores = await Promise.all(taskSubmissionsCollection.docs.map(
+          async (submission) => {
+            const score = await markSubmission(solutions, masterCircuit.qubits, submission.data().circuit);
+            return {
+              owner: submission.id,
+              score: score
+            };
+          }
+        ));
+        console.log(scores);
+
+
+        return res.status(200).json(
+          successResponse({
+            msg: `Circuit submission successfully marked for task ${taskId}`,
+            scores: scores
           })
         );
       } else {

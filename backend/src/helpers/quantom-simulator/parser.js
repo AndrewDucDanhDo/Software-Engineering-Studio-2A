@@ -30,12 +30,12 @@ export function parseAmplitudes(nqubits, amplitudes) {
     const probability = (prob * 100).toFixed(4) + "%";
 
     if (prob < numeric.epsilon) {
-      // results.push({
-      //   value: probability,
-      //   impossible: true,
-      //   amplitude: amplitude,
-      //   state: state
-      // });
+      results.push({
+        value: probability,
+        impossible: true,
+        amplitude: amplitude,
+        state: state
+      });
     } else {
       results.push({
         value: probability,
