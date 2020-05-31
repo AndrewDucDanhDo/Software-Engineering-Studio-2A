@@ -66,6 +66,12 @@
 		"/task/{taskId}/submission/update": {
 			"$ref": "paths/task/update-submission-student.json#"
 		},
+		"/admin/task/{taskId}/mark": {
+			"$ref": "paths/task/mark-task.json#"
+		},
+		"/admin/task/{taskId}/submission/{userId}/mark": {
+			"$ref": "paths/task/mark-submission.json#"
+		},
 		"/admin/task/{taskId}/submission/{userId}/update": {
 			"$ref": "paths/task/update-submission-teacher.json#"
 		},
