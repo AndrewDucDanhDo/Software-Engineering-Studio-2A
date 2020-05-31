@@ -9,10 +9,8 @@
     "\\frontend\\src\\context",
     "\\frontend\\src\\helpers",
     "\\frontend\\src\\helpers\\quantumSimulator",
-    "\\frontend\\src\\helpers\\quCircuit",
-    "\\frontend\\src\\pages",
-    "\\frontend\\src\\pages\\home"
+    "\\frontend\\src\\helpers\\quCircuit"
   ],
-  "SelectedNode": "\\frontend\\src\\components\\quCircuit\\quantumBarChart.js",
+  "SelectedNode": "\\frontend\\src\\components\\quCircuit\\circuitInputButton.js",
   "PreviewInSolutionExplorer": false
 }

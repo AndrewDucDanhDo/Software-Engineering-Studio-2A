@@ -1,12 +1,15 @@
-import React, { useContext, useEffect, useRef, useState, Component } from "react";
+import React, { useContext } from "react";
 //import React from "react";
-import {Box, Button, Grid, Paper} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import {
     ArgumentAxis,
     ValueAxis,
     Chart,
     BarSeries,
-    } from '@devexpress/dx-react-chart-material-ui';
+    ZoomAndPan,
+    Tooltip
+} from '@devexpress/dx-react-chart-material-ui';
+import { EventTracker, HoverState } from '@devexpress/dx-react-chart';
 import { Animation, ValueScale } from '@devexpress/dx-react-chart';
 import { CircuitResultsContext } from "../../context/circuit";
 
@@ -38,12 +41,16 @@ export default function QuantumBarChart(props) {
                     showTicks={true}
                     showLine={true}
                 />
-                <ArgumentAxis />
+                <ArgumentAxis/>
                 <BarSeries
                     valueField="probability"
                     argumentField="state"
                     scaleName="probability"
                 />
+                <EventTracker/>
+                <HoverState/>
+                <Tooltip />
+                <ZoomAndPan />
                 <Animation />
             </Chart>
         </Grid>
