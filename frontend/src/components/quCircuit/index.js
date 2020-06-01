@@ -16,6 +16,7 @@ import { AuthContext } from "../../context/auth";
 import SaveCircuitModal from "./modals/saveCircuit";
 import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
+import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 import Toast from "../Toast/toast";
 import {
 	CircuitResultsContext,
@@ -55,15 +56,23 @@ const ResultBox = fashion(Box, (theme) => ({
 }));
 
 export default function QuCircuit(props) {
-	const { authState } = useContext(AuthContext);
+	// Props
+	const { initialCircuit } = props;
+
+	// State
 	const [selectedCell, setSelectedCell] = useState(null);
-	const circuitRef = useRef();
 	const [modalState, setModalState] = useState({ open: false });
 	const [toastState, setToastState] = useState({ open: false });
+	const [initialLoadState, setInitialLoadState] = useState(false);
+
+	// Context
+	const { authState } = useContext(AuthContext);
 	const circuitSetter = useContext(CircuitSetterContext);
 	const circuitStructure = useContext(CircuitStructureContext);
 	const circuitResults = useContext(CircuitResultsContext);
-	console.log(circuitResults);
+
+	// Helper vars
+	const circuitRef = useRef();
 	const circuit = circuitStructure.internalStructure;
 	const circuitInputs = circuitStructure.inputs;
 
@@ -80,10 +89,23 @@ export default function QuCircuit(props) {
 
 		document.addEventListener("mousedown", onMouseDown);
 
+		// Anything in the return block will be run when the
+		// component is unmounted like componentWillUnmount
 		return () => {
 			document.removeEventListener("mousedown", onMouseDown);
+			// Reset the circuit data when component is unmounted
+			circuitSetter.clearStructure();
+			circuitSetter.setWireCount(CircuitStructure.MinWires);
 		};
 	}, [circuitRef]);
+
+	// Load the initial circuit passed as a prop if it hasn't been loaded yet
+	useEffect(() => {
+		if (initialCircuit !== undefined && !initialLoadState) {
+			circuitSetter.loadStoredCircuit(initialCircuit);
+			setInitialLoadState(true);
+		}
+	}, []);
 
 	let listeners = {};
 
@@ -276,17 +298,20 @@ export default function QuCircuit(props) {
         //console.log(slice);*/
 		return (
 			<PlatformBox m={1}>
-				<h2>Circuit Results</h2>
+				<Typography variant="h5">Circuit Results</Typography>
 				<ResultBox>
-					{circuitResults
-						.filter((r) => r.probability > 0)
-						.map((e, i) => (
-							<Box m={1} key={i}>
-								<Typography>
-									{e.amplitude}|{e.state}⟩ {e.probability}%
+					{circuitResults.map((result, index) => {
+						const amp = reduceAmplitude(result.amplitude);
+						const stat = result.state;
+						const prob = Math.floor(result.probability);
+						if (prob > 0) {
+							return (
+								<Typography variant="body1" key={index}>
+									&lt;{`${amp}|${stat}`}&gt; {prob}%
 								</Typography>
-							</Box>
-						))}
+							);
+						}
+					})}
 				</ResultBox>
 			</PlatformBox>
 		);
@@ -440,7 +465,6 @@ export default function QuCircuit(props) {
 								Export File
 							</Button>
 						</Box>
-
 						<Box m={1}>
 							<Button
 								color="primary"

@@ -1,0 +1,44 @@
+{
+    "post": {
+        "tags": [
+            "task",
+            "admin"
+        ],
+        "summary": "Mark a students submission for a task.",
+        "parameters": [
+            {
+                "$ref": "../../common/parameters/taskId.json"
+            },
+            {
+                "$ref": "../../common/parameters/userId.json"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Submission successfully marked",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "string",
+                            "example": "OK"
+                        },
+                        "data": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string",
+                                    "example": "Student 2bwAwcanX1Y2rTZAt3OcPACw4293 circuit submission successfully marked for task 8c86f01d-d01e-468e-9f08-dc562213b821"
+                                },
+                                "score": {
+                                    "type": "integer",
+                                    "example": 0.75
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

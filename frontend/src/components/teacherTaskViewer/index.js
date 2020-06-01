@@ -28,9 +28,12 @@ import api from "../../helpers/api";
 import { AuthContext } from "../../context/auth";
 import Toast from "../Toast/toast";
 import { useHistory } from "react-router-dom";
-import { CircuitResultsContext } from "../../context/circuit";
-import { CircuitStructureContext } from "../../context/circuit";
-import { CircuitSetterContext } from "../../context/circuit";
+import {
+	CircuitResultsContext,
+	CircuitSetterContext,
+	CircuitStructureContext,
+} from "../../context/circuit";
+import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 
 const styles = {
 	palette: {
@@ -101,7 +104,7 @@ const TeacherTaskViewer = (props) => {
 	const handleTaskSave = async () => {
 		const requestData = {
 			name: taskState.name,
-			summary: taskData.summary,
+			summary: taskState.summary,
 			masterCircuit: circuitState,
 			description: taskState.description,
 			expectedResults: expectedResultsState,
@@ -159,49 +162,50 @@ const TeacherTaskViewer = (props) => {
 	const extrasBox = () => {
 		return (
 			<Card variant="outlined" style={{ padding: 20 }}>
-				<Box textAlign="center">
-					<Button
-						variant="contained"
-						style={{ fontSize: "10px" }}
-						size="small"
-						component={Link}
-						to="/admin/tasks"
-					>
-						Back to tasks
-					</Button>
-				</Box>
+				<Container>
+					<Box m={1} textAlign="center">
+						<Button
+							onClick={handleTaskSave}
+							variant="contained"
+							color="primary"
+							style={{ fontSize: "10px" }}
+							size="small"
+							startIcon={<SaveIcon />}
+							fullWidth
+						>
+							Save
+						</Button>
+					</Box>
 
-				<Grid className="d-flex">
-					<Box mt={2} textAlign="center">
-						<Box mr={1} display="inline">
+					{!newTask && (
+						<Box m={1}>
 							<Button
-								onClick={handleTaskSave}
 								variant="contained"
-								color="primary"
+								color="secondary"
 								style={{ fontSize: "10px" }}
 								size="small"
-								startIcon={<SaveIcon />}
+								startIcon={<DeleteIcon />}
+								onClick={handleTaskDelete}
+								fullWidth
 							>
-								Save
+								Delete
 							</Button>
 						</Box>
+					)}
 
-						<Box ml={0} display="inline">
-							{!newTask && (
-								<Button
-									variant="contained"
-									color="secondary"
-									style={{ fontSize: "10px" }}
-									size="small"
-									startIcon={<DeleteIcon />}
-									onClick={handleTaskDelete}
-								>
-									Delete
-								</Button>
-							)}
-						</Box>
+					<Box m={1}>
+						<Button
+							variant="contained"
+							style={{ fontSize: "10px" }}
+							size="small"
+							component={Link}
+							to="/admin/tasks"
+							fullWidth
+						>
+							Back to tasks
+						</Button>
 					</Box>
-				</Grid>
+				</Container>
 			</Card>
 		);
 	};
@@ -383,13 +387,18 @@ const TeacherTaskViewer = (props) => {
 	};
 
 	const buildSimulator = () => {
-		return <QuCircuit defaultCircuit={taskData.masterCircuit} />;
+		return <QuCircuit initialCircuit={taskData.masterCircuit}/>;
 	};
 
 	return (
 		<Grid
 			container
-			style={{ position: "absolute", width: "100%", height: "90%" }}
+			style={{
+				position: "absolute",
+				width: "100%",
+				height: "100%",
+				overflow: "hidden",
+			}}
 		>
 			<Grid
 				xs={2}
@@ -423,6 +432,19 @@ const TeacherTaskViewer = (props) => {
 									value={taskState.name}
 								/>
 								<TextField
+									id="summary"
+									label="Summary"
+									variant="outlined"
+									size="small"
+									margin="dense"
+									multiline
+									rows={3}
+									fullWidth
+									type="text"
+									onChange={handleTaskOverviewChange}
+									value={taskState.summary}
+								/>
+								<TextField
 									id="description"
 									label="Description"
 									variant="outlined"
@@ -451,8 +473,8 @@ const TeacherTaskViewer = (props) => {
 								<Container>
 									<Box textAlign="center">
 										{expectedResultsState.map((result, index) => {
-											const amp = result.amplitude;
-											const stat = result.amplitude;
+											const amp = reduceAmplitude(result.amplitude);
+											const stat = result.state;
 											const prob = result.probability;
 
 											if (prob > 0) {
@@ -477,8 +499,6 @@ const TeacherTaskViewer = (props) => {
 											color="primary"
 											onClick={() => {
 												setExpectedResultsState(circuitResults);
-												console.log(circuitStructure.getStoredCircuit());
-
 												setCircuitState(circuitStructure.getStoredCircuit());
 											}}
 										>

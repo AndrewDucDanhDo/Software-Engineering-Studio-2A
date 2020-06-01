@@ -1,0 +1,53 @@
+{
+    "post": {
+        "tags": [
+            "task",
+            "admin"
+        ],
+        "summary": "Mark all submissions for a task.",
+        "parameters": [
+            {
+                "$ref": "../../common/parameters/taskId.json"
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "All submissions successfully marked",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "string",
+                            "example": "OK"
+                        },
+                        "data": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string",
+                                    "example": "Circuit submission successfully marked for task 8c86f01d-d01e-468e-9f08-dc562213b821"
+                                },
+                                "scores": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "owner": {
+                                                "type": "string",
+                                                "example": "2bwAwcanX1Y2rTZAt3OcPACw4293"
+                                            },
+                                            "score": {
+                                                "type": "integer",
+                                                "example": 0.75
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
