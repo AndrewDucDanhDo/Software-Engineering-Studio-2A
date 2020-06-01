@@ -118,8 +118,10 @@ package-lock.json
 
 # Firebase
 service-account-key.json
+key.json
 
 # IDEs
 .idea
 .vscode
 .vs
+/docs/swagger/common/test.json

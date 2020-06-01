@@ -24,6 +24,8 @@ import {
 	CircuitStructureContext,
 } from "../../context/circuit";
 import { CircuitStructure } from "../../helpers/quCircuit/circuitStructure";
+import QuantumBarChart from "./quantumBarChart";
+import { Grid } from "@material-ui/core";
 
 const CircuitBox = fashion(Box, (theme) => ({
 	marginTop: theme.spacing(1),
@@ -434,11 +436,18 @@ export default function QuCircuit(props) {
 			onDrop={onDrop}
 			onDragOver={(event) => event.preventDefault()}
 		>
-			<CircuitBox flexGrow={1} flexShrink={6}>
-				<div ref={circuitRef}>
-					{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}
-				</div>
-			</CircuitBox>
+			<Grid container direction="column" justifyContent="flex-end">
+				<CircuitBox flexGrow={1} flexShrink={6}>
+					<div ref={circuitRef}>
+						{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}
+					</div>
+				</CircuitBox>
+				<ToolBox component={Paper} flexShrink={1}>
+					<PlatformBox m={1}>
+						<QuantumBarChart />
+					</PlatformBox>
+				</ToolBox>
+			</Grid>
 			<ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
 				<PlatformBox m={1} display="flex">
 					<Box>
@@ -451,7 +460,6 @@ export default function QuCircuit(props) {
 								Export File
 							</Button>
 						</Box>
-
 						<Box m={1}>
 							<Button
 								color="primary"
@@ -470,6 +478,7 @@ export default function QuCircuit(props) {
 				<PlatformBox m={1}>
 					<Box m={1}>
 						<Button
+							id="evaluateButton"
 							color="primary"
 							variant="contained"
 							onClick={onEvaluateButtonClicked}
