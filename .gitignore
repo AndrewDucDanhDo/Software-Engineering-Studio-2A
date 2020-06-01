@@ -123,4 +123,5 @@ key.json
 # IDEs
 .idea
 .vscode
+.vs
 /docs/swagger/common/test.json
