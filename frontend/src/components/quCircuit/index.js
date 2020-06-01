@@ -7,7 +7,7 @@ import GatesToolbox from "./gatesToolbox";
 import Paper from "@material-ui/core/Paper";
 import CircuitInputButton from "./circuitInputButton";
 import Button from "@material-ui/core/Button";
-import { translateToSimulator, } from "../../helpers/quantumSimulator/quantumTranslator";
+import { translateToSimulator } from "../../helpers/quantumSimulator/quantumTranslator";
 import CellLife from "../../helpers/quCircuit/cellLife";
 import CellData from "../../helpers/quCircuit/cellData";
 import TextField from "@material-ui/core/TextField";
@@ -17,9 +17,13 @@ import SaveCircuitModal from "./modals/saveCircuit";
 import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
 import Toast from "../Toast/toast";
-import { CircuitResultsContext, CircuitSetterContext, CircuitStructureContext } from "../../context/circuit";
+import {
+	CircuitResultsContext,
+	CircuitSetterContext,
+	CircuitStructureContext,
+} from "../../context/circuit";
 import { CircuitStructure } from "../../helpers/quCircuit/circuitStructure";
-import QuantumBarChart from "./quantumBarChart"
+import QuantumBarChart from "./quantumBarChart";
 import { Grid } from "@material-ui/core";
 
 const CircuitBox = fashion(Box, (theme) => ({
@@ -58,13 +62,13 @@ export default function QuCircuit(props) {
 	const [toastState, setToastState] = useState({ open: false });
 	const circuitSetter = useContext(CircuitSetterContext);
 	const circuitStructure = useContext(CircuitStructureContext);
-    const circuitResults = useContext(CircuitResultsContext);
-    console.log(circuitResults);
+	const circuitResults = useContext(CircuitResultsContext);
+	console.log(circuitResults);
 	const circuit = circuitStructure.internalStructure;
 	const circuitInputs = circuitStructure.inputs;
 
 	function refreshCircuit() {
-		circuitSetter.setStructure(circuitStructure.copy())
+		circuitSetter.setStructure(circuitStructure.copy());
 	}
 
 	useEffect(() => {
@@ -175,7 +179,7 @@ export default function QuCircuit(props) {
 
 		let finalMultigates = [
 			...cellLife.cellData.multigates,
-			otherCell.wireIndex
+			otherCell.wireIndex,
 		].sort();
 
 		cellLife
@@ -209,8 +213,11 @@ export default function QuCircuit(props) {
 		for (let wireIndex = 0; wireIndex < wireAmount; wireIndex++) {
 			function onInputButtonClicked(event) {
 				let inputs = circuitStructure.inputs;
-				let inputIndex = CircuitStructure.AllowedCircuitInputs.indexOf(inputs[wireIndex]);
-				let nextIndex = (inputIndex + 1) % CircuitStructure.AllowedCircuitInputs.length;
+				let inputIndex = CircuitStructure.AllowedCircuitInputs.indexOf(
+					inputs[wireIndex]
+				);
+				let nextIndex =
+					(inputIndex + 1) % CircuitStructure.AllowedCircuitInputs.length;
 				inputs[wireIndex] = CircuitStructure.AllowedCircuitInputs[nextIndex];
 				circuitSetter.setInputs([...inputs]);
 			}
@@ -261,8 +268,8 @@ export default function QuCircuit(props) {
 		}
 	}
 
-    const buildResultsComp = () => {
-        /*var slice = circuitResults.slice(0);
+	const buildResultsComp = () => {
+		/*var slice = circuitResults.slice(0);
         for (var p in slice) {
             console.log(slice[p]);
         }
@@ -407,25 +414,39 @@ export default function QuCircuit(props) {
 		<StretchBox
 			display="flex"
 			onDrop={onDrop}
-            onDragOver={(event) => event.preventDefault()}
-        >
-            <Grid container direction="column" justifyContent="flex-end">
-                <CircuitBox flexGrow={1} flexShrink={6}>
-                    <div ref={circuitRef}>{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}</div>
-                </CircuitBox>
-                <QuantumBarChart/>
-            </Grid>
+			onDragOver={(event) => event.preventDefault()}
+		>
+			<Grid container direction="column" justifyContent="flex-end">
+				<CircuitBox flexGrow={1} flexShrink={6}>
+					<div ref={circuitRef}>
+						{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}
+					</div>
+				</CircuitBox>
+				<ToolBox component={Paper} flexShrink={1}>
+					<PlatformBox m={1}>
+						<QuantumBarChart />
+					</PlatformBox>
+				</ToolBox>
+			</Grid>
 			<ToolBox component={Paper} variant="outlined" flexGrow={1} flexShrink={1}>
 				<PlatformBox m={1} display="flex">
 					<Box>
 						<Box m={1}>
-							<Button color="primary" variant="contained" onClick={() => circuitStructure.runUserDownload()}>
+							<Button
+								color="primary"
+								variant="contained"
+								onClick={() => circuitStructure.runUserDownload()}
+							>
 								Export File
 							</Button>
 						</Box>
 
 						<Box m={1}>
-							<Button color="primary" variant="contained" onClick={() => circuitSetter.runUserUpload()}>
+							<Button
+								color="primary"
+								variant="contained"
+								onClick={() => circuitSetter.runUserUpload()}
+							>
 								Import File
 							</Button>
 						</Box>
@@ -437,8 +458,8 @@ export default function QuCircuit(props) {
 				</PlatformBox>
 				<PlatformBox m={1}>
 					<Box m={1}>
-                        <Button
-                            id = "evaluateButton"
+						<Button
+							id="evaluateButton"
 							color="primary"
 							variant="contained"
 							onClick={onEvaluateButtonClicked}
@@ -461,7 +482,8 @@ export default function QuCircuit(props) {
 								type="number"
 								value={circuitStructure.wireCount}
 								onChange={(event) =>
-									circuitSetter.setWireCount(event.target.value)}
+									circuitSetter.setWireCount(event.target.value)
+								}
 							/>
 						</SmallBox>
 					</Box>
@@ -474,12 +496,12 @@ export default function QuCircuit(props) {
 							Clear
 						</Button>
 					</Box>
-                </PlatformBox>
+				</PlatformBox>
 				{circuitResults.length > 0 && buildResultsComp()}
-            </ToolBox>
+			</ToolBox>
 			{/* Utility components that are displayed when needed */}
 			{modalState.open && buildModal()}
-            {toastState.open && buildToast()}
-        </StretchBox>
+			{toastState.open && buildToast()}
+		</StretchBox>
 	);
 }
