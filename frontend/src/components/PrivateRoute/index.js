@@ -10,8 +10,7 @@ const PrivateRoute = ({
 	const { authState } = React.useContext(AuthContext);
 
 	const isAuthenticated = () => {
-        return true;
-        if (adminRoute) {
+		if (adminRoute) {
 			return (
 				authState.authenticated &&
 				(authState.user.claims.superuser || authState.user.claims.teacher)

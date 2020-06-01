@@ -291,11 +291,6 @@ export default function QuCircuit(props) {
 	}
 
 	const buildResultsComp = () => {
-		/*var slice = circuitResults.slice(0);
-        for (var p in slice) {
-            console.log(slice[p]);
-        }
-        //console.log(slice);*/
 		return (
 			<PlatformBox m={1}>
 				<Typography variant="h5">Circuit Results</Typography>

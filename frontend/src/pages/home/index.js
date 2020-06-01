@@ -1,7 +1,6 @@
 import React from "react";
 import { Grid, Paper, Typography, Container, Button } from "@material-ui/core";
 import QuCircuit from "../../components/quCircuit";
-import QuantumBarChart from "../../components/quCircuit/quantumBarChart"
 
 function HomePage() {
 	return (
