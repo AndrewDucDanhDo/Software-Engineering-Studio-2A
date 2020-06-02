@@ -36,6 +36,7 @@ import {
 } from "../../context/circuit";
 import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 import TabPanel from "../TabPanel";
+import SubmissionList from "../SubmissionList";
 
 const styles = {
 	palette: {
@@ -61,7 +62,7 @@ const arrayToObject = (array, key) =>
 	}, {});
 
 const TeacherTaskViewer = (props) => {
-	const { taskData, usersData, newTask } = props;
+	const { taskData, usersData, submissionsData, newTask } = props;
 	const { authState } = React.useContext(AuthContext);
 	const history = useHistory();
 	const circuitResults = React.useContext(CircuitResultsContext);
@@ -394,7 +395,7 @@ const TeacherTaskViewer = (props) => {
 	};
 
 	const buildSubmissionsList = () => {
-		return Submissions;
+		return <SubmissionList submissions={submissionsData} />;
 	};
 
 	const buildCenterContent = () => {
@@ -406,7 +407,7 @@ const TeacherTaskViewer = (props) => {
 						onChange={(event, newValue) => setTabState(newValue)}
 					>
 						<Tab label="Circuit Editor" />
-						<Tab label="Task Submissions" />
+						<Tab label="Task Submissions" disabled={newTask} />
 					</Tabs>
 				</Paper>
 				<TabPanel value={tabState} index={0}>

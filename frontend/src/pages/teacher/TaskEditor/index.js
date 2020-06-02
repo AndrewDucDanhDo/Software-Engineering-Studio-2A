@@ -13,6 +13,22 @@ const withStyles = makeStyles({
 	},
 });
 
+const formatSubmission = (taskId, submissions, usersArray) => {
+	const userMap = usersArray.reduce((obj, item) => {
+		obj[item.uid] = item;
+		return obj;
+	}, {});
+
+	return submissions.map((submission) => {
+		const { owner } = submission;
+		return {
+			taskId,
+			...submission,
+			ownerData: userMap[owner],
+		};
+	});
+};
+
 export default function TeacherTaskEditorPage(props) {
 	const taskId = props.match.params.taskId;
 	const classes = withStyles();
@@ -23,11 +39,17 @@ export default function TeacherTaskEditorPage(props) {
 		const results = await Promise.all([
 			api.admin.tasks.getSingle(authState.user.idToken, taskId),
 			api.admin.users.getAll(authState.user.idToken),
+			api.admin.tasks.submission.getAll(authState.user.idToken, taskId),
 		]);
 
 		setState({
 			task: results[0].data.data,
 			users: results[1].data.data.users,
+			submissions: formatSubmission(
+				taskId,
+				results[2].data.data,
+				results[1].data.data.users
+			),
 		});
 	};
 
@@ -44,6 +66,7 @@ export default function TeacherTaskEditorPage(props) {
 			<TeacherTaskViewer
 				taskData={state.task}
 				usersData={state.users}
+				submissionsData={state.submissions}
 				newTask={false}
 			/>
 		);
