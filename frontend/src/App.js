@@ -17,6 +17,7 @@ import TasksPage from "./pages/teacher/Tasks";
 import TeacherTaskEditorPage from "./pages/teacher/TaskEditor";
 import AdminPage from "./pages/admin";
 import CreateNewTaskPage from "./pages/teacher/CreateTask";
+import SubmissionEditor from "./pages/teacher/SubmissionEditor";
 import StudentTaskListPage from "./pages/student/TasksList";
 import StudentTaskViewerPage from "./pages/student/TaskViewer";
 
@@ -42,45 +43,63 @@ function AppRouter(props) {
 				path="/admin/tasks"
 				component={TasksPage}
 				adminRoute={true}
+				exact={true}
 			/>
 
 			<PrivateRoute
 				path="/admin/task/new-task"
 				component={CreateNewTaskPage}
 				adminRoute={true}
+				exact={true}
 			/>
 
 			<PrivateRoute
 				path="/admin/task/:taskId"
 				component={TeacherTaskEditorPage}
 				adminRoute={true}
+				exact={true}
 			/>
 
-			<PrivateRoute path="/admin" component={AdminPage} adminRoute={true} />
+			<PrivateRoute
+				path="/admin/task/:taskId/submission/:submissionId"
+				component={SubmissionEditor}
+				adminRoute={true}
+				exact={true}
+			/>
+
+			<PrivateRoute
+				path="/admin"
+				component={AdminPage}
+				adminRoute={true}
+				exact={true}
+			/>
 
 			<PrivateRoute
 				path="/student/tasks"
-				adminRoute={false}
 				component={StudentTaskListPage}
+				adminRoute={false}
+				exact={true}
 			/>
 
 			<PrivateRoute
 				path="/student/task/:taskId"
-				adminRoute={false}
 				component={StudentTaskViewerPage}
+				adminRoute={false}
+				exact={true}
 			/>
 
 			<PrivateRoute
 				path="/profile"
-				adminRoute={false}
 				component={ProfilePage}
+				adminRoute={false}
+				exact={true}
 			/>
 
-			<Route path="/signup">
+			<Route path="/signup" exact={true}>
 				<SignupPage />
 			</Route>
 
-			<Route path="/login">
+			<Route path="/login" exact={true}>
 				<LoginPage />
 			</Route>
 
