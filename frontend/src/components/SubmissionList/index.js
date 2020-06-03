@@ -39,7 +39,7 @@ const SubmissionRow = (props) => {
 	const history = useHistory();
 	const classes = withStyles();
 	const submissionInfo =
-		submission.results.status === "" ? "Grading Complete" : "Needs Grading";
+		submission.results.status === "" ? "Needs Grading" : "Grading Complete";
 	const submissionLink = `/admin/task/${submission.taskId}/submission/${submission.owner}`;
 
 	return (
