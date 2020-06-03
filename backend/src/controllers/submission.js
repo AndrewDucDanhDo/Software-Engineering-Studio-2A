@@ -295,7 +295,7 @@ export const markUserSubmission = async (req, res) => {
         return res.status(200).json(
           successResponse({
             msg: `Student ${userId} circuit submission successfully marked for task ${taskId}`,
-            score: score
+            score: score * 100
           })
         );
       } else {
@@ -340,19 +340,22 @@ export const markTaskSubmissions = async (req, res) => {
             const score = await markSubmission(solutions, masterCircuit.qubits, submission.data().circuit);
             return {
               owner: submission.id,
-              score: score
+              score: score * 100
             };
           }
         ));
         console.log(scores);
 
+        setTimeout((function () {
+          return res.status(200).json(
+            successResponse({
+              msg: `Circuit submission successfully marked for task ${taskId}`,
+              scores: scores
+            })
+          );
+        }), 2000);
 
-        return res.status(200).json(
-          successResponse({
-            msg: `Circuit submission successfully marked for task ${taskId}`,
-            scores: scores
-          })
-        );
+
       } else {
         throw new FirestoreError("auth", taskDoc.ref, "task");
       }
