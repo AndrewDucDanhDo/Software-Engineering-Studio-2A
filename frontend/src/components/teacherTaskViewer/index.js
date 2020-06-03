@@ -18,6 +18,8 @@ import {
 	ListItemSecondaryAction,
 	IconButton,
 	Container,
+	Tabs,
+	Tab,
 } from "@material-ui/core";
 import QuCircuit from "../quCircuit";
 import SaveIcon from "@material-ui/icons/Save";
@@ -30,10 +32,11 @@ import Toast from "../Toast/toast";
 import { useHistory } from "react-router-dom";
 import {
 	CircuitResultsContext,
-	CircuitSetterContext,
 	CircuitStructureContext,
 } from "../../context/circuit";
 import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
+import TabPanel from "../TabPanel";
+import SubmissionList from "../SubmissionList";
 
 const styles = {
 	palette: {
@@ -59,7 +62,7 @@ const arrayToObject = (array, key) =>
 	}, {});
 
 const TeacherTaskViewer = (props) => {
-	const { taskData, usersData, newTask } = props;
+	const { taskData, usersData, submissionsData, newTask } = props;
 	const { authState } = React.useContext(AuthContext);
 	const history = useHistory();
 	const circuitResults = React.useContext(CircuitResultsContext);
@@ -100,6 +103,7 @@ const TeacherTaskViewer = (props) => {
 
 	const [modalState, setModalState] = React.useState({ open: false });
 	const [toastState, setToastState] = React.useState({ open: false });
+	const [tabState, setTabState] = React.useState(0);
 
 	const handleTaskSave = async () => {
 		const requestData = {
@@ -387,7 +391,33 @@ const TeacherTaskViewer = (props) => {
 	};
 
 	const buildSimulator = () => {
-		return <QuCircuit initialCircuit={taskData.masterCircuit}/>;
+		return <QuCircuit initialCircuit={taskData.masterCircuit} />;
+	};
+
+	const buildSubmissionsList = () => {
+		return <SubmissionList submissions={submissionsData} />;
+	};
+
+	const buildCenterContent = () => {
+		return (
+			<>
+				<Paper square>
+					<Tabs
+						value={tabState}
+						onChange={(event, newValue) => setTabState(newValue)}
+					>
+						<Tab label="Circuit Editor" />
+						<Tab label="Task Submissions" disabled={newTask} />
+					</Tabs>
+				</Paper>
+				<TabPanel value={tabState} index={0}>
+					{buildSimulator()}
+				</TabPanel>
+				<TabPanel value={tabState} index={1}>
+					{buildSubmissionsList()}
+				</TabPanel>
+			</>
+		);
 	};
 
 	return (
@@ -513,9 +543,8 @@ const TeacherTaskViewer = (props) => {
 					<Box my={1}>{extrasBox()}</Box>
 				</Box>
 			</Grid>
-
 			<Grid xs={10} item>
-				{buildSimulator()}
+				{buildCenterContent()}
 			</Grid>
 			{/* Utility components that are displayed when needed */}
 			{modalState.open && buildModal()}

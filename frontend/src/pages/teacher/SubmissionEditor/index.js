@@ -13,43 +13,19 @@ const withStyles = makeStyles({
 	},
 });
 
-const formatSubmission = (taskId, submissions, usersArray) => {
-	const userMap = usersArray.reduce((obj, item) => {
-		obj[item.uid] = item;
-		return obj;
-	}, {});
-
-	return submissions.map((submission) => {
-		const { owner } = submission;
-		return {
-			taskId,
-			...submission,
-			ownerData: userMap[owner],
-		};
-	});
-};
-
 export default function TeacherTaskEditorPage(props) {
-	const taskId = props.match.params.taskId;
+	const { taskId, submissionId } = props.match.params;
 	const classes = withStyles();
-	const [state, setState] = useState({});
 	const { authState } = useContext(AuthContext);
+	const [state, setState] = useState({});
 
 	const fetchData = async () => {
 		const results = await Promise.all([
 			api.admin.tasks.getSingle(authState.user.idToken, taskId),
-			api.admin.users.getAll(authState.user.idToken),
-			api.admin.tasks.submission.getAll(authState.user.idToken, taskId),
 		]);
 
 		setState({
 			task: results[0].data.data,
-			users: results[1].data.data.users,
-			submissions: formatSubmission(
-				taskId,
-				results[2].data.data,
-				results[1].data.data.users
-			),
 		});
 	};
 
@@ -63,12 +39,9 @@ export default function TeacherTaskEditorPage(props) {
 		return <CircularProgress className={classes.spinner} />;
 	} else {
 		return (
-			<TeacherTaskViewer
-				taskData={state.task}
-				usersData={state.users}
-				submissionsData={state.submissions}
-				newTask={false}
-			/>
+			<>
+				Submission editor page taskId: {taskId} submissionId: {submissionId}
+			</>
 		);
 	}
 }
