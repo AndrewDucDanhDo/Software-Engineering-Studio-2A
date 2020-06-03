@@ -55,7 +55,7 @@ export async function markSubmission(solutions, nqubits, studentCircuit) {
         const app = new quantumSimulator(nqubits);
         app.loadWorkspace(studentCircuit);
 
-        if (nqubits != studentCircuit.nqubits)
+        if (nqubits != studentCircuit.qubits)
             resolve(0);
 
         var score = 0;

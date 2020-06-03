@@ -292,6 +292,19 @@ export const markUserSubmission = async (req, res) => {
         const solutions = await allSolutions(masterCircuit);
         const score = await markSubmission(solutions, masterCircuit.qubits, studentCircuit);
 
+        // Save to firebase
+        const submissionResultsBody = {
+          submissionMark: score * 100,
+          totalMarks: 100,
+          status: score >= 0.5 ? "PASS" : "FAIL",
+          assessor: teacherId,
+          comment: "AUTOMATED MARKING"
+        }
+        await firestore.submission.updateSubmissionResults(
+          submissionDoc,
+          submissionResultsBody
+        );
+
         return res.status(200).json(
           successResponse({
             msg: `Student ${userId} circuit submission successfully marked for task ${taskId}`,
@@ -337,15 +350,30 @@ export const markTaskSubmissions = async (req, res) => {
         // Get the scores for each submission
         const scores = await Promise.all(taskSubmissionsCollection.docs.map(
           async (submission) => {
+            // Get the percentage of correct outputs
             const score = await markSubmission(solutions, masterCircuit.qubits, submission.data().circuit);
+
+            // Save to firebase
+            const submissionResultsBody = {
+              submissionMark: score * 100,
+              totalMarks: 100,
+              status: score >= 0.5 ? "PASS" : "FAIL",
+              assessor: teacherId,
+              comment: "AUTOMATED MARKING"
+            }
+            await firestore.submission.updateSubmissionResults(
+              submission,
+              submissionResultsBody
+            );
+
             return {
               owner: submission.id,
               score: score * 100
             };
           }
         ));
-        console.log(scores);
 
+        // TODO: Remove timeout
         setTimeout((function () {
           return res.status(200).json(
             successResponse({
@@ -355,6 +383,66 @@ export const markTaskSubmissions = async (req, res) => {
           );
         }), 2000);
 
+
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
+    } else {
+      throw new FirestoreError("missing", submissionDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+// Function to help with demoing
+// resets all the results for a task
+// resetTaskResults
+export const resetTaskResults = async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
+    const teacherId = req.authId;
+    const userClaims = req.userClaims;
+
+    checkParams({
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      }
+    });
+
+    const taskDoc = await firestore.task.get(taskId);
+    const taskSubmissionsCollection = await firestore.submission.getAll(taskId);
+
+    // Check the document exists
+    if (taskDoc.exists) {
+      // Check the user has a role of teacher and can access all submissions
+      if (hasTeacherRole(userClaims)) {
+
+        // Get the scores for each submission
+        taskSubmissionsCollection.docs.forEach(
+          async (submission) => {
+
+            // Save to firebase
+            const submissionResultsBody = {
+              submissionMark: 0,
+              totalMarks: 100,
+              status: "",
+              assessor: "",
+              comment: ""
+            }
+            await firestore.submission.updateSubmissionResults(
+              submission,
+              submissionResultsBody
+            );
+          }
+        );
+
+        return res.status(200).json(
+          successResponse({
+            msg: `Results successfully reset for task ${taskId}`
+          })
+        );
 
       } else {
         throw new FirestoreError("auth", taskDoc.ref, "task");
