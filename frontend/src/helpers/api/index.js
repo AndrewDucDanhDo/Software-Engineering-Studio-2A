@@ -24,6 +24,7 @@ import {
 	getSingleTasksAdmin,
 	updateTask,
 	deleteTask,
+	markTask,
 } from "./task";
 import {
 	getSubmission,
@@ -32,6 +33,7 @@ import {
 	getAllSubmissionsAdmin,
 	updateSubmissionAdmin,
 	createSubmission,
+	markSubmission,
 } from "./submission";
 
 export const API_HOST = "localhost:4000";
@@ -78,9 +80,11 @@ export default {
 			getSingle: getSingleTasksAdmin,
 			update: updateTask,
 			delete: deleteTask,
+			mark: markTask,
 			submission: {
 				getAll: getAllSubmissionsAdmin,
 				update: updateSubmissionAdmin,
+				mark: markSubmission,
 			},
 		},
 	},
