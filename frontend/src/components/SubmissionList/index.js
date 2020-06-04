@@ -28,18 +28,17 @@ const withStyles = makeStyles({
 
 const markMap = (marks) => {
 	return marks.reduce((obj, item) => {
-		obj[item.owner] = item.score;
+		obj[item.owner] = item.results;
 		return obj;
 	}, {});
 };
 
 const SubmissionRow = (props) => {
 	const { submission, mark } = props;
-	const { authState } = useContext(AuthContext);
 	const history = useHistory();
 	const classes = withStyles();
 	const submissionInfo =
-		submission.results.status === "" ? "Needs Grading" : "Grading Complete";
+		mark.status === "" || mark.status === undefined ? "Needs Grading" : "Grading Complete";
 	const submissionLink = `/admin/task/${submission.taskId}/submission/${submission.owner}`;
 
 	return (
@@ -47,7 +46,7 @@ const SubmissionRow = (props) => {
 			<TableCell>{submission.ownerData.displayName}</TableCell>
 			<TableCell>{submissionInfo}</TableCell>
 			{submission.results ? (
-				<TableCell>{mark}</TableCell>
+				<TableCell>{mark.submissionMark}</TableCell>
 			) : (
 					<TableCell></TableCell>
 				)}
@@ -74,7 +73,7 @@ const SubmissionTable = (props) => {
 			</TableHead>
 			<TableBody>
 				{submissions.map((submission) => (
-					<SubmissionRow submission={submission} mark={marks ? marks[submission.owner] : ""}/>
+					<SubmissionRow submission={submission} mark={marks ? marks[submission.owner] : ""} />
 				))}
 			</TableBody>
 		</Table>
@@ -83,10 +82,7 @@ const SubmissionTable = (props) => {
 
 const SubmissionList = (props) => {
 	const { submissions, taskId } = props;
-	var marksData = submissions.reduce((obj, item) => {
-		obj[item.owner] = item.results.submissionMark;
-		return obj;
-	}, {});
+	var marksData = markMap(submissions);
 	const [state, setState] = React.useState({ marksData: marksData });
 	const { authState } = useContext(AuthContext);
 	const classes = withStyles();
@@ -109,9 +105,9 @@ const SubmissionList = (props) => {
 						size="large"
 						color="primary"
 						onClick={async () => {
-							setState({  marksData: undefined });
+							setState({ marksData: undefined });
 							const res = await api.admin.tasks.mark(authState.user.idToken, taskId);
-							setState({ marksData: markMap(res.data.data.scores) });
+							setState({ marksData: markMap(res.data.data.results) });
 						}}>Mark All</Button>
 				) : (
 						<CircularProgress className={classes.spinner} />
