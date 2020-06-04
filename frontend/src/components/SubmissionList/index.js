@@ -62,7 +62,7 @@ const SubmissionTable = (props) => {
 					<TableCell style={{ width: "50%" }}>
 						<Typography variant="h6">Submission Status</Typography>
 					</TableCell>
-					<TableCell style={{ width: "20%" }}>
+					<TableCell style={{ width: "4%" }}>
 						<Typography variant="h6">Grade</Typography>
 					</TableCell>
 				</TableRow>
