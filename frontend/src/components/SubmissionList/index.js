@@ -45,11 +45,7 @@ const SubmissionRow = (props) => {
 		<TableRow hover onClick={() => history.push(submissionLink)}>
 			<TableCell>{submission.ownerData.displayName}</TableCell>
 			<TableCell>{submissionInfo}</TableCell>
-			{submission.results ? (
-				<TableCell>{mark.submissionMark}</TableCell>
-			) : (
-					<TableCell></TableCell>
-				)}
+			<TableCell>{mark.submissionMark}</TableCell>
 		</TableRow>
 	);
 };
