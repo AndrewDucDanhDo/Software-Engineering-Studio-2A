@@ -308,7 +308,8 @@ export const markUserSubmission = async (req, res) => {
         return res.status(200).json(
           successResponse({
             msg: `Student ${userId} circuit submission successfully marked for task ${taskId}`,
-            score: score * 100
+            owner: submissionDoc.data().id,
+            results: submissionResultsBody
           })
         );
       } else {
@@ -348,7 +349,7 @@ export const markTaskSubmissions = async (req, res) => {
         const solutions = await allSolutions(masterCircuit);
 
         // Get the scores for each submission
-        const scores = await Promise.all(taskSubmissionsCollection.docs.map(
+        const results = await Promise.all(taskSubmissionsCollection.docs.map(
           async (submission) => {
             // Get the percentage of correct outputs
             const score = await markSubmission(solutions, masterCircuit.qubits, submission.data().circuit);
@@ -368,7 +369,7 @@ export const markTaskSubmissions = async (req, res) => {
 
             return {
               owner: submission.id,
-              score: score * 100
+              results: submissionResultsBody
             };
           }
         ));
@@ -378,7 +379,7 @@ export const markTaskSubmissions = async (req, res) => {
           return res.status(200).json(
             successResponse({
               msg: `Circuit submission successfully marked for task ${taskId}`,
-              scores: scores
+              results: results
             })
           );
         }), 2000);
