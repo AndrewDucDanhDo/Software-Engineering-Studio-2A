@@ -395,7 +395,7 @@ const TeacherTaskViewer = (props) => {
 	};
 
 	const buildSubmissionsList = () => {
-		return <SubmissionList submissions={submissionsData} />;
+		return <SubmissionList submissions={submissionsData} taskId={taskData.taskId}/>;
 	};
 
 	const buildCenterContent = () => {

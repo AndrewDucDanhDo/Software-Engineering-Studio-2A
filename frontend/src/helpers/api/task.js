@@ -60,3 +60,14 @@ export const deleteTask = async (idToken, taskId) => {
 	);
 	return res;
 };
+
+export const markTask = async (idToken, taskId) => {
+	const res = await axios.post(
+		`http://${API_HOST}/admin/task/${taskId}/mark`,
+		null,
+		{
+			headers: { Authorization: `Bearer ${idToken}` },
+		}
+	);
+	return res;
+};

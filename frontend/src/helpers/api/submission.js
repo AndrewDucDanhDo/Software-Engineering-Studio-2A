@@ -60,3 +60,14 @@ export const updateSubmissionAdmin = async (idToken, taskId, resultsData) => {
 	);
 	return res;
 };
+
+export const markSubmission = async (idToken, taskId, userId) => {
+	const res = await axios.post(
+		`http://${API_HOST}/admin/task/${taskId}/submission/${userId}/mark`,
+		null,
+		{
+			headers: { Authorization: `Bearer ${idToken}` },
+		}
+	);
+	return res;
+};
