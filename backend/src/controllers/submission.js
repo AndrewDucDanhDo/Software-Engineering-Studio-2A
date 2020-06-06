@@ -124,6 +124,49 @@ export const getTaskSubmissions = async (req, res) => {
   }
 };
 
+// getUserSubmission
+export const getUserSubmission  = async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
+    const userId = req.params.userId;
+    const teacherId = req.authId;
+
+    checkParams({
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      },
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
+
+    const taskDoc = await firestore.task.get(taskId);
+    const submissionDoc = await firestore.submission.get(taskId, userId);
+
+    // Check the submission doc exists
+    if (submissionDoc.exists) {
+      // Check the teacher is one of the owners of the task
+      if (teacherCanUpdate(taskDoc.data(), teacherId)) {
+
+        return res.status(200).json(
+          successResponse({
+            owner: submissionDoc.data().id,
+            ...submissionDoc.data()
+          })
+        );
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
+    } else {
+      throw new FirestoreError("missing", submissionDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
 export const updateSubmission = async (req, res) => {
   try {
     const submissionCircuitBody = req.body;
