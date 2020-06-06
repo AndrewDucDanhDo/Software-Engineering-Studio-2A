@@ -109,9 +109,15 @@ export const getTaskSubmissions = async (req, res) => {
             })
           );
         } else {
+          // if there is no existing submission, send blank circuit and results
           return res.status(200).json(
             successResponse({
-              circuit: {}
+              circuit: {
+                "gates": [], "circuit": [], "qubits": 2, "input": [0, 0]
+              },
+              results: {
+                submissionMark: 0, totalMarks: 100, status: "", assessor: "", comment: ""
+              }
             })
           );
         }
