@@ -28,6 +28,7 @@ import {
 } from "./task";
 import {
 	getSubmission,
+	getSingleSubmission,
 	updateSubmission,
 	deleteSubmission,
 	getAllSubmissionsAdmin,
@@ -83,6 +84,7 @@ export default {
 			mark: markTask,
 			submission: {
 				getAll: getAllSubmissionsAdmin,
+				getSingle: getSingleSubmission,
 				update: updateSubmissionAdmin,
 				mark: markSubmission,
 			},
