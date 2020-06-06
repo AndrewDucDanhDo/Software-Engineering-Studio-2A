@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import TeacherTaskViewer from "../../../components/teacherTaskViewer";
+import TeacherSubmissionViewer from "../../../components/TeacherSubmissionViewer";
 import { CircularProgress, makeStyles } from "@material-ui/core";
 import api from "../../../helpers/api";
 import { AuthContext } from "../../../context/auth";
@@ -21,26 +21,27 @@ export default function TeacherTaskEditorPage(props) {
 
 	const fetchData = async () => {
 		const results = await Promise.all([
-			api.admin.tasks.getSingle(authState.user.idToken, taskId),
+			api.admin.tasks.submission.getSingle(authState.user.idToken, taskId, submissionId)
 		]);
 
 		setState({
-			task: results[0].data.data,
+			submission: results[0].data.data,
 		});
 	};
 
 	useEffect(() => {
-		if (state.task === undefined) {
+		if (state.submission === undefined) {
 			fetchData();
 		}
 	});
 
-	if (state.task === undefined) {
+	if (state.submission === undefined) {
 		return <CircularProgress className={classes.spinner} />;
 	} else {
 		return (
 			<>
-				Submission editor page taskId: {taskId} submissionId: {submissionId}
+				{/* Submission editor page taskId: {taskId} submissionId: {submissionId} */}
+				<TeacherSubmissionViewer  submission={state.submission} taskId={taskId} userId={submissionId} />
 			</>
 		);
 	}
