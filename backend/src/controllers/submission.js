@@ -152,7 +152,7 @@ export const getUserSubmission  = async (req, res) => {
 
         return res.status(200).json(
           successResponse({
-            owner: submissionDoc.data().id,
+            owner: userId,
             ...submissionDoc.data()
           })
         );
