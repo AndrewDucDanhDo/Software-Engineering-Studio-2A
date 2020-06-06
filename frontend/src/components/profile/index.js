@@ -35,14 +35,16 @@ export default function Profile(props) {
 						<ProfileRow
 							className={classes.row}
 							title="Name"
-							value={userData.displayName}
+							userData={userData}
+							value="displayName"
 							editable
 						/>
 						{divider}
 						<ProfileRow
 							className={classes.row}
 							title="Email"
-							value={userData.email}
+							userData={userData}
+							value="email"
 							editable
 						/>
 					</BoxedSpace>
