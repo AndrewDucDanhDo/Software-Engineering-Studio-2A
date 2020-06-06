@@ -276,7 +276,7 @@ const TeacherTaskViewer = (props) => {
 			const newAssignedState = assignedState.assigned.filter(
 				(assigned) => assigned.uid !== uid
 			);
-			setOwnersState({ assigned: newAssignedState });
+			setAssignedState({ assigned: newAssignedState });
 		};
 
 		return (
