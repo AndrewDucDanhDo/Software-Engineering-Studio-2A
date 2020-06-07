@@ -62,6 +62,7 @@ const TeacherSubmissionViewer = (props) => {
 	const [state, setState] = React.useState(submission);
 	const [resultsState, setResultsState] = React.useState(submission.results);
 	const [toastState, setToastState] = React.useState({ open: false });
+	const [caseState, setCaseState] = React.useState(undefined);
 
 	const handleResultsSave = async () => {
 		try {
@@ -117,7 +118,7 @@ const TeacherSubmissionViewer = (props) => {
 								setResultsState(res.data.data.results);
 							}}
 							fullWidth
-							>
+						>
 							Auto Mark
 						</Button>
 					</Box>
@@ -186,22 +187,6 @@ const TeacherSubmissionViewer = (props) => {
 				}}
 			>
 				<Box m={1}>
-					<ExpansionPanel defaultExpanded={false} style={{ height: "50%" }}>
-						<ExpansionPanelSummary
-							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
-						>
-							<Typography variant="h6">Functional Input</Typography>
-						</ExpansionPanelSummary>
-						<ExpansionPanelDetails>
-							<Box textAlign="center">
-								{/* TODO: Show the marking results */}
-							</Box>
-						</ExpansionPanelDetails>
-					</ExpansionPanel>
-				</Box>
-				<Box m={1}>
 					<Box my={1}>
 						<Card variant="outlined" style={{ padding: 8 }}>
 							<Box>
@@ -261,7 +246,47 @@ const TeacherSubmissionViewer = (props) => {
 							</Box>
 						</Card>
 					</Box>
-
+					
+					<Box m={0}>
+						<ExpansionPanel defaultExpanded={false} style={{ height: "50%" }}>
+							<ExpansionPanelSummary
+								expandIcon={<ExpandMoreIcon />}
+								aria-controls="panel1a-content"
+								id="panel1a-header"
+							>
+								<Typography variant="h6">Functional Cases</Typography>
+							</ExpansionPanelSummary>
+							<ExpansionPanelDetails>
+								<Box textAlign="center">
+									{/* TODO: Show the marking results */}
+									{caseState !== undefined && (
+										<List>
+											{caseState.results.map(item => {
+												if (item.correct)
+													return (<ListItemText style={{ color: "#16B719" }}>{item.state}</ListItemText>);
+												else
+													return (<ListItemText style={{ color: "#F01B1F" }}>{item.state}</ListItemText>);
+											})}
+										</List>
+									)}
+									<Button
+										variant="contained"
+										style={{ fontSize: "10px" }}
+										size="small"
+										component={Link}
+										color="primary"
+										onClick={async () => {
+											const res = await api.admin.tasks.submission.run(authState.user.idToken, taskId, userId);
+											setCaseState({ results: res.data.data.results });
+											console.log(res.data.data.results);
+										}}
+										fullWidth >
+										Run Test Cases
+								 	</Button>
+								</Box>
+							</ExpansionPanelDetails>
+						</ExpansionPanel>
+					</Box>
 					<Box my={1}>{extrasBox()}</Box>
 				</Box>
 			</Grid>
