@@ -14,6 +14,7 @@ import {
   updateSubmissionResults,
   markTaskSubmissions,
   markUserSubmission,
+  runUserSubmission,
   resetTaskResults
 } from "../controllers/submission";
 
@@ -30,5 +31,6 @@ taskAminRouter.post("/:taskId/submission/:userId/update", updateSubmissionResult
 taskAminRouter.post("/:taskId/mark", markTaskSubmissions);
 taskAminRouter.post("/:taskId/mark/reset", resetTaskResults);
 taskAminRouter.post("/:taskId/submission/:userId/mark", markUserSubmission);
+taskAminRouter.get("/:taskId/submission/:userId/mark", runUserSubmission);
 
 export default taskAminRouter;
