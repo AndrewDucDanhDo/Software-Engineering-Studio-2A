@@ -34,6 +34,7 @@ import {
 	getAllSubmissionsAdmin,
 	updateSubmissionAdmin,
 	createSubmission,
+	runSubmission,
 	markSubmission,
 } from "./submission";
 
@@ -86,6 +87,7 @@ export default {
 				getAll: getAllSubmissionsAdmin,
 				getSingle: getSingleSubmission,
 				update: updateSubmissionAdmin,
+				run: runSubmission,
 				mark: markSubmission,
 			},
 		},
