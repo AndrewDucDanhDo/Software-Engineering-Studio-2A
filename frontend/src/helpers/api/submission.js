@@ -8,6 +8,13 @@ export const getSubmission = async (idToken, taskId) => {
 	return res;
 };
 
+export const getSingleSubmission = async (idToken, taskId, userId) => {
+	const res = await axios.get(`http://${API_HOST}/admin/task/${taskId}/submission/${userId}`, {
+		headers: { Authorization: `Bearer ${idToken}` },
+	});
+	return res;
+};
+
 export const updateSubmission = async (idToken, taskId, circuitData) => {
 	const res = await axios.post(
 		`http://${API_HOST}/task/${taskId}/submission/update`,
@@ -50,10 +57,20 @@ export const getAllSubmissionsAdmin = async (idToken, taskId) => {
 	return res;
 };
 
-export const updateSubmissionAdmin = async (idToken, taskId, resultsData) => {
+export const updateSubmissionAdmin = async (idToken, taskId, userId, resultsData) => {
 	const res = await axios.post(
-		`http://${API_HOST}/admin/task/${taskId}/submission/update`,
+		`http://${API_HOST}/admin/task/${taskId}/submission/${userId}/update`,
 		resultsData,
+		{
+			headers: { Authorization: `Bearer ${idToken}` },
+		}
+	);
+	return res;
+};
+
+export const runSubmission = async (idToken, taskId, userId) => {
+	const res = await axios.get(
+		`http://${API_HOST}/admin/task/${taskId}/submission/${userId}/mark`,
 		{
 			headers: { Authorization: `Bearer ${idToken}` },
 		}

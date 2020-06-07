@@ -10,9 +10,11 @@ import {
 } from "../controllers/task";
 import {
   getTaskSubmissions,
+  getUserSubmission,
   updateSubmissionResults,
   markTaskSubmissions,
   markUserSubmission,
+  runUserSubmission,
   resetTaskResults
 } from "../controllers/submission";
 
@@ -24,9 +26,11 @@ taskAminRouter.get("/:taskId", getSingleTask);
 taskAminRouter.post("/:taskId/update", updateTask);
 taskAminRouter.delete("/:taskId/update", deleteTask);
 taskAminRouter.get("/:taskId/submission", getTaskSubmissions);
+taskAminRouter.get("/:taskId/submission/:userId", getUserSubmission);
 taskAminRouter.post("/:taskId/submission/:userId/update", updateSubmissionResults);
 taskAminRouter.post("/:taskId/mark", markTaskSubmissions);
 taskAminRouter.post("/:taskId/mark/reset", resetTaskResults);
 taskAminRouter.post("/:taskId/submission/:userId/mark", markUserSubmission);
+taskAminRouter.get("/:taskId/submission/:userId/mark", runUserSubmission);
 
 export default taskAminRouter;

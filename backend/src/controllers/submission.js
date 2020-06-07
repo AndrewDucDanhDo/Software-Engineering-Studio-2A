@@ -4,7 +4,7 @@ import { handleApiError, successResponse } from "../helpers/apiResponse";
 import { FirestoreError } from "../errors/firestore";
 import firestore from "../helpers/firestore";
 import { checkSubmissionResultsData } from "../helpers/validators/submissionResultsData";
-import { markSubmission, allSolutions } from "../helpers/quantom-simulator/marker";
+import { markSubmission, allSolutions, compareSubmission } from "../helpers/quantom-simulator/marker";
 
 const userCanSubmit = (taskData, userId) => {
   return taskData.assigned.includes(userId);
@@ -124,6 +124,49 @@ export const getTaskSubmissions = async (req, res) => {
       }
     } else {
       throw new FirestoreError("missing", taskDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+// getUserSubmission
+export const getUserSubmission  = async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
+    const userId = req.params.userId;
+    const teacherId = req.authId;
+
+    checkParams({
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      },
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
+
+    const taskDoc = await firestore.task.get(taskId);
+    const submissionDoc = await firestore.submission.get(taskId, userId);
+
+    // Check the submission doc exists
+    if (submissionDoc.exists) {
+      // Check the teacher is one of the owners of the task
+      if (teacherCanUpdate(taskDoc.data(), teacherId)) {
+
+        return res.status(200).json(
+          successResponse({
+            owner: userId,
+            ...submissionDoc.data()
+          })
+        );
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
+    } else {
+      throw new FirestoreError("missing", submissionDoc.ref, "task");
     }
   } catch (error) {
     handleApiError(res, error);
@@ -316,6 +359,57 @@ export const markUserSubmission = async (req, res) => {
             msg: `Student ${userId} circuit submission successfully marked for task ${taskId}`,
             owner: submissionDoc.data().id,
             results: submissionResultsBody
+          })
+        );
+      } else {
+        throw new FirestoreError("auth", taskDoc.ref, "task");
+      }
+    } else {
+      throw new FirestoreError("missing", submissionDoc.ref, "task");
+    }
+  } catch (error) {
+    handleApiError(res, error);
+  }
+};
+
+export const runUserSubmission = async (req, res) => {
+  try {
+    const taskId = req.params.taskId;
+    const userId = req.params.userId;
+    const teacherId = req.authId;
+
+    checkParams({
+      taskId: {
+        data: taskId,
+        expectedType: "string"
+      },
+      userId: {
+        data: userId,
+        expectedType: "string"
+      }
+    });
+
+    const taskDoc = await firestore.task.get(taskId);
+    const submissionDoc = await firestore.submission.get(taskId, userId);
+
+    // Check the submission doc we want to update exists
+    if (submissionDoc.exists) {
+      // Check the teacher is one of the owners of the task
+      if (teacherCanUpdate(taskDoc.data(), teacherId)) {
+
+        // Find the output for the master circuit, these will be our solutions
+        const masterCircuit = taskDoc.data().masterCircuit;
+        const studentCircuit = submissionDoc.data().circuit;
+
+        // Find the students output, compute these against the solutions to get the score.
+        const solutions = await allSolutions(masterCircuit);
+        const results = await compareSubmission(solutions, masterCircuit.qubits, studentCircuit);
+
+        return res.status(200).json(
+          successResponse({
+            msg: `Student ${userId} circuit submission successfully marked for task ${taskId}`,
+            owner: submissionDoc.data().id,
+            results: results
           })
         );
       } else {

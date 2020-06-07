@@ -71,3 +71,36 @@ export async function markSubmission(solutions, nqubits, studentCircuit) {
         resolve(score / total);
     });
 }
+
+export async function compareSubmission(solutions, nqubits, studentCircuit) {
+    return new Promise(async (resolve, reject) => {
+        const app = new quantumSimulator(nqubits);
+        app.loadWorkspace(studentCircuit);
+
+        if (nqubits != studentCircuit.qubits)
+            resolve(0);
+
+        var score = 0;
+        var total = 0;
+
+        var results = [];
+
+        for (const solution of solutions) {
+            total++;
+            const studentOutput = await solve(app, solution.input);
+            if (JSON.stringify(studentOutput) === JSON.stringify(solution.output)) {
+                results.push({
+                    state: solution.input,
+                    correct: true
+                })
+            }
+            else {
+                results.push({
+                    state: solution.input,
+                    correct: false
+                })
+            }
+        };
+        resolve(results);
+    });
+}
