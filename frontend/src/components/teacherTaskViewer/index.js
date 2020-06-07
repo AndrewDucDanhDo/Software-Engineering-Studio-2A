@@ -103,7 +103,7 @@ const TeacherTaskViewer = (props) => {
 
 	const [modalState, setModalState] = React.useState({ open: false });
 	const [toastState, setToastState] = React.useState({ open: false });
-	const [tabState, setTabState] = React.useState(0);
+	const [tabState, setTabState] = React.useState(newTask ? 1 : 0);
 
 	const handleTaskSave = async () => {
 		const requestData = {
@@ -406,15 +406,15 @@ const TeacherTaskViewer = (props) => {
 						value={tabState}
 						onChange={(event, newValue) => setTabState(newValue)}
 					>
-						<Tab label="Circuit Editor" />
 						<Tab label="Task Submissions" disabled={newTask} />
+						<Tab label="Circuit Editor" />
 					</Tabs>
 				</Paper>
 				<TabPanel value={tabState} index={0}>
-					{buildSimulator()}
+					{buildSubmissionsList()}
 				</TabPanel>
 				<TabPanel value={tabState} index={1}>
-					{buildSubmissionsList()}
+					{buildSimulator()}
 				</TabPanel>
 			</>
 		);
