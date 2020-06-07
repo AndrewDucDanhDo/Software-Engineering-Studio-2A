@@ -1,25 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
-	Box,
-	Button,
-	Card,
-	Grid,
-	Paper,
-	Typography,
-	TextField,
-	ExpansionPanel,
-	ExpansionPanelSummary,
-	ExpansionPanelDetails,
-	withStyles,
-	List,
-	ListItem,
-	ListItemText,
-	ListItemSecondaryAction,
-	IconButton,
-	Container,
-	Tabs,
-	Tab,
+	Box, Button, Card, Container, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Grid, IconButton, List,
+	ListItem, ListItemSecondaryAction, ListItemText, Paper, Tab, Tabs, TextField, Typography, withStyles,
 } from "@material-ui/core";
 import QuCircuit from "../quCircuit";
 import SaveIcon from "@material-ui/icons/Save";
@@ -29,12 +12,7 @@ import AddOwnerModal from "./modal/addUser";
 import api from "../../helpers/api";
 import { AuthContext } from "../../context/auth";
 import Toast from "../Toast/toast";
-import { useHistory } from "react-router-dom";
-import {
-	CircuitResultsContext,
-	CircuitStructureContext,
-} from "../../context/circuit";
-import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
+import { CircuitResultsContext, CircuitStructureContext, } from "../../context/circuit";
 import TabPanel from "../TabPanel";
 import SubmissionList from "../SubmissionList";
 
@@ -167,6 +145,22 @@ const TeacherTaskViewer = (props) => {
 		return (
 			<Card variant="outlined" style={{ padding: 20 }}>
 				<Container>
+					<Box m={1} textAlign="center">
+						<Button
+							variant="contained"
+							color="primary"
+							style={{ fontSize: "10px" }}
+							size="small"
+							fullWidth
+							onClick={() => {
+								setExpectedResultsState(circuitResults);
+								setCircuitState(circuitStructure.getStoredCircuit());
+							}}
+						>
+							Set circuit for task
+						</Button>
+					</Box>
+
 					<Box m={1} textAlign="center">
 						<Button
 							onClick={handleTaskSave}
@@ -494,51 +488,51 @@ const TeacherTaskViewer = (props) => {
 				<Box m={1}>{buildOwnersPanel()}</Box>
 				<Box m={1}>{buildAssignedPanel()}</Box>
 				<Box m={1}>
-					<Box my={1}>
-						<Card variant="outlined" style={{ padding: 8 }}>
-							<Box>
-								<Box m={2} textAlign="left">
-									<Typography variant="h6">Expected Results</Typography>
-								</Box>
-								<Container>
-									<Box textAlign="center">
-										{expectedResultsState.map((result, index) => {
-											const amp = reduceAmplitude(result.amplitude);
-											const stat = result.state;
-											const prob = result.probability;
+					{/*<Box my={1}>*/}
+					{/*	<Card variant="outlined" style={{ padding: 8 }}>*/}
+					{/*		<Box>*/}
+					{/*			<Box m={2} textAlign="left">*/}
+					{/*				<Typography variant="h6">Expected Results</Typography>*/}
+					{/*			</Box>*/}
+					{/*			<Container>*/}
+					{/*				<Box textAlign="center">*/}
+					{/*					{expectedResultsState.map((result, index) => {*/}
+					{/*						const amp = reduceAmplitude(result.amplitude);*/}
+					{/*						const stat = result.state;*/}
+					{/*						const prob = result.probability;*/}
 
-											if (prob > 0) {
-												return (
-													<Typography
-														variant="body1"
-														style={{ fontSize: "14px" }}
-														key={index}
-													>
-														{/* <1.00000000+0.00000000i|1.00000000+0.00000000i> 100% */}
-														&lt;{`${amp}|${stat}`}&gt; {Math.floor(prob)}%
-													</Typography>
-												);
-											}
-										})}
-									</Box>
-									<Box m={2} textAlign="center">
-										<Button
-											variant="contained"
-											style={{ fontSize: "10px" }}
-											size="small"
-											color="primary"
-											onClick={() => {
-												setExpectedResultsState(circuitResults);
-												setCircuitState(circuitStructure.getStoredCircuit());
-											}}
-										>
-											Set expected as current circuit result
-										</Button>
-									</Box>
-								</Container>
-							</Box>
-						</Card>
-					</Box>
+					{/*						if (prob > 0) {*/}
+					{/*							return (*/}
+					{/*								<Typography*/}
+					{/*									variant="body1"*/}
+					{/*									style={{ fontSize: "14px" }}*/}
+					{/*									key={index}*/}
+					{/*								>*/}
+					{/*									/!* <1.00000000+0.00000000i|1.00000000+0.00000000i> 100% *!/*/}
+					{/*									&lt;{`${amp}|${stat}`}&gt; {Math.floor(prob)}%*/}
+					{/*								</Typography>*/}
+					{/*							);*/}
+					{/*						}*/}
+					{/*					})}*/}
+					{/*				</Box>*/}
+					{/*				<Box m={2} textAlign="center">*/}
+					{/*					<Button*/}
+					{/*						variant="contained"*/}
+					{/*						style={{ fontSize: "10px" }}*/}
+					{/*						size="small"*/}
+					{/*						color="primary"*/}
+					{/*						onClick={() => {*/}
+					{/*							setExpectedResultsState(circuitResults);*/}
+					{/*							setCircuitState(circuitStructure.getStoredCircuit());*/}
+					{/*						}}*/}
+					{/*					>*/}
+					{/*						Set expected as current circuit result*/}
+					{/*					</Button>*/}
+					{/*				</Box>*/}
+					{/*			</Container>*/}
+					{/*		</Box>*/}
+					{/*	</Card>*/}
+					{/*</Box>*/}
 
 					<Box my={1}>{extrasBox()}</Box>
 				</Box>

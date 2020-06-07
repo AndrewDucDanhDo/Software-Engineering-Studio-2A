@@ -1,18 +1,8 @@
 import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import {
-	Box,
-	Button,
-	Card,
-	Grid,
-	Paper,
-	Typography,
-	ExpansionPanel,
-	ExpansionPanelSummary,
-	ExpansionPanelDetails,
-	makeStyles,
-	Container,
-	Divider,
+	Box, Button, Card, Container, Divider, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Grid,
+	makeStyles, Paper, Typography,
 } from "@material-ui/core";
 import QuCircuit from "../quCircuit";
 import SaveIcon from "@material-ui/icons/Save";
@@ -21,7 +11,6 @@ import api from "../../helpers/api";
 import { AuthContext } from "../../context/auth";
 import Toast from "../Toast/toast";
 import { CircuitStructureContext } from "../../context/circuit";
-import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 import ViewResultsModal from "./modals/ViewResults";
 
 const withStyles = makeStyles({
@@ -187,37 +176,37 @@ const StudentTaskViewer = (props) => {
 						</ExpansionPanelDetails>
 					</ExpansionPanel>
 				</Box>
-				<Box my={1}>
-					<ExpansionPanel>
-						<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-							<Typography variant="h3" className={classes.sectionHeading}>
-								{textContent.expectedResults.sectionTitle}
-							</Typography>
-						</ExpansionPanelSummary>
-						<ExpansionPanelDetails>
-							<Container>
-								<Box textAlign="center" style={{ display: "contents" }}>
-									{taskData.expectedResults.map((result, index) => {
-										const amp = reduceAmplitude(result.amplitude);
-										const stat = result.state;
-										const prob = Math.floor(result.probability);
-										if (prob > 0) {
-											return (
-												<Typography
-													variant="body1"
-													key={index}
-													className={classes.expectedResults}
-												>
-													&lt;{`${amp}|${stat}`}&gt; {prob}%
-												</Typography>
-											);
-										}
-									})}
-								</Box>
-							</Container>
-						</ExpansionPanelDetails>
-					</ExpansionPanel>
-				</Box>
+				{/*<Box my={1}>*/}
+				{/*	<ExpansionPanel>*/}
+				{/*		<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>*/}
+				{/*			<Typography variant="h3" className={classes.sectionHeading}>*/}
+				{/*				{textContent.expectedResults.sectionTitle}*/}
+				{/*			</Typography>*/}
+				{/*		</ExpansionPanelSummary>*/}
+				{/*		<ExpansionPanelDetails>*/}
+				{/*			<Container>*/}
+				{/*				<Box textAlign="center" style={{ display: "contents" }}>*/}
+				{/*					{taskData.expectedResults.map((result, index) => {*/}
+				{/*						const amp = reduceAmplitude(result.amplitude);*/}
+				{/*						const stat = result.state;*/}
+				{/*						const prob = Math.floor(result.probability);*/}
+				{/*						if (prob > 0) {*/}
+				{/*							return (*/}
+				{/*								<Typography*/}
+				{/*									variant="body1"*/}
+				{/*									key={index}*/}
+				{/*									className={classes.expectedResults}*/}
+				{/*								>*/}
+				{/*									&lt;{`${amp}|${stat}`}&gt; {prob}%*/}
+				{/*								</Typography>*/}
+				{/*							);*/}
+				{/*						}*/}
+				{/*					})}*/}
+				{/*				</Box>*/}
+				{/*			</Container>*/}
+				{/*		</ExpansionPanelDetails>*/}
+				{/*	</ExpansionPanel>*/}
+				{/*</Box>*/}
 				<Box my={1}>
 					<Card variant="outlined" style={{ padding: 10 }}>
 						{submissionData.results.status.length > 0 && (
