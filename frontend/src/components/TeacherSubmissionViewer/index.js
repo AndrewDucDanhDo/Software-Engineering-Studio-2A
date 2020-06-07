@@ -112,9 +112,12 @@ const TeacherSubmissionViewer = (props) => {
 							size="small"
 							component={Link}
 							color="primary"
-							to={`/admin/task/${taskId}`}
+							onClick={async () => {
+								const res = await api.admin.tasks.submission.mark(authState.user.idToken, taskId, userId);
+								setResultsState(res.data.data.results);
+							}}
 							fullWidth
-						>
+							>
 							Auto Mark
 						</Button>
 					</Box>
