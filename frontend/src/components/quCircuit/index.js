@@ -218,7 +218,11 @@ export default function QuCircuit(props) {
 				selectedCell,
 				listeners
 			);
-			wireCells[cellIndex] = <Cell key={cellIndex} cellLife={cellLife} />;
+			// Remember to pass certain values into Cell prop for React.memo.
+			wireCells[cellIndex] = <Cell key={cellIndex} cellLife={cellLife}
+			                             gate={cellLife.gate} isSelected={cellLife.isSelected}
+			                             showConnectionPanel={cellLife.shouldShowConnectionPanel()}
+			                             ends={cellLife.ends} sources={cellLife.sources} multigates={cellLife.multigates}/>;
 		}
 
 		return wireCells;
