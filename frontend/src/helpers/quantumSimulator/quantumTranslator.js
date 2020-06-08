@@ -97,7 +97,8 @@ export function translateToQuCircuit(circuit, cellAmount) {
 		if (gate === Gates.SWAP && entry.targets.length === 2) {
 			sources.push(entry.targets[1]);
 			ends.push(entry.targets[1]);
-			fillData(entry.targets[1], cell, cellData);
+			let otherCellData = { gate, ends: [wire], sources: [wire], multigates: [] };
+			fillData(entry.targets[1], cell, otherCellData);
 		}
 
 		for (let control of entry.controls) {
