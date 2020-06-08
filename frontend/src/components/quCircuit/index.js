@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import { fashion } from "../../helpers/fashion";
 import StretchBox from "../common/stretchBox";
 import Cell from "./cell";
@@ -18,14 +18,9 @@ import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
 import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 import Toast from "../Toast/toast";
-import {
-	CircuitResultsContext,
-	CircuitSetterContext,
-	CircuitStructureContext,
-} from "../../context/circuit";
+import { CircuitResultsContext, CircuitSetterContext, CircuitStructureContext, } from "../../context/circuit";
 import { CircuitStructure } from "../../helpers/quCircuit/circuitStructure";
 import QuantumBarChart from "./quantumBarChart";
-import { Grid } from "@material-ui/core";
 
 const CircuitBox = fashion(Box, (theme) => ({
 	marginTop: theme.spacing(1),
@@ -436,7 +431,7 @@ export default function QuCircuit(props) {
 			onDrop={onDrop}
 			onDragOver={(event) => event.preventDefault()}
 		>
-			<Grid container direction="column" justifyContent="flex-end">
+			<Grid container direction="column">
 				<CircuitBox flexGrow={1} flexShrink={6}>
 					<div ref={circuitRef}>
 						{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}
