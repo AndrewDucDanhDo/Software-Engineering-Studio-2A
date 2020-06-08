@@ -139,7 +139,7 @@ function areEqual(prevProps, nextProps) {
 	let nextCellLife = nextProps.cellLife;
 
 	return prevCellLife.wireIndex === nextCellLife.wireIndex
-		&& prevCellLife.cellIndex === nextCellLife.wireIndex
+		&& prevCellLife.cellIndex === nextCellLife.cellIndex
 		&& prevCellLife.ends === nextCellLife.ends
 		&& prevCellLife.sources === nextCellLife.sources
 		&& prevCellLife.multigates === nextCellLife.multigates
