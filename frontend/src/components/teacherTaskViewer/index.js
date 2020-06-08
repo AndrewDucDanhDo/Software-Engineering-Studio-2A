@@ -409,7 +409,7 @@ const TeacherTaskViewer = (props) => {
 				</TabPanel>
 				<TabPanel value={tabState} index={1}>
 					{/* Feel free to put this in a makeStyles or something */}
-					<div style={{position: "absolute", height: "z%"}}>
+					<div style={{position: "absolute", height: "100%"}}>
 						{buildSimulator()}
 					</div>
 				</TabPanel>
