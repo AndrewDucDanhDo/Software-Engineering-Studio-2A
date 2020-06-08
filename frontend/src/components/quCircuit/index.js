@@ -395,6 +395,25 @@ export default function QuCircuit(props) {
 		}
 	};
 
+	function resizeWires(newCount) {
+		let currentCount = circuitStructure.wireCount;
+
+		for (let w = newCount; w < currentCount; w++) {
+
+			for (let c = 0; c < CircuitStructure.CellCount; c++) {
+				let cellLife = new CellLife(
+					w,
+					c,
+					circuit,
+					selectedCell,
+					listeners
+				);
+				cellLife.removeCell();
+			}
+		}
+		circuitSetter.setWireCount(newCount);
+	}
+
 	const buildModal = () => {
 		if (modalState.type === "saveCircuit") {
 			return (
@@ -500,7 +519,7 @@ export default function QuCircuit(props) {
 								type="number"
 								value={circuitStructure.wireCount}
 								onChange={(event) =>
-									circuitSetter.setWireCount(event.target.value)
+									resizeWires(event.target.value)
 								}
 							/>
 						</SmallBox>
