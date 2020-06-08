@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import BoxedSpace from "../common/boxedSpace";
+import { CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
 	row: {
@@ -14,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
 	divider: {
 		width: "100%",
 		borderBottom: "solid 1px rgba(0, 0, 0, 0.07)",
+	},
+	spinner: {
+		position: "absolute",
+		top: "50%",
+		left: "50%",
+		transform: "translate(-50%, -50%)",
 	},
 }));
 
@@ -35,20 +42,21 @@ export default function Profile(props) {
 						<ProfileRow
 							className={classes.row}
 							title="Name"
-							value={userData.displayName}
+							userData={userData}
+							value="displayName"
 							editable
 						/>
 						{divider}
 						<ProfileRow
 							className={classes.row}
 							title="Email"
-							value={userData.email}
+							userData={userData}
+							value="email"
 							editable
 						/>
 					</BoxedSpace>
 				) : (
-					// TODO: Add some kind of spinner here to show the page is still loading
-					<p>Loading profile</p>
+					<CircularProgress className={classes.spinner} />
 				)}
 			</Container>
 		</Box>

@@ -3,14 +3,17 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import RoundedButton from "../common/roundedButton";
+import api from "../../helpers/api";
+import { AuthContext } from "../../context/auth";
 
 export default function ProfileRow(props) {
-    const [value, setValue] = useState(props.value);
+    const [value, setValue] = useState(props.userData[props.value]);
     const [editMode, setEditMode] = useState(false);
+	const { authState } = React.useContext(AuthContext);
 
     function handleSave() {
-        // TODO: Upload the new data towards the backend here.
-
+        props.userData[props.value] = value;
+        api.user.update(authState.user.idToken, authState.user.uid, props.userData);
         setEditMode(false);
     }
 
