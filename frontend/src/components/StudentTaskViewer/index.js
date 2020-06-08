@@ -45,9 +45,8 @@ const withStyles = makeStyles({
 	},
 	taskControls: {
 		backgroundColor: "#f7f7f7",
-		height: "93.5%",
-		overflow: "scroll",
-		overflow: "hidden",
+		height: "100%",
+		overflow: "auto",
 	},
 	expectedResults: {
 		fontSize: 15,

@@ -1,16 +1,6 @@
 import React, { useContext } from "react";
 import {
-	Container,
-	Typography,
-	Box,
-	Paper,
-	Table,
-	TableRow,
-	TableHead,
-	TableCell,
-	TableBody,
-	CircularProgress,
-	makeStyles,
+	Box, CircularProgress, Container, makeStyles, Paper, Table, TableBody, TableCell, TableHead, TableRow, Typography,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
@@ -69,7 +59,7 @@ const SubmissionTable = (props) => {
 			</TableHead>
 			<TableBody>
 				{submissions.map((submission) => (
-					<SubmissionRow submission={submission} mark={marks ? marks[submission.owner] : ""} />
+					<SubmissionRow key={submission.owner} submission={submission} mark={marks ? marks[submission.owner] : ""} />
 				))}
 			</TableBody>
 		</Table>

@@ -74,10 +74,6 @@ export function translateToQuCircuit(circuit, cellAmount) {
 		.fill(null)
 		.map(e => new Array(cellAmount));
 
-	function fillTwinData(w, c, cellData) {
-		fillData(w, c, cellData);
-	}
-
 	function fillData(w, c, cellData) {
 		quCircuit[w][c] = new CellData(w, c, cellData.gate, [...cellData.ends], [...cellData.sources], [...cellData.multigates]);
 	}
@@ -101,7 +97,8 @@ export function translateToQuCircuit(circuit, cellAmount) {
 		if (gate === Gates.SWAP && entry.targets.length === 2) {
 			sources.push(entry.targets[1]);
 			ends.push(entry.targets[1]);
-			fillTwinData(entry.targets[1], cell, cellData);
+			let otherCellData = { gate, ends: [wire], sources: [wire], multigates: [] };
+			fillData(entry.targets[1], cell, otherCellData);
 		}
 
 		for (let control of entry.controls) {
@@ -111,7 +108,6 @@ export function translateToQuCircuit(circuit, cellAmount) {
 				ends: [wire],
 				multigates: []
 			});
-			ends.push(control);
 			sources.push(control);
 		}
 

@@ -408,7 +408,10 @@ const TeacherTaskViewer = (props) => {
 					{buildSubmissionsList()}
 				</TabPanel>
 				<TabPanel value={tabState} index={1}>
-					{buildSimulator()}
+					{/* Feel free to put this in a makeStyles or something */}
+					<div style={{position: "absolute", height: "100%"}}>
+						{buildSimulator()}
+					</div>
 				</TabPanel>
 			</>
 		);
@@ -430,8 +433,8 @@ const TeacherTaskViewer = (props) => {
 				item
 				style={{
 					backgroundColor: "#f7f7f7",
-					height: "93.5%",
-					overflow: "scroll",
+					height: "100%",
+					overflow: "auto",
 				}}
 			>
 				<Box m={1}>

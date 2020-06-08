@@ -1,22 +1,11 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
-	Box,
-	Button,
-	Container,
-	Paper,
-	Table,
-	TableHead,
-	TableBody,
-	TableCell,
-	TableRow,
+	Box, Button, CircularProgress, Container, makeStyles, Paper, Table, TableBody, TableCell, TableHead, TableRow,
 	Typography,
-	CircularProgress,
-	makeStyles,
 } from "@material-ui/core";
 import { AuthContext } from "../../context/auth";
 import api from "../../helpers/api";
-import { useHistory } from "react-router-dom";
 
 const withStyles = makeStyles({
 	spinner: {
@@ -74,7 +63,7 @@ const TaskList = () => {
 		};
 
 		return (
-			<TableRow hover onClick={() => history.push(taskPath)}>
+			<TableRow key={task.taskId} hover onClick={() => history.push(taskPath)}>
 				<TableCell>{task.name}</TableCell>
 				<TableCell>{task.summary}</TableCell>
 				{!isAdminUser(authState) && buildSubmissionStatus(task)}

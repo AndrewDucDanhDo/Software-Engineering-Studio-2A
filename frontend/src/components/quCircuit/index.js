@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Box } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import { fashion } from "../../helpers/fashion";
 import StretchBox from "../common/stretchBox";
 import Cell from "./cell";
@@ -18,14 +18,9 @@ import LoadCircuitModal from "./modals/loadCircuit";
 import api from "../../helpers/api";
 import { reduceAmplitude } from "../../helpers/quCircuit/formatters";
 import Toast from "../Toast/toast";
-import {
-	CircuitResultsContext,
-	CircuitSetterContext,
-	CircuitStructureContext,
-} from "../../context/circuit";
+import { CircuitResultsContext, CircuitSetterContext, CircuitStructureContext, } from "../../context/circuit";
 import { CircuitStructure } from "../../helpers/quCircuit/circuitStructure";
 import QuantumBarChart from "./quantumBarChart";
-import { Grid } from "@material-ui/core";
 
 const CircuitBox = fashion(Box, (theme) => ({
 	marginTop: theme.spacing(1),
@@ -223,7 +218,11 @@ export default function QuCircuit(props) {
 				selectedCell,
 				listeners
 			);
-			wireCells[cellIndex] = <Cell key={cellIndex} cellLife={cellLife} />;
+			// Remember to pass certain values into Cell prop for React.memo.
+			wireCells[cellIndex] = <Cell key={cellIndex} cellLife={cellLife}
+			                             gate={cellLife.gate} isSelected={cellLife.isSelected}
+			                             showConnectionPanel={cellLife.shouldShowConnectionPanel()}
+			                             ends={cellLife.ends} sources={cellLife.sources} multigates={cellLife.multigates}/>;
 		}
 
 		return wireCells;
@@ -298,11 +297,11 @@ export default function QuCircuit(props) {
 					{circuitResults.map((result, index) => {
 						const amp = reduceAmplitude(result.amplitude);
 						const stat = result.state;
-						const prob = Math.floor(result.probability);
+						const prob = result.probability.toFixed(2);
 						if (prob > 0) {
 							return (
 								<Typography variant="body1" key={index}>
-									&lt;{`${amp}|${stat}`}&gt; {prob}%
+									{`${amp}|${stat}`}⟩ {prob}
 								</Typography>
 							);
 						}
@@ -396,6 +395,25 @@ export default function QuCircuit(props) {
 		}
 	};
 
+	function resizeWires(newCount) {
+		let currentCount = circuitStructure.wireCount;
+
+		for (let w = newCount; w < currentCount; w++) {
+
+			for (let c = 0; c < CircuitStructure.CellCount; c++) {
+				let cellLife = new CellLife(
+					w,
+					c,
+					circuit,
+					selectedCell,
+					listeners
+				);
+				cellLife.removeCell();
+			}
+		}
+		circuitSetter.setWireCount(newCount);
+	}
+
 	const buildModal = () => {
 		if (modalState.type === "saveCircuit") {
 			return (
@@ -436,7 +454,7 @@ export default function QuCircuit(props) {
 			onDrop={onDrop}
 			onDragOver={(event) => event.preventDefault()}
 		>
-			<Grid container direction="column" justifyContent="flex-end">
+			<Grid container direction="column">
 				<CircuitBox flexGrow={1} flexShrink={6}>
 					<div ref={circuitRef}>
 						{buildWires(circuitStructure.wireCount, CircuitStructure.CellCount)}
@@ -501,7 +519,7 @@ export default function QuCircuit(props) {
 								type="number"
 								value={circuitStructure.wireCount}
 								onChange={(event) =>
-									circuitSetter.setWireCount(event.target.value)
+									resizeWires(event.target.value)
 								}
 							/>
 						</SmallBox>

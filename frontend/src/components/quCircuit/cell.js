@@ -117,7 +117,7 @@ function Cell(props) {
 				{cellLife.gate && cellLife.isSelected ? <div className={classes.greenHighlight}/> : null}
 			</div>
 
-			{cellLife.shouldShowConnectionPanel() ?
+			{props.showConnectionPanel ?
 				<ConnectionPanel className={classes.connectPanel} cellLife={cellLife}/> : null
 			}
 
@@ -127,22 +127,12 @@ function Cell(props) {
 }
 
 function areEqual(prevProps, nextProps) {
-	/**
-	 * Apply for type checking and autocomplete.
-	 * @type {CellLife}
-	 */
-	let prevCellLife = prevProps.cellLife;
-	/**
-	 * Apply for type checking and autocomplete.
-	 * @type {CellLife}
-	 */
-	let nextCellLife = nextProps.cellLife;
-
-	return prevCellLife.wireIndex === nextCellLife.wireIndex
-		&& prevCellLife.cellIndex === nextCellLife.wireIndex
-		&& prevCellLife.ends === nextCellLife.ends
-		&& prevCellLife.sources === nextCellLife.sources
-		&& prevCellLife.multigates === nextCellLife.multigates
+	return prevProps.gate === nextProps.gate
+		&& prevProps.showConnectionPanel === nextProps.showConnectionPanel
+		&& prevProps.isSelected === nextProps.isSelected
+		&& prevProps.ends === nextProps.ends
+		&& prevProps.sources === nextProps.sources
+		&& prevProps.multigates === nextProps.multigates
 }
 
 export default React.memo(Cell, areEqual);

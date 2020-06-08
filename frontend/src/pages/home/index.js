@@ -1,12 +1,12 @@
 import React from "react";
-import { Grid, Paper, Typography, Container, Button } from "@material-ui/core";
+import { Container, Grid, Paper, Typography } from "@material-ui/core";
 import QuCircuit from "../../components/quCircuit";
 
 function HomePage() {
 	return (
 		<Grid
 			container
-			style={{ position: "absolute", width: "100%", height: "90%" }}
+			style={{ position: "absolute", width: "100%", height: "100%" }}
 		>
 			<Grid
 				xs={2}
