@@ -1,26 +1,21 @@
 import React, { useContext } from "react";
 import {
-	ArgumentAxis,
-	ValueAxis,
-	Chart,
-	BarSeries,
-	ZoomAndPan,
-	Tooltip,
+	ArgumentAxis, BarSeries, Chart, Tooltip, ValueAxis, ZoomAndPan,
 } from "@devexpress/dx-react-chart-material-ui";
-import { EventTracker, HoverState } from "@devexpress/dx-react-chart";
-import { Animation, ValueScale } from "@devexpress/dx-react-chart";
+import { Animation, EventTracker, HoverState, ValueScale } from "@devexpress/dx-react-chart";
 import { CircuitResultsContext } from "../../context/circuit";
 
 const formatResults = (results) => {
 	return (
 		results
 			// Dont use any results where the probability is zero
-			.filter((result) => Math.floor(result.probability) > 0)
-			// Format probability for each to a float
+			.filter((result) => result.probability > 0)
 			.map((result) => {
+				console.log(result.probability);
+
 				return {
-					state: "|" + result.state + "\u3009",
-					probability: parseFloat(result.probability, 10) / 100,
+					state: "|" + result.state + "⟩",
+					probability: result.probability,
 				};
 			})
 	);

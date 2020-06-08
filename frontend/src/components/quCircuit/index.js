@@ -293,11 +293,11 @@ export default function QuCircuit(props) {
 					{circuitResults.map((result, index) => {
 						const amp = reduceAmplitude(result.amplitude);
 						const stat = result.state;
-						const prob = Math.floor(result.probability);
+						const prob = result.probability.toFixed(2);
 						if (prob > 0) {
 							return (
 								<Typography variant="body1" key={index}>
-									&lt;{`${amp}|${stat}`}&gt; {prob}%
+									{`${amp}|${stat}`}⟩ {prob}
 								</Typography>
 							);
 						}
